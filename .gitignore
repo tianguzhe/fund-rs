@@ -1,0 +1,38 @@
+# Rust build artifacts
+/target
+*.pdb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Backups
+*.bak
+*.tmp
+
+# Node.js (frontend)
+frontend/node_modules/
+frontend/dist/
+*.log
+
+# Tauri build artifacts
+crates/fund-tauri/gen/
+.ace-tool/
+
+# Generated data outputs (fund export / fund compare)
+*_data.json
+
+# Cached fund API data
+funds_data/
+
+# Debug traces
+.traces/
+
+# Debug summaries
+ttfund-curl-summary.md

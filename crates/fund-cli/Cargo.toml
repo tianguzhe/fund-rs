@@ -1,0 +1,24 @@
+[package]
+name = "fund-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "CLI tool for querying fund information"
+keywords = ["fund", "finance", "cli", "query"]
+categories = ["command-line-utilities"]
+
+[[bin]]
+name = "fund"
+path = "src/main.rs"
+
+[dependencies]
+fund-core = { path = "../fund-core" }
+clap = { version = "4.5", features = ["derive"] }
+owo-colors = "4.0"
+comfy-table = "7.1"
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+unicode-width = "0.1"

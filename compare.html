@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基金深度对比 · Almanac of Funds</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  --bg: #efe7d4;
+  --bg-deep: #e8dec6;
+  --paper: rgba(252, 244, 230, 0.94);
+  --paper-strong: #fcf4e6;
+  --ink: #1a1410;
+  --ink-soft: #3a2e22;
+  --muted: #6f5f48;
+  --faint: #a3957c;
+  --line: rgba(26, 20, 16, 0.13);
+  --rule: rgba(26, 20, 16, 0.32);
+  --color-a: #a83c1f;
+  --color-b: #1f5e58;
+  --color-a-bg: rgba(168, 60, 31, 0.10);
+  --color-b-bg: rgba(31, 94, 88, 0.10);
+  --gold: #a8782c;
+  --gold-deep: #8b6322;
+  --oxblood: #6b2c1a;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 24px 60px rgba(40, 28, 14, 0.16);
+  --font-display: 'Fraunces', 'Noto Serif SC', 'Songti SC', serif;
+  --font-sans: 'DM Sans', 'Noto Sans SC', -apple-system, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-num: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 56px 28px 80px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  background:
+    radial-gradient(ellipse 70% 50% at 18% 4%, rgba(168, 60, 31, 0.11), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 86% 6%, rgba(31, 94, 88, 0.07), transparent 70%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: radial-gradient(rgba(26, 20, 16, 0.18) 0.5px, transparent 0.7px);
+  background-size: 5px 5px;
+  mix-blend-mode: multiply;
+  z-index: -1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  z-index: -1;
+}
+
+.container { max-width: 1180px; margin: 0 auto; position: relative; }
+
+/* ── EDITORIAL UTILITIES ────────────────────────────── */
+.fleuron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 6px 0 28px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.5rem;
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+  opacity: 0.78;
+  letter-spacing: 0.4em;
+}
+.fleuron::before, .fleuron::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule) 30%, var(--rule) 70%, transparent);
+  max-width: 220px;
+}
+
+/* ── HERO ─────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 40px 40px 32px;
+  margin-bottom: 28px;
+  background: linear-gradient(170deg, rgba(252, 244, 230, 0.96), rgba(238, 228, 210, 0.78));
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(168, 122, 44, 0.18);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px; right: 16px;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.18;
+}
+.hero::after {
+  content: 'COMPARATIVE STUDY';
+  position: absolute;
+  right: 32px;
+  bottom: -28px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(3.4rem, 11vw, 8.2rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  color: rgba(26, 20, 16, 0.04);
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 0.85;
+}
+.hero-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 36px;
+  align-items: flex-start;
+  padding-top: 16px;
+}
+.hero-top > div:first-child { max-width: 720px; flex: 1; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-variation-settings: "opsz" 14;
+}
+.eyebrow .num {
+  font-style: italic;
+  color: var(--gold);
+  font-variation-settings: "opsz" 14, "SOFT" 80, "WONK" 1;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  border-right: 1px solid var(--rule);
+  padding-right: 14px;
+  text-transform: none;
+  font-size: 0.84rem;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.4vw, 5.4rem);
+  line-height: 1.0;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  color: var(--ink);
+  max-width: 720px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.94rem;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  max-width: 540px;
+  font-feature-settings: "onum" 1;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 8px 14px;
+  border: none;
+  border-left: 2px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 500;
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 14;
+}
+.legend-item.a { color: var(--color-a); }
+.legend-item.b { color: var(--color-b); }
+.legend-item span { color: var(--ink); font-weight: 600; }
+.legend-dot { display: none; }
+
+.hero-metrics {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 36px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.hero-metric {
+  padding: 18px 22px;
+  position: relative;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.hero-metric + .hero-metric { border-left: 1px solid var(--line); }
+.hero-metric .label {
+  font-family: var(--font-display);
+  color: var(--ink-soft);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hero-metric .value {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 36, "SOFT" 50, "WONK" 1;
+  font-feature-settings: "onum" 1, "salt" 1;
+  line-height: 1;
+  color: var(--ink);
+}
+.hero-metric .note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-feature-settings: "onum" 1;
+}
+
+/* ── FUND CARDS ───────────────────────────────────────── */
+.fund-headers {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.fund-card {
+  position: relative;
+  min-height: 188px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 26px 30px;
+  box-shadow: 0 14px 32px rgba(40, 28, 14, 0.09);
+  overflow: hidden;
+}
+.fund-card::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 4px;
+}
+.fund-card.a::before { background: var(--color-a); }
+.fund-card.b::before { background: var(--color-b); }
+.fund-card::after {
+  content: attr(data-code);
+  position: absolute;
+  right: -8px;
+  bottom: -34px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 6.4rem;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  font-feature-settings: "onum" 1;
+  color: rgba(26, 20, 16, 0.05);
+  line-height: 0.78;
+  pointer-events: none;
+}
+.fund-card .name {
+  position: relative; z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.36rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.018em;
+  font-variation-settings: "opsz" 36, "SOFT" 60, "WONK" 1;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.fund-card .code {
+  position: relative; z-index: 1;
+  display: inline-block;
+  font-family: var(--font-num);
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 18px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+  background: transparent;
+}
+.fund-card .meta {
+  position: relative; z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.fund-card .meta div {
+  padding: 6px 16px 6px 0;
+  margin-right: 14px;
+  border: none;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  border-radius: 0;
+}
+.fund-card .meta div:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.fund-card .meta span {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: 0.86rem;
+  color: var(--ink);
+  font-feature-settings: "onum" 1;
+  letter-spacing: 0.01em;
+}
+
+.vs-badge {
+  align-self: center;
+  width: auto;
+  height: auto;
+  background: transparent;
+  color: var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 3.6rem;
+  font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  letter-spacing: 0;
+  box-shadow: none;
+  position: relative;
+  padding: 0;
+  line-height: 1;
+}
+.vs-badge::before, .vs-badge::after {
+  content: '';
+  width: 1px;
+  height: 28px;
+  background: var(--rule);
+  margin: 10px 0;
+}
+
+/* ── PANELS ───────────────────────────────────────────── */
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px 30px 26px;
+  box-shadow: 0 12px 28px rgba(40, 28, 14, 0.07);
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.panel-title {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-variation-settings: "opsz" 14;
+}
+.panel-title::before {
+  content: '§ ' attr(data-numeral);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--gold);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+  border-right: 1px solid var(--rule);
+  padding-right: 16px;
+  margin-right: 4px;
+  font-weight: 400;
+  text-transform: none;
+}
+.panel-title::after {
+  content: '◆';
+  margin-left: auto;
+  color: var(--gold);
+  font-size: 0.55rem;
+  opacity: 0.5;
+  letter-spacing: 0;
+}
+
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; margin-bottom: 22px; }
+.table-wrap { overflow-x: auto; border-radius: 0; }
+
+/* ── TABLES ───────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  min-width: 680px;
+}
+th {
+  text-align: left;
+  padding: 10px 14px 14px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-bottom: 2px solid var(--ink);
+  font-variation-settings: "opsz" 14;
+}
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-num);
+  font-feature-settings: "onum" 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+td:first-child {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--ink);
+}
+tbody tr { transition: background 0.18s ease; }
+tbody tr:hover { background: rgba(168, 122, 44, 0.07); }
+tr:last-child td { border-bottom: none; }
+.win { font-weight: 600; color: var(--ink); }
+.lose { color: var(--faint); }
+
+/* ── RADAR ────────────────────────────────────────────── */
+.radar-wrap { display: flex; justify-content: center; padding: 6px 0 0; }
+.radar-box { width: min(560px, 100%); height: 460px; }
+
+/* ── STATS GRID ──────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  margin: 4px 0;
+}
+.stat-item {
+  padding: 18px 20px 20px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  transition: background 0.18s ease;
+}
+.stat-item:hover { background: rgba(168, 122, 44, 0.06); transform: none; }
+.stat-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.stat-values {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-num);
+  font-feature-settings: "onum" 1;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+.stat-values .a { color: var(--color-a); opacity: 0.55; }
+.stat-values .b { color: var(--color-b); opacity: 0.55; }
+.stat-values .better { opacity: 1; position: relative; }
+.stat-values .better::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+.stat-values .a.better::after { background: var(--color-a); }
+.stat-values .b.better::after { background: var(--color-b); }
+
+/* ── CHARTS ──────────────────────────────────────────── */
+.chart-container { position: relative; height: 290px; }
+.nav-chart-container { height: 350px; }
+.growth-panel { padding-bottom: 30px; }
+.growth-board { display: grid; gap: 22px; }
+
+.growth-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.growth-summary-card {
+  padding: 16px 20px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.growth-summary-card + .growth-summary-card { border-left: 1px solid var(--line); }
+.growth-summary-card .label {
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.growth-summary-card .value {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  font-weight: 500;
+  font-variation-settings: "opsz" 36, "SOFT" 60, "WONK" 1;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.growth-summary-card .note {
+  margin-top: 5px;
+  color: var(--muted);
+  font-family: var(--font-num);
+  font-size: 0.78rem;
+  font-feature-settings: "onum" 1;
+}
+
+.growth-tracks { display: grid; gap: 16px; }
+.growth-track {
+  padding: 16px 20px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(254, 247, 234, 0.45);
+}
+.growth-track-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--line);
+}
+.growth-track-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  font-variation-settings: "opsz" 14, "SOFT" 60;
+}
+.growth-track-name::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+.growth-track.a .growth-track-name { color: var(--color-a); }
+.growth-track.b .growth-track-name { color: var(--color-b); }
+.growth-track.diff .growth-track-name { color: var(--gold); }
+.growth-track-meta {
+  color: var(--muted);
+  font-family: var(--font-num);
+  font-size: 0.78rem;
+  font-feature-settings: "onum" 1;
+}
+
+.growth-heatmap {
+  display: grid;
+  grid-template-columns: repeat(var(--days), minmax(12px, 1fr));
+  gap: 4px;
+}
+.growth-cell {
+  position: relative;
+  aspect-ratio: 1;
+  min-height: 18px;
+  border: 1px solid rgba(26, 20, 16, 0.08);
+  border-radius: 3px;
+  background: var(--cell-color);
+  cursor: default;
+  transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.18s ease;
+}
+.growth-cell:hover, .growth-cell:focus {
+  transform: translateY(-2px) scale(1.12);
+  box-shadow: 0 8px 18px rgba(40, 28, 14, 0.16);
+  outline: none;
+  z-index: 5;
+}
+.growth-cell::after {
+  content: attr(data-date) "\A" attr(data-main) "\A" attr(data-sub);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 9px);
+  transform: translateX(-50%) translateY(4px);
+  min-width: 110px;
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--paper-strong);
+  color: var(--ink);
+  font-family: var(--font-num);
+  font-feature-settings: "onum" 1;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  white-space: pre;
+  box-shadow: 0 14px 30px rgba(40, 28, 14, 0.18);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+.growth-cell::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%) translateY(4px) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: var(--paper-strong);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+.growth-cell:hover::after, .growth-cell:hover::before,
+.growth-cell:focus::after, .growth-cell:focus::before { opacity: 1; transform: translateX(-50%) translateY(0); }
+.growth-cell:hover::before, .growth-cell:focus::before { transform: translateX(-50%) translateY(0) rotate(45deg); }
+.growth-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: var(--faint);
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+  font-feature-settings: "onum" 1;
+}
+.growth-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-family: var(--font-display);
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+}
+.growth-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.growth-legend span::before { content: ''; width: 10px; height: 10px; border-radius: 2px; background: currentColor; }
+.growth-legend .up { color: var(--color-a); }
+.growth-legend .down { color: var(--color-b); }
+
+/* ── DEFENSE PANEL ────────────────────────────────────── */
+.defense-panel { min-height: auto; }
+.defense-grid { display: grid; gap: 16px; }
+.defense-head { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.defense-card {
+  position: relative;
+  padding: 20px 22px 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(254, 247, 234, 0.5);
+  overflow: hidden;
+}
+.defense-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: currentColor;
+}
+.defense-card.attack { color: var(--color-a); }
+.defense-card.defense { color: var(--color-b); }
+.defense-card .label {
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.defense-card .winner {
+  margin-top: 10px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 36, "SOFT" 80, "WONK" 1;
+}
+.defense-card .note {
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: var(--font-num);
+  font-size: 0.78rem;
+  font-feature-settings: "onum" 1;
+}
+
+/* ── CONCLUSION ──────────────────────────────────────── */
+.conclusion {
+  position: relative;
+  background: var(--paper-strong);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 36px 40px 32px;
+  margin-top: 24px;
+  box-shadow: 0 18px 42px rgba(40, 28, 14, 0.12);
+  overflow: hidden;
+}
+.conclusion::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-a) 0 50%, var(--color-b) 50% 100%);
+}
+.conclusion h3 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.65rem;
+  margin-bottom: 6px;
+  color: var(--ink);
+  font-variation-settings: "opsz" 36, "SOFT" 100, "WONK" 1;
+  letter-spacing: -0.015em;
+}
+.conclusion .tally {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0 18px;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  border-bottom: 1px dashed var(--line);
+}
+.conclusion .tally span {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+  margin-right: 4px;
+}
+.conclusion .tally em {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.45rem;
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 36, "SOFT" 60, "WONK" 1;
+  font-feature-settings: "onum" 1;
+}
+.conclusion .tally em.a { color: var(--color-a); }
+.conclusion .tally em.b { color: var(--color-b); }
+.conclusion .tally i {
+  font-style: normal;
+  color: var(--rule);
+  font-size: 1.4rem;
+  margin: 0 2px;
+}
+.conclusion ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  counter-reset: clause;
+}
+.conclusion li {
+  counter-increment: clause;
+  padding: 14px 0 14px 60px;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  font-feature-settings: "onum" 1;
+  background: transparent;
+  border-radius: 0;
+}
+.conclusion li:last-child { border-bottom: none; }
+.conclusion li::before {
+  content: counter(clause, upper-roman) ".";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 48px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  font-size: 1.05rem;
+}
+.conclusion li b { color: var(--ink); font-weight: 600; font-style: normal; }
+
+.error { text-align: center; padding: 60px 20px; color: var(--muted); }
+
+/* ── ANIMATIONS ──────────────────────────────────────── */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero, .fund-headers, .panel, .conclusion, .fleuron {
+  animation: riseIn 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.hero { animation-delay: 0.05s; }
+.fund-headers { animation-delay: 0.18s; }
+.panel:nth-of-type(1) { animation-delay: 0.26s; }
+.panel:nth-of-type(2) { animation-delay: 0.32s; }
+.panel:nth-of-type(3) { animation-delay: 0.38s; }
+.panel:nth-of-type(4) { animation-delay: 0.44s; }
+.panel:nth-of-type(5) { animation-delay: 0.5s; }
+.panel:nth-of-type(6) { animation-delay: 0.56s; }
+.conclusion { animation-delay: 0.64s; }
+.fleuron { animation-delay: 0.22s; }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 900px) {
+  body { padding: 32px 16px 56px; }
+  .hero { padding: 30px 24px 26px; border-radius: 8px; }
+  .hero-top { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .legend { align-items: flex-start; flex-direction: row; }
+  .hero-metrics { grid-template-columns: repeat(2, 1fr); }
+  .hero-metric:nth-child(2) { border-left: 1px solid var(--line); }
+  .hero-metric:nth-child(3) { border-left: none; border-top: 1px solid var(--line); }
+  .hero-metric:nth-child(4) { border-left: 1px solid var(--line); border-top: 1px solid var(--line); }
+  .fund-headers { grid-template-columns: 1fr; gap: 16px; }
+  .vs-badge { justify-self: center; flex-direction: row; padding: 0; }
+  .vs-badge::before, .vs-badge::after { width: 36px; height: 1px; margin: 0 14px; }
+  .two-col { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .panel { padding: 24px 22px; }
+  .conclusion { padding: 28px 26px 24px; }
+}
+
+@media (max-width: 560px) {
+  h1 { letter-spacing: -0.04em; }
+  .hero-metrics, .stats-grid { grid-template-columns: 1fr; }
+  .hero-metric:nth-child(n) { border-left: none; border-top: 1px solid var(--line); }
+  .hero-metric:first-child { border-top: none; }
+  .panel { padding: 20px 18px; }
+  .radar-box { height: 380px; }
+  .chart-container { height: 250px; }
+  .nav-chart-container { height: 310px; }
+  .growth-summary { grid-template-columns: 1fr; }
+  .growth-summary-card + .growth-summary-card { border-left: none; border-top: 1px solid var(--line); }
+  .growth-heatmap { gap: 3px; }
+  .growth-cell { min-height: 12px; border-radius: 2px; }
+  .conclusion li { padding-left: 44px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <section class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow"><span class="num">FOLIO N° 02</span><span>Comparative Study</span></div>
+        <h1>基金深度对比</h1>
+        <div class="subtitle" id="subtitle">加载中...</div>
+      </div>
+      <div class="legend">
+        <div class="legend-item a"><div class="legend-dot a"></div><span id="legend-a">基金A</span></div>
+        <div class="legend-item b"><div class="legend-dot b"></div><span id="legend-b">基金B</span></div>
+      </div>
+    </div>
+    <div class="hero-metrics" id="hero-metrics"></div>
+  </section>
+
+  <div class="fund-headers">
+    <div class="fund-card a" id="card-a"></div>
+    <div class="vs-badge">&amp;</div>
+    <div class="fund-card b" id="card-b"></div>
+  </div>
+
+  <div class="fleuron">❦</div>
+
+  <div class="panel"><div class="panel-title" data-numeral="I">多维雷达对比</div><div class="radar-wrap"><div class="radar-box"><canvas id="radarChart"></canvas></div></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="II">近30日统计对比</div><div class="stats-grid" id="stats-grid"></div></div>
+  <div class="panel">
+    <div class="panel-title" data-numeral="III">阶段收益对比</div>
+    <div class="table-wrap"><table id="period-table"><thead><tr><th>周期</th><th id="th-a">基金A</th><th id="th-b">基金B</th><th>同类平均</th><th>沪深300</th><th>胜者</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="two-col">
+    <div class="panel"><div class="panel-title" data-numeral="IV">近30日净值走势</div><div class="chart-container nav-chart-container"><canvas id="navChart"></canvas></div></div>
+    <div class="panel defense-panel"><div class="panel-title" data-numeral="V">近30日攻守摘要</div><div class="defense-grid" id="defense-grid"></div></div>
+  </div>
+  <div class="panel growth-panel"><div class="panel-title" data-numeral="VI">近30日涨跌幅</div><div class="growth-board" id="growth-board"></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="VII">基本信息对比</div><div class="table-wrap"><table id="detail-table"><tbody></tbody></table></div></div>
+
+  <div class="fleuron">❦</div>
+
+  <div class="conclusion" id="conclusion"></div>
+</div>
+
+<script>
+const CA = 'rgba(168,60,31,0.92)';
+const CB = 'rgba(31,94,88,0.92)';
+const CA_LIGHT = 'rgba(168,60,31,0.14)';
+const CB_LIGHT = 'rgba(31,94,88,0.14)';
+
+const PERIOD_CN = {
+  'Last Week': '近1周',
+  'Last Month': '近1月',
+  'Last 3 Months': '近3月',
+  'Last 6 Months': '近6月',
+  'Last Year': '近1年',
+  'Last 2 Years': '近2年',
+  'Last 3 Years': '近3年',
+  'Year to Date': '今年以来',
+  'Since Inception': '成立以来'
+};
+
+function getPeriod(p) {
+  return PERIOD_CN[p.title] || p.title;
+}
+
+function getRate(p) {
+  return typeof p.return_rate === 'number' ? p.return_rate : parseFloat(p.return_rate) || 0;
+}
+
+async function loadData() {
+  const res = await fetch('./compare_data.json?ts=' + Date.now());
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+function fmt(v, d = 2) { return v >= 0 ? '+' + v.toFixed(d) + '%' : v.toFixed(d) + '%'; }
+function fmtNum(v) { return v.toFixed(2); }
+function winner(a, b, higher = true) {
+  if (Math.abs(a - b) < 0.001) return '平';
+  return higher ? (a > b ? 'A' : 'B') : (a < b ? 'A' : 'B');
+}
+
+function totalGrowth(history) {
+  const arr = history.slice().reverse();
+  if (arr.length < 2) return 0;
+  const first = arr[0].net_value;
+  const last = arr[arr.length - 1].net_value;
+  return first ? ((last - first) / first) * 100 : 0;
+}
+
+function deriveContext(data) {
+  const a = data.fund_a, b = data.fund_b;
+  const findRate = (fund, title) => getRate(fund.periods.find(p => p.title === title));
+  const yearAPeriod = a.periods.find(p => p.title === 'Last Year');
+  const yearBPeriod = b.periods.find(p => p.title === 'Last Year');
+  return {
+    shortA: a.detail.name.slice(0, 6),
+    shortB: b.detail.name.slice(0, 6),
+    legendA: a.detail.name.slice(0, 8),
+    legendB: b.detail.name.slice(0, 8),
+    yearA: findRate(a, 'Last Year'),
+    yearB: findRate(b, 'Last Year'),
+    yearRankPercA: yearAPeriod && yearAPeriod.total ? (yearAPeriod.rank / yearAPeriod.total) * 100 : null,
+    yearRankPercB: yearBPeriod && yearBPeriod.total ? (yearBPeriod.rank / yearBPeriod.total) * 100 : null,
+    q3A: findRate(a, 'Last 3 Months'),
+    q3B: findRate(b, 'Last 3 Months'),
+    feeA: parseFloat(a.detail.mgr_fee) + parseFloat(a.detail.trust_fee),
+    feeB: parseFloat(b.detail.mgr_fee) + parseFloat(b.detail.trust_fee),
+    scaleA: parseFloat(a.detail.scale) / 1e8,
+    scaleB: parseFloat(b.detail.scale) / 1e8,
+    sharpeA: a.recent_30d_volatility > 0 ? a.recent_30d_avg_growth / a.recent_30d_volatility : 0,
+    sharpeB: b.recent_30d_volatility > 0 ? b.recent_30d_avg_growth / b.recent_30d_volatility : 0,
+    totalA: totalGrowth(a.history),
+    totalB: totalGrowth(b.history),
+  };
+}
+
+function renderCard(el, fund) {
+  const d = fund.detail;
+  const scale = (parseFloat(d.scale)/1e8).toFixed(2);
+  el.dataset.code = d.code;
+  el.innerHTML = `
+    <div class="name">${d.name}</div>
+    <div class="code">${d.code}　·　${d.fund_type}　·　R${d.risk_level}</div>
+    <div class="meta">
+      <div>规模 <span>${scale}亿</span></div>
+      <div>公司 <span>${d.company}</span></div>
+    </div>
+    <div class="meta" style="margin-top:9px">
+      <div>管理费 <span>${d.mgr_fee}</span></div>
+      <div>托管费 <span>${d.trust_fee}</span></div>
+      <div>成立 <span>${d.estab_date}</span></div>
+    </div>`;
+}
+
+function renderHeroMetrics(data, ctx) {
+  const leader = (first, second, firstText, secondText) => {
+    if (Math.abs(first - second) < 0.001) return '两者接近';
+    return first > second ? firstText : secondText;
+  };
+  const sharpeWinner = ctx.sharpeA > ctx.sharpeB ? ctx.shortA : ctx.shortB;
+  const rankCell = ctx.yearRankPercA !== null && ctx.yearRankPercB !== null
+    ? `${Math.min(ctx.yearRankPercA, ctx.yearRankPercB).toFixed(0)}%`
+    : '—';
+  const rankNote = ctx.yearRankPercA !== null && ctx.yearRankPercB !== null
+    ? leader(100 - ctx.yearRankPercA, 100 - ctx.yearRankPercB, ctx.shortA + ' 更靠前', ctx.shortB + ' 更靠前')
+    : '排名数据不足';
+  const metrics = [
+    ['近1年收益差', `${Math.abs(ctx.yearA - ctx.yearB).toFixed(2)}%`, leader(ctx.yearA, ctx.yearB, ctx.shortA + ' 领先', ctx.shortB + ' 领先')],
+    ['夏普比胜者', `${Math.max(ctx.sharpeA, ctx.sharpeB).toFixed(2)}`, sharpeWinner + ' 风险调整后更优'],
+    ['近1年排名分位', rankCell, rankNote],
+    ['综合费率差', `${Math.abs(ctx.feeA - ctx.feeB).toFixed(2)}%`, leader(ctx.feeB, ctx.feeA, ctx.shortA + ' 更低', ctx.shortB + ' 更低')],
+  ];
+  document.getElementById('hero-metrics').innerHTML = metrics.map(([label, value, note]) => `
+    <div class="hero-metric">
+      <div class="label">${label}</div>
+      <div class="value">${value}</div>
+      <div class="note">${note}</div>
+    </div>`).join('');
+}
+
+function normalizeRadar(metrics) {
+  return metrics.map(m => {
+    const diff = Math.abs(m.a_raw - m.b_raw);
+    if (diff < 0.001) return { ...m, a: 60, b: 60 };
+    const maxVal = Math.max(m.a_raw, m.b_raw);
+    const minVal = Math.min(m.a_raw, m.b_raw);
+    let aScore, bScore;
+    if (m.higher_better) {
+      if (maxVal === 0) { aScore = 50; bScore = 50; }
+      else {
+        aScore = 30 + (m.a_raw / maxVal) * 55;
+        bScore = 30 + (m.b_raw / maxVal) * 55;
+      }
+    } else {
+      const range = maxVal - minVal || 1;
+      const normA = (maxVal - m.a_raw) / range;
+      const normB = (maxVal - m.b_raw) / range;
+      aScore = 30 + normA * 55;
+      bScore = 30 + normB * 55;
+    }
+    return { ...m, a: Math.min(85, Math.round(aScore)), b: Math.min(85, Math.round(bScore)) };
+  });
+}
+
+const radarBgPlugin = {
+  id: 'radarBg',
+  beforeDatasetsDraw(chart) {
+    const { ctx, scales: { r } } = chart;
+    if (!r) return;
+    const cx = r.xCenter, cy = r.yCenter;
+    const rings = [90, 75, 60, 45, 30];
+    const colors = [
+      'rgba(168,60,31,0.05)',
+      'rgba(31,94,88,0.04)',
+      'rgba(168,120,44,0.035)',
+      'rgba(168,60,31,0.025)',
+      'rgba(0,0,0,0.012)'
+    ];
+    rings.forEach((v, i) => {
+      const radius = (v / 90) * r.drawingArea;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fillStyle = colors[i];
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+};
+
+const chartTooltip = {
+  backgroundColor: 'rgba(26, 20, 16, 0.94)',
+  titleFont: { family: 'Noto Sans SC', size: 12, weight: '500' },
+  bodyFont: { family: 'JetBrains Mono', size: 12, weight: '500' },
+  padding: 12,
+  cornerRadius: 3,
+  displayColors: true,
+  boxPadding: 4,
+  borderColor: 'rgba(168, 122, 44, 0.4)',
+  borderWidth: 1,
+};
+
+const chartLegend = {
+  position: 'bottom',
+  labels: {
+    font: { size: 11, family: 'Noto Sans SC', weight: '500' },
+    color: '#6f5f48',
+    padding: 16,
+    boxWidth: 12,
+    boxHeight: 12,
+  }
+};
+
+const tickFont = { size: 10, family: 'JetBrains Mono', weight: '500' };
+const tickColor = '#a3957c';
+const gridColor = 'rgba(26, 20, 16, 0.05)';
+
+function renderRadar(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+
+  const rawMetrics = [
+    { label: '近1年收益', a_raw: ctx.yearA, b_raw: ctx.yearB, higher_better: true, unit: '%' },
+    { label: '近3月收益', a_raw: ctx.q3A, b_raw: ctx.q3B, higher_better: true, unit: '%' },
+    { label: '最大回撤', a_raw: a.recent_30d_max_drawdown, b_raw: b.recent_30d_max_drawdown, higher_better: false, unit: '%' },
+    { label: '波动率', a_raw: a.recent_30d_volatility, b_raw: b.recent_30d_volatility, higher_better: false, unit: '%' },
+    { label: '夏普比', a_raw: ctx.sharpeA, b_raw: ctx.sharpeB, higher_better: true, unit: '' },
+    { label: '费率', a_raw: ctx.feeA, b_raw: ctx.feeB, higher_better: false, unit: '%' }
+  ];
+  const metrics = normalizeRadar(rawMetrics);
+
+  const labels = metrics.map((m, i) => {
+    const raw = rawMetrics[i];
+    const u = raw.unit || '';
+    const fmtA = typeof raw.a_raw === 'number' ? raw.a_raw.toFixed(2) + u : raw.a_raw;
+    const fmtB = typeof raw.b_raw === 'number' ? raw.b_raw.toFixed(2) + u : raw.b_raw;
+    return [m.label, fmtA + '  |  ' + fmtB];
+  });
+
+  if (window._radarChart) window._radarChart.destroy();
+  window._radarChart = new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: ctx.legendA,
+          data: metrics.map(m => m.a),
+          borderColor: CA,
+          backgroundColor: 'rgba(168,60,31,0.12)',
+          borderWidth: 2.2,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: '#fcf4e6',
+          pointBorderColor: CA,
+          pointBorderWidth: 2,
+          pointHoverBackgroundColor: CA,
+          pointHoverBorderColor: '#fcf4e6',
+        },
+        {
+          label: ctx.legendB,
+          data: metrics.map(m => m.b),
+          borderColor: CB,
+          backgroundColor: 'rgba(31,94,88,0.12)',
+          borderWidth: 2.2,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointBackgroundColor: '#fcf4e6',
+          pointBorderColor: CB,
+          pointBorderWidth: 2,
+          pointHoverBackgroundColor: CB,
+          pointHoverBorderColor: '#fcf4e6',
+        }
+      ]
+    },
+    plugins: [radarBgPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 800, easing: 'easeOutQuart' },
+      layout: { padding: { top: 16, bottom: 16, left: 20, right: 20 } },
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 90,
+          suggestedMin: 0,
+          ticks: { display: false, stepSize: 15 },
+          grid: { color: gridColor, lineWidth: 1, circular: true },
+          angleLines: { color: 'rgba(26, 20, 16, 0.07)', lineWidth: 1 },
+          pointLabels: {
+            font: { size: 11.5, family: 'Noto Sans SC', weight: '500' },
+            color: '#3a2e22',
+            padding: 18,
+          }
+        }
+      },
+      plugins: {
+        legend: chartLegend,
+        tooltip: {
+          ...chartTooltip,
+          callbacks: {
+            title: (items) => rawMetrics[items[0].dataIndex].label,
+            label: (item) => {
+              const raw = rawMetrics[item.dataIndex];
+              const val = item.datasetIndex === 0 ? raw.a_raw : raw.b_raw;
+              const fmtVal = typeof val === 'number' ? val.toFixed(2) : val;
+              return ' ' + item.dataset.label + ': ' + fmtVal;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderStats(data) {
+  const a = data.fund_a, b = data.fund_b;
+  const stats = [
+    { label: '日均涨跌', a: fmt(a.recent_30d_avg_growth), b: fmt(b.recent_30d_avg_growth), aWin: a.recent_30d_avg_growth > b.recent_30d_avg_growth },
+    { label: '波动率', a: fmtNum(a.recent_30d_volatility)+'%', b: fmtNum(b.recent_30d_volatility)+'%', aWin: a.recent_30d_volatility < b.recent_30d_volatility },
+    { label: '最大回撤', a: fmtNum(a.recent_30d_max_drawdown)+'%', b: fmtNum(b.recent_30d_max_drawdown)+'%', aWin: a.recent_30d_max_drawdown < b.recent_30d_max_drawdown },
+    { label: '上涨天数', a: a.recent_30d_positive_days+'天', b: b.recent_30d_positive_days+'天', aWin: a.recent_30d_positive_days > b.recent_30d_positive_days },
+    { label: '最佳单日', a: fmt(a.recent_30d_best_day), b: fmt(b.recent_30d_best_day), aWin: a.recent_30d_best_day > b.recent_30d_best_day },
+    { label: '最差单日', a: fmt(a.recent_30d_worst_day), b: fmt(b.recent_30d_worst_day), aWin: a.recent_30d_worst_day > b.recent_30d_worst_day },
+    { label: '管理费', a: a.detail.mgr_fee, b: b.detail.mgr_fee, aWin: parseFloat(a.detail.mgr_fee) < parseFloat(b.detail.mgr_fee) },
+    { label: '托管费', a: a.detail.trust_fee, b: b.detail.trust_fee, aWin: parseFloat(a.detail.trust_fee) < parseFloat(b.detail.trust_fee) },
+    { label: '规模', a: (parseFloat(a.detail.scale)/1e8).toFixed(2)+'亿', b: (parseFloat(b.detail.scale)/1e8).toFixed(2)+'亿', aWin: parseFloat(a.detail.scale) > parseFloat(b.detail.scale) }
+  ];
+  document.getElementById('stats-grid').innerHTML = stats.map(s => `
+    <div class="stat-item">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-values">
+        <span class="a ${s.aWin ? 'better' : ''}">${s.a}</span>
+        <span class="b ${!s.aWin ? 'better' : ''}">${s.b}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderPeriodTable(data) {
+  const a = data.fund_a, b = data.fund_b;
+  const tbody = document.querySelector('#period-table tbody');
+  tbody.innerHTML = a.periods.map((pa, i) => {
+    const pb = b.periods[i];
+    const ra = getRate(pa), rb = getRate(pb), avg = pa.avg, hs = pa.hs300_return;
+    const w = winner(ra, rb);
+    const wColor = w==='A'?'var(--color-a)':w==='B'?'var(--color-b)':'var(--faint)';
+    return `<tr>
+      <td>${getPeriod(pa)}</td>
+      <td class="${w==='A'?'win':'lose'}">${fmt(ra)}</td>
+      <td class="${w==='B'?'win':'lose'}">${fmt(rb)}</td>
+      <td>${fmt(avg)}</td>
+      <td>${fmt(hs)}</td>
+      <td style="font-weight:600;color:${wColor}">${w}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderNavChart(data, ctx) {
+  const a = data.fund_a.history.slice().reverse();
+  const b = data.fund_b.history.slice().reverse();
+  new Chart(document.getElementById('navChart'), {
+    type: 'line',
+    data: {
+      labels: a.map(p => p.date.slice(5)),
+      datasets: [
+        { label: ctx.shortA, data: a.map(p=>p.net_value), borderColor: CA, backgroundColor: CA_LIGHT, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: CA, borderWidth: 2.2 },
+        { label: ctx.shortB, data: b.map(p=>p.net_value), borderColor: CB, backgroundColor: CB_LIGHT, fill: true, tension: 0.35, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: CB, borderWidth: 2.2 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: chartLegend, tooltip: { ...chartTooltip, mode: 'index', intersect: false, callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4) } } },
+      scales: {
+        x: { ticks: { maxTicksLimit: 7, font: tickFont, color: tickColor }, grid: { display: false } },
+        y: { ticks: { font: tickFont, color: tickColor, callback: v => v.toFixed(2) }, grid: { color: gridColor } }
+      }
+    }
+  });
+}
+
+function renderGrowthChart(data, ctx) {
+  const a = data.fund_a.history.slice().reverse();
+  const b = data.fund_b.history.slice().reverse();
+  const shortNameA = ctx.shortA;
+  const shortNameB = ctx.shortB;
+  const totalA = ctx.totalA;
+  const totalB = ctx.totalB;
+  const winDaysA = a.reduce((count, point, index) => count + (point.growth > b[index].growth ? 1 : 0), 0);
+  const winDaysB = b.length - winDaysA;
+  const maxAbsGrowth = Math.max(...a.map(p => Math.abs(p.growth)), ...b.map(p => Math.abs(p.growth)), 0.01);
+  const diffs = a.map((point, index) => {
+    const other = b[index];
+    const value = point.growth - other.growth;
+    const winnerName = Math.abs(value) < 0.001 ? '持平' : (value > 0 ? shortNameA : shortNameB);
+    const winnerMark = Math.abs(value) < 0.001 ? '平' : (value > 0 ? 'A' : 'B');
+    const diffText = Math.abs(value).toFixed(2) + '%';
+    return { date: point.date, value, aGrowth: point.growth, bGrowth: other.growth, winnerName, winnerMark, diffText };
+  });
+  const maxAbsDiff = Math.max(...diffs.map(p => Math.abs(p.value)), 0.01);
+  const heatColor = (value, max, positiveColor, negativeColor) => {
+    const strength = Math.max(0.16, Math.min(0.92, Math.abs(value) / max));
+    const alpha = (0.16 + strength * 0.76).toFixed(2);
+    return value >= 0 ? positiveColor(alpha) : negativeColor(alpha);
+  };
+  const red = alpha => `rgba(168, 60, 31, ${alpha})`;
+  const green = alpha => `rgba(31, 94, 88, ${alpha})`;
+  const dateMarks = [a[0]?.date, a[Math.floor(a.length / 2)]?.date, a[a.length - 1]?.date].filter(Boolean).map(date => date.slice(5));
+  const stronger = Math.abs(totalA - totalB) < 0.001 ? '两者接近' : (totalA > totalB ? shortNameA : shortNameB);
+  const steadier = data.fund_a.recent_30d_volatility < data.fund_b.recent_30d_volatility ? shortNameA : shortNameB;
+  const drawdown = data.fund_a.recent_30d_max_drawdown < data.fund_b.recent_30d_max_drawdown ? shortNameA : shortNameB;
+  const renderTrack = (name, points, className, totalPct) => `
+    <div class="growth-track ${className}">
+      <div class="growth-track-head">
+        <div class="growth-track-name">${name}</div>
+        <div class="growth-track-meta">累计 ${fmt(totalPct)} · 上涨 ${points.filter(p => p.growth > 0).length} 天</div>
+      </div>
+      <div class="growth-heatmap" style="--days:${points.length}">
+        ${points.map(point => `
+          <div class="growth-cell" tabindex="0" data-date="${point.date}" data-main="${fmt(point.growth)}" data-sub="${name}" style="--cell-color:${heatColor(point.growth, maxAbsGrowth, red, green)}"></div>`).join('')}
+      </div>
+      <div class="growth-axis">${dateMarks.map(date => `<span>${date}</span>`).join('')}</div>
+    </div>`;
+  const renderDiffTrack = () => `
+    <div class="growth-track diff">
+      <div class="growth-track-head">
+        <div class="growth-track-name">每日跑赢差距</div>
+        <div class="growth-track-meta">${shortNameA} ${winDaysA}天 / ${shortNameB} ${winDaysB}天 · 色深=差距大</div>
+      </div>
+      <div class="growth-heatmap" style="--days:${diffs.length}">
+        ${diffs.map(point => `
+          <div class="growth-cell" tabindex="0" data-date="${point.date}" data-main="${point.winnerName} ${point.winnerMark === '平' ? '' : '跑赢 ' + point.diffText}" data-sub="${shortNameA} ${fmt(point.aGrowth)} / ${shortNameB} ${fmt(point.bGrowth)}" style="--cell-color:${heatColor(point.value, maxAbsDiff, red, green)}"></div>`).join('')}
+      </div>
+      <div class="growth-axis">${dateMarks.map(date => `<span>${date}</span>`).join('')}</div>
+    </div>`;
+
+  document.getElementById('growth-board').innerHTML = `
+    <div class="growth-summary">
+      <div class="growth-summary-card"><div class="label">累计更强</div><div class="value">${stronger}</div><div class="note">${shortNameA} ${fmt(totalA)} / ${shortNameB} ${fmt(totalB)}</div></div>
+      <div class="growth-summary-card"><div class="label">波动更低</div><div class="value">${steadier}</div><div class="note">${fmtNum(Math.min(data.fund_a.recent_30d_volatility, data.fund_b.recent_30d_volatility))}%</div></div>
+      <div class="growth-summary-card"><div class="label">回撤更小</div><div class="value">${drawdown}</div><div class="note">${fmtNum(Math.min(data.fund_a.recent_30d_max_drawdown, data.fund_b.recent_30d_max_drawdown))}%</div></div>
+    </div>
+    <div class="growth-tracks">
+      ${renderTrack(shortNameA, a, 'a', totalA)}
+      ${renderTrack(shortNameB, b, 'b', totalB)}
+      ${renderDiffTrack()}
+    </div>
+    <div class="growth-legend"><span class="up">${shortNameA} 跑赢 / 上涨</span><span class="down">${shortNameB} 跑赢 / 下跌</span><span>色深表示当日差距强度</span></div>`;
+}
+
+function renderDefenseSummary(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+  const pickName = (aValue, bValue, higher) => {
+    if (Math.abs(aValue - bValue) < 0.001) return '两者接近';
+    const aWins = higher ? aValue > bValue : aValue < bValue;
+    return aWins ? ctx.shortA : ctx.shortB;
+  };
+  const attack = pickName(ctx.totalA, ctx.totalB, true);
+  const defense = pickName(a.recent_30d_max_drawdown + a.recent_30d_volatility, b.recent_30d_max_drawdown + b.recent_30d_volatility, false);
+  const attackNote = `${ctx.shortA} ${fmt(ctx.totalA)} · ${ctx.shortB} ${fmt(ctx.totalB)}`;
+  const defenseNote = `回撤 ${fmtNum(Math.min(a.recent_30d_max_drawdown, b.recent_30d_max_drawdown))}% · 波动 ${fmtNum(Math.min(a.recent_30d_volatility, b.recent_30d_volatility))}%`;
+
+  document.getElementById('defense-grid').innerHTML = `
+    <div class="defense-head">
+      <div class="defense-card attack">
+        <div class="label">进攻端</div>
+        <div class="winner">${attack}</div>
+        <div class="note">${attackNote}</div>
+      </div>
+      <div class="defense-card defense">
+        <div class="label">防守端</div>
+        <div class="winner">${defense}</div>
+        <div class="note">${defenseNote}</div>
+      </div>
+    </div>`;
+}
+
+function renderDetailTable(data) {
+  const a = data.fund_a.detail, b = data.fund_b.detail;
+  const rows = [
+    ['基金名称', a.name, b.name],
+    ['基金代码', a.code, b.code],
+    ['基金类型', a.fund_type, b.fund_type, a.fund_type !== b.fund_type],
+    ['成立日期', a.estab_date, b.estab_date, a.estab_date !== b.estab_date],
+    ['基金公司', a.company, b.company, a.company !== b.company],
+    ['基金经理', a.manager, b.manager, a.manager !== b.manager],
+    ['托管银行', a.custodian, b.custodian, a.custodian !== b.custodian],
+    ['规模', (parseFloat(a.scale)/1e8).toFixed(2)+' 亿', (parseFloat(b.scale)/1e8).toFixed(2)+' 亿', true],
+    ['风险等级', 'R'+a.risk_level, 'R'+b.risk_level, a.risk_level !== b.risk_level],
+    ['管理费', a.mgr_fee, b.mgr_fee, a.mgr_fee !== b.mgr_fee],
+    ['托管费', a.trust_fee, b.trust_fee, a.trust_fee !== b.trust_fee],
+    ['销售服务费', a.sales_fee, b.sales_fee, a.sales_fee !== b.sales_fee]
+  ];
+  document.querySelector('#detail-table tbody').innerHTML = rows.map(r => {
+    const diff = r[3] ? 'font-weight:600' : '';
+    return `<tr>
+      <td style="color:var(--faint);font-weight:600">${r[0]}</td>
+      <td style="${diff}">${r[1]}</td>
+      <td style="${diff}">${r[2]}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderConclusion(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+  const { yearA, yearB, feeA, feeB, scaleA, scaleB, shortA, shortB } = ctx;
+
+  let winsA = 0, winsB = 0;
+  if (yearA > yearB) winsA++; else if (yearB > yearA) winsB++;
+  if (a.recent_30d_max_drawdown < b.recent_30d_max_drawdown) winsA++; else winsB++;
+  if (a.recent_30d_volatility < b.recent_30d_volatility) winsA++; else winsB++;
+  if (feeA < feeB) winsA++; else winsB++;
+  if (scaleA > scaleB) winsA++; else winsB++;
+
+  const items = [];
+  if (Math.abs(yearA-yearB)>0.01) items.push(`<b>收益</b>　${yearA>yearB?shortA:shortB} 近1年多赚 <b>${Math.abs(yearA-yearB).toFixed(2)}%</b>`);
+  if (Math.abs(feeA-feeB)>0.01) items.push(`<b>费率</b>　${feeA<feeB?shortA:shortB} 每年省 <b>${Math.abs(feeA-feeB).toFixed(2)}%</b>，10年复利差距约 ${(Math.abs(feeA-feeB)*10).toFixed(1)}%`);
+  if (Math.abs(scaleA-scaleB)>1) items.push(`<b>规模</b>　${scaleA>scaleB?shortA:shortB} 规模 ${Math.max(scaleA,scaleB).toFixed(1)}亿 vs ${Math.min(scaleA,scaleB).toFixed(1)}亿`);
+  if (Math.abs(a.recent_30d_volatility-b.recent_30d_volatility)>0.01) items.push(`<b>波动</b>　${a.recent_30d_volatility<b.recent_30d_volatility?shortA:shortB} 近30日波动更小（${Math.min(a.recent_30d_volatility,b.recent_30d_volatility).toFixed(2)}% vs ${Math.max(a.recent_30d_volatility,b.recent_30d_volatility).toFixed(2)}%）`);
+  if (Math.abs(a.recent_30d_max_drawdown-b.recent_30d_max_drawdown)>0.01) items.push(`<b>回撤</b>　${a.recent_30d_max_drawdown<b.recent_30d_max_drawdown?shortA:shortB} 最大回撤更小（${Math.min(a.recent_30d_max_drawdown,b.recent_30d_max_drawdown).toFixed(2)}% vs ${Math.max(a.recent_30d_max_drawdown,b.recent_30d_max_drawdown).toFixed(2)}%）`);
+
+  const tally = `<div class="tally">
+    <span>战绩</span>
+    <em class="a">${shortA} ${winsA}</em>
+    <i>·</i>
+    <em class="b">${shortB} ${winsB}</em>
+  </div>`;
+
+  document.getElementById('conclusion').innerHTML = `<h3>对比结论</h3>${tally}<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+}
+
+async function main() {
+  try {
+    const data = await loadData();
+    const ctx = deriveContext(data);
+    const a = data.fund_a, b = data.fund_b;
+    document.getElementById('subtitle').textContent = '本年鉴整理于 ' + new Date().toLocaleDateString('zh-CN') + ' · 基于天天基金 30 日窗口净值数据';
+    document.getElementById('legend-a').textContent = ctx.legendA;
+    document.getElementById('legend-b').textContent = ctx.legendB;
+    document.getElementById('th-a').textContent = ctx.shortA;
+    document.getElementById('th-b').textContent = ctx.shortB;
+    renderHeroMetrics(data, ctx);
+    renderCard(document.getElementById('card-a'), a);
+    renderCard(document.getElementById('card-b'), b);
+    renderRadar(data, ctx);
+    renderStats(data);
+    renderPeriodTable(data);
+    renderNavChart(data, ctx);
+    renderDefenseSummary(data, ctx);
+    renderGrowthChart(data, ctx);
+    renderDetailTable(data);
+    renderConclusion(data, ctx);
+  } catch (e) {
+    document.getElementById('subtitle').innerHTML = `<span style="color:#a83c1f">加载失败: ${e.message}<br>请先运行: fund compare --a 020602 --b 020156</span>`;
+    console.error(e);
+  }
+}
+
+main();
+</script>
+</body>
+</html>
