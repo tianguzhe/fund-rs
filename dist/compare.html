@@ -958,7 +958,11 @@ tr:last-child td { border-bottom: none; }
     <div class="panel defense-panel"><div class="panel-title" data-numeral="V">近30日攻守摘要</div><div class="defense-grid" id="defense-grid"></div></div>
   </div>
   <div class="panel growth-panel"><div class="panel-title" data-numeral="VI">近30日涨跌幅</div><div class="growth-board" id="growth-board"></div></div>
-  <div class="panel"><div class="panel-title" data-numeral="VII">基本信息对比</div><div class="table-wrap"><table id="detail-table"><tbody></tbody></table></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="VII">综合评分对比</div><div class="radar-wrap"><div class="radar-box"><canvas id="scoreRadar"></canvas></div></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="VIII">风险指标对比</div><div class="stats-grid" id="risk-grid"></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="IX">年度收益对比</div><div class="table-wrap"><table id="yearly-table"><thead><tr><th>年度</th><th id="yth-a">基金A</th><th id="yth-b">基金B</th><th>胜者</th></tr></thead><tbody></tbody></table></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="X">经理评价对比</div><div class="two-col" id="manager-compare"></div></div>
+  <div class="panel"><div class="panel-title" data-numeral="XI">基本信息对比</div><div class="table-wrap"><table id="detail-table"><tbody></tbody></table></div></div>
 
   <div class="fleuron">❦</div>
 
@@ -983,16 +987,11 @@ const PERIOD_CN = {
   'Since Inception': '成立以来'
 };
 
-function getPeriod(p) {
-  return PERIOD_CN[p.title] || p.title;
-}
-
-function getRate(p) {
-  return typeof p.return_rate === 'number' ? p.return_rate : parseFloat(p.return_rate) || 0;
-}
+function getPeriod(p) { return PERIOD_CN[p.title] || p.title; }
+function getRate(p) { return typeof p.return_rate === 'number' ? p.return_rate : parseFloat(p.return_rate) || 0; }
 
 async function loadData() {
-  const res = await fetch('./compare_data.json?ts=' + Date.now());
+  const res = await fetch('./data/compare.json?ts=' + Date.now());
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }
@@ -1007,73 +1006,78 @@ function winner(a, b, higher = true) {
 function totalGrowth(history) {
   const arr = history.slice().reverse();
   if (arr.length < 2) return 0;
-  const first = arr[0].net_value;
-  const last = arr[arr.length - 1].net_value;
-  return first ? ((last - first) / first) * 100 : 0;
+  return arr[0].net_value ? ((arr[arr.length - 1].net_value - arr[0].net_value) / arr[0].net_value) * 100 : 0;
 }
 
 function deriveContext(data) {
   const a = data.fund_a, b = data.fund_b;
-  const findRate = (fund, title) => getRate(fund.periods.find(p => p.title === title));
-  const yearAPeriod = a.periods.find(p => p.title === 'Last Year');
-  const yearBPeriod = b.periods.find(p => p.title === 'Last Year');
+  const findRate = (fund, title) => {
+    const p = fund.periods.find(p => p.title === title);
+    return p ? getRate(p) : 0;
+  };
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
+  const nameA = a.detail.SHORTNAME || a.detail.name || '';
+  const nameB = b.detail.SHORTNAME || b.detail.name || '';
   return {
-    shortA: a.detail.name.slice(0, 6),
-    shortB: b.detail.name.slice(0, 6),
-    legendA: a.detail.name.slice(0, 8),
-    legendB: b.detail.name.slice(0, 8),
+    shortA: nameA.slice(0, 6),
+    shortB: nameB.slice(0, 6),
+    legendA: nameA.slice(0, 8),
+    legendB: nameB.slice(0, 8),
     yearA: findRate(a, 'Last Year'),
     yearB: findRate(b, 'Last Year'),
-    yearRankPercA: yearAPeriod && yearAPeriod.total ? (yearAPeriod.rank / yearAPeriod.total) * 100 : null,
-    yearRankPercB: yearBPeriod && yearBPeriod.total ? (yearBPeriod.rank / yearBPeriod.total) * 100 : null,
     q3A: findRate(a, 'Last 3 Months'),
     q3B: findRate(b, 'Last 3 Months'),
-    feeA: parseFloat(a.detail.mgr_fee) + parseFloat(a.detail.trust_fee),
-    feeB: parseFloat(b.detail.mgr_fee) + parseFloat(b.detail.trust_fee),
-    scaleA: parseFloat(a.detail.scale) / 1e8,
-    scaleB: parseFloat(b.detail.scale) / 1e8,
-    sharpeA: a.recent_30d_volatility > 0 ? a.recent_30d_avg_growth / a.recent_30d_volatility : 0,
-    sharpeB: b.recent_30d_volatility > 0 ? b.recent_30d_avg_growth / b.recent_30d_volatility : 0,
+    feeA: parseFloat(a.detail.MGREXP || a.detail.mgr_fee || '0') + parseFloat(a.detail.TRUSTEXP || a.detail.trust_fee || '0'),
+    feeB: parseFloat(b.detail.MGREXP || b.detail.mgr_fee || '0') + parseFloat(b.detail.TRUSTEXP || b.detail.trust_fee || '0'),
+    scaleA: parseFloat(a.detail.ENDNAV || a.detail.scale || '0') / 1e8,
+    scaleB: parseFloat(b.detail.ENDNAV || b.detail.scale || '0') / 1e8,
+    sharpeA: rmA.sharpe_ratio || 0,
+    sharpeB: rmB.sharpe_ratio || 0,
     totalA: totalGrowth(a.history),
     totalB: totalGrowth(b.history),
+    winRateA: rmA.data_points > 0 ? (rmA.positive_days / (rmA.positive_days + rmA.negative_days) * 100) : 0,
+    winRateB: rmB.data_points > 0 ? (rmB.positive_days / (rmB.positive_days + rmB.negative_days) * 100) : 0,
   };
 }
 
 function renderCard(el, fund) {
   const d = fund.detail;
-  const scale = (parseFloat(d.scale)/1e8).toFixed(2);
-  el.dataset.code = d.code;
+  const rm = fund.risk_metrics;
+  const sc = fund.scores;
+  const scale = (parseFloat(d.ENDNAV || d.scale)/1e8).toFixed(2);
+  const mgr = fund.manager_info;
+  el.dataset.code = d.FCODE || d.code;
   el.innerHTML = `
-    <div class="name">${d.name}</div>
-    <div class="code">${d.code}　·　${d.fund_type}　·　R${d.risk_level}</div>
+    <div class="name">${d.SHORTNAME || d.name}</div>
+    <div class="code">${d.FCODE || d.code}　·　${d.FTYPE || d.fund_type}　·　R${d.RISKLEVEL || d.risk_level}</div>
     <div class="meta">
       <div>规模 <span>${scale}亿</span></div>
-      <div>公司 <span>${d.company}</span></div>
+      <div>公司 <span>${d.JJGS || d.company}</span></div>
+      <div>综合评分 <span style="font-size:1.1rem;color:var(--ink)">${sc.overall}/100</span></div>
     </div>
     <div class="meta" style="margin-top:9px">
-      <div>管理费 <span>${d.mgr_fee}</span></div>
-      <div>托管费 <span>${d.trust_fee}</span></div>
-      <div>成立 <span>${d.estab_date}</span></div>
-    </div>`;
+      <div>管理费 <span>${d.MGREXP || d.mgr_fee}</span></div>
+      <div>托管费 <span>${d.TRUSTEXP || d.trust_fee}</span></div>
+      <div>夏普 <span>${rm.sharpe_ratio.toFixed(2)}</span></div>
+    </div>
+    ${mgr ? `<div class="meta" style="margin-top:9px">
+      <div>经理 <span>${mgr.manager_name}</span></div>
+      <div>年化 <span>${rm.annualized_return.toFixed(2)}%</span></div>
+    </div>` : ''}`;
 }
 
 function renderHeroMetrics(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
   const leader = (first, second, firstText, secondText) => {
     if (Math.abs(first - second) < 0.001) return '两者接近';
     return first > second ? firstText : secondText;
   };
-  const sharpeWinner = ctx.sharpeA > ctx.sharpeB ? ctx.shortA : ctx.shortB;
-  const rankCell = ctx.yearRankPercA !== null && ctx.yearRankPercB !== null
-    ? `${Math.min(ctx.yearRankPercA, ctx.yearRankPercB).toFixed(0)}%`
-    : '—';
-  const rankNote = ctx.yearRankPercA !== null && ctx.yearRankPercB !== null
-    ? leader(100 - ctx.yearRankPercA, 100 - ctx.yearRankPercB, ctx.shortA + ' 更靠前', ctx.shortB + ' 更靠前')
-    : '排名数据不足';
+  const scoreWinner = a.scores.overall > b.scores.overall ? ctx.shortA : (b.scores.overall > a.scores.overall ? ctx.shortB : '平');
   const metrics = [
-    ['近1年收益差', `${Math.abs(ctx.yearA - ctx.yearB).toFixed(2)}%`, leader(ctx.yearA, ctx.yearB, ctx.shortA + ' 领先', ctx.shortB + ' 领先')],
-    ['夏普比胜者', `${Math.max(ctx.sharpeA, ctx.sharpeB).toFixed(2)}`, sharpeWinner + ' 风险调整后更优'],
-    ['近1年排名分位', rankCell, rankNote],
-    ['综合费率差', `${Math.abs(ctx.feeA - ctx.feeB).toFixed(2)}%`, leader(ctx.feeB, ctx.feeA, ctx.shortA + ' 更低', ctx.shortB + ' 更低')],
+    ['综合评分', `${a.scores.overall} vs ${b.scores.overall}`, scoreWinner + ' 综合更优'],
+    ['近1年收益', `${Math.abs(ctx.yearA - ctx.yearB).toFixed(2)}%差`, leader(ctx.yearA, ctx.yearB, ctx.shortA + ' 领先', ctx.shortB + ' 领先')],
+    ['夏普比率', `${Math.max(ctx.sharpeA, ctx.sharpeB).toFixed(2)}`, (ctx.sharpeA > ctx.sharpeB ? ctx.shortA : ctx.shortB) + ' 风险调整后更优'],
+    ['超额收益', `${Math.max(a.risk_metrics.excess_return, b.risk_metrics.excess_return).toFixed(2)}%`, leader(a.risk_metrics.excess_return, b.risk_metrics.excess_return, ctx.shortA + ' 超额更高', ctx.shortB + ' 超额更高')],
   ];
   document.getElementById('hero-metrics').innerHTML = metrics.map(([label, value, note]) => `
     <div class="hero-metric">
@@ -1162,12 +1166,13 @@ const gridColor = 'rgba(26, 20, 16, 0.05)';
 
 function renderRadar(data, ctx) {
   const a = data.fund_a, b = data.fund_b;
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
 
   const rawMetrics = [
     { label: '近1年收益', a_raw: ctx.yearA, b_raw: ctx.yearB, higher_better: true, unit: '%' },
     { label: '近3月收益', a_raw: ctx.q3A, b_raw: ctx.q3B, higher_better: true, unit: '%' },
-    { label: '最大回撤', a_raw: a.recent_30d_max_drawdown, b_raw: b.recent_30d_max_drawdown, higher_better: false, unit: '%' },
-    { label: '波动率', a_raw: a.recent_30d_volatility, b_raw: b.recent_30d_volatility, higher_better: false, unit: '%' },
+    { label: '最大回撤', a_raw: rmA.max_drawdown, b_raw: rmB.max_drawdown, higher_better: false, unit: '%' },
+    { label: '波动率', a_raw: rmA.volatility, b_raw: rmB.volatility, higher_better: false, unit: '%' },
     { label: '夏普比', a_raw: ctx.sharpeA, b_raw: ctx.sharpeB, higher_better: true, unit: '' },
     { label: '费率', a_raw: ctx.feeA, b_raw: ctx.feeB, higher_better: false, unit: '%' }
   ];
@@ -1176,9 +1181,7 @@ function renderRadar(data, ctx) {
   const labels = metrics.map((m, i) => {
     const raw = rawMetrics[i];
     const u = raw.unit || '';
-    const fmtA = typeof raw.a_raw === 'number' ? raw.a_raw.toFixed(2) + u : raw.a_raw;
-    const fmtB = typeof raw.b_raw === 'number' ? raw.b_raw.toFixed(2) + u : raw.b_raw;
-    return [m.label, fmtA + '  |  ' + fmtB];
+    return [m.label, (typeof raw.a_raw === 'number' ? raw.a_raw.toFixed(2) + u : raw.a_raw) + '  |  ' + (typeof raw.b_raw === 'number' ? raw.b_raw.toFixed(2) + u : raw.b_raw)];
   });
 
   if (window._radarChart) window._radarChart.destroy();
@@ -1187,88 +1190,60 @@ function renderRadar(data, ctx) {
     data: {
       labels,
       datasets: [
-        {
-          label: ctx.legendA,
-          data: metrics.map(m => m.a),
-          borderColor: CA,
-          backgroundColor: 'rgba(168,60,31,0.12)',
-          borderWidth: 2.2,
-          pointRadius: 5,
-          pointHoverRadius: 8,
-          pointBackgroundColor: '#fcf4e6',
-          pointBorderColor: CA,
-          pointBorderWidth: 2,
-          pointHoverBackgroundColor: CA,
-          pointHoverBorderColor: '#fcf4e6',
-        },
-        {
-          label: ctx.legendB,
-          data: metrics.map(m => m.b),
-          borderColor: CB,
-          backgroundColor: 'rgba(31,94,88,0.12)',
-          borderWidth: 2.2,
-          pointRadius: 5,
-          pointHoverRadius: 8,
-          pointBackgroundColor: '#fcf4e6',
-          pointBorderColor: CB,
-          pointBorderWidth: 2,
-          pointHoverBackgroundColor: CB,
-          pointHoverBorderColor: '#fcf4e6',
-        }
+        { label: ctx.legendA, data: metrics.map(m => m.a), borderColor: CA, backgroundColor: 'rgba(168,60,31,0.12)', borderWidth: 2.2, pointRadius: 5, pointHoverRadius: 8, pointBackgroundColor: '#fcf4e6', pointBorderColor: CA, pointBorderWidth: 2 },
+        { label: ctx.legendB, data: metrics.map(m => m.b), borderColor: CB, backgroundColor: 'rgba(31,94,88,0.12)', borderWidth: 2.2, pointRadius: 5, pointHoverRadius: 8, pointBackgroundColor: '#fcf4e6', pointBorderColor: CB, pointBorderWidth: 2 }
       ]
     },
     plugins: [radarBgPlugin],
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       animation: { duration: 800, easing: 'easeOutQuart' },
       layout: { padding: { top: 16, bottom: 16, left: 20, right: 20 } },
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 90,
-          suggestedMin: 0,
-          ticks: { display: false, stepSize: 15 },
-          grid: { color: gridColor, lineWidth: 1, circular: true },
-          angleLines: { color: 'rgba(26, 20, 16, 0.07)', lineWidth: 1 },
-          pointLabels: {
-            font: { size: 11.5, family: 'Noto Sans SC', weight: '500' },
-            color: '#3a2e22',
-            padding: 18,
-          }
-        }
-      },
-      plugins: {
-        legend: chartLegend,
-        tooltip: {
-          ...chartTooltip,
-          callbacks: {
-            title: (items) => rawMetrics[items[0].dataIndex].label,
-            label: (item) => {
-              const raw = rawMetrics[item.dataIndex];
-              const val = item.datasetIndex === 0 ? raw.a_raw : raw.b_raw;
-              const fmtVal = typeof val === 'number' ? val.toFixed(2) : val;
-              return ' ' + item.dataset.label + ': ' + fmtVal;
-            }
-          }
-        }
-      }
+      scales: { r: { beginAtZero: true, max: 90, ticks: { display: false }, grid: { color: gridColor, circular: true }, angleLines: { color: 'rgba(26,20,16,0.07)' }, pointLabels: { font: { size: 11.5, family: 'Noto Sans SC', weight: '500' }, color: '#3a2e22', padding: 18 } } },
+      plugins: { legend: chartLegend, tooltip: { ...chartTooltip, callbacks: { title: items => rawMetrics[items[0].dataIndex].label, label: item => { const raw = rawMetrics[item.dataIndex]; const val = item.datasetIndex === 0 ? raw.a_raw : raw.b_raw; return ' ' + item.dataset.label + ': ' + (typeof val === 'number' ? val.toFixed(2) : val); } } } }
     }
   });
 }
 
-function renderStats(data) {
+function renderScoreRadar(data, ctx) {
+  const a = data.fund_a.scores, b = data.fund_b.scores;
+  const labels = ['收益能力', '风险控制', '稳定性', '费用成本', '规模流动性', '基金经理', '持仓风格'];
+  const scoreA = [a.return_score, a.risk_score, a.stability_score, a.fee_score, a.scale_score, a.manager_score, a.style_score];
+  const scoreB = [b.return_score, b.risk_score, b.stability_score, b.fee_score, b.scale_score, b.manager_score, b.style_score];
+
+  if (window._scoreRadar) window._scoreRadar.destroy();
+  window._scoreRadar = new Chart(document.getElementById('scoreRadar'), {
+    type: 'radar',
+    data: {
+      labels,
+      datasets: [
+        { label: ctx.legendA + ' (' + a.overall + '分)', data: scoreA, borderColor: CA, backgroundColor: 'rgba(168,60,31,0.12)', borderWidth: 2.2, pointRadius: 5, pointHoverRadius: 8, pointBackgroundColor: '#fcf4e6', pointBorderColor: CA, pointBorderWidth: 2 },
+        { label: ctx.legendB + ' (' + b.overall + '分)', data: scoreB, borderColor: CB, backgroundColor: 'rgba(31,94,88,0.12)', borderWidth: 2.2, pointRadius: 5, pointHoverRadius: 8, pointBackgroundColor: '#fcf4e6', pointBorderColor: CB, pointBorderWidth: 2 }
+      ]
+    },
+    plugins: [radarBgPlugin],
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 800, easing: 'easeOutQuart' },
+      scales: { r: { beginAtZero: true, max: 100, ticks: { display: false }, grid: { color: gridColor, circular: true }, angleLines: { color: 'rgba(26,20,16,0.07)' }, pointLabels: { font: { size: 12, family: 'Noto Sans SC', weight: '600' }, color: '#3a2e22', padding: 14 } } },
+      plugins: { legend: chartLegend, tooltip: chartTooltip }
+    }
+  });
+}
+
+function renderStats(data, ctx) {
   const a = data.fund_a, b = data.fund_b;
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
   const stats = [
-    { label: '日均涨跌', a: fmt(a.recent_30d_avg_growth), b: fmt(b.recent_30d_avg_growth), aWin: a.recent_30d_avg_growth > b.recent_30d_avg_growth },
-    { label: '波动率', a: fmtNum(a.recent_30d_volatility)+'%', b: fmtNum(b.recent_30d_volatility)+'%', aWin: a.recent_30d_volatility < b.recent_30d_volatility },
-    { label: '最大回撤', a: fmtNum(a.recent_30d_max_drawdown)+'%', b: fmtNum(b.recent_30d_max_drawdown)+'%', aWin: a.recent_30d_max_drawdown < b.recent_30d_max_drawdown },
-    { label: '上涨天数', a: a.recent_30d_positive_days+'天', b: b.recent_30d_positive_days+'天', aWin: a.recent_30d_positive_days > b.recent_30d_positive_days },
-    { label: '最佳单日', a: fmt(a.recent_30d_best_day), b: fmt(b.recent_30d_best_day), aWin: a.recent_30d_best_day > b.recent_30d_best_day },
-    { label: '最差单日', a: fmt(a.recent_30d_worst_day), b: fmt(b.recent_30d_worst_day), aWin: a.recent_30d_worst_day > b.recent_30d_worst_day },
-    { label: '管理费', a: a.detail.mgr_fee, b: b.detail.mgr_fee, aWin: parseFloat(a.detail.mgr_fee) < parseFloat(b.detail.mgr_fee) },
-    { label: '托管费', a: a.detail.trust_fee, b: b.detail.trust_fee, aWin: parseFloat(a.detail.trust_fee) < parseFloat(b.detail.trust_fee) },
-    { label: '规模', a: (parseFloat(a.detail.scale)/1e8).toFixed(2)+'亿', b: (parseFloat(b.detail.scale)/1e8).toFixed(2)+'亿', aWin: parseFloat(a.detail.scale) > parseFloat(b.detail.scale) }
+    { label: '年化收益', a: fmt(rmA.annualized_return), b: fmt(rmB.annualized_return), aWin: rmA.annualized_return > rmB.annualized_return },
+    { label: '最大回撤', a: fmtNum(rmA.max_drawdown)+'%', b: fmtNum(rmB.max_drawdown)+'%', aWin: rmA.max_drawdown < rmB.max_drawdown },
+    { label: '波动率', a: fmtNum(rmA.volatility)+'%', b: fmtNum(rmB.volatility)+'%', aWin: rmA.volatility < rmB.volatility },
+    { label: '夏普比率', a: fmtNum(rmA.sharpe_ratio), b: fmtNum(rmB.sharpe_ratio), aWin: rmA.sharpe_ratio > rmB.sharpe_ratio },
+    { label: '日胜率', a: fmtNum(ctx.winRateA)+'%', b: fmtNum(ctx.winRateB)+'%', aWin: ctx.winRateA > ctx.winRateB },
+    { label: '月胜率', a: fmtNum(rmA.monthly_win_rate)+'%', b: fmtNum(rmB.monthly_win_rate)+'%', aWin: rmA.monthly_win_rate > rmB.monthly_win_rate },
+    { label: '超额收益', a: fmt(rmA.excess_return), b: fmt(rmB.excess_return), aWin: rmA.excess_return > rmB.excess_return },
+    { label: '管理费', a: a.detail.MGREXP || a.detail.mgr_fee, b: b.detail.MGREXP || b.detail.mgr_fee, aWin: parseFloat(a.detail.MGREXP || a.detail.mgr_fee) < parseFloat(b.detail.MGREXP || b.detail.mgr_fee) },
+    { label: '规模', a: (parseFloat(a.detail.ENDNAV || a.detail.scale)/1e8).toFixed(2)+'亿', b: (parseFloat(b.detail.ENDNAV || b.detail.scale)/1e8).toFixed(2)+'亿', aWin: parseFloat(a.detail.ENDNAV || a.detail.scale) > parseFloat(b.detail.ENDNAV || b.detail.scale) }
   ];
   document.getElementById('stats-grid').innerHTML = stats.map(s => `
     <div class="stat-item">
@@ -1321,6 +1296,56 @@ function renderNavChart(data, ctx) {
       }
     }
   });
+}
+
+function renderYearlyTable(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+  const yearsA = a.yearly_returns || [];
+  const yearsB = b.yearly_returns || [];
+  const allYears = [...new Set([...yearsA.map(y=>y.title), ...yearsB.map(y=>y.title)])].sort().reverse();
+  const tbody = document.querySelector('#yearly-table tbody');
+  document.getElementById('yth-a').textContent = ctx.shortA;
+  document.getElementById('yth-b').textContent = ctx.shortB;
+  tbody.innerHTML = allYears.map(year => {
+    const pa = yearsA.find(y => y.title === year);
+    const pb = yearsB.find(y => y.title === year);
+    const ra = pa ? pa.return_rate : null;
+    const rb = pb ? pb.return_rate : null;
+    const w = ra !== null && rb !== null ? winner(ra, rb) : (ra !== null ? 'A' : (rb !== null ? 'B' : '—'));
+    return `<tr>
+      <td>${year}</td>
+      <td class="${w==='A'?'win':'lose'}">${ra !== null ? fmt(ra) : '—'}</td>
+      <td class="${w==='B'?'win':'lose'}">${rb !== null ? fmt(rb) : '—'}</td>
+      <td style="font-weight:600;color:${w==='A'?'var(--color-a)':w==='B'?'var(--color-b)':'var(--faint)'}">${w}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderManagerCompare(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+  const renderCard = (fund, cls) => {
+    const mgr = fund.manager_info;
+    const eval_ = fund.manager_eval;
+    const ch = fund.manager_char;
+    const name = fund.detail.SHORTNAME || fund.detail.name || '';
+    if (!mgr) return '<div class="defense-card"><div class="label">经理信息</div><div class="winner">暂无数据</div></div>';
+    const days = parseFloat(mgr.total_days || 0);
+    const years = (days / 365).toFixed(1);
+    const scale = (parseFloat(mgr.net_nav || 0) / 1e8).toFixed(0);
+    const dd1 = eval_ ? parseFloat(eval_.max_drawdown_1y || 0).toFixed(3) : '—';
+    const sp1 = eval_ ? parseFloat(eval_.sharpe_1y || 0).toFixed(2) : '—';
+    const stockPos = ch ? parseFloat(ch.stock_position || 0).toFixed(1) : '—';
+    return `<div class="defense-card ${cls}">
+      <div class="label">${name.slice(0, 8)}</div>
+      <div class="winner">${mgr.manager_name}</div>
+      <div class="note">从业${years}年 · 在管${scale}亿 · ${mgr.fund_count}只基金</div>
+      <div style="margin-top:10px;font-size:0.82rem;color:var(--ink-soft)">
+        <div>近1年回撤: ${dd1}% · 夏普: ${sp1}</div>
+        <div>股票仓位: ${stockPos}% · 年化: ${fund.risk_metrics.annualized_return.toFixed(2)}%</div>
+      </div>
+    </div>`;
+  };
+  document.getElementById('manager-compare').innerHTML = renderCard(a, 'attack') + renderCard(b, 'defense');
 }
 
 function renderGrowthChart(data, ctx) {
@@ -1394,27 +1419,24 @@ function renderGrowthChart(data, ctx) {
 
 function renderDefenseSummary(data, ctx) {
   const a = data.fund_a, b = data.fund_b;
-  const pickName = (aValue, bValue, higher) => {
-    if (Math.abs(aValue - bValue) < 0.001) return '两者接近';
-    const aWins = higher ? aValue > bValue : aValue < bValue;
-    return aWins ? ctx.shortA : ctx.shortB;
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
+  const pickName = (aVal, bVal, higher) => {
+    if (Math.abs(aVal - bVal) < 0.001) return '两者接近';
+    return (higher ? aVal > bVal : aVal < bVal) ? ctx.shortA : ctx.shortB;
   };
   const attack = pickName(ctx.totalA, ctx.totalB, true);
-  const defense = pickName(a.recent_30d_max_drawdown + a.recent_30d_volatility, b.recent_30d_max_drawdown + b.recent_30d_volatility, false);
-  const attackNote = `${ctx.shortA} ${fmt(ctx.totalA)} · ${ctx.shortB} ${fmt(ctx.totalB)}`;
-  const defenseNote = `回撤 ${fmtNum(Math.min(a.recent_30d_max_drawdown, b.recent_30d_max_drawdown))}% · 波动 ${fmtNum(Math.min(a.recent_30d_volatility, b.recent_30d_volatility))}%`;
-
+  const defense = pickName(rmA.max_drawdown + rmA.volatility, rmB.max_drawdown + rmB.volatility, false);
   document.getElementById('defense-grid').innerHTML = `
     <div class="defense-head">
       <div class="defense-card attack">
         <div class="label">进攻端</div>
         <div class="winner">${attack}</div>
-        <div class="note">${attackNote}</div>
+        <div class="note">${ctx.shortA} ${fmt(ctx.totalA)} · ${ctx.shortB} ${fmt(ctx.totalB)}</div>
       </div>
       <div class="defense-card defense">
         <div class="label">防守端</div>
         <div class="winner">${defense}</div>
-        <div class="note">${defenseNote}</div>
+        <div class="note">回撤 ${fmtNum(Math.min(rmA.max_drawdown, rmB.max_drawdown))}% · 波动 ${fmtNum(Math.min(rmA.volatility, rmB.volatility))}%</div>
       </div>
     </div>`;
 }
@@ -1422,21 +1444,21 @@ function renderDefenseSummary(data, ctx) {
 function renderDetailTable(data) {
   const a = data.fund_a.detail, b = data.fund_b.detail;
   const rows = [
-    ['基金名称', a.name, b.name],
-    ['基金代码', a.code, b.code],
-    ['基金类型', a.fund_type, b.fund_type, a.fund_type !== b.fund_type],
-    ['成立日期', a.estab_date, b.estab_date, a.estab_date !== b.estab_date],
-    ['基金公司', a.company, b.company, a.company !== b.company],
-    ['基金经理', a.manager, b.manager, a.manager !== b.manager],
-    ['托管银行', a.custodian, b.custodian, a.custodian !== b.custodian],
-    ['规模', (parseFloat(a.scale)/1e8).toFixed(2)+' 亿', (parseFloat(b.scale)/1e8).toFixed(2)+' 亿', true],
-    ['风险等级', 'R'+a.risk_level, 'R'+b.risk_level, a.risk_level !== b.risk_level],
-    ['管理费', a.mgr_fee, b.mgr_fee, a.mgr_fee !== b.mgr_fee],
-    ['托管费', a.trust_fee, b.trust_fee, a.trust_fee !== b.trust_fee],
-    ['销售服务费', a.sales_fee, b.sales_fee, a.sales_fee !== b.sales_fee]
+    ['基金名称', a.SHORTNAME || a.name, b.SHORTNAME || b.name],
+    ['基金代码', a.FCODE || a.code, b.FCODE || b.code],
+    ['基金类型', a.FTYPE || a.fund_type, b.FTYPE || b.fund_type],
+    ['成立日期', a.ESTABDATE || a.estab_date, b.ESTABDATE || b.estab_date],
+    ['基金公司', a.JJGS || a.company, b.JJGS || b.company],
+    ['基金经理', a.JJJL || a.manager, b.JJJL || b.manager],
+    ['托管银行', a.TGYH || a.custodian, b.TGYH || b.custodian],
+    ['规模', (parseFloat(a.ENDNAV || a.scale)/1e8).toFixed(2)+' 亿', (parseFloat(b.ENDNAV || b.scale)/1e8).toFixed(2)+' 亿'],
+    ['风险等级', 'R'+(a.RISKLEVEL || a.risk_level), 'R'+(b.RISKLEVEL || b.risk_level)],
+    ['管理费', a.MGREXP || a.mgr_fee, b.MGREXP || b.mgr_fee],
+    ['托管费', a.TRUSTEXP || a.trust_fee, b.TRUSTEXP || b.trust_fee],
+    ['销售服务费', a.SALESEXP || a.sales_fee, b.SALESEXP || b.sales_fee]
   ];
   document.querySelector('#detail-table tbody').innerHTML = rows.map(r => {
-    const diff = r[3] ? 'font-weight:600' : '';
+    const diff = r[1] !== r[2] ? 'font-weight:600' : '';
     return `<tr>
       <td style="color:var(--faint);font-weight:600">${r[0]}</td>
       <td style="${diff}">${r[1]}</td>
@@ -1445,32 +1467,54 @@ function renderDetailTable(data) {
   }).join('');
 }
 
+function renderRiskGrid(data, ctx) {
+  const a = data.fund_a, b = data.fund_b;
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
+  const grid = document.getElementById('risk-grid');
+  const items = [
+    { label: '年化收益', a: fmt(rmA.annualized_return), b: fmt(rmB.annualized_return), aWin: rmA.annualized_return > rmB.annualized_return },
+    { label: '最大回撤', a: fmtNum(rmA.max_drawdown)+'%', b: fmtNum(rmB.max_drawdown)+'%', aWin: rmA.max_drawdown < rmB.max_drawdown },
+    { label: '波动率', a: fmtNum(rmA.volatility)+'%', b: fmtNum(rmB.volatility)+'%', aWin: rmA.volatility < rmB.volatility },
+    { label: '夏普比率', a: fmtNum(rmA.sharpe_ratio), b: fmtNum(rmB.sharpe_ratio), aWin: rmA.sharpe_ratio > rmB.sharpe_ratio },
+    { label: '日胜率', a: fmtNum(ctx.winRateA)+'%', b: fmtNum(ctx.winRateB)+'%', aWin: ctx.winRateA > ctx.winRateB },
+    { label: '月胜率', a: fmtNum(rmA.monthly_win_rate)+'%', b: fmtNum(rmB.monthly_win_rate)+'%', aWin: rmA.monthly_win_rate > rmB.monthly_win_rate },
+    { label: '超额收益', a: fmt(rmA.excess_return), b: fmt(rmB.excess_return), aWin: rmA.excess_return > rmB.excess_return },
+    { label: '正收益天', a: rmA.positive_days+'天', b: rmB.positive_days+'天', aWin: rmA.positive_days > rmB.positive_days },
+    { label: '负收益天', a: rmA.negative_days+'天', b: rmB.negative_days+'天', aWin: rmA.negative_days < rmB.negative_days },
+  ];
+  grid.innerHTML = items.map(s => `
+    <div class="stat-item">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-values">
+        <span class="a ${s.aWin ? 'better' : ''}">${s.a}</span>
+        <span class="b ${!s.aWin ? 'better' : ''}">${s.b}</span>
+      </div>
+    </div>`).join('');
+}
+
 function renderConclusion(data, ctx) {
   const a = data.fund_a, b = data.fund_b;
+  const rmA = a.risk_metrics, rmB = b.risk_metrics;
   const { yearA, yearB, feeA, feeB, scaleA, scaleB, shortA, shortB } = ctx;
 
   let winsA = 0, winsB = 0;
+  if (a.scores.overall > b.scores.overall) winsA++; else if (b.scores.overall > a.scores.overall) winsB++;
   if (yearA > yearB) winsA++; else if (yearB > yearA) winsB++;
-  if (a.recent_30d_max_drawdown < b.recent_30d_max_drawdown) winsA++; else winsB++;
-  if (a.recent_30d_volatility < b.recent_30d_volatility) winsA++; else winsB++;
-  if (feeA < feeB) winsA++; else winsB++;
-  if (scaleA > scaleB) winsA++; else winsB++;
+  if (rmA.max_drawdown < rmB.max_drawdown) winsA++; else if (rmB.max_drawdown < rmA.max_drawdown) winsB++;
+  if (rmA.sharpe_ratio > rmB.sharpe_ratio) winsA++; else if (rmB.sharpe_ratio > rmA.sharpe_ratio) winsB++;
+  if (feeA < feeB) winsA++; else if (feeB < feeA) winsB++;
 
   const items = [];
+  items.push(`<b>综合评分</b>　${a.scores.overall > b.scores.overall ? shortA : shortB} 综合更优（${a.scores.overall} vs ${b.scores.overall}）`);
   if (Math.abs(yearA-yearB)>0.01) items.push(`<b>收益</b>　${yearA>yearB?shortA:shortB} 近1年多赚 <b>${Math.abs(yearA-yearB).toFixed(2)}%</b>`);
-  if (Math.abs(feeA-feeB)>0.01) items.push(`<b>费率</b>　${feeA<feeB?shortA:shortB} 每年省 <b>${Math.abs(feeA-feeB).toFixed(2)}%</b>，10年复利差距约 ${(Math.abs(feeA-feeB)*10).toFixed(1)}%`);
-  if (Math.abs(scaleA-scaleB)>1) items.push(`<b>规模</b>　${scaleA>scaleB?shortA:shortB} 规模 ${Math.max(scaleA,scaleB).toFixed(1)}亿 vs ${Math.min(scaleA,scaleB).toFixed(1)}亿`);
-  if (Math.abs(a.recent_30d_volatility-b.recent_30d_volatility)>0.01) items.push(`<b>波动</b>　${a.recent_30d_volatility<b.recent_30d_volatility?shortA:shortB} 近30日波动更小（${Math.min(a.recent_30d_volatility,b.recent_30d_volatility).toFixed(2)}% vs ${Math.max(a.recent_30d_volatility,b.recent_30d_volatility).toFixed(2)}%）`);
-  if (Math.abs(a.recent_30d_max_drawdown-b.recent_30d_max_drawdown)>0.01) items.push(`<b>回撤</b>　${a.recent_30d_max_drawdown<b.recent_30d_max_drawdown?shortA:shortB} 最大回撤更小（${Math.min(a.recent_30d_max_drawdown,b.recent_30d_max_drawdown).toFixed(2)}% vs ${Math.max(a.recent_30d_max_drawdown,b.recent_30d_max_drawdown).toFixed(2)}%）`);
+  if (Math.abs(rmA.sharpe_ratio-rmB.sharpe_ratio)>0.01) items.push(`<b>夏普</b>　${rmA.sharpe_ratio>rmB.sharpe_ratio?shortA:shortB} 风险调整后收益更优（${Math.max(rmA.sharpe_ratio,rmB.sharpe_ratio).toFixed(2)}）`);
+  if (Math.abs(rmA.excess_return-rmB.excess_return)>0.01) items.push(`<b>超额</b>　${rmA.excess_return>rmB.excess_return?shortA:shortB} 超额收益 ${Math.max(rmA.excess_return,rmB.excess_return).toFixed(2)}%`);
+  if (Math.abs(feeA-feeB)>0.01) items.push(`<b>费率</b>　${feeA<feeB?shortA:shortB} 每年省 <b>${Math.abs(feeA-feeB).toFixed(2)}%</b>`);
+  if (Math.abs(rmA.max_drawdown-rmB.max_drawdown)>0.01) items.push(`<b>回撤</b>　${rmA.max_drawdown<rmB.max_drawdown?shortA:shortB} 最大回撤更小（${Math.min(rmA.max_drawdown,rmB.max_drawdown).toFixed(2)}%）`);
 
-  const tally = `<div class="tally">
-    <span>战绩</span>
-    <em class="a">${shortA} ${winsA}</em>
-    <i>·</i>
-    <em class="b">${shortB} ${winsB}</em>
-  </div>`;
-
-  document.getElementById('conclusion').innerHTML = `<h3>对比结论</h3>${tally}<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  document.getElementById('conclusion').innerHTML = `<h3>对比结论</h3>
+    <div class="tally"><span>战绩</span><em class="a">${shortA} ${winsA}</em><i>·</i><em class="b">${shortB} ${winsB}</em></div>
+    <ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
 }
 
 async function main() {
@@ -1478,7 +1522,7 @@ async function main() {
     const data = await loadData();
     const ctx = deriveContext(data);
     const a = data.fund_a, b = data.fund_b;
-    document.getElementById('subtitle').textContent = '本年鉴整理于 ' + new Date().toLocaleDateString('zh-CN') + ' · 基于天天基金 30 日窗口净值数据';
+    document.getElementById('subtitle').textContent = '本年鉴整理于 ' + new Date().toLocaleDateString('zh-CN') + ' · 综合评分 ' + a.scores.overall + ' vs ' + b.scores.overall;
     document.getElementById('legend-a').textContent = ctx.legendA;
     document.getElementById('legend-b').textContent = ctx.legendB;
     document.getElementById('th-a').textContent = ctx.shortA;
@@ -1487,11 +1531,15 @@ async function main() {
     renderCard(document.getElementById('card-a'), a);
     renderCard(document.getElementById('card-b'), b);
     renderRadar(data, ctx);
-    renderStats(data);
+    renderStats(data, ctx);
     renderPeriodTable(data);
     renderNavChart(data, ctx);
     renderDefenseSummary(data, ctx);
     renderGrowthChart(data, ctx);
+    renderScoreRadar(data, ctx);
+    renderRiskGrid(data, ctx);
+    renderYearlyTable(data, ctx);
+    renderManagerCompare(data, ctx);
     renderDetailTable(data);
     renderConclusion(data, ctx);
   } catch (e) {

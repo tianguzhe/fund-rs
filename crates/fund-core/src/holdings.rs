@@ -9,13 +9,13 @@ pub struct Holding {
 
 pub fn holdings() -> Vec<Holding> {
     vec![
-        Holding { code: "420002", name: "天弘永利债A", amount: 410_132.0 },
-        Holding { code: "020359", name: "东方红慧鑫C", amount: 163_675.0 },
-        Holding { code: "020262", name: "平安鑫惠90天A", amount: 104_870.0 },
-        Holding { code: "021282", name: "上银慧元A", amount: 52_080.0 },
-        Holding { code: "016816", name: "兴业120天A", amount: 40_138.0 },
-        Holding { code: "013791", name: "大成稳安C", amount: 30_273.0 },
-        Holding { code: "000171", name: "易方达裕丰A", amount: 10_000.0 },
+        Holding { code: "420002", name: "天弘永利债A", amount: 363_219.0 },
+        Holding { code: "020359", name: "东方红慧鑫C", amount: 167_963.0 },
+        Holding { code: "020262", name: "平安鑫惠90天A", amount: 105_634.0 },
+        Holding { code: "021282", name: "上银慧元A", amount: 52_202.0 },
+        Holding { code: "016816", name: "兴业120天A", amount: 40_225.0 },
+        Holding { code: "013791", name: "大成稳安C", amount: 30_330.0 },
+        Holding { code: "000171", name: "易方达裕丰A", amount: 149_960.0 },
     ]
 }
 

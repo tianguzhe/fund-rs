@@ -658,7 +658,7 @@ const fmtMoneyShort = v => {
 };
 
 async function loadData() {
-  const res = await fetch('./portfolio_data.json?ts=' + Date.now());
+  const res = await fetch('./data/portfolio.json?ts=' + Date.now());
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
 }

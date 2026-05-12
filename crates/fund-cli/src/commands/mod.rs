@@ -1,3 +1,4 @@
+pub mod analyze;
 pub mod backfill;
 pub mod bigdata;
 pub mod compare;

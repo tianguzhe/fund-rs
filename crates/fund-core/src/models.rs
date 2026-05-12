@@ -206,6 +206,265 @@ pub struct BigDataDetailItem {
     pub acc_value: String,
 }
 
+// ── Fund Manager ─────────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundManager {
+    #[serde(rename = "MGRID")]
+    pub manager_id: String,
+    #[serde(rename = "MGRNAME")]
+    pub manager_name: String,
+    #[serde(rename = "DAYS", default)]
+    pub days: String,
+    #[serde(rename = "FEMPDATE", default)]
+    pub start_date: String,
+    #[serde(rename = "PENAVGROWTH", default)]
+    pub return_since_start: String,
+    #[serde(rename = "ISINOFFICE", default)]
+    pub is_in_office: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerPerformance {
+    #[serde(rename = "MAXRETRA_1", default)]
+    pub max_drawdown_1y: String,
+    #[serde(rename = "MAXRETRA_3", default)]
+    pub max_drawdown_3y: String,
+    #[serde(rename = "SHARP_1", default)]
+    pub sharpe_1y: String,
+    #[serde(rename = "SHARP_3", default)]
+    pub sharpe_3y: String,
+    #[serde(rename = "STDDEV_1", default)]
+    pub volatility_1y: String,
+    #[serde(rename = "STDDEV_3", default)]
+    pub volatility_3y: String,
+    #[serde(rename = "WIN_1", default)]
+    pub win_rate_1y: String,
+    #[serde(rename = "WIN_3", default)]
+    pub win_rate_3y: String,
+}
+
+// ── NAV Trend (for drawdown/volatility/Sharpe calculation) ────────────
+
+#[derive(Debug, Serialize)]
+pub struct NavTrendPoint {
+    pub date: String,
+    pub nav: f64,
+    pub acc_nav: f64,
+    pub daily_return: f64,
+}
+
+// ── Accumulated Return vs Benchmark ──────────────────────────────────
+
+#[derive(Debug, Serialize)]
+pub struct AccumulatedReturn {
+    pub date: String,
+    pub fund_return: f64,
+    pub index_return: f64,
+    pub category_return: f64,
+    pub bench_return: f64,
+}
+
+// ── Fund Rating ──────────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundRating {
+    #[serde(rename = "RDATE")]
+    pub date: String,
+    #[serde(rename = "ZSPJ", default)]
+    pub zs_rating: String,
+    #[serde(rename = "SZPJ3", default)]
+    pub sz_rating: String,
+    #[serde(rename = "JAPJ", default)]
+    pub ja_rating: String,
+}
+
+// ── Manager Detail ───────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerInfo {
+    #[serde(rename = "MGRID")]
+    pub manager_id: String,
+    #[serde(rename = "MGRNAME")]
+    pub manager_name: String,
+    #[serde(rename = "RESUME", default)]
+    pub resume: String,
+    #[serde(rename = "TOTALDAYS", default)]
+    pub total_days: String,
+    #[serde(rename = "NETNAV", default)]
+    pub net_nav: String,
+    #[serde(rename = "FCOUNT", default)]
+    pub fund_count: String,
+    #[serde(rename = "PRENAME", default)]
+    pub representative: String,
+    #[serde(rename = "YIELDSE", default)]
+    pub annual_return: String,
+    #[serde(rename = "JJGS", default)]
+    pub company: String,
+    #[serde(rename = "FMAXEARN1", default)]
+    pub max_earn: String,
+    #[serde(rename = "FMAXRETRA1", default)]
+    pub max_drawdown: String,
+    #[serde(rename = "MGOLD", default)]
+    pub score: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerAccPoint {
+    #[serde(rename = "PDATE")]
+    pub date: String,
+    #[serde(rename = "SYI", default)]
+    pub manager_return: String,
+    #[serde(rename = "AVGSYI", default)]
+    pub avg_return: String,
+    #[serde(rename = "INDEXSYI", default)]
+    pub index_return: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerRankData {
+    #[serde(rename = "W", default)]
+    pub week: String,
+    #[serde(rename = "M", default)]
+    pub month: String,
+    #[serde(rename = "Q", default)]
+    pub quarter: String,
+    #[serde(rename = "HY", default)]
+    pub half_year: String,
+    #[serde(rename = "Y", default)]
+    pub year: String,
+    #[serde(rename = "TWY", default)]
+    pub two_year: String,
+    #[serde(rename = "TRY", default)]
+    pub three_year: String,
+    #[serde(rename = "FY", default)]
+    pub five_year: String,
+    #[serde(rename = "WRANK", default)]
+    pub week_rank: String,
+    #[serde(rename = "MRANK", default)]
+    pub month_rank: String,
+    #[serde(rename = "QRANK", default)]
+    pub quarter_rank: String,
+    #[serde(rename = "YRANK", default)]
+    pub year_rank: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerHoldingStyle {
+    #[serde(rename = "Pos", default)]
+    pub positions: Vec<StockPosition>,
+    #[serde(rename = "PosDate", default)]
+    pub pos_date: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct StockPosition {
+    #[serde(rename = "GPDM")]
+    pub code: String,
+    #[serde(rename = "GPJC")]
+    pub name: String,
+    #[serde(rename = "JZBL", default)]
+    pub ratio: String,
+    #[serde(rename = "INDEXNAME", default)]
+    pub industry: String,
+    #[serde(rename = "PCTNVCHG", default)]
+    pub change: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerHoldingChar {
+    #[serde(rename = "GPCW", default)]
+    pub stock_position: String,
+    #[serde(rename = "SDJZD", default)]
+    pub top10_concentration: String,
+    #[serde(rename = "DYHYZB", default)]
+    pub top1_industry: String,
+    #[serde(rename = "YCESL_3M", default)]
+    pub monthly_excess_win: String,
+    #[serde(rename = "HYJZD", default)]
+    pub industry_concentration: String,
+    #[serde(rename = "GPCWAVG", default)]
+    pub stock_position_avg: String,
+    #[serde(rename = "SDJZDAVG", default)]
+    pub top10_concentration_avg: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerHistoryFund {
+    #[serde(rename = "FCODE")]
+    pub code: String,
+    #[serde(rename = "SHORTNAME")]
+    pub name: String,
+    #[serde(rename = "FEMPDATE", default)]
+    pub start_date: String,
+    #[serde(rename = "LEMPDATE", default)]
+    pub end_date: String,
+    #[serde(rename = "TOTALDAYS", default)]
+    pub days: String,
+    #[serde(rename = "PENAVGROWTH", default)]
+    pub return_rate: String,
+    #[serde(rename = "TLRANK", default)]
+    pub rank: String,
+    #[serde(rename = "TLSC", default)]
+    pub total: String,
+}
+
+// ── Fund Estimation ──────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundEstimation {
+    #[serde(rename = "GZ", default)]
+    pub nav: String,
+    #[serde(rename = "GSZZL", default)]
+    pub change_pct: String,
+    #[serde(rename = "GZTIME", default)]
+    pub time: String,
+    #[serde(rename = "SOURCERATE", default)]
+    pub original_fee: String,
+    #[serde(rename = "rate", default)]
+    pub discount_fee: String,
+    #[serde(rename = "BUY", default)]
+    pub can_buy: String,
+    #[serde(rename = "SGZT", default)]
+    pub buy_status: String,
+}
+
+// ── Fund Company ─────────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundCompany {
+    #[serde(rename = "JJGSID")]
+    pub id: String,
+    #[serde(rename = "JJGS")]
+    pub name: String,
+}
+
+// ── Fund List Item ───────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundListItem {
+    #[serde(rename = "FCODE", default)]
+    pub code: String,
+    #[serde(rename = "SHORTNAME", default)]
+    pub name: String,
+    #[serde(rename = "FTYPE", default)]
+    pub fund_type: String,
+    #[serde(rename = "DWJZ", default)]
+    pub net_value: String,
+    #[serde(rename = "LJJZ", default)]
+    pub acc_value: String,
+    #[serde(rename = "RZDF", default)]
+    pub daily_change: String,
+}
+
+// ── Search By Name Result ────────────────────────────────────────────
+
+#[derive(Debug, Serialize)]
+pub struct SearchByNameResult {
+    pub total: usize,
+    pub items: Vec<FundListItem>,
+}
+
 // ── Themes ─────────────────────────────────────────────────────────────
 
 #[derive(Debug, Deserialize)]

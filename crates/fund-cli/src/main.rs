@@ -33,7 +33,7 @@ enum Commands {
     },
     /// 导出历史数据为 JSON（供 H5 图表使用）
     Export {
-        #[arg(short, long, default_value = "portfolio_data.json")]
+        #[arg(short, long, default_value = "dist/data/portfolio.json")]
         output: std::path::PathBuf,
     },
     Search {
@@ -92,13 +92,21 @@ enum Commands {
         #[arg(short, long, default_value = "3y")]
         range: String,
     },
+    /// 深度分析基金（详情+阶段收益+风险指标+经理评价+综合评分）
+    Analyze {
+        #[arg(short, long)]
+        code: String,
+        /// 输出 JSON 格式
+        #[arg(long)]
+        json: bool,
+    },
     /// 对比两只基金，输出 JSON 供网页展示
     Compare {
         #[arg(long)]
         a: String,
         #[arg(long)]
         b: String,
-        #[arg(short, long, default_value = "compare_data.json")]
+        #[arg(short, long, default_value = "dist/data/compare.json")]
         output: std::path::PathBuf,
     },
 }
@@ -166,5 +174,6 @@ fn run() -> Result<()> {
             commands::rank_history::run(&client, &code, &range)
         }
         Commands::Compare { a, b, output } => commands::compare::run(&a, &b, &output),
+        Commands::Analyze { code, json } => commands::analyze::run(&client, &code, json),
     }
 }

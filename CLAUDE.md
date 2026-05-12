@@ -65,7 +65,7 @@ fund portfolio --save       # 查看并保存到 SQLite
 fund backfill --from 2026-03-01 --to 2026-04-30  # 补录历史
 
 # 导出
-fund export                 # 导出 portfolio_data.json
+fund export                 # 导出到 dist/data/portfolio.json
 fund export -o data.json    # 指定输出路径
 
 # 搜索 & 详情
@@ -87,7 +87,12 @@ fund bigdata                # 大数据选基
 fund bigdata --detail 1     # 大数据详情
 
 # 对比两只基金（输出 JSON 供网页展示）
-fund compare --a 020602 --b 020156 -o compare_data.json
+fund compare --a 020602 --b 020156           # 输出到 dist/data/compare.json
+fund compare --a 020602 --b 020156 -o out.json  # 指定输出路径
+
+# 深度分析基金（详情+阶段收益+风险指标+经理评价+综合评分）
+fund analyze -c 020262        # 终端输出
+fund analyze -c 000171 --json # JSON 输出
 
 # 调试（任何命令加 --debug）
 fund --debug info -c 420002
