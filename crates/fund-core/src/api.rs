@@ -83,6 +83,29 @@ impl Client {
         Ok(response.datas.into_iter().map(FundSearchResult::from).collect())
     }
 
+    pub fn search_manager(&self, keyword: &str) -> Result<Vec<ManagerSearchResult>> {
+        Self::validate_non_empty(keyword, "keyword")?;
+        let encoded = urlencoding::encode(keyword);
+        let url = Self::build_url("fundSearch", &[("m", "7"), ("key", &encoded)]);
+        let response: ApiResponse<Vec<ManagerSearchResult>> = self.request(&url)?;
+        Ok(response.datas)
+    }
+
+    pub fn search_company_by_name(&self, keyword: &str) -> Result<Vec<CompanySearchResult>> {
+        Self::validate_non_empty(keyword, "keyword")?;
+        let encoded = urlencoding::encode(keyword);
+        let url = Self::build_url("fundSearch", &[("m", "8"), ("key", &encoded)]);
+        let response: ApiResponse<Vec<CompanySearchResult>> = self.request(&url)?;
+        Ok(response.datas)
+    }
+
+    /// 基金简介，含跟踪指数代码（指数基金）
+    pub fn get_fund_brief(&self, code: &str) -> Result<FundBrief> {
+        Self::validate_non_empty(code, "fund code")?;
+        let url = Self::build_url("fundMNStopWatch", &[("FCODE", code)]);
+        Self::check_api_response(self.request(&url)?)
+    }
+
     pub fn get_fund_estimate(&self, code: &str) -> Result<FundDetail> {
         Self::validate_non_empty(code, "fund code")?;
         let url = Self::build_url("fundMNDetailInformation", &[("FCODE", code)]);
@@ -438,6 +461,13 @@ impl Client {
             anyhow::bail!("API error code: {}", response.err_code);
         }
         Ok(response.datas)
+    }
+
+    /// 公司基本档案（法定名称、成立时间、注册资本、管理规模等）
+    pub fn get_company_archive(&self, company_id: &str) -> Result<CompanyArchive> {
+        Self::validate_non_empty(company_id, "company ID")?;
+        let url = Self::build_url("companyApi2", &[("cc", company_id), ("action", "companyarchives")]);
+        Self::check_api_response(self.request(&url)?)
     }
 
     // ── Search By Name ──────────────────────────────────────────────────

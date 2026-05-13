@@ -133,16 +133,31 @@ pub struct FundRank {
     pub code: String,
     #[serde(rename = "SHORTNAME")]
     pub name: String,
-    #[serde(rename = "DWJZ")]
+    #[serde(rename = "DWJZ", default)]
     pub net_value: String,
-    #[serde(rename = "LJJZ")]
+    #[serde(rename = "LJJZ", default)]
     pub acc_value: String,
-    #[serde(rename = "SYL_Z")]
+    #[serde(rename = "RZDF", default)]
+    pub daily_change: String,
+    #[serde(rename = "SYL_Z", default)]
     pub week_growth: String,
-    #[serde(rename = "SYL_Y")]
+    #[serde(rename = "SYL_Y", default)]
     pub month_growth: String,
-    #[serde(rename = "SYL_1N")]
+    #[serde(rename = "SYL_3Y", default)]
+    pub three_month_growth: String,
+    #[serde(rename = "SYL_6Y", default)]
+    pub six_month_growth: String,
+    #[serde(rename = "SYL_JN", default)]
+    pub ytd_growth: String,
+    #[serde(rename = "SYL_1N", default)]
     pub year_growth: String,
+    #[serde(rename = "SYL_3N", default)]
+    pub three_year_growth: String,
+    /// 基金规模（元）
+    #[serde(rename = "ENDNAV", default)]
+    pub scale: String,
+    #[serde(rename = "BFUNDTYPE", default)]
+    pub fund_type_code: String,
 }
 
 #[derive(Debug)]
@@ -431,12 +446,22 @@ pub struct FundEstimation {
 
 // ── Fund Company ─────────────────────────────────────────────────────
 
+/// fundCompanyBaseList 返回字段（注意：此接口用 COMPANYCODE/SNAME，
+/// 与 fundSearch m=8 的 JJGSID/JJGS 不同）
 #[derive(Debug, Deserialize, Serialize)]
 pub struct FundCompany {
-    #[serde(rename = "JJGSID")]
+    #[serde(rename = "COMPANYCODE")]
     pub id: String,
-    #[serde(rename = "JJGS")]
+    #[serde(rename = "SNAME")]
     pub name: String,
+    #[serde(rename = "ABBNAME", default)]
+    pub abbr: String,
+    #[serde(rename = "FUNDCOUNT", default)]
+    pub fund_count: String,
+    #[serde(rename = "JJRS", default)]
+    pub manager_count: String,
+    #[serde(rename = "ESTABDATE", default)]
+    pub estab_date: String,
 }
 
 // ── Fund List Item ───────────────────────────────────────────────────
@@ -475,4 +500,87 @@ pub struct FundTheme {
     pub name: String,
     #[serde(rename = "TYPE")]
     pub theme_type: String,
+}
+
+// ── Fund Brief (fundMNStopWatch) ─────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct FundBrief {
+    #[serde(rename = "FCODE")]
+    pub code: String,
+    #[serde(rename = "SHORTNAME")]
+    pub name: String,
+    #[serde(rename = "FTYPE")]
+    pub fund_type: String,
+    #[serde(rename = "ESTABDATE", default)]
+    pub estab_date: String,
+    /// 基金类型编码，区分主动/指数/ETF 等
+    #[serde(rename = "BFUNDTYPE", default)]
+    pub b_fund_type: String,
+    /// 跟踪指数代码，仅指数基金有值
+    #[serde(rename = "INDEXCODE", default)]
+    pub index_code: String,
+    /// 跟踪指数名称
+    #[serde(rename = "INDEXNAME", default)]
+    pub index_name: String,
+}
+
+// ── Manager Search ───────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ManagerSearchResult {
+    #[serde(rename = "MgrId")]
+    pub manager_id: String,
+    #[serde(rename = "MgrName")]
+    pub manager_name: String,
+    #[serde(rename = "JJGS", default)]
+    pub company: String,
+}
+
+// ── Company Search ───────────────────────────────────────────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct CompanySearchResult {
+    #[serde(rename = "JJGSID")]
+    pub company_id: String,
+    #[serde(rename = "JJGS")]
+    pub company_name: String,
+    /// 旗下基金列表（简要）
+    #[serde(rename = "QXJJ", default)]
+    pub funds: Vec<CompanyFundBrief>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct CompanyFundBrief {
+    #[serde(rename = "FCODE", alias = "_id")]
+    pub code: String,
+    #[serde(rename = "SHORTNAME", default)]
+    pub name: String,
+}
+
+// ── Company Archive (companyApi2 action=companyarchives) ─────────────
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct CompanyArchive {
+    /// 法定名称
+    #[serde(rename = "FDMC", default)]
+    pub full_name: String,
+    /// 成立时间
+    #[serde(rename = "CLRQ", default)]
+    pub estab_date: String,
+    /// 注册资本
+    #[serde(rename = "ZCZB", default)]
+    pub reg_capital: String,
+    /// 法人代表
+    #[serde(rename = "FRDB", default)]
+    pub legal_rep: String,
+    /// 总经理
+    #[serde(rename = "Manager", default)]
+    pub manager: String,
+    /// 管理规模（元）
+    #[serde(rename = "GLGM", default)]
+    pub aum: String,
+    /// 旗下基金总数
+    #[serde(rename = "Count", default)]
+    pub fund_count: String,
 }
