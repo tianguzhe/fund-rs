@@ -316,8 +316,6 @@ pub fn display_rank_history(points: &[RankHistoryPoint], range: &str) {
             let char = if diff < 2.0 {
                 let color_fn = get_rank_color(*pct);
                 color_fn("·")
-            } else if *pct > threshold {
-                " ".to_string()
             } else {
                 " ".to_string()
             };

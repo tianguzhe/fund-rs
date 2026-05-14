@@ -13,7 +13,7 @@ pub fn run(client: &Client, from: &str, to: &str) -> Result<()> {
         bail!("from ({}) 不能晚于 to ({})", from, to);
     }
 
-    let hold = holdings();
+    let hold = holdings()?;
     let all_points = fetch_all_histories(client, &hold);
 
     let mut records: Vec<DailyRecord> = Vec::new();

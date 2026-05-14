@@ -4,6 +4,7 @@ pub mod bigdata;
 pub mod compare;
 pub mod export;
 pub mod history;
+pub mod holdings;
 pub mod info;
 pub mod portfolio;
 pub mod rank;

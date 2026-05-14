@@ -109,6 +109,18 @@ enum Commands {
         #[arg(short, long, default_value = "dist/data/compare.json")]
         output: std::path::PathBuf,
     },
+    /// 组合穿透分析（资产配置 + 底层股票 + 行业暴露）
+    Holdings {
+        /// 生成持仓配置模板（~/.fund-rs/holdings.json）后退出
+        #[arg(long)]
+        init: bool,
+        /// 显示底层股票的前 N 只
+        #[arg(short, long, default_value = "15")]
+        top: usize,
+        /// 输出 JSON 格式
+        #[arg(long)]
+        json: bool,
+    },
 }
 
 fn main() {
@@ -175,5 +187,12 @@ fn run() -> Result<()> {
         }
         Commands::Compare { a, b, output } => commands::compare::run(&a, &b, &output),
         Commands::Analyze { code, json } => commands::analyze::run(&client, &code, json),
+        Commands::Holdings { init, top, json } => {
+            if init {
+                commands::holdings::init(false)
+            } else {
+                commands::holdings::run(&client, top, json)
+            }
+        }
     }
 }

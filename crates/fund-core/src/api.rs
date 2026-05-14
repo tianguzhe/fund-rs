@@ -253,15 +253,16 @@ impl Client {
 
     // ── NAV Trend (for risk metrics calculation) ───────────────────────
 
-    pub fn get_nav_trend(&self, code: &str, range: &str, point_count: i32) -> Result<Vec<NavTrendPoint>> {
+    pub fn get_nav_trend(
+        &self,
+        code: &str,
+        range: &str,
+        point_count: i32,
+    ) -> Result<Vec<NavTrendPoint>> {
         Self::validate_non_empty(code, "fund code")?;
         let url = Self::build_url(
             "fundVPageDiagram",
-            &[
-                ("FCODE", code),
-                ("RANGE", range),
-                ("POINTCOUNT", &point_count.to_string()),
-            ],
+            &[("FCODE", code), ("RANGE", range), ("POINTCOUNT", &point_count.to_string())],
         );
 
         #[derive(serde::Deserialize)]
@@ -276,7 +277,15 @@ impl Client {
             daily_return: String,
         }
 
-        let items: Vec<TrendItem> = Self::check_api_response(self.request(&url)?)?;
+        // fundVPageDiagram uses "data" (lowercase), not the standard "Datas" wrapper
+        #[derive(serde::Deserialize)]
+        struct DiagramResponse {
+            #[serde(rename = "data", default)]
+            data: Vec<TrendItem>,
+        }
+
+        let response: DiagramResponse = self.request(&url)?;
+        let items = response.data;
 
         Ok(items
             .into_iter()
@@ -331,14 +340,12 @@ impl Client {
         Ok(response
             .data
             .into_iter()
-            .filter_map(|item| {
-                Some(AccumulatedReturn {
-                    date: item.date,
-                    fund_return: item.fund_return.unwrap_or_default().parse().unwrap_or(0.0),
-                    index_return: item.index_return.unwrap_or_default().parse().unwrap_or(0.0),
-                    category_return: item.category_return.unwrap_or_default().parse().unwrap_or(0.0),
-                    bench_return: item.bench_return.unwrap_or_default().parse().unwrap_or(0.0),
-                })
+            .map(|item| AccumulatedReturn {
+                date: item.date,
+                fund_return: item.fund_return.unwrap_or_default().parse().unwrap_or(0.0),
+                index_return: item.index_return.unwrap_or_default().parse().unwrap_or(0.0),
+                category_return: item.category_return.unwrap_or_default().parse().unwrap_or(0.0),
+                bench_return: item.bench_return.unwrap_or_default().parse().unwrap_or(0.0),
             })
             .collect())
     }
@@ -347,7 +354,10 @@ impl Client {
 
     pub fn get_fund_rating(&self, code: &str) -> Result<Vec<FundRating>> {
         Self::validate_non_empty(code, "fund code")?;
-        let url = Self::build_url("fundGradeDetail", &[("FCODE", code), ("pageIndex", "1"), ("pageSize", "10")]);
+        let url = Self::build_url(
+            "fundGradeDetail",
+            &[("FCODE", code), ("pageIndex", "1"), ("pageSize", "10")],
+        );
         Self::check_api_response(self.request(&url)?)
     }
 
@@ -361,7 +371,11 @@ impl Client {
         self.get_period_increase_with_range(code, "y")
     }
 
-    fn get_period_increase_with_range(&self, code: &str, range: &str) -> Result<Vec<PeriodIncrease>> {
+    fn get_period_increase_with_range(
+        &self,
+        code: &str,
+        range: &str,
+    ) -> Result<Vec<PeriodIncrease>> {
         Self::validate_non_empty(code, "fund code")?;
         let url = Self::build_url("fundMNPeriodIncrease", &[("FCODE", code), ("RANGE", range)]);
 
@@ -466,13 +480,19 @@ impl Client {
     /// 公司基本档案（法定名称、成立时间、注册资本、管理规模等）
     pub fn get_company_archive(&self, company_id: &str) -> Result<CompanyArchive> {
         Self::validate_non_empty(company_id, "company ID")?;
-        let url = Self::build_url("companyApi2", &[("cc", company_id), ("action", "companyarchives")]);
+        let url =
+            Self::build_url("companyApi2", &[("cc", company_id), ("action", "companyarchives")]);
         Self::check_api_response(self.request(&url)?)
     }
 
     // ── Search By Name ──────────────────────────────────────────────────
 
-    pub fn search_by_name(&self, keyword: &str, page: usize, size: usize) -> Result<SearchByNameResult> {
+    pub fn search_by_name(
+        &self,
+        keyword: &str,
+        page: usize,
+        size: usize,
+    ) -> Result<SearchByNameResult> {
         Self::validate_non_empty(keyword, "keyword")?;
         let encoded = urlencoding::encode(keyword);
         let url = Self::build_url(
@@ -494,10 +514,7 @@ impl Client {
         }
 
         let resp: SearchResponse = self.request(&url)?;
-        Ok(SearchByNameResult {
-            total: resp.total,
-            items: resp.data,
-        })
+        Ok(SearchByNameResult { total: resp.total, items: resp.data })
     }
 
     // ── Fund List by Letter/Type ────────────────────────────────────────
@@ -568,18 +585,10 @@ impl Client {
 
     // ── Theme List/Focus ────────────────────────────────────────────────
 
-    pub fn get_theme_hot_list(
-        &self,
-        rank_item: &str,
-        category: &str,
-    ) -> Result<serde_json::Value> {
+    pub fn get_theme_hot_list(&self, rank_item: &str, category: &str) -> Result<serde_json::Value> {
         let url = Self::build_url(
             "fundThemeList",
-            &[
-                ("RankItems", rank_item),
-                ("RankVectors", "desc"),
-                ("category", category),
-            ],
+            &[("RankItems", rank_item), ("RankVectors", "desc"), ("category", category)],
         );
         let response: ApiResponse<serde_json::Value> = self.request(&url)?;
         if response.err_code != 0 {

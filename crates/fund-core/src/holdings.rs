@@ -1,27 +1,56 @@
 use crate::api::Client;
+use crate::holdings_config;
 use crate::models::NetValuePoint;
+use anyhow::Result;
 
+/// In-memory holding record. Fields are owned `String` because data comes
+/// from a user-editable JSON file at runtime — `&'static str` no longer fits.
 pub struct Holding {
-    pub code: &'static str,
-    pub name: &'static str,
+    pub code: String,
+    pub name: String,
     pub amount: f64,
+    pub channel: Option<String>,
 }
 
-pub fn holdings() -> Vec<Holding> {
-    vec![
-        Holding { code: "420002", name: "天弘永利债A", amount: 363_219.0 },
-        Holding { code: "020359", name: "东方红慧鑫C", amount: 167_963.0 },
-        Holding { code: "020262", name: "平安鑫惠90天A", amount: 105_634.0 },
-        Holding { code: "021282", name: "上银慧元A", amount: 52_202.0 },
-        Holding { code: "016816", name: "兴业120天A", amount: 40_225.0 },
-        Holding { code: "013791", name: "大成稳安C", amount: 30_330.0 },
-        Holding { code: "000171", name: "易方达裕丰A", amount: 149_960.0 },
-    ]
+impl From<holdings_config::HoldingEntry> for Holding {
+    fn from(e: holdings_config::HoldingEntry) -> Self {
+        Self { code: e.code, name: e.name, amount: e.amount, channel: e.channel }
+    }
+}
+
+/// Load holdings from the user's JSON config (see `holdings_config::config_path`).
+pub fn holdings() -> Result<Vec<Holding>> {
+    Ok(holdings_config::load()?.into_iter().map(Holding::from).collect())
 }
 
 /// Profit amount for a single fund: holding * pct / 100
 pub fn profit_amount(holding: f64, pct: f64) -> f64 {
     holding * pct / 100.0
+}
+
+/// Map a fund's FTYPE (e.g. "债券型-混合二级", "混合型-偏债") to a 6-char asset
+/// class label. Shared between `portfolio` and `holdings` so allocation rows
+/// stay aligned across commands.
+pub fn classify(ftype: &str) -> &'static str {
+    if ftype.contains("货币") {
+        "货币"
+    } else if ftype.contains("债券") {
+        "债券"
+    } else if ftype.contains("QDII") {
+        "QDII"
+    } else if ftype.contains("指数") || ftype.contains("ETF") {
+        "指数"
+    } else if ftype.contains("股票") {
+        "股票"
+    } else if ftype.contains("混合") {
+        "混合"
+    } else if ftype.contains("FOF") {
+        "FOF"
+    } else if ftype.is_empty() {
+        "未知"
+    } else {
+        "其他"
+    }
 }
 
 /// Concurrently fetch net value history for all holdings.
@@ -30,7 +59,7 @@ pub fn fetch_all_histories(client: &Client, hold: &[Holding]) -> Vec<Option<Vec<
     std::thread::scope(|s| {
         let handles: Vec<_> = hold
             .iter()
-            .map(|h| s.spawn(|| client.get_net_value_history(h.code, HISTORY_DAYS).ok()))
+            .map(|h| s.spawn(|| client.get_net_value_history(&h.code, HISTORY_DAYS).ok()))
             .collect();
         handles.into_iter().map(|t| t.join().unwrap()).collect()
     })
