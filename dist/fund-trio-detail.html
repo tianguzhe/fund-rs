@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基金对比报告：000171 vs 000143 vs 000385</title>
+  <style>
+    :root {
+      --bg: #efe7d6;
+      --paper: #fffaf0;
+      --paper-2: #f7efdf;
+      --ink: #1f1a17;
+      --muted: #6e624f;
+      --line: rgba(31,26,23,.12);
+      --rule: rgba(31,26,23,.24);
+      --a: #8a4b07;
+      --b: #8b2430;
+      --c: #1d6149;
+      --shadow: 0 24px 64px rgba(40,28,14,.13);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #ece2cc 0%, var(--bg) 100%);
+      line-height: 1.65;
+    }
+    .container { max-width: 1260px; margin: 0 auto; padding: 34px 20px 64px; }
+    .hero {
+      background: linear-gradient(160deg, rgba(255,250,240,.96), rgba(245,236,218,.95));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 28px 28px 24px;
+      margin-bottom: 22px;
+    }
+    .hero h1 { margin: 0 0 10px; font-size: 36px; line-height: 1.15; }
+    .hero p { margin: 8px 0; color: var(--muted); max-width: 980px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .hero-card {
+      background: rgba(255,255,255,.56);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .hero-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .hero-card .value { font-size: 24px; font-weight: 700; }
+    .note {
+      background: rgba(138,75,7,.08);
+      color: #5a3810;
+      border: 1px solid rgba(138,75,7,.16);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+    }
+    .section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+    h2 { margin: 0 0 14px; font-size: 24px; }
+    h3 { margin: 20px 0 10px; font-size: 18px; }
+    .fund-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .fund-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--paper-2);
+    }
+    .fund-card header { padding: 16px 18px 14px; color: #fff; }
+    .fund-card.a header { background: linear-gradient(135deg, var(--a), #a86a1d); }
+    .fund-card.b header { background: linear-gradient(135deg, var(--b), #b34b57); }
+    .fund-card.c header { background: linear-gradient(135deg, var(--c), #368467); }
+    .fund-card h3 { margin: 0; font-size: 23px; color: #fff; }
+    .sub { opacity: .92; font-size: 14px; margin-top: 5px; }
+    .body { padding: 16px 18px 18px; }
+    .eyebrow {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin: 14px 0 8px;
+      font-weight: 700;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 10px 8px; vertical-align: top; }
+    th { background: rgba(0,0,0,.03); text-align: left; color: var(--muted); }
+    .rank-table th:first-child, .rank-table td:first-child,
+    .meta-table td:first-child { width: 34%; font-weight: 600; color: var(--muted); }
+    .compare-table td:first-child, .compare-table th:first-child { width: 18%; }
+    .score-table td:first-child, .score-table th:first-child { width: 18%; }
+    .mono { font-variant-numeric: tabular-nums; }
+    ul { margin: 8px 0 0; padding-left: 20px; }
+    li { margin: 7px 0; }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.06);
+      margin-right: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    @media (max-width: 980px) {
+      .fund-grid, .hero-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>基金对比报告：000171 vs 000143 vs 000385</h1>
+      <p>同类口径：三只基金均属于 <strong>债券型-混合二级</strong>，可直接做同类比较。本页按基金对比模板输出：先给结论，再给关键指标、评分、深度分析与数据限制。</p>
+      <p>数据时间：<strong>2026-05-14</strong>。本报告仅用于研究比较，不构成投资建议；是否适合买入，还需要结合你的风险承受能力、投资期限和资金用途。</p>
+      <div class="hero-grid">
+        <div class="hero-card"><div class="label">第一名</div><div class="value">000143</div></div>
+        <div class="hero-card"><div class="label">核心底仓</div><div class="value">000171</div></div>
+        <div class="hero-card"><div class="label">平衡增强</div><div class="value">000385</div></div>
+        <div class="hero-card"><div class="label">同类属性</div><div class="value">二级债</div></div>
+      </div>
+    </section>
+
+    <div class="note">
+      <strong>核心判断：</strong>如果按“收益增强能力”排序，000143 最强；如果按“长期核心底仓”排序，000171 最稳；如果想在两者之间找一个景顺路线的平衡增强仓，000385 最合适。
+    </div>
+
+    <section class="section">
+      <h2>1. 结论摘要</h2>
+      <table class="compare-table">
+        <tr>
+          <th>排名</th>
+          <th>基金</th>
+          <th>结论</th>
+          <th>适合场景</th>
+          <th>主要风险</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>000143 鹏华双债加利债券A</td>
+          <td>三只里收益增强能力最强，长期表现最硬。</td>
+          <td>追求更高收益、可接受更高波动</td>
+          <td>回撤和净值波动高于 000171</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>000171 易方达裕丰回报债券A</td>
+          <td>综合性价比最好，最适合做长期核心底仓。</td>
+          <td>大仓长期持有、重视稳定性与费率</td>
+          <td>收益爆发力不如 000143</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>000385 景顺长城景颐双利债券A</td>
+          <td>位于 000171 与 000143 之间，适合做平衡增强层。</td>
+          <td>希望适度增强收益但不想过猛</td>
+          <td>近 1/3 年表现不如 000143 亮眼</td>
+        </tr>
+      </table>
+      <p class="footer-note">本页排序优先考虑：近 1/2/3/5 年收益、同类排名、费用、经理稳定性、产品定位一致性。</p>
+    </section>
+
+    <section class="section">
+      <h2>2. 关键指标对比</h2>
+      <table class="compare-table">
+        <tr><th>指标</th><th>000171</th><th>000143</th><th>000385</th><th>解读</th></tr>
+        <tr><td>基金类型</td><td>债券型-混合二级</td><td>债券型-混合二级</td><td>债券型-混合二级</td><td>三只同类，可横向比较</td></tr>
+        <tr><td>份额类别</td><td>A 类</td><td>A 类</td><td>A 类</td><td>三只都是 A 类，费用可直接比</td></tr>
+        <tr><td>成立日期</td><td class="mono">2013-08-23</td><td class="mono">2013-05-27</td><td class="mono">2013-11-13</td><td>都已运行超过 10 年，样本充足</td></tr>
+        <tr><td>基金公司</td><td>易方达基金</td><td>鹏华基金</td><td>景顺长城基金</td><td>均为主流公募平台</td></tr>
+        <tr><td>基金经理</td><td>张清华</td><td>王石千</td><td>董晗 / 李怡文</td><td>000171 与 000143 经理辨识度更高</td></tr>
+        <tr><td>最新规模</td><td class="mono">187.02 亿元</td><td class="mono">86.39 亿元</td><td class="mono">461.78 亿元</td><td>000385 规模最大，000143 适中，000171 也充足</td></tr>
+        <tr><td>风险等级</td><td>R3</td><td>R3</td><td>R3</td><td>表面同级，但真实波动仍有差异</td></tr>
+        <tr><td>管理费+托管费</td><td class="mono">0.50%</td><td class="mono">0.65%</td><td class="mono">0.50%</td><td>000171 / 000385 更便宜</td></tr>
+        <tr><td>销售服务费</td><td class="mono">0.00%</td><td class="mono">0.00%</td><td class="mono">0.00%</td><td>三只均为 A 类，无销售服务费</td></tr>
+        <tr><td>近1年收益</td><td class="mono">11.98%</td><td class="mono">22.90%</td><td class="mono">9.58%</td><td>000143 明显领先</td></tr>
+        <tr><td>近3年收益</td><td class="mono">22.99%</td><td class="mono">38.37%</td><td class="mono">19.82%</td><td>000143 最强，000171 次之</td></tr>
+        <tr><td>近5年收益</td><td class="mono">24.86%</td><td class="mono">37.66%</td><td class="mono">27.98%</td><td>000143 仍然第一，000385 五年略优于 000171</td></tr>
+        <tr><td>近3年最大回撤</td><td class="mono">2.93%</td><td class="mono">6.74%</td><td class="mono">3.67%</td><td>000171 最稳，000143 回撤最大</td></tr>
+        <tr><td>近3年年化波动率</td><td class="mono">4.39%</td><td class="mono">8.07%</td><td class="mono">4.47%</td><td>000143 波动明显更高，000171 与 000385 接近</td></tr>
+        <tr><td>同类排名（3年）</td><td class="mono">154 / 905</td><td class="mono">34 / 905</td><td class="mono">209 / 905</td><td>000143 显著占优</td></tr>
+        <tr><td>核心标签</td><td>低费率、底仓型</td><td>高弹性、增强型</td><td>平衡型、景顺路线</td><td>三只角色分工清晰</td></tr>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. 综合评分</h2>
+      <table class="score-table compare-table">
+        <tr><th>维度</th><th>权重</th><th>000171</th><th>000143</th><th>000385</th><th>结论</th></tr>
+        <tr><td>收益能力</td><td>25%</td><td>21</td><td>24</td><td>19</td><td>000143 最强</td></tr>
+        <tr><td>风险控制</td><td>30%</td><td>25</td><td>22</td><td>23</td><td>000171 更适合做底仓</td></tr>
+        <tr><td>稳定性</td><td>15%</td><td>13</td><td>13</td><td>11</td><td>000171 / 000143 相近</td></tr>
+        <tr><td>费用成本</td><td>10%</td><td>10</td><td>8</td><td>10</td><td>000171 / 000385 更优</td></tr>
+        <tr><td>规模流动性</td><td>10%</td><td>8</td><td>9</td><td>8</td><td>000143 规模更适中</td></tr>
+        <tr><td>基金经理</td><td>5%</td><td>5</td><td>5</td><td>4</td><td>000171 / 000143 辨识度更高</td></tr>
+        <tr><td>持仓风格</td><td>5%</td><td>4</td><td>5</td><td>4</td><td>000143 更偏收益增强</td></tr>
+        <tr><td><strong>总分</strong></td><td>100%</td><td><strong>86</strong></td><td><strong>90</strong></td><td><strong>79</strong></td><td>排序：000143 &gt; 000171 &gt; 000385</td></tr>
+      </table>
+      <p class="footer-note">这是基于当前已获取字段的研究评分，偏重“同类增强能力 + 长期可持有性”，不是机器化绝对分数。</p>
+    </section>
+
+    <section class="section">
+      <h2>4. 深度分析</h2>
+      <h3>4.1 收益能力</h3>
+      <ul>
+        <li><strong>000171</strong>：近 1/2/3/5 年分别为 11.98%、17.87%、22.99%、24.86%，在同类中始终位于前列但不极端，属于持续稳健增厚型。</li>
+        <li><strong>000143</strong>：近 1/2/3/5 年分别为 22.90%、34.94%、38.37%、37.66%，3 年排名 34/905，收益曲线明显强于另外两只，是三者中最具进攻性的产品。</li>
+        <li><strong>000385</strong>：近 1/2/3/5 年分别为 9.58%、14.75%、19.82%、27.98%，短中期略弱，但五年期表现不差，说明其长期复利能力仍在线。</li>
+        <li><strong>结论</strong>：若把“收益增强”放第一位，000143 明显胜出；若强调“稳中有进”，000171 更均衡；000385 更像中间型解决方案。</li>
+      </ul>
+
+      <h3>4.2 风险控制</h3>
+      <ul>
+        <li><strong>000171</strong>：基于近 3 年约 500 个净值点计算，最大回撤约 <strong>2.93%</strong>，年化波动率约 <strong>4.39%</strong>。这说明它不仅产品定位偏稳，实际净值波动也确实较低。</li>
+        <li><strong>000143</strong>：近 3 年最大回撤约 <strong>6.74%</strong>，年化波动率约 <strong>8.07%</strong>，明显高于另外两只，验证了它“收益增强主攻手”的角色定位。</li>
+        <li><strong>000385</strong>：近 3 年最大回撤约 <strong>3.67%</strong>，年化波动率约 <strong>4.47%</strong>，风险指标接近 000171，但收益弹性略高，属于中间层。</li>
+        <li><strong>结论</strong>：若你的核心诉求是“低回撤优先”，000171 仍最合适；若愿意用更大波动换更高收益，000143 更值得配重；000385 则是风险和弹性更均衡的过渡选择。</li>
+      </ul>
+
+      <h3>4.3 稳定性</h3>
+      <ul>
+        <li><strong>000171</strong>：经理张清华长期负责这条产品线，产品风格延续性最强，适合长期持有。</li>
+        <li><strong>000143</strong>：王石千任职已接近 3000 天，长期收益与任职持续性都很优秀，不是短期冲高型产品。</li>
+        <li><strong>000385</strong>：董晗 / 李怡文组合任期也不短，但双经理共管导致风格辨识度稍弱于前两只。</li>
+        <li><strong>结论</strong>：三只都不是“新产品”或“新经理”，稳定性合格；其中 000171 与 000143 的持有信心更强。</li>
+      </ul>
+
+      <h3>4.4 费用与份额类别</h3>
+      <ul>
+        <li>三只都是 <strong>A 类</strong>，销售服务费均为 0，长期持有结构天然更友好。</li>
+        <li><strong>000171</strong>：管理费 0.40%，托管费 0.10%，总费率最低。</li>
+        <li><strong>000143</strong>：管理费 0.50%，托管费 0.15%，略高，但仍在可接受区间。</li>
+        <li><strong>000385</strong>：管理费 0.40%，托管费 0.10%，与 000171 同档。</li>
+        <li><strong>结论</strong>：成本敏感型长期持有，优先 000171 或 000385；若愿意为收益增强多付一点费率，000143 可以接受。</li>
+      </ul>
+
+      <h3>4.5 经理、公司与持仓风格</h3>
+      <ul>
+        <li><strong>000171 / 张清华</strong>：偏多资产配置，强调股债结合和仓位总体控制，适合做组合底仓。</li>
+        <li><strong>000143 / 王石千</strong>：产品定位与历史收益都体现出更强的增强意图，适合承担“收益发动机”角色。</li>
+        <li><strong>000385 / 董晗 + 李怡文</strong>：一边偏成长逻辑，一边偏股债配置，形成景顺体系内较有特色的中间方案。</li>
+        <li><strong>结论</strong>：如果只选一只大仓，经理与公司综合质感上我更偏 000171；如果允许做双核，则 000171 + 000143 的搭配最清晰。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>5. 最终建议</h2>
+      <table class="compare-table">
+        <tr><th>使用场景</th><th>更优选择</th><th>理由</th></tr>
+        <tr><td>长期定投 / 长期持有</td><td>000171</td><td>费率低、风格稳、经理成熟，最适合作为核心仓</td></tr>
+        <tr><td>追求更高收益</td><td>000143</td><td>1/2/3/5 年表现全面领先，增强能力最强</td></tr>
+        <tr><td>风险较低但不想太保守</td><td>000171 + 000385</td><td>000171 稳底，000385 做适度增强</td></tr>
+        <tr><td>想做三只组合</td><td>000171 + 000143 + 000385</td><td>底仓 + 主攻 + 中间层，角色分工最清晰</td></tr>
+      </table>
+      <p><strong>最终结论：</strong>如果只看同类基金里“谁最能打”，答案是 000143；如果你想长期拿着更安心，000171 仍然是更强的核心底仓；000385 则最适合作为补位的平衡增强仓。对你当前这种组合优化目标来说，最合理的结构不是三选一，而是 <strong>000171 稳底、000143 拉收益、000385 做缓冲</strong>。</p>
+    </section>
+
+    <section class="section">
+      <h2>6. 数据口径与限制</h2>
+      <ul>
+        <li>三只基金均为同类基金：<strong>债券型-混合二级</strong>，因此本次横向比较有效。</li>
+        <li>收益与排名来自 <code>fundMNPeriodIncrease</code>，优先看同类排名，不直接跨类型比较。</li>
+        <li>本页已补入基于近 3 年净值序列计算的 <strong>最大回撤</strong> 与 <strong>年化波动率</strong>，风险控制判断不再只依赖产品定位与经理风格。</li>
+        <li>若要继续做更严格的风险评分，下一步还可以补算 <strong>夏普比率</strong>、<strong>滚动胜率</strong>、<strong>连续亏损月份</strong> 与 <strong>收益偏度</strong>。</li>
+        <li>净值与阶段收益通常存在 T-1 时滞，短期波动不应替代长期判断。</li>
+        <li><strong>数据置信度：高</strong>。原因：基础资料、费用、规模、阶段收益、经理任期完整，且已补入净值序列风险指标；目前仍缺夏普与稳定性专项指标的完整量化。</li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
