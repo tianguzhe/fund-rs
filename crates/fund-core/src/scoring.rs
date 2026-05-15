@@ -1,5 +1,5 @@
 use crate::models::{
-    AccumulatedReturn, FundDetail, ManagerHoldingChar, ManagerPerformance, NetValuePoint,
+    AccumulatedReturn, FundDetail, ManagerHoldingChar, ManagerPerformance, NavTrendPoint,
     PeriodIncrease,
 };
 use serde::Serialize;
@@ -18,7 +18,7 @@ pub struct RiskMetrics {
 }
 
 pub fn compute_risk_metrics(
-    points: &[NetValuePoint],
+    points: &[NavTrendPoint],
     monthly_returns: &[PeriodIncrease],
     acc_return: &[AccumulatedReturn],
 ) -> RiskMetrics {
@@ -36,9 +36,10 @@ pub fn compute_risk_metrics(
         };
     }
 
-    // API returns newest first; reverse to chronological order
-    let mut navs: Vec<f64> = points.iter().map(|p| p.net_value).collect();
-    navs.reverse();
+    // Sort by date (YYYY-MM-DD) to guarantee chronological order regardless of API response ordering.
+    let mut sorted: Vec<&NavTrendPoint> = points.iter().collect();
+    sorted.sort_by(|a, b| a.date.cmp(&b.date));
+    let navs: Vec<f64> = sorted.iter().map(|p| p.nav).collect();
 
     let mut peak = navs[0];
     let mut max_dd = 0.0f64;
@@ -95,13 +96,17 @@ pub fn compute_risk_metrics(
     }
 }
 
-/// 根据基金类型选择超额收益对比基准指数代码。
-/// 债券基金使用中债总指数（H11001），其余默认用沪深300（000300）。
-pub fn select_benchmark(fund_type: &str) -> &'static str {
+/// 选择超额收益对比基准指数代码。
+/// 优先使用基金详情中的跟踪指数代码（INDEXCODE），适用于指数/ETF 基金；
+/// 其次按类型名判断：债券基金用中债总指数（H11001），其余用沪深300（000300）。
+pub fn select_benchmark(fund_type: &str, index_code: &str) -> String {
+    if !index_code.is_empty() {
+        return index_code.to_string();
+    }
     if fund_type.contains("债") {
-        "H11001"
+        "H11001".to_string()
     } else {
-        "000300"
+        "000300".to_string()
     }
 }
 

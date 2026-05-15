@@ -24,13 +24,14 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     eprintln!("查询基金 {} ...", code);
 
     // Batch 1: 6 independent requests in parallel
-    let (detail_r, periods_r, yearly_r, monthly_r, history_r, managers_r) =
+    let (detail_r, periods_r, yearly_r, monthly_r, nav_trend_r, managers_r) =
         std::thread::scope(|s| {
             let t1 = s.spawn(|| client.get_fund_estimate(code));
             let t2 = s.spawn(|| client.get_period_increase(code));
             let t3 = s.spawn(|| client.get_yearly_returns(code));
             let t4 = s.spawn(|| client.get_monthly_returns(code));
-            let t5 = s.spawn(|| client.get_net_value_history(code, 250));
+            // 3-year window covers at least one full market cycle for risk metrics.
+            let t5 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
             let t6 = s.spawn(|| client.get_fund_managers(code));
             (
                 t1.join().unwrap(),
@@ -46,17 +47,17 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     let periods = periods_r?;
     let yearly_returns = yearly_r.unwrap_or_default();
     let monthly_returns = monthly_r.unwrap_or_default();
-    let history = history_r.unwrap_or_default();
+    let nav_trend = nav_trend_r.unwrap_or_default();
     let managers = managers_r.unwrap_or_default();
     let fee_rules = fund_core::f10::get_fee_rules(code).ok();
 
-    // accumulated_return depends on benchmark which is derived from fund type
-    let benchmark = scoring::select_benchmark(&detail.fund_type);
+    // Use INDEXCODE from fund detail for index/ETF funds; fallback to type-based selection.
+    let benchmark = scoring::select_benchmark(&detail.fund_type, &detail.index_code);
     let accumulated_return =
-        client.get_accumulated_return(code, "ln", benchmark).unwrap_or_default();
+        client.get_accumulated_return(code, "ln", &benchmark).unwrap_or_default();
 
     let risk_metrics =
-        scoring::compute_risk_metrics(&history, &monthly_returns, &accumulated_return);
+        scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
 
     // Batch 2: manager details in parallel (depends on manager_id from batch 1)
     let manager_id = managers.into_iter().next().map(|m| m.manager_id);

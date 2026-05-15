@@ -585,28 +585,15 @@ impl Client {
 
     // ── Theme List/Focus ────────────────────────────────────────────────
 
-    pub fn get_theme_hot_list(&self, rank_item: &str, category: &str) -> Result<serde_json::Value> {
-        let url = Self::build_url(
-            "fundThemeList",
-            &[("RankItems", rank_item), ("RankVectors", "desc"), ("category", category)],
-        );
-        let response: ApiResponse<serde_json::Value> = self.request(&url)?;
-        if response.err_code != 0 {
-            anyhow::bail!("API error code: {}", response.err_code);
-        }
-        Ok(response.datas)
+    /// fundThemeList is currently unavailable (times out or returns HTML).
+    #[deprecated(note = "fundThemeList endpoint is currently unavailable")]
+    pub fn get_theme_hot_list(&self, _rank_item: &str, _category: &str) -> Result<serde_json::Value> {
+        anyhow::bail!("fundThemeList 接口当前不可用（超时或返回 HTML）")
     }
 
-    pub fn get_theme_focus_list(&self, code: Option<&str>) -> Result<serde_json::Value> {
-        let mut params: Vec<(&str, &str)> = vec![];
-        if let Some(c) = code {
-            params.push(("code", c));
-        }
-        let url = Self::build_url("fundThemeFocusList", &params);
-        let response: ApiResponse<serde_json::Value> = self.request(&url)?;
-        if response.err_code != 0 {
-            anyhow::bail!("API error code: {}", response.err_code);
-        }
-        Ok(response.datas)
+    /// fundThemeFocusList is currently unavailable (times out or returns HTML).
+    #[deprecated(note = "fundThemeFocusList endpoint is currently unavailable")]
+    pub fn get_theme_focus_list(&self, _code: Option<&str>) -> Result<serde_json::Value> {
+        anyhow::bail!("fundThemeFocusList 接口当前不可用（超时或返回 HTML）")
     }
 }

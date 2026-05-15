@@ -85,6 +85,12 @@ pub struct FundDetail {
     pub trust_fee: String,
     #[serde(rename = "SALESEXP", default)]
     pub sales_fee: String,
+    /// 业绩比较基准描述（主动基金）
+    #[serde(rename = "BENCH", default)]
+    pub bench: String,
+    /// 跟踪指数代码（指数/ETF 基金），用于选择 fundVPageAcc 的 INDEXCODE
+    #[serde(rename = "INDEXCODE", default)]
+    pub index_code: String,
 }
 
 // ── History / Net Value ────────────────────────────────────────────────

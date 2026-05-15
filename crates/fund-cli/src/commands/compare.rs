@@ -12,7 +12,7 @@ struct FundCompareData {
     yearly_returns: Vec<PeriodIncrease>,
     monthly_returns: Vec<PeriodIncrease>,
     accumulated_return: Vec<AccumulatedReturn>,
-    history: Vec<NetValuePoint>,
+    nav_trend: Vec<NavTrendPoint>,
     risk_metrics: RiskMetrics,
     manager_info: Option<ManagerInfo>,
     manager_eval: Option<ManagerPerformance>,
@@ -90,13 +90,13 @@ fn compute_scores(
 
 fn fetch_fund(client: &Client, code: &str) -> Result<FundCompareData> {
     // Batch 1: parallel fetches independent of each other
-    let (detail_r, periods_r, yearly_r, monthly_r, history_r, managers_r) =
+    let (detail_r, periods_r, yearly_r, monthly_r, nav_trend_r, managers_r) =
         std::thread::scope(|s| {
             let t1 = s.spawn(|| client.get_fund_estimate(code));
             let t2 = s.spawn(|| client.get_period_increase(code));
             let t3 = s.spawn(|| client.get_yearly_returns(code));
             let t4 = s.spawn(|| client.get_monthly_returns(code));
-            let t5 = s.spawn(|| client.get_net_value_history(code, 250));
+            let t5 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
             let t6 = s.spawn(|| client.get_fund_managers(code));
             (
                 t1.join().unwrap(),
@@ -112,16 +112,15 @@ fn fetch_fund(client: &Client, code: &str) -> Result<FundCompareData> {
     let periods = periods_r?;
     let yearly_returns = yearly_r.unwrap_or_default();
     let monthly_returns = monthly_r.unwrap_or_default();
-    let history = history_r.unwrap_or_default();
+    let nav_trend = nav_trend_r.unwrap_or_default();
     let managers = managers_r.unwrap_or_default();
 
-    // accumulated_return depends on benchmark derived from fund type
-    let benchmark = scoring::select_benchmark(&detail.fund_type);
+    let benchmark = scoring::select_benchmark(&detail.fund_type, &detail.index_code);
     let accumulated_return =
-        client.get_accumulated_return(code, "ln", benchmark).unwrap_or_default();
+        client.get_accumulated_return(code, "ln", &benchmark).unwrap_or_default();
 
     let risk_metrics =
-        scoring::compute_risk_metrics(&history, &monthly_returns, &accumulated_return);
+        scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
 
     // Batch 2: manager details in parallel (depends on manager_id from batch 1)
     let manager_id = managers.into_iter().next().map(|m| m.manager_id);
@@ -151,7 +150,7 @@ fn fetch_fund(client: &Client, code: &str) -> Result<FundCompareData> {
         yearly_returns,
         monthly_returns,
         accumulated_return,
-        history,
+        nav_trend,
         risk_metrics,
         manager_info,
         manager_eval,
@@ -178,6 +177,14 @@ pub fn run(code_a: &str, code_b: &str, output: &PathBuf) -> Result<()> {
 
     let fund_a = result_a?;
     let fund_b = result_b?;
+
+    // Warn when fund types differ: composite scores are not directly comparable across categories.
+    if fund_a.detail.fund_type != fund_b.detail.fund_type {
+        eprintln!(
+            "⚠ 两只基金类型不同（A: {}，B: {}），综合评分不具可比性，仅供参考",
+            fund_a.detail.fund_type, fund_b.detail.fund_type
+        );
+    }
 
     let now = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
