@@ -1,5 +1,6 @@
 use anyhow::Result;
 use fund_core::api::Client;
+use fund_core::f10::FeeRules;
 use fund_core::models::*;
 use fund_core::scoring::{self, RiskMetrics};
 use owo_colors::OwoColorize;
@@ -13,6 +14,7 @@ pub struct FundAnalysis {
     pub monthly_returns: Vec<PeriodIncrease>,
     pub accumulated_return: Vec<AccumulatedReturn>,
     pub risk_metrics: RiskMetrics,
+    pub fee_rules: Option<FeeRules>,
     pub manager_eval: Option<ManagerPerformance>,
     pub manager_char: Option<ManagerHoldingChar>,
     pub manager_info: Option<ManagerInfo>,
@@ -46,6 +48,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     let monthly_returns = monthly_r.unwrap_or_default();
     let history = history_r.unwrap_or_default();
     let managers = managers_r.unwrap_or_default();
+    let fee_rules = fund_core::f10::get_fee_rules(code).ok();
 
     // accumulated_return depends on benchmark which is derived from fund type
     let benchmark = scoring::select_benchmark(&detail.fund_type);
@@ -76,6 +79,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         monthly_returns,
         accumulated_return,
         risk_metrics,
+        fee_rules,
         manager_eval,
         manager_char,
         manager_info,
@@ -104,6 +108,9 @@ fn display_analysis(a: &FundAnalysis) {
     let mgr_fee: f64 = d.mgr_fee.trim_end_matches('%').parse().unwrap_or(0.0);
     let trust_fee: f64 = d.trust_fee.trim_end_matches('%').parse().unwrap_or(0.0);
     println!("  费率: {:.2}% (管理{:.2}% + 托管{:.2}%)", mgr_fee + trust_fee, mgr_fee, trust_fee);
+    if let Some(fee_rules) = &a.fee_rules {
+        print_redemption_fee_rules(fee_rules);
+    }
     if let Some(info) = &a.manager_info {
         let days: f64 = info.total_days.parse().unwrap_or(0.0);
         let years = days / 365.0;
@@ -215,6 +222,17 @@ fn display_analysis(a: &FundAnalysis) {
 
     println!();
     println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".bright_black());
+}
+
+fn print_redemption_fee_rules(rules: &FeeRules) {
+    if rules.redemption.is_empty() {
+        return;
+    }
+
+    println!("  卖出费:");
+    for rule in &rules.redemption {
+        println!("    {} → {}", rule.scope, rule.rate);
+    }
 }
 
 fn format_pct(value: f64) -> String {

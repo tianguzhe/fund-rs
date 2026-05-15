@@ -11,6 +11,18 @@ use serde::Serialize;
 const F10_BASE: &str = "https://fundf10.eastmoney.com";
 
 #[derive(Debug, Serialize, Clone)]
+pub struct FeeRule {
+    pub scope: String,
+    pub rate: String,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct FeeRules {
+    pub purchase: Vec<FeeRule>,
+    pub redemption: Vec<FeeRule>,
+}
+
+#[derive(Debug, Serialize, Clone)]
 pub struct StockHolding {
     pub stock_code: String,
     pub stock_name: String,
@@ -89,14 +101,16 @@ fn strip_html(s: &str) -> String {
 
 /// Naive HTML table parser: returns rows of cells. Only matches the `<tbody>` block
 /// — `<thead>` is skipped to avoid leaking header rows into data.
-fn parse_table_rows(html: &str) -> Vec<Vec<String>> {
-    let tbody_start = match html.find("<tbody") {
+fn parse_table_rows_from_section(section_html: &str) -> Vec<Vec<String>> {
+    let tbody_start = match section_html.find("<tbody") {
         Some(i) => i,
         None => return Vec::new(),
     };
-    let tbody_end =
-        html[tbody_start..].find("</tbody>").map(|e| tbody_start + e).unwrap_or(html.len());
-    let body = &html[tbody_start..tbody_end];
+    let tbody_end = section_html[tbody_start..]
+        .find("</tbody>")
+        .map(|e| tbody_start + e)
+        .unwrap_or(section_html.len());
+    let body = &section_html[tbody_start..tbody_end];
 
     let mut rows = Vec::new();
     for tr_chunk in body.split("<tr").skip(1) {
@@ -120,6 +134,30 @@ fn parse_table_rows(html: &str) -> Vec<Vec<String>> {
         }
     }
     rows
+}
+
+fn parse_table_rows(html: &str) -> Vec<Vec<String>> {
+    parse_table_rows_from_section(html)
+}
+
+fn extract_box_section<'a>(html: &'a str, title: &str) -> Option<&'a str> {
+    let marker = format!("<label class=\"left\">{}", title);
+    let start = html.find(&marker)?;
+    let rest = &html[start..];
+    let end = rest.find("</div></div><div class=\"box").unwrap_or(rest.len());
+    Some(&rest[..end])
+}
+
+fn parse_fee_rules(section_html: &str) -> Vec<FeeRule> {
+    parse_table_rows_from_section(section_html)
+        .into_iter()
+        .filter_map(|row| {
+            if row.len() < 2 {
+                return None;
+            }
+            Some(FeeRule { scope: row[0].clone(), rate: row[1].clone() })
+        })
+        .collect()
 }
 
 fn parse_pct(s: &str) -> f64 {
@@ -164,6 +202,20 @@ pub fn get_top_stocks(code: &str, year: u32, month: u32) -> Result<TopStocksRepo
     }
 
     Ok(TopStocksReport { period, end_date, stocks })
+}
+
+pub fn get_fee_rules(code: &str) -> Result<FeeRules> {
+    let url = format!("{}/jjfl_{}.html", F10_BASE, code);
+    let body = http_get(&url)?;
+
+    let purchase = extract_box_section(&body, "申购费率")
+        .map(parse_fee_rules)
+        .unwrap_or_default();
+    let redemption = extract_box_section(&body, "赎回费率")
+        .map(parse_fee_rules)
+        .unwrap_or_default();
+
+    Ok(FeeRules { purchase, redemption })
 }
 
 /// Most recent quarter-end whose holdings are likely published.

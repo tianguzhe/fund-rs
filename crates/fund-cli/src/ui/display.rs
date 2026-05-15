@@ -1,6 +1,7 @@
 use comfy_table::{presets::UTF8_FULL, ContentArrangement, Table};
 use owo_colors::OwoColorize;
 
+use fund_core::f10::FeeRules;
 use fund_core::models::*;
 
 const SCALE_DIVISOR: f64 = 100_000_000.0;
@@ -61,7 +62,7 @@ fn format_scale(scale_str: &str) -> Option<String> {
     scale_str.parse::<f64>().ok().map(|scale| format!("{:.2}", scale / SCALE_DIVISOR))
 }
 
-pub fn display_fund_estimate(detail: &FundDetail) {
+pub fn display_fund_estimate(detail: &FundDetail, fee_rules: Option<&FeeRules>) {
     println!("\nFund Information:");
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
@@ -85,6 +86,18 @@ pub fn display_fund_estimate(detail: &FundDetail) {
     add_optional_row(&mut table, "Mgmt Fee", &detail.mgr_fee);
     add_optional_row(&mut table, "Custody Fee", &detail.trust_fee);
     add_optional_row(&mut table, "Sales Fee", &detail.sales_fee);
+
+    if let Some(rules) = fee_rules {
+        if !rules.redemption.is_empty() {
+            let redemption = rules
+                .redemption
+                .iter()
+                .map(|rule| format!("{} {}", rule.scope, rule.rate))
+                .collect::<Vec<_>>()
+                .join(" | ");
+            table.add_row(vec!["Redemption Fee", &redemption]);
+        }
+    }
 
     println!("{}", table);
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
