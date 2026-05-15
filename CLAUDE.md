@@ -4,14 +4,9 @@
 基金查询 CLI 工具，Rust 编写，调用天天基金 API。
 
 ## 项目结构（Cargo Workspace）
-```
-fund-rs/
-├── Cargo.toml              # Workspace root
-├── crates/
-│   ├── fund-core/          # 共享库：API 客户端 + 模型 + DB + 持仓配置
-│   └── fund-cli/           # CLI 二进制（bin name: fund）
-└── README.md
-```
+- `Cargo.toml` - workspace root
+- `crates/fund-core/` - 共享库：API 客户端、模型、DB、持仓配置
+- `crates/fund-cli/` - CLI 二进制（bin name: `fund`）
 
 ## 技术栈
 - HTTP 客户端: `minreq` (使用 `native-tls` 特性)
@@ -109,46 +104,32 @@ fund-rs/
 # 持仓
 fund portfolio              # 查看持仓收益（含类型列 + 资产配置摘要）
 fund portfolio --save       # 查看并保存到 SQLite
-fund backfill --from 2026-03-01 --to 2026-04-30  # 补录历史
+fund backfill --from <date> --to <date>  # 补录历史
 
-# 组合穿透分析（资产配置 + 加权底层股票 + 行业暴露）
+# 穿透分析
 fund holdings               # 默认 TOP 15 股票
 fund holdings --top 30      # 显示 TOP 30 股票
 fund holdings --json        # 输出 JSON
-fund holdings --init        # 生成 ~/.fund-rs/holdings.json 模板
+fund holdings --init        # 生成 holdings.json 模板
 
-# 导出
-fund export                 # 导出到 dist/data/portfolio.json
-fund export -o data.json    # 指定输出路径
+# 导出 / 对比
+fund export                 # 导出 portfolio JSON
+fund compare --a 020602 --b 020156 [-o out.json]  # 对比两只基金并输出 JSON
 
-# 搜索 & 详情
+# 搜索 / 详情 / 分析
 fund search -k 天弘
-fund info -c 420002         # 基金详情 + 阶段收益
-fund trend -c 420002        # 基金详情
-fund history -c 420002 -d 30 -l 10  # 历史净值
+fund info -c 420002
+fund history -c 420002 -d 30 -l 10
+fund analyze -c 020262 [--json]
 
-# 排行
-fund rank                   # 默认排行
-fund rank -t hh -n 20       # 混合型前20
-fund rank -t zq             # 债券型
-fund rank -t gp             # 股票型
-fund rank-history -c 420002 -r 3y  # 排名历史
+# 排行 / 主题 / 大数据
+fund rank [-t hh|zq|gp] [-n 20]
+fund rank-history -c 420002 -r 3y
+fund theme -l 20
+fund bigdata [--detail 1]
 
-# 其他
-fund theme -l 20            # 主题基金
-fund bigdata                # 大数据选基
-fund bigdata --detail 1     # 大数据详情
-
-# 对比两只基金（输出 JSON 供网页展示）
-fund compare --a 020602 --b 020156           # 输出到 dist/data/compare.json
-fund compare --a 020602 --b 020156 -o out.json  # 指定输出路径
-
-# 深度分析基金（详情+阶段收益+风险指标+经理评价+综合评分）
-fund analyze -c 020262        # 终端输出
-fund analyze -c 000171 --json # JSON 输出
-
-# 调试（任何命令加 --debug）
-fund --debug info -c 420002
+# 调试
+fund --debug <command>
 ```
 
 ### 每日工作流
@@ -163,20 +144,16 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 
 - **不显示渠道列**：`channel` 字段仅 JSON 配置内部使用，输出时省略
 - **同代码合并**：同一基金代码的多笔持仓（如不同渠道）合并为一行，金额求和，收益率取加权平均
-- **默认列**：代码 | 基金名称 | 类型 | 持仓(元) | 当日 | 当周 | 当月 | 仓位
-- **底部附**：资产配置摘要（债券/混合/股票占比）
-- **格式示例**：
-
-```
-总资产：904,673 元，当日 -0.28%（-2,541 元）
-
-| 代码   | 基金名称       | 类型 | 持仓(元) | 当日        | 当周       | 当月        | 仓位  |
-|--------|---------------|------|---------|------------|-----------|------------|-------|
-| 420002 | 天弘永利债A    | 债券 | 362,119 | -0.15%(-543)| -0.14%   | +0.48%     | 40.0% |
-| ...    | ...           | ...  | ...     | ...        | ...       | ...        | ...   |
-
-资产配置：债券 81.76% ｜ 混合 18.24%
-```
+- **默认输出**：使用英文表格，列为 `Code | Fund | Holding | Today | Today P&L | Week | Week P&L | Month | Month P&L`
+- **列名约定**：基金名称列固定写作 `Fund`，不要使用 `基金` 或其他中文列名
+- **基金名约定**：英文表格中基金名称也要统一翻成英文，不保留中文基金名
+- **英文输出范围**：资产类型与区块标题也统一使用英文，如 `Bond / Mixed / Equity / Asset Allocation / Total`
+- **英文表格口径**：`Holding` 直接显示真实持仓金额（不缩放、不除以 10），并按持仓降序排列
+- **汇总表**：英输出后追加 `Total` 区块，列为 `Total (CNY) | Today | Today P&L | Week | Week P&L | Month | Month P&L`
+- **资产配置摘要**：在底部追加英文摘要，使用 `Asset Allocation` 标题，并以 `Bond / Mixed / Equity` 等英文类型名输出金额与占比，示例：
+  - `Bond: 739,673 CNY, 81.76%`
+  - `Mixed: 165,000 CNY, 18.24%`
+- **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要三段输出
 
 ## 常见问题
 
