@@ -1,10 +1,25 @@
 use anyhow::Result;
 use fund_core::api::Client;
-use fund_core::f10::FeeRules;
+use fund_core::f10::{
+    FeeRules, HolderStructurePoint, HoldingConstraints, ScaleChangePoint, TopBondsReport,
+};
 use fund_core::models::*;
 use fund_core::scoring::{self, RiskMetrics};
 use owo_colors::OwoColorize;
 use serde::Serialize;
+
+#[derive(Serialize)]
+pub struct ScoreItem {
+    pub name: String,
+    pub score: u32,
+    pub weight: u32,
+}
+
+#[derive(Serialize)]
+pub struct ScoreBreakdown {
+    pub overall: u32,
+    pub items: Vec<ScoreItem>,
+}
 
 #[derive(Serialize)]
 pub struct FundAnalysis {
@@ -12,44 +27,87 @@ pub struct FundAnalysis {
     pub periods: Vec<PeriodIncrease>,
     pub yearly_returns: Vec<PeriodIncrease>,
     pub monthly_returns: Vec<PeriodIncrease>,
+    /// True month-by-month return series locally aggregated from daily NAV history.
+    /// Distinct from `monthly_returns`, which echoes the rolling-period enum.
+    pub monthly_series: Vec<MonthlyReturnPoint>,
     pub accumulated_return: Vec<AccumulatedReturn>,
     pub risk_metrics: RiskMetrics,
     pub fee_rules: Option<FeeRules>,
+    /// Bond holdings (zqcc). Only populated for bond-type funds.
+    pub top_bonds: Option<TopBondsReport>,
+    /// Historical scale + flows from F10 gmbd.
+    pub scale_changes: Vec<ScaleChangePoint>,
+    /// Holder structure history (institutional / retail / internal) from F10 cyrjg.
+    pub holder_structure: Vec<HolderStructurePoint>,
+    /// Purchase/redemption status + minimum holding period from F10 jbgk.
+    pub holding_constraints: Option<HoldingConstraints>,
     pub manager_eval: Option<ManagerPerformance>,
     pub manager_char: Option<ManagerHoldingChar>,
     pub manager_info: Option<ManagerInfo>,
+    pub scores: ScoreBreakdown,
 }
 
 pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     eprintln!("查询基金 {} ...", code);
 
-    // Batch 1: 6 independent requests in parallel
-    let (detail_r, periods_r, yearly_r, monthly_r, nav_trend_r, managers_r) =
-        std::thread::scope(|s| {
-            let t1 = s.spawn(|| client.get_fund_estimate(code));
-            let t2 = s.spawn(|| client.get_period_increase(code));
-            let t3 = s.spawn(|| client.get_yearly_returns(code));
-            let t4 = s.spawn(|| client.get_monthly_returns(code));
-            // 3-year window covers at least one full market cycle for risk metrics.
-            let t5 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
-            let t6 = s.spawn(|| client.get_fund_managers(code));
-            (
-                t1.join().unwrap(),
-                t2.join().unwrap(),
-                t3.join().unwrap(),
-                t4.join().unwrap(),
-                t5.join().unwrap(),
-                t6.join().unwrap(),
-            )
-        });
+    // Batch 1: independent requests in parallel — fund-core API + F10 + local NAV aggregation.
+    let (
+        detail_r,
+        periods_r,
+        yearly_r,
+        monthly_r,
+        monthly_series_r,
+        nav_trend_r,
+        managers_r,
+        scale_changes_r,
+        holder_structure_r,
+    ) = std::thread::scope(|s| {
+        let t1 = s.spawn(|| client.get_fund_estimate(code));
+        let t2 = s.spawn(|| client.get_period_increase(code));
+        let t3 = s.spawn(|| client.get_yearly_returns(code));
+        let t4 = s.spawn(|| client.get_monthly_returns(code));
+        // 36-month window mirrors the canonical "近3年" risk horizon.
+        let t5 = s.spawn(|| client.get_monthly_series(code, 36));
+        // 3-year window covers at least one full market cycle for risk metrics.
+        let t6 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
+        let t7 = s.spawn(|| client.get_fund_managers(code));
+        let t8 = s.spawn(|| fund_core::f10::get_scale_changes(code));
+        let t9 = s.spawn(|| fund_core::f10::get_holder_structure(code));
+        (
+            t1.join().unwrap(),
+            t2.join().unwrap(),
+            t3.join().unwrap(),
+            t4.join().unwrap(),
+            t5.join().unwrap(),
+            t6.join().unwrap(),
+            t7.join().unwrap(),
+            t8.join().unwrap(),
+            t9.join().unwrap(),
+        )
+    });
 
     let detail = detail_r?;
     let periods = periods_r?;
     let yearly_returns = yearly_r.unwrap_or_default();
     let monthly_returns = monthly_r.unwrap_or_default();
+    let monthly_series = monthly_series_r.unwrap_or_default();
     let nav_trend = nav_trend_r.unwrap_or_default();
     let managers = managers_r.unwrap_or_default();
+    let scale_changes = scale_changes_r.unwrap_or_default();
+    let holder_structure = holder_structure_r.unwrap_or_default();
+    // Pure parser over fund name — cheap, deterministic, no network.
+    let holding_constraints =
+        Some(fund_core::f10::detect_holding_constraints(&detail.name, &detail.full_name));
     let fee_rules = fund_core::f10::get_fee_rules(code).ok();
+
+    // Bond holdings only make sense for bond-type funds; skip the F10 round-trip otherwise.
+    let top_bonds = if detail.fund_type.contains("债") {
+        let (cy, cm) = current_year_month();
+        let (qy, qm) = fund_core::f10::latest_quarter_end(cy, cm);
+        fund_core::f10::get_top_bonds(code, qy, qm).ok()
+    } else {
+        None
+    };
 
     // Use INDEXCODE from fund detail for index/ETF funds; fallback to type-based selection.
     let benchmark = scoring::select_benchmark(&detail.fund_type, &detail.index_code);
@@ -73,17 +131,62 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         (None, None, None)
     };
 
+    let (overall, score_details) = scoring::compute_overall_score(
+        &detail,
+        &periods,
+        &yearly_returns,
+        &risk_metrics,
+        &manager_eval,
+        &manager_char,
+    );
+    let is_bond = detail.fund_type.contains("债");
+    let weights: &[(&str, u32)] = if is_bond {
+        &[
+            ("收益", 15),
+            ("风险", 30),
+            ("稳定", 20),
+            ("费用", 15),
+            ("规模", 10),
+            ("经理", 5),
+            ("风格", 5),
+        ]
+    } else {
+        &[
+            ("收益", 25),
+            ("风险", 30),
+            ("稳定", 15),
+            ("费用", 10),
+            ("规模", 10),
+            ("经理", 5),
+            ("风格", 5),
+        ]
+    };
+    let scores = ScoreBreakdown {
+        overall,
+        items: score_details
+            .into_iter()
+            .zip(weights.iter())
+            .map(|((name, score), (_, weight))| ScoreItem { name, score, weight: *weight })
+            .collect(),
+    };
+
     let analysis = FundAnalysis {
         detail,
         periods,
         yearly_returns,
         monthly_returns,
+        monthly_series,
         accumulated_return,
         risk_metrics,
         fee_rules,
+        top_bonds,
+        scale_changes,
+        holder_structure,
+        holding_constraints,
         manager_eval,
         manager_char,
         manager_info,
+        scores,
     };
 
     if json {
@@ -244,4 +347,38 @@ fn format_pct(value: f64) -> String {
     } else {
         format!("{:.2}%", value)
     }
+}
+
+// Local-time year/month without pulling chrono. Matches the holdings.rs helper —
+// extracting to a shared util belongs to a later cleanup batch.
+fn current_year_month() -> (u32, u32) {
+    let secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs() as i64)
+        .unwrap_or(0);
+    let days = (secs / 86400) as i32;
+    let mut y = 1970i32;
+    let mut d = days;
+    loop {
+        let leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+        let yd = if leap { 366 } else { 365 };
+        if d < yd {
+            break;
+        }
+        d -= yd;
+        y += 1;
+    }
+    let months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let leap = (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+    let mut m = 0usize;
+    let mut dd = d;
+    while m < 12 {
+        let md = if m == 1 && leap { 29 } else { months[m] };
+        if dd < md {
+            break;
+        }
+        dd -= md;
+        m += 1;
+    }
+    (y as u32, (m + 1) as u32)
 }

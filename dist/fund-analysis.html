@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>基金深度分析</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #080c14;
+      --surf:    #0b1120;
+      --card:    #0f1623;
+      --cardhi:  #141d2e;
+      --bdr:     #1c2a3e;
+      --bdrdim:  rgba(28,42,62,0.5);
+      --acc:     #6366f1;
+      --acc2:    #8b5cf6;
+      --pos:     #10b981;
+      --neg:     #ef4444;
+      --warn:    #f59e0b;
+      --cyan:    #06b6d4;
+      --ora:     #f97316;
+      --slate:   #475569;
+      --txt:     #e2e8f0;
+      --txtd:    #94a3b8;
+      --txtm:    #4e6280;
+      --mono:    'IBM Plex Mono', monospace;
+      --disp:    'Fraunces', Georgia, serif;
+      --body:    'Sora', system-ui, sans-serif;
+      --r:       12px;
+      --rs:      8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 90% 55% at 60% -8%, rgba(99,102,241,0.07) 0%, transparent 70%),
+        radial-gradient(circle at 1px 1px, rgba(99,102,241,0.055) 1px, transparent 0);
+      background-size: 100%, 28px 28px;
+      color: var(--txt);
+      font-family: var(--body);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Loading */
+    #loading {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 14px; z-index: 200;
+      transition: opacity 0.5s;
+    }
+    #loading.out { opacity: 0; pointer-events: none; }
+    .spin {
+      width: 40px; height: 40px;
+      border: 2px solid var(--bdr);
+      border-top-color: var(--acc);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ltxt { font-family: var(--mono); font-size: 11px; color: var(--txtm); letter-spacing: 0.1em; }
+
+    /* Layout */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 28px 18px 52px; }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--bdr);
+      border-radius: var(--r);
+      padding: 22px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(99,102,241,0.22);
+      box-shadow: 0 0 0 1px rgba(99,102,241,0.05), 0 12px 40px rgba(0,0,0,0.32);
+    }
+    .mb16 { margin-bottom: 16px; }
+    .mb20 { margin-bottom: 20px; }
+    .mb24 { margin-bottom: 24px; }
+
+    /* Section label */
+    .slabel {
+      font-family: var(--mono);
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--txtm);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .slabel::after { content: ''; flex: 1; height: 1px; background: var(--bdr); }
+    .slabel .badge {
+      background: rgba(99,102,241,0.12);
+      color: var(--acc);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 9px;
+      margin-left: -4px;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px; align-items: center;
+      background: linear-gradient(135deg, var(--card) 0%, #0c1526 100%);
+      border: 1px solid var(--bdr);
+      border-radius: 16px;
+      padding: 30px; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+    .hdr::before {
+      content: '';
+      position: absolute; top: -90px; right: -90px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(99,102,241,0.11) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hdr::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.18), transparent);
+    }
+    .hcode { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--acc); letter-spacing: 0.08em; margin-bottom: 6px; }
+    .hname { font-family: var(--disp); font-size: 30px; font-weight: 700; color: #f1f5f9; line-height: 1.15; margin-bottom: 6px; }
+    .hfull { font-size: 13px; color: var(--txtm); margin-bottom: 16px; }
+    .tags  { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag   { font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 100px; border: 1px solid; letter-spacing: 0.04em; }
+    .ttype { color: var(--acc);  border-color: rgba(99,102,241,0.35); background: rgba(99,102,241,0.08); }
+    .trisk { color: var(--pos);  border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
+    .tco   { color: var(--txtd); border-color: var(--bdr); }
+
+    /* Gauge */
+    .gaugewrap { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+    .gaugesvg  { position: relative; width: 112px; height: 112px; }
+    .gaugesvg svg { transform: rotate(-90deg); display: block; }
+    .gtrack { fill: none; stroke: rgba(30,42,62,0.9); stroke-width: 9; }
+    .gfill  { fill: none; stroke-width: 9; stroke-linecap: round; stroke-dasharray: 298; stroke-dashoffset: 298; transition: stroke-dashoffset 1.4s cubic-bezier(0.22,1,0.36,1); }
+    .gcenter { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .gnum  { font-family: var(--mono); font-size: 28px; font-weight: 600; color: #f1f5f9; line-height: 1; }
+    .gcap  { font-family: var(--mono); font-size: 9px; color: var(--txtm); letter-spacing: 0.06em; margin-top: 2px; }
+    .glabel { font-family: var(--mono); font-size: 10px; color: var(--txtm); letter-spacing: 0.06em; }
+
+    /* Info grid */
+    .igrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--bdr); border-radius: var(--rs); overflow: hidden; }
+    .icell { background: var(--card); padding: 14px 16px; transition: background 0.15s; }
+    .icell:hover { background: var(--cardhi); }
+    .ikey { font-family: var(--mono); font-size: 10px; color: var(--txtm); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .ival { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--txt); }
+    .ival small { font-size: 11px; color: var(--txtm); font-weight: 300; }
+
+    /* Fee */
+    details.fee { border: 1px solid var(--bdr); border-radius: var(--r); overflow: hidden; }
+    summary.feesumm { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--card); cursor: pointer; list-style: none; user-select: none; }
+    summary.feesumm::-webkit-details-marker { display: none; }
+    summary.feesumm:hover { background: var(--cardhi); }
+    .feeleft { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--txtd); }
+    .feeleft svg { color: var(--acc); }
+    .feechev { transition: transform 0.2s; color: var(--txtm); }
+    details.fee[open] .feechev { transform: rotate(180deg); }
+    .feebody { background: var(--surf); padding: 4px 20px 16px; }
+    .ftbl { width: 100%; border-collapse: collapse; }
+    .ftbl th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--txtm); text-align: left; padding: 10px 0 6px; border-bottom: 1px solid var(--bdr); }
+    .ftbl td { padding: 10px 0; font-family: var(--mono); font-size: 13px; border-bottom: 1px solid var(--bdrdim); }
+    .ftbl tr:last-child td { border-bottom: none; }
+    .fri { color: var(--neg); } .frmid { color: var(--warn); } .frlo { color: var(--txtm); } .frfree { color: var(--pos); }
+
+    /* Tables */
+    .tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .dtbl { width: 100%; border-collapse: collapse; min-width: 500px; }
+    .dtbl th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--txtm); text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--bdr); white-space: nowrap; }
+    .dtbl th:first-child { text-align: left; }
+    .dtbl td { font-family: var(--mono); font-size: 13px; text-align: right; padding: 9px 12px; border-bottom: 1px solid var(--bdrdim); transition: background 0.1s; }
+    .dtbl td:first-child { text-align: left; color: var(--txtd); }
+    .dtbl tr:last-child td { border-bottom: none; }
+    .dtbl tr:hover td { background: rgba(99,102,241,0.03); }
+
+    .pos { color: var(--pos); }
+    .neg { color: var(--neg); }
+    .neu { color: var(--txtd); }
+
+    .chip { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; background: rgba(99,102,241,0.1); color: var(--acc); border: 1px solid rgba(99,102,241,0.15); }
+    .chip.good { background: rgba(16,185,129,0.08); color: var(--pos); border-color: rgba(16,185,129,0.2); }
+    .chip.bad  { background: rgba(239,68,68,0.08);  color: var(--neg); border-color: rgba(239,68,68,0.2); }
+
+    /* 2-col grid */
+    .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .col3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+
+    /* Bar chart */
+    .barrow { display: grid; grid-template-columns: 78px 1fr 88px 82px; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--bdrdim); }
+    .barrow:last-child { border-bottom: none; }
+    .baryr  { font-family: var(--mono); font-size: 12px; color: var(--txtd); }
+    .bartk  { height: 5px; background: var(--bdr); border-radius: 3px; overflow: hidden; }
+    .barfl  { height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(0.34,1.56,0.64,1); width: 0%; }
+    .barvl  { font-family: var(--mono); font-size: 13px; font-weight: 500; text-align: right; }
+    .barrk  { font-family: var(--mono); font-size: 11px; color: var(--txtm); text-align: right; }
+
+    /* Canvas chart */
+    .chwrap { position: relative; }
+    #accchart { display: block; width: 100%; height: 250px; }
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+    .litem  { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--txtm); }
+    .ldot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .tip {
+      position: absolute;
+      background: rgba(8,12,20,0.96);
+      border: 1px solid var(--bdr);
+      border-radius: var(--rs);
+      padding: 9px 13px;
+      font-family: var(--mono); font-size: 11px;
+      pointer-events: none;
+      opacity: 0; transition: opacity 0.1s;
+      z-index: 10; min-width: 170px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .tipdt { color: var(--txtm); font-size: 10px; margin-bottom: 7px; }
+    .tiprow { display: flex; justify-content: space-between; gap: 14px; margin: 3px 0; }
+
+    /* Risk grid */
+    .mgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--bdr); border-radius: var(--rs); overflow: hidden; }
+    .mcell { background: var(--card); padding: 16px 14px; transition: background 0.15s; }
+    .mcell:hover { background: var(--cardhi); }
+    .mkey { font-size: 11px; color: var(--txtm); margin-bottom: 8px; line-height: 1.3; }
+    .mnum { font-family: var(--mono); font-size: 21px; font-weight: 600; line-height: 1; margin-bottom: 9px; }
+    .mbar { height: 3px; background: var(--bdr); border-radius: 2px; overflow: hidden; }
+    .mbarfl { height: 100%; border-radius: 2px; transition: width 1.2s cubic-bezier(0.34,1.56,0.64,1); width: 0%; }
+
+    /* Scores */
+    .scorearea { display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: center; }
+    .radwrap { display: flex; justify-content: center; }
+    #radsvg { width: 260px; height: 260px; display: block; }
+    .slist { display: flex; flex-direction: column; gap: 11px; }
+    .srow { display: grid; grid-template-columns: 36px 1fr 36px 30px; align-items: center; gap: 10px; }
+    .snm  { font-size: 12px; color: var(--txtd); }
+    .sbar { height: 4px; background: var(--bdr); border-radius: 2px; overflow: hidden; }
+    .sbfl { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--acc), var(--acc2)); transition: width 1s ease; width: 0%; }
+    .svl  { font-family: var(--mono); font-size: 12px; font-weight: 500; text-align: right; }
+    .swt  { font-family: var(--mono); font-size: 10px; color: var(--txtm); text-align: right; }
+
+    /* Manager */
+    .mgrg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--bdr); border-radius: var(--rs); overflow: hidden; margin-bottom: 16px; }
+    .mgrc { background: var(--card); padding: 14px; transition: background 0.15s; }
+    .mgrc:hover { background: var(--cardhi); }
+    .mgrk { font-size: 11px; color: var(--txtm); margin-bottom: 4px; }
+    .mgrv { font-family: var(--mono); font-size: 16px; font-weight: 500; }
+    .resume-wrap { position: relative; }
+    .resume {
+      font-size: 12px; color: var(--txtm); line-height: 1.75;
+      overflow: hidden; display: -webkit-box;
+      -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    }
+    .resume.open { display: block; -webkit-line-clamp: none; }
+    .resume-btn {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--acc); background: none; border: none;
+      cursor: pointer; padding: 4px 0; margin-top: 6px;
+      display: block;
+    }
+
+    /* Holdings - my position */
+    .poscard {
+      background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.04));
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: var(--r); padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .posgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(99,102,241,0.1); border-radius: var(--rs); overflow: hidden; margin-top: 14px; }
+    .poscell { background: rgba(8,12,20,0.5); padding: 12px 14px; }
+    .posk { font-size: 11px; color: var(--txtm); margin-bottom: 4px; }
+    .posv { font-family: var(--mono); font-size: 16px; font-weight: 500; }
+
+    /* Allocation donut */
+    .alloc-wrap { display: flex; align-items: center; gap: 24px; }
+    #donut-svg { flex-shrink: 0; }
+    .alloc-list { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .arow { display: grid; grid-template-columns: 90px 1fr 65px 55px; align-items: center; gap: 10px; }
+    .anm  { font-size: 12px; color: var(--txtd); }
+    .abar { height: 4px; background: var(--bdr); border-radius: 2px; overflow: hidden; }
+    .abfl { height: 100%; border-radius: 2px; transition: width 0.9s ease; width: 0%; }
+    .avl  { font-family: var(--mono); font-size: 12px; text-align: right; }
+    .awt  { font-family: var(--mono); font-size: 11px; color: var(--txtm); text-align: right; }
+
+    /* Stocks table */
+    .stktbl { width: 100%; border-collapse: collapse; }
+    .stktbl th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--txtm); text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--bdr); white-space: nowrap; }
+    .stktbl th:first-child { text-align: center; width: 32px; }
+    .stktbl th:nth-child(2) { text-align: left; }
+    .stktbl td { font-family: var(--mono); font-size: 12px; text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--bdrdim); }
+    .stktbl td:first-child { text-align: center; color: var(--txtm); }
+    .stktbl td:nth-child(2) { text-align: left; color: var(--txtd); }
+    .stktbl tr:last-child td { border-bottom: none; }
+    .stktbl tr:hover td { background: rgba(99,102,241,0.03); }
+    .stkcode { font-size: 10px; color: var(--txtm); }
+    .fcnt { font-size: 10px; }
+
+    /* Industry bars */
+    .indrow { display: grid; grid-template-columns: 200px 1fr 65px 52px; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--bdrdim); }
+    .indrow:last-child { border-bottom: none; }
+    .indnm { font-size: 12px; color: var(--txtd); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .indbar { height: 4px; background: var(--bdr); border-radius: 2px; overflow: hidden; }
+    .indfl  { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--cyan), var(--acc)); transition: width 0.9s ease; width: 0%; }
+    .indvl  { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--cyan); }
+    .indfc  { font-family: var(--mono); font-size: 10px; text-align: right; color: var(--txtm); }
+
+    /* Footer */
+    footer {
+      margin-top: 36px; padding-top: 20px;
+      border-top: 1px solid var(--bdr);
+      display: flex; justify-content: space-between; flex-wrap: wrap;
+      gap: 8px; font-family: var(--mono); font-size: 10px;
+      color: var(--txtm); letter-spacing: 0.04em;
+    }
+
+    /* Fade */
+    .fade { opacity: 0; transform: translateY(10px); }
+    .fade.in { animation: fi 0.4s ease forwards; }
+    @keyframes fi { to { opacity: 1; transform: none; } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .col2, .col3 { grid-template-columns: 1fr; }
+      .scorearea   { grid-template-columns: 1fr; }
+      .alloc-wrap  { flex-direction: column; align-items: flex-start; }
+      .arow        { grid-template-columns: 80px 1fr 60px 50px; }
+      .indrow      { grid-template-columns: 130px 1fr 60px 40px; }
+    }
+    @media (max-width: 720px) {
+      .hdr   { grid-template-columns: 1fr; }
+      .gaugewrap { display: none; }
+      .hname { font-size: 22px; }
+      .mgrid { grid-template-columns: repeat(2, 1fr); }
+      .mgrg  { grid-template-columns: repeat(2, 1fr); }
+      .igrid { grid-template-columns: repeat(2, 1fr); }
+      .posgrid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spin"></div>
+  <div class="ltxt">LOADING FUND DATA...</div>
+</div>
+
+<div class="wrap" id="app" style="opacity:0"></div>
+
+<script>
+/* ── helpers ── */
+const PMAP = {
+  'Last Week':'近1周','Last Month':'近1月','Last 3 Months':'近3月',
+  'Last 6 Months':'近6月','Last Year':'近1年','Last 2 Years':'近2年',
+  'Last 3 Years':'近3年','Year to Date':'今年以来',
+  'Z':'近1周','Y':'近1月','3Y':'近3月','6Y':'近6月',
+  '1N':'近1年','2N':'近2年','3N':'近3年','JN':'今年以来',
+};
+
+function fmt(v, d=2) { const n=parseFloat(v); return isNaN(n)?'--':n.toFixed(d); }
+function pct(v, d=2, sign=false) {
+  const n=parseFloat(v); if(isNaN(n)) return '--';
+  return (sign&&n>0?'+':'')+n.toFixed(d)+'%';
+}
+function cc(v) { const n=parseFloat(v); if(isNaN(n)||n===0) return 'neu'; return n>0?'pos':'neg'; }
+function cpct(v,d=2) { return `<span class="${cc(v)}">${pct(v,d,true)}</span>`; }
+function rankpct(r,t) { return t?r/t*100:50; }
+function chip(r,t) {
+  if(!t) return '--';
+  const p=rankpct(r,t);
+  const cls = p<=25?'good':p>=75?'bad':'';
+  return `<span class="chip ${cls}">${r}/${t}</span>`;
+}
+function wanToYi(w) { return (parseFloat(w)/10000).toFixed(2); }
+
+/* ── section label ── */
+function sl(text, badge='') {
+  return `<div class="slabel">${text}${badge?`<span class="badge">${badge}</span>`:''}</div>`;
+}
+
+/* ── build ── */
+function bHeader(d) {
+  const s=d.scores.overall;
+  const sc = s>=80?'#10b981':s>=65?'#f59e0b':'#ef4444';
+  const circ=2*Math.PI*47, det=d.detail;
+  const scale=(parseFloat(det.ENDNAV)/1e8).toFixed(2);
+  return `
+  <div class="hdr fade">
+    <div>
+      <div class="hcode">基金代码 ${det.FCODE}</div>
+      <div class="hname">${det.SHORTNAME}</div>
+      <div class="hfull">${det.FULLNAME}</div>
+      <div class="tags">
+        <span class="tag ttype">${det.FTYPE}</span>
+        <span class="tag trisk">风险 R${det.RISKLEVEL}</span>
+        <span class="tag tco">${det.JJGS}</span>
+        <span class="tag tco">规模 ${scale} 亿</span>
+      </div>
+    </div>
+    <div class="gaugewrap">
+      <div class="gaugesvg">
+        <svg width="112" height="112" viewBox="0 0 112 112">
+          <circle class="gtrack" cx="56" cy="56" r="47"/>
+          <circle class="gfill" id="gfill" cx="56" cy="56" r="47"
+            stroke="${sc}" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}"/>
+        </svg>
+        <div class="gcenter">
+          <div class="gnum" id="gnum">0</div>
+          <div class="gcap">综合评分</div>
+        </div>
+      </div>
+      <div class="glabel">满分 100</div>
+    </div>
+  </div>`;
+}
+
+function bInfo(d) {
+  const det=d.detail;
+  const mgr=parseFloat(det.MGREXP||'0'), tru=parseFloat(det.TRUSTEXP||'0'), sal=parseFloat(det.SALESEXP||'0');
+  const tot=(mgr+tru+sal).toFixed(2);
+  const scale=(parseFloat(det.ENDNAV)/1e8).toFixed(2);
+  return `
+  <div class="card mb24 fade">
+    ${sl('基本信息')}
+    <div class="igrid">
+      <div class="icell"><div class="ikey">成立日期</div><div class="ival">${det.ESTABDATE}</div></div>
+      <div class="icell"><div class="ikey">基金规模</div><div class="ival">${scale} 亿元</div></div>
+      <div class="icell"><div class="ikey">托管银行</div><div class="ival">${det.TGYH}</div></div>
+      <div class="icell"><div class="ikey">基金公司</div><div class="ival">${det.JJGS}</div></div>
+      <div class="icell"><div class="ikey">基金经理</div><div class="ival">${det.JJJL}</div></div>
+      <div class="icell"><div class="ikey">综合费率</div><div class="ival">${tot}% <small>管${det.MGREXP} 托${det.TRUSTEXP} 销${det.SALESEXP}</small></div></div>
+    </div>
+  </div>`;
+}
+
+function bFee(d) {
+  if(!d.fee_rules?.redemption?.length) return '';
+  const rc=r=>{const v=parseFloat(r);return v>=1?'fri':v>=0.2?'frmid':v>0?'frlo':'frfree';};
+  const rows=d.fee_rules.redemption.map(r=>`<tr><td>${r.scope}</td><td class="${rc(r.rate)}">${r.rate}</td></tr>`).join('');
+  return `
+  <div class="mb24 fade">
+    <details class="fee">
+      <summary class="feesumm">
+        <div class="feeleft">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          赎回费率规则
+        </div>
+        <svg class="feechev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+      </summary>
+      <div class="feebody">
+        <table class="ftbl">
+          <thead><tr><th>持有期限</th><th>赎回费率</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </details>
+  </div>`;
+}
+
+function bPeriods(d) {
+  const rows=d.periods.map(p=>`
+    <tr>
+      <td>${PMAP[p.title]||p.title}</td>
+      <td>${cpct(p.return_rate)}</td>
+      <td class="neu">${fmt(p.avg)}%</td>
+      <td class="neu">${fmt(p.hs300_return)}%</td>
+      <td>${chip(p.rank,p.total)}</td>
+    </tr>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('阶段收益对比')}
+    <div class="tscroll">
+      <table class="dtbl">
+        <thead><tr><th>时间段</th><th>本基金</th><th>同类均值</th><th>沪深300</th><th>同类排名</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function bYearly(d) {
+  if(!d.yearly_returns?.length) return '<div class="card fade"><div class="slabel">年度收益</div><div style="color:var(--txtm);font-size:13px">暂无年度数据</div></div>';
+  const mx=Math.max(...d.yearly_returns.map(y=>Math.abs(y.return_rate)));
+  const rows=d.yearly_returns.map(y=>{
+    const col=y.return_rate>=0?'var(--pos)':'var(--neg)';
+    const w=mx>0?(Math.abs(y.return_rate)/mx*82):0;
+    const pp=rankpct(y.rank,y.total);
+    const rc=pp<=25?'pos':pp>=75?'neg':'neu';
+    return `
+    <div class="barrow">
+      <div class="baryr">${y.title.replace('年度','')}</div>
+      <div class="bartk"><div class="barfl" data-w="${w}%" style="background:${col}"></div></div>
+      <div class="barvl ${y.return_rate>=0?'pos':'neg'}">${pct(y.return_rate,2,true)}</div>
+      <div class="barrk"><span class="${rc}">${y.rank}/${y.total}</span></div>
+    </div>`;
+  }).join('');
+  return `<div class="card mb24 fade">${sl('年度收益')}${rows}</div>`;
+}
+
+function bAccChart() {
+  return `
+  <div class="card fade" style="grid-column: span 1">
+    ${sl('累计收益走势')}
+    <div class="chwrap">
+      <canvas id="accchart"></canvas>
+      <div class="tip" id="ctip"><div class="tipdt" id="tipdt"></div><div id="tipbd"></div></div>
+    </div>
+    <div class="legend">
+      <div class="litem"><div class="ldot" style="background:#6366f1"></div>本基金</div>
+      <div class="litem"><div class="ldot" style="background:#f97316"></div>基准指数</div>
+      <div class="litem"><div class="ldot" style="background:#06b6d4"></div>同类均值</div>
+      <div class="litem"><div class="ldot" style="background:#475569"></div>债券指数</div>
+    </div>
+  </div>`;
+}
+
+function bRisk(d) {
+  const r=d.risk_metrics;
+  const tot=r.positive_days+r.negative_days;
+  const dwr=tot>0?(r.positive_days/tot*100):0;
+  const items=[
+    {k:'年化收益率', v:pct(r.annualized_return,2,true), cls:cc(r.annualized_return), bar:Math.min(100,r.annualized_return*8), bc:'var(--pos)'},
+    {k:'最大回撤',   v:'-'+fmt(r.max_drawdown)+'%',     cls:'neg', bar:Math.min(100,r.max_drawdown*28), bc:'var(--neg)'},
+    {k:'年化波动率', v:fmt(r.volatility)+'%',           cls:'neu', bar:Math.min(100,r.volatility*14), bc:'var(--warn)'},
+    {k:'夏普比率',   v:fmt(r.sharpe_ratio),              cls:r.sharpe_ratio>1?'pos':r.sharpe_ratio>0?'neu':'neg', bar:Math.min(100,r.sharpe_ratio/2*100), bc:'var(--acc)'},
+    {k:'正收益天数', v:r.positive_days+' 天',            cls:'pos', bar:tot?r.positive_days/tot*100:0, bc:'var(--pos)'},
+    {k:'负收益天数', v:r.negative_days+' 天',            cls:'neg', bar:tot?r.negative_days/tot*100:0, bc:'var(--neg)'},
+    {k:'日胜率',     v:dwr.toFixed(1)+'%',               cls:dwr>=55?'pos':'neu', bar:dwr, bc:'var(--pos)'},
+    {k:'月胜率',     v:fmt(r.monthly_win_rate,1)+'%',   cls:r.monthly_win_rate>=60?'pos':'neu', bar:r.monthly_win_rate, bc:'var(--pos)'},
+  ];
+  const cells=items.map(it=>`
+    <div class="mcell">
+      <div class="mkey">${it.k}</div>
+      <div class="mnum ${it.cls}">${it.v}</div>
+      <div class="mbar"><div class="mbarfl" data-w="${it.bar}%" style="background:${it.bc}"></div></div>
+    </div>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('风险指标', `近 ${r.data_points} 交易日`)}
+    <div class="mgrid">${cells}</div>
+  </div>`;
+}
+
+function bScores(d) {
+  const rows=d.scores.items.map(it=>{
+    const cls=it.score>=80?'pos':it.score>=60?'neu':'neg';
+    return `
+    <div class="srow">
+      <div class="snm">${it.name}</div>
+      <div class="sbar"><div class="sbfl" data-w="${it.score}%"></div></div>
+      <div class="svl ${cls}">${it.score}</div>
+      <div class="swt">${it.weight}%</div>
+    </div>`;
+  }).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('综合评分明细')}
+    <div class="scorearea">
+      <div class="radwrap"><svg id="radsvg" viewBox="0 0 260 260"></svg></div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--txtm);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px">维度得分 / 权重</div>
+        <div class="slist">${rows}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function bManager(d) {
+  const mi=d.manager_info, me=d.manager_eval;
+  if(!mi) return '';
+  const years=(parseFloat(mi.TOTALDAYS||'0')/365).toFixed(1);
+  const navB=(parseFloat(mi.NETNAV||'0')/1e8).toFixed(0);
+  const earn1=(parseFloat(mi.FMAXEARN1||'0')*100).toFixed(2);
+  const dd1m=(parseFloat(mi.FMAXRETRA1||'0')*100).toFixed(2);
+
+  const stats=[
+    {k:'从业年限',     v:years+' 年',           cls:''},
+    {k:'在管规模',     v:navB+' 亿',            cls:''},
+    {k:'在管基金',     v:(mi.FCOUNT||'--')+' 只', cls:''},
+    {k:'历史最佳年化', v:'+'+earn1+'%',         cls:'pos'},
+    {k:'历史最大回撤', v:'-'+dd1m+'%',          cls:'neg'},
+  ];
+  if(me) {
+    const s1=parseFloat(me.SHARP_1||'0'), s3=parseFloat(me.SHARP_3||'0');
+    const mdd1=(parseFloat(me.MAXRETRA_1||'0')*100).toFixed(2);
+    const mdd3=(parseFloat(me.MAXRETRA_3||'0')*100).toFixed(2);
+    const w1=parseFloat(me.WIN_1||'0'), w3=parseFloat(me.WIN_3||'0');
+    stats.push(
+      {k:'近1年夏普',   v:fmt(s1),  cls:s1>1?'pos':s1>0?'neu':'neg'},
+      {k:'近3年夏普',   v:fmt(s3),  cls:s3>1?'pos':s3>0?'neu':'neg'},
+      {k:'近1年回撤',   v:'-'+mdd1+'%', cls:'neg'},
+      {k:'近3年回撤',   v:'-'+mdd3+'%', cls:'neg'},
+      {k:'近1年胜率',   v:w1.toFixed(1)+'%', cls:w1>=55?'pos':'neu'},
+      {k:'近3年胜率',   v:w3.toFixed(1)+'%', cls:w3>=55?'pos':'neu'},
+    );
+  }
+  const cols=Math.min(stats.length, 5);
+  const cellHtml=stats.map(s=>`
+    <div class="mgrc">
+      <div class="mgrk">${s.k}</div>
+      <div class="mgrv ${s.cls}">${s.v}</div>
+    </div>`).join('');
+
+  const resume=mi.RESUME||'';
+  const resumeHtml=resume?`
+    <div class="resume-wrap" style="margin-top:4px">
+      <div class="resume" id="resume">${resume}</div>
+      <button class="resume-btn" onclick="toggleResume()">展开全文 ▾</button>
+    </div>`:''
+
+  return `
+  <div class="card mb24 fade">
+    ${sl('基金经理 · '+mi.MGRNAME)}
+    <div class="mgrg" style="grid-template-columns:repeat(${cols},1fr)">${cellHtml}</div>
+    ${resumeHtml}
+  </div>`;
+}
+
+function bHoldings(d) {
+  if(!d.holdings) return '';
+  const h=d.holdings;
+  const tf=h.this_fund;
+  const portTotal=h.total_portfolio;
+  const thisPct=tf?(tf.amount/portTotal*100).toFixed(1):'--';
+
+  // My position card
+  const posHtml=tf?`
+  <div class="poscard">
+    <div style="font-family:var(--mono);font-size:10px;color:rgba(99,102,241,0.7);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:2px">我的持仓 · ${tf.code}</div>
+    <div style="font-family:var(--disp);font-size:18px;font-weight:600;color:#f1f5f9;margin-bottom:12px">${tf.name}</div>
+    <div class="posgrid">
+      <div class="poscell"><div class="posk">持仓金额</div><div class="posv">${(tf.amount/10000).toFixed(2)} 万元</div></div>
+      <div class="poscell"><div class="posk">占投资组合</div><div class="posv pos">${thisPct}%</div></div>
+      <div class="poscell"><div class="posk">资产类别</div><div class="posv">${tf.asset_class}</div></div>
+      <div class="poscell"><div class="posk">基金类型</div><div class="posv neu" style="font-size:13px">${tf.fund_type}</div></div>
+    </div>
+  </div>`:'';
+
+  // Asset allocation donut + bars
+  const allColors=['#6366f1','#06b6d4','#f97316','#10b981','#f59e0b'];
+  const maxW=h.allocation?.length?Math.max(...h.allocation.map(a=>a.weight)):100;
+  const allocBars=h.allocation?.map((a,i)=>`
+    <div class="arow">
+      <div class="anm"><span style="color:${allColors[i%allColors.length]};margin-right:6px">●</span>${a.asset_class}</div>
+      <div class="abar"><div class="abfl" data-w="${(a.weight/maxW*100).toFixed(1)}%" style="background:${allColors[i%allColors.length]}"></div></div>
+      <div class="avl">${(a.amount/10000).toFixed(0)} 万</div>
+      <div class="awt">${a.weight.toFixed(1)}%</div>
+    </div>`).join('')||'';
+
+  // Top stocks
+  const stkRows=(h.top_stocks||[]).map((s,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><div>${s.name}</div><div class="stkcode">${s.code}</div></td>
+      <td>${(s.amount/10000).toFixed(2)} 万</td>
+      <td class="pos">${(s.weight).toFixed(3)}%</td>
+      <td class="fcnt ${s.fund_count>1?'pos':'neu'}">${s.fund_count} 只</td>
+    </tr>`).join('');
+
+  // Industries
+  const maxInd=h.industries?.length?Math.max(...h.industries.map(i=>i.weight)):1;
+  const indRows=(h.industries||[]).map(ind=>`
+    <div class="indrow">
+      <div class="indnm">${ind.name}</div>
+      <div class="indbar"><div class="indfl" data-w="${(ind.weight/maxInd*100).toFixed(1)}%"></div></div>
+      <div class="indvl">${ind.weight.toFixed(2)}%</div>
+      <div class="indfc">${ind.fund_count} 只</div>
+    </div>`).join('');
+
+  const notes=(h.notes||[]).map(n=>`<div style="font-size:11px;color:var(--txtm);margin-top:8px">⚠ ${n}</div>`).join('');
+
+  return `
+  <div class="card mb24 fade">
+    ${sl('持仓穿透分析', h.quarter)}
+    ${posHtml}
+    <div class="col2" style="margin-bottom:0">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--txtm);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px">资产配置</div>
+        <div class="alloc-list">${allocBars}</div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--txtm);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px">行业暴露</div>
+        ${indRows}
+        ${notes}
+      </div>
+    </div>
+    ${stkRows?`
+    <div style="margin-top:20px">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--txtm);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px">加权底层股票 TOP ${(h.top_stocks||[]).length}</div>
+      <div class="tscroll">
+        <table class="stktbl">
+          <thead><tr><th>#</th><th>股票</th><th>持仓市值</th><th>组合占比</th><th>覆盖基金</th></tr></thead>
+          <tbody>${stkRows}</tbody>
+        </table>
+      </div>
+    </div>`:''}
+  </div>`;
+}
+
+function bFooter(d) {
+  return `<footer>
+    <span>生成时间：${d.meta.generated_at} &nbsp;·&nbsp; 数据来源：天天基金（eastmoney.com）</span>
+    <span>仅供参考，不构成投资建议</span>
+  </footer>`;
+}
+
+/* ── chart / anim ── */
+function animGauge(score) {
+  const fill=document.getElementById('gfill');
+  const num=document.getElementById('gnum');
+  if(!fill||!num) return;
+  const circ=2*Math.PI*47;
+  requestAnimationFrame(()=>{ fill.style.strokeDashoffset=circ*(1-score/100); });
+  let cur=0;
+  const ivl=setInterval(()=>{ cur=Math.min(cur+1,score); num.textContent=cur; if(cur>=score) clearInterval(ivl); }, 1000/score);
+}
+
+function renderRadar(items) {
+  const svg=document.getElementById('radsvg');
+  if(!svg) return;
+  const n=items.length, cx=130, cy=130, R=88;
+  const a0=-Math.PI/2, step=2*Math.PI/n;
+  const pt=(i,r)=>({x:cx+r*Math.cos(a0+i*step),y:cy+r*Math.sin(a0+i*step)});
+  let h='';
+  [20,40,60,80,100].forEach(p=>{
+    const pp=items.map((_,i)=>{ const v=pt(i,R*p/100); return `${v.x.toFixed(1)},${v.y.toFixed(1)}`; }).join(' ');
+    h+=`<polygon points="${pp}" fill="none" stroke="rgba(28,42,62,0.9)" stroke-width="1"/>`;
+  });
+  items.forEach((_,i)=>{ const p=pt(i,R); h+=`<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(28,42,62,0.9)" stroke-width="1"/>`; });
+  const ref=items.map((_,i)=>{ const p=pt(i,R*0.8); return `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }).join(' ');
+  h+=`<polygon points="${ref}" fill="rgba(99,102,241,0.04)" stroke="rgba(99,102,241,0.22)" stroke-width="1" stroke-dasharray="3,3"/>`;
+  const spts=items.map((it,i)=>{ const p=pt(i,R*it.score/100); return `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }).join(' ');
+  h+=`<polygon id="rpoly" points="${spts}" fill="rgba(99,102,241,0.18)" stroke="#6366f1" stroke-width="2" opacity="0" style="transition:opacity 0.6s"/>`;
+  items.forEach((it,i)=>{
+    const p=pt(i,R*it.score/100);
+    h+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#6366f1" stroke="rgba(8,12,20,0.9)" stroke-width="2"/>`;
+    const lp=pt(i,R+19);
+    const vc=it.score>=80?'#10b981':it.score>=60?'#e2e8f0':'#ef4444';
+    h+=`<text x="${lp.x.toFixed(1)}" y="${(lp.y-5).toFixed(1)}" text-anchor="middle" font-family="Sora,sans-serif" font-size="11" fill="#64748b">${it.name}</text>`;
+    h+=`<text x="${lp.x.toFixed(1)}" y="${(lp.y+10).toFixed(1)}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" font-weight="500" fill="${vc}">${it.score}</text>`;
+  });
+  svg.innerHTML=h;
+  setTimeout(()=>{ const p=document.getElementById('rpoly'); if(p) p.style.opacity='1'; }, 400);
+}
+
+function renderAccChart(points) {
+  const canvas=document.getElementById('accchart');
+  if(!canvas||!points?.length) return;
+  const series=[
+    {key:'fund_return',     color:'#6366f1', w:2.5, label:'本基金',  glow:true},
+    {key:'index_return',    color:'#f97316', w:1.5, label:'基准指数'},
+    {key:'category_return', color:'#06b6d4', w:1.5, label:'同类均值'},
+    {key:'bench_return',    color:'#475569', w:1.5, label:'债券指数'},
+  ];
+  let prog=0, lastMx=-1;
+
+  function draw(p) {
+    const dpr=window.devicePixelRatio||1;
+    const W=canvas.clientWidth, H=canvas.clientHeight;
+    if(!W||!H) return;
+    if(canvas.width!==W*dpr||canvas.height!==H*dpr){ canvas.width=W*dpr; canvas.height=H*dpr; }
+    const ctx=canvas.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,W,H);
+    const pd={t:14,r:14,b:28,l:44};
+    const cW=W-pd.l-pd.r, cH=H-pd.t-pd.b;
+    let lo=Infinity, hi=-Infinity;
+    series.forEach(s=>points.forEach(pt=>{ const v=pt[s.key]; if(v<lo)lo=v; if(v>hi)hi=v; }));
+    const pad2=(hi-lo)*0.1||0.5; lo-=pad2; hi+=pad2;
+    const ts=points.map(pt=>+new Date(pt.date));
+    const t0=ts[0], t1=ts[ts.length-1], tr=t1-t0||1;
+    const xp=t=>pd.l+(t-t0)/tr*cW;
+    const yp=v=>pd.t+(1-(v-lo)/(hi-lo))*cH;
+
+    // Grid
+    ctx.strokeStyle='rgba(28,42,62,0.8)'; ctx.lineWidth=1;
+    for(let i=0;i<=4;i++){
+      const v=lo+(hi-lo)*(i/4), y=yp(v);
+      ctx.beginPath(); ctx.moveTo(pd.l,y); ctx.lineTo(W-pd.r,y); ctx.stroke();
+      ctx.fillStyle='rgba(78,98,128,0.9)';
+      ctx.font=`9px 'IBM Plex Mono',monospace`; ctx.textAlign='right';
+      ctx.fillText(v.toFixed(1)+'%', pd.l-5, y+3);
+    }
+    const seen=new Set();
+    points.forEach(pt=>{
+      const yr=pt.date.slice(0,4);
+      if(!seen.has(yr)){ seen.add(yr);
+        ctx.fillStyle='rgba(78,98,128,0.9)';
+        ctx.font=`9px 'IBM Plex Mono',monospace`; ctx.textAlign='center';
+        ctx.fillText(yr, xp(+new Date(pt.date)), H-7);
+      }
+    });
+
+    const dp=Math.ceil(p*points.length);
+    // Fill under main
+    if(p>=1){
+      ctx.save();
+      const gr=ctx.createLinearGradient(0,pd.t,0,pd.t+cH);
+      gr.addColorStop(0,'rgba(99,102,241,0.14)'); gr.addColorStop(1,'rgba(99,102,241,0)');
+      ctx.fillStyle=gr; ctx.beginPath();
+      const by=yp(Math.max(lo,0)); ctx.moveTo(xp(ts[0]),by);
+      points.forEach((pt,i)=>{ ctx.lineTo(xp(ts[i]),yp(pt.fund_return)); });
+      ctx.lineTo(xp(ts[ts.length-1]),by); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    series.forEach(s=>{
+      if(s.glow){ ctx.shadowBlur=10; ctx.shadowColor=s.color; } else ctx.shadowBlur=0;
+      ctx.strokeStyle=s.color; ctx.lineWidth=s.w;
+      ctx.lineJoin='round'; ctx.lineCap='round';
+      ctx.beginPath();
+      for(let i=0;i<dp&&i<points.length;i++){
+        const x=xp(ts[i]), y=yp(points[i][s.key]);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke(); ctx.shadowBlur=0;
+    });
+
+    // Hover
+    if(p>=1&&lastMx>=0){
+      let ci=0, md=Infinity;
+      ts.forEach((t,i)=>{ const dist=Math.abs(xp(t)-lastMx); if(dist<md){ md=dist; ci=i; } });
+      if(md<30){
+        const hx=xp(ts[ci]);
+        ctx.save(); ctx.strokeStyle='rgba(99,102,241,0.3)'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+        ctx.beginPath(); ctx.moveTo(hx,pd.t); ctx.lineTo(hx,H-pd.b); ctx.stroke();
+        ctx.setLineDash([]);
+        series.forEach(s=>{
+          const cy2=yp(points[ci][s.key]);
+          ctx.beginPath(); ctx.arc(hx,cy2,4,0,Math.PI*2);
+          ctx.fillStyle=s.color; ctx.fill();
+          ctx.strokeStyle='rgba(8,12,20,0.8)'; ctx.lineWidth=1.5; ctx.stroke();
+        });
+        ctx.restore();
+        const tip=document.getElementById('ctip');
+        document.getElementById('tipdt').textContent=points[ci].date;
+        document.getElementById('tipbd').innerHTML=series.map(s=>
+          `<div class="tiprow"><span style="color:${s.color}">${s.label}</span><span style="color:#e2e8f0">${points[ci][s.key].toFixed(2)}%</span></div>`
+        ).join('');
+        let lx=hx+14; if(lx+175>W) lx=hx-183;
+        tip.style.left=lx+'px'; tip.style.top=pd.t+'px'; tip.style.opacity='1';
+      } else { document.getElementById('ctip').style.opacity='0'; }
+    }
+  }
+
+  const dur=900, st=performance.now();
+  (function tick(now){
+    const t=Math.min((now-st)/dur,1);
+    prog=t*t*(3-2*t); draw(prog);
+    if(t<1) requestAnimationFrame(tick);
+  })(performance.now());
+
+  canvas.addEventListener('mousemove',e=>{ lastMx=e.clientX-canvas.getBoundingClientRect().left; if(prog>=1) draw(1); });
+  canvas.addEventListener('mouseleave',()=>{ lastMx=-1; document.getElementById('ctip').style.opacity='0'; if(prog>=1) draw(1); });
+  new ResizeObserver(()=>{ if(prog>=1) draw(1); }).observe(canvas.parentElement);
+}
+
+function animBars() {
+  document.querySelectorAll('[data-w]').forEach(el=>{
+    requestAnimationFrame(()=>{ el.style.width=el.dataset.w; });
+  });
+}
+
+function stagger() {
+  document.querySelectorAll('.fade').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('in'), i*55);
+  });
+}
+
+window.toggleResume=function(){
+  const r=document.getElementById('resume');
+  const b=r.nextElementSibling;
+  if(r.classList.toggle('open')){ b.textContent='收起 ▴'; } else { b.textContent='展开全文 ▾'; }
+};
+
+/* ── init ── */
+async function init() {
+  try {
+    const data=await fetch('./data/fund-analysis.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
+    const app=document.getElementById('app');
+    app.innerHTML=[
+      bHeader(data),
+      bInfo(data),
+      bFee(data),
+      bPeriods(data),
+      bYearly(data),
+      bAccChart(),
+      bRisk(data),
+      bScores(data),
+      bManager(data),
+      bHoldings(data),
+      bFooter(data),
+    ].join('');
+
+    app.style.transition='opacity 0.4s';
+    app.style.opacity='1';
+    document.getElementById('loading').classList.add('out');
+    stagger();
+    setTimeout(()=>{
+      animGauge(data.scores.overall);
+      renderRadar(data.scores.items);
+      renderAccChart(data.accumulated_return);
+      animBars();
+    }, 100);
+  } catch(err) {
+    document.getElementById('loading').innerHTML=`
+      <div style="font-family:var(--mono);color:var(--neg);text-align:center;padding:32px">
+        <div style="font-size:14px;margin-bottom:10px">数据加载失败</div>
+        <div style="font-size:12px;color:var(--txtm);margin-bottom:8px">${err.message}</div>
+        <div style="font-size:11px;color:var(--txtm)">请通过本地 HTTP 服务访问<br>python3 -m http.server 9876</div>
+      </div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>

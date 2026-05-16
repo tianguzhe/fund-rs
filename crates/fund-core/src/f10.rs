@@ -53,6 +53,68 @@ pub struct IndustryAllocation {
     pub end_date: String,
 }
 
+#[derive(Debug, Serialize, Clone)]
+pub struct BondHolding {
+    pub bond_code: String,
+    pub bond_name: String,
+    /// 占净值比例 (%)
+    pub ratio: f64,
+    /// 持仓市值（万元）
+    pub market_value_wan: f64,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct TopBondsReport {
+    /// 报告期，例如 "2026年1季度"
+    pub period: String,
+    /// 截止日期 YYYY-MM-DD
+    pub end_date: String,
+    pub bonds: Vec<BondHolding>,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct ScaleChangePoint {
+    /// 报告期日期，例如 "2026-03-31"
+    pub date: String,
+    /// 期间申购（亿份）
+    pub purchase_yi: f64,
+    /// 期间赎回（亿份）
+    pub redemption_yi: f64,
+    /// 期末总份额（亿份）
+    pub end_shares_yi: f64,
+    /// 期末净资产（亿元）
+    pub end_nav_yi: f64,
+    /// 净资产变动率 (%)
+    pub change_pct: f64,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct HolderStructurePoint {
+    /// 公告日期 YYYY-MM-DD
+    pub announce_date: String,
+    /// 机构持有比例 (%)
+    pub institutional_pct: f64,
+    /// 个人持有比例 (%)
+    pub retail_pct: f64,
+    /// 内部持有比例 (%)
+    pub internal_pct: f64,
+    /// 总份额（亿份）
+    pub total_shares_yi: f64,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct HoldingConstraints {
+    /// 申购状态文本，例如 "开放申购"
+    pub purchase_status: String,
+    /// 赎回状态文本，例如 "开放赎回"
+    pub redemption_status: String,
+    /// 最短持有期（天）。"90 天持有" 这类硬约束被结构化到这里。
+    /// None 表示页面未声明或无法识别（例如普通开放式无持有期限制）。
+    pub min_holding_days: Option<u32>,
+    /// 原始"基金特色"文案，作为正则识别失败时的兜底
+    pub features: String,
+}
+
 fn http_get(url: &str) -> Result<String> {
     let debug = std::env::var("FUND_DEBUG").is_ok();
     if debug {
@@ -208,12 +270,9 @@ pub fn get_fee_rules(code: &str) -> Result<FeeRules> {
     let url = format!("{}/jjfl_{}.html", F10_BASE, code);
     let body = http_get(&url)?;
 
-    let purchase = extract_box_section(&body, "申购费率")
-        .map(parse_fee_rules)
-        .unwrap_or_default();
-    let redemption = extract_box_section(&body, "赎回费率")
-        .map(parse_fee_rules)
-        .unwrap_or_default();
+    let purchase = extract_box_section(&body, "申购费率").map(parse_fee_rules).unwrap_or_default();
+    let redemption =
+        extract_box_section(&body, "赎回费率").map(parse_fee_rules).unwrap_or_default();
 
     Ok(FeeRules { purchase, redemption })
 }
@@ -360,4 +419,151 @@ pub fn get_active_industries(code: &str) -> Result<Vec<IndustryAllocation>> {
         }
     }
     Ok(out)
+}
+
+/// Top bond holdings for a fund at the given quarter-end. Mirrors `get_top_stocks`
+/// but reads the `zqcc` (债券持仓) endpoint, whose tbody has 5 columns:
+/// 序号 / 债券代码 / 债券名称 / 占净值比例 / 持仓市值(万元).
+pub fn get_top_bonds(code: &str, year: u32, month: u32) -> Result<TopBondsReport> {
+    let url = format!(
+        "{}/FundArchivesDatas.aspx?type=zqcc&code={}&year={}&month={:02}&rt=0",
+        F10_BASE, code, year, month
+    );
+    let body = http_get(&url)?;
+
+    let content = extract_str_field(&body, "content").unwrap_or("");
+    let period = extract_period(&body).unwrap_or_default();
+    let end_date = extract_end_date(content).unwrap_or_default();
+    let rows = parse_table_rows(content);
+
+    let mut bonds = Vec::new();
+    for row in rows {
+        if row.len() < 5 {
+            continue;
+        }
+        bonds.push(BondHolding {
+            bond_code: row[1].clone(),
+            bond_name: row[2].clone(),
+            ratio: parse_pct(&row[3]),
+            market_value_wan: parse_num(&row[4]),
+        });
+    }
+
+    Ok(TopBondsReport { period, end_date, bonds })
+}
+
+/// Historical scale changes (purchase / redemption / total shares / NAV per period).
+///
+/// Parses the embedded HTML table in `var gmbd_apidata={ content:"<table>...</table>" }`.
+/// The same envelope also carries a `data:[...]` JSON array, but the field names there
+/// (BZDM/CHANGE/ESEQID/...) drift across Eastmoney versions and the Vercel gateway
+/// re-shapes them inconsistently, so the table is the stable source of truth.
+///
+/// Column layout (matches the visible page):
+/// 0 日期 / 1 期间申购(亿份) / 2 期间赎回(亿份) /
+/// 3 期末总份额(亿份) / 4 期末净资产(亿元) / 5 净资产变动率(%).
+pub fn get_scale_changes(code: &str) -> Result<Vec<ScaleChangePoint>> {
+    let url = format!("{}/FundArchivesDatas.aspx?type=gmbd&mode=&code={}&rt=0", F10_BASE, code);
+    let body = http_get(&url)?;
+    let content = extract_str_field(&body, "content").unwrap_or("");
+
+    let mut out = Vec::new();
+    for row in parse_table_rows(content) {
+        if row.len() < 6 {
+            continue;
+        }
+        out.push(ScaleChangePoint {
+            date: row[0].clone(),
+            purchase_yi: parse_num(&row[1]),
+            redemption_yi: parse_num(&row[2]),
+            end_shares_yi: parse_num(&row[3]),
+            end_nav_yi: parse_num(&row[4]),
+            change_pct: parse_pct(&row[5]),
+        });
+    }
+    Ok(out)
+}
+
+/// Holder structure history: institutional vs retail vs internal share of total shares.
+/// Source is the `cyrjg` endpoint whose tbody has 5 columns:
+/// 公告日期 / 机构持有比例 / 个人持有比例 / 内部持有比例 / 总份额(亿份).
+pub fn get_holder_structure(code: &str) -> Result<Vec<HolderStructurePoint>> {
+    let url = format!("{}/FundArchivesDatas.aspx?type=cyrjg&code={}&rt=0", F10_BASE, code);
+    let body = http_get(&url)?;
+    let content = extract_str_field(&body, "content").unwrap_or("");
+
+    let mut out = Vec::new();
+    for row in parse_table_rows(content) {
+        if row.len() < 5 {
+            continue;
+        }
+        out.push(HolderStructurePoint {
+            announce_date: row[0].clone(),
+            institutional_pct: parse_pct(&row[1]),
+            retail_pct: parse_pct(&row[2]),
+            internal_pct: parse_pct(&row[3]),
+            total_shares_yi: parse_num(&row[4]),
+        });
+    }
+    Ok(out)
+}
+
+/// Parse the minimum holding period from a fund name or feature blurb.
+///
+/// Funds with a mandatory holding window encode it in the name in two common
+/// patterns: prefix ("90天持有期") or suffix ("持有 6 个月" / "3年封闭运作").
+/// Strategy: only run when text contains 持有 / 封闭, then scan every
+/// `N(天|日|月|年)` occurrence and return the largest day count.
+fn parse_min_holding_days(text: &str) -> Option<u32> {
+    if !text.contains("持有") && !text.contains("封闭") {
+        return None;
+    }
+    let chars: Vec<char> = text.chars().collect();
+    let mut best: Option<u32> = None;
+    let mut i = 0;
+    while i < chars.len() {
+        if chars[i].is_ascii_digit() {
+            let mut j = i;
+            let mut num = 0u32;
+            while j < chars.len() && chars[j].is_ascii_digit() {
+                num = num.saturating_mul(10).saturating_add((chars[j] as u32) - ('0' as u32));
+                j += 1;
+            }
+            if j < chars.len() && num > 0 {
+                let days = match chars[j] {
+                    '天' | '日' => Some(num),
+                    '月' => Some(num.saturating_mul(30)),
+                    '年' => Some(num.saturating_mul(365)),
+                    _ => None,
+                };
+                if let Some(d) = days {
+                    best = Some(best.map_or(d, |p| p.max(d)));
+                }
+            }
+            i = j;
+            continue;
+        }
+        i += 1;
+    }
+    best
+}
+
+/// Detect holding-period constraints from a fund's name.
+///
+/// The F10 概况页 (jbgk) does not expose structured 申购/赎回状态 fields, so the
+/// most reliable signal is the fund name itself — funds with mandatory holding
+/// periods uniformly declare them in the short/full name (e.g. "90天持有期",
+/// "3年封闭运作"). Pure function: no network, no fallible IO.
+pub fn detect_holding_constraints(short_name: &str, full_name: &str) -> HoldingConstraints {
+    // Prefer the full name (richer phrasing); short name covers the abbreviated case.
+    let features =
+        if full_name.is_empty() { short_name.to_string() } else { full_name.to_string() };
+    let min_holding_days =
+        parse_min_holding_days(&features).or_else(|| parse_min_holding_days(short_name));
+    HoldingConstraints {
+        purchase_status: String::new(),
+        redemption_status: String::new(),
+        min_holding_days,
+        features,
+    }
 }

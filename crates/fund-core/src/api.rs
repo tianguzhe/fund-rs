@@ -371,6 +371,58 @@ impl Client {
         self.get_period_increase_with_range(code, "y")
     }
 
+    /// True monthly return series aggregated locally from daily NAV history.
+    ///
+    /// The upstream `fundMNPeriodIncrease&RANGE=y` returns the same rolling-period
+    /// enum (Z/Y/3Y/...) as the default call, not per-month rows. To get a real
+    /// month-by-month series we pull `fundMNHisNetList` and take the last-trading-day
+    /// accumulated NAV (`LJJZ`) of each calendar month, then compute month-over-month
+    /// return in percent.
+    ///
+    /// `months` is the desired number of recent months; we fetch ~22 trading days
+    /// per month with a small buffer.
+    pub fn get_monthly_series(&self, code: &str, months: usize) -> Result<Vec<MonthlyReturnPoint>> {
+        Self::validate_non_empty(code, "fund code")?;
+        // 22 trading days/month + 30-day cushion; need one extra month for the first delta.
+        let days = ((months + 1) * 22 + 30) as i32;
+        let mut points = self.get_net_value_history(code, days)?;
+        // History API returns newest-first; sort ascending for chronological aggregation.
+        points.sort_by(|a, b| a.date.cmp(&b.date));
+
+        // Bucket by YYYY-MM, keeping the last (chronologically latest) acc NAV per month.
+        let mut last_per_month: Vec<(String, f64)> = Vec::new();
+        for p in &points {
+            if p.date.len() < 7 {
+                continue;
+            }
+            let month = p.date[..7].to_string();
+            match last_per_month.last_mut() {
+                Some((m, v)) if *m == month => *v = p.acc_value,
+                _ => last_per_month.push((month, p.acc_value)),
+            }
+        }
+
+        // Month-over-month delta in percent. The earliest bucket has no prior, so
+        // it serves only as the baseline and is not emitted.
+        let series: Vec<MonthlyReturnPoint> = last_per_month
+            .windows(2)
+            .filter_map(|w| {
+                let (prev_v, (cur_m, cur_v)) = (w[0].1, (&w[1].0, w[1].1));
+                if prev_v <= 0.0 {
+                    return None;
+                }
+                Some(MonthlyReturnPoint {
+                    month: cur_m.clone(),
+                    return_rate: (cur_v / prev_v - 1.0) * 100.0,
+                })
+            })
+            .collect();
+
+        // Trim to requested window (keep most recent N months).
+        let start = series.len().saturating_sub(months);
+        Ok(series[start..].to_vec())
+    }
+
     fn get_period_increase_with_range(
         &self,
         code: &str,
@@ -587,7 +639,11 @@ impl Client {
 
     /// fundThemeList is currently unavailable (times out or returns HTML).
     #[deprecated(note = "fundThemeList endpoint is currently unavailable")]
-    pub fn get_theme_hot_list(&self, _rank_item: &str, _category: &str) -> Result<serde_json::Value> {
+    pub fn get_theme_hot_list(
+        &self,
+        _rank_item: &str,
+        _category: &str,
+    ) -> Result<serde_json::Value> {
         anyhow::bail!("fundThemeList 接口当前不可用（超时或返回 HTML）")
     }
 

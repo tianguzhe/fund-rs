@@ -1,0 +1,4354 @@
+{
+  "meta": {
+    "generated_at": "2026-05-16",
+    "fund_code": "020262"
+  },
+  "detail": {
+    "FCODE": "020262",
+    "SHORTNAME": "平安鑫惠90天持有债券A",
+    "FULLNAME": "平安鑫惠90天持有期债券型证券投资基金",
+    "FTYPE": "债券型-混合一级",
+    "ESTABDATE": "2024-01-18",
+    "JJGS": "平安基金",
+    "JJJL": "田元强",
+    "TGYH": "农业银行",
+    "ENDNAV": "1904982175.84",
+    "RISKLEVEL": "2",
+    "MGREXP": "0.30%",
+    "TRUSTEXP": "0.05%",
+    "SALESEXP": "0.00%",
+    "BENCH": "中债综合全价指数收益率*90%+一年期定期存款基准利率(税后)*10%",
+    "INDEXCODE": "--"
+  },
+  "periods": [
+    {
+      "title": "Last Week",
+      "return_rate": -0.12,
+      "avg": -0.19,
+      "hs300_return": -0.25,
+      "rank": 535,
+      "total": 923
+    },
+    {
+      "title": "Last Month",
+      "return_rate": 0.13,
+      "avg": 0.3,
+      "hs300_return": 3.72,
+      "rank": 703,
+      "total": 917
+    },
+    {
+      "title": "Last 3 Months",
+      "return_rate": 0.48,
+      "avg": 0.38,
+      "hs300_return": 4.27,
+      "rank": 484,
+      "total": 917
+    },
+    {
+      "title": "Last 6 Months",
+      "return_rate": 1.37,
+      "avg": 1.51,
+      "hs300_return": 5.0,
+      "rank": 370,
+      "total": 899
+    },
+    {
+      "title": "Last Year",
+      "return_rate": 3.05,
+      "avg": 3.53,
+      "hs300_return": 24.38,
+      "rank": 323,
+      "total": 837
+    },
+    {
+      "title": "Last 2 Years",
+      "return_rate": 6.66,
+      "avg": 7.23,
+      "hs300_return": 34.02,
+      "rank": 290,
+      "total": 721
+    },
+    {
+      "title": "Year to Date",
+      "return_rate": 1.17,
+      "avg": 1.55,
+      "hs300_return": 4.96,
+      "rank": 525,
+      "total": 911
+    }
+  ],
+  "yearly_returns": [
+    {
+      "title": "2025年度",
+      "return_rate": 3.4305,
+      "avg": 2.8528,
+      "hs300_return": 17.6631,
+      "rank": 191,
+      "total": 869
+    }
+  ],
+  "monthly_returns": [
+    {
+      "title": "Z",
+      "return_rate": -0.12,
+      "avg": -0.19,
+      "hs300_return": -0.25,
+      "rank": 535,
+      "total": 923
+    },
+    {
+      "title": "Y",
+      "return_rate": 0.13,
+      "avg": 0.3,
+      "hs300_return": 3.72,
+      "rank": 703,
+      "total": 917
+    },
+    {
+      "title": "3Y",
+      "return_rate": 0.48,
+      "avg": 0.38,
+      "hs300_return": 4.27,
+      "rank": 484,
+      "total": 917
+    },
+    {
+      "title": "6Y",
+      "return_rate": 1.37,
+      "avg": 1.51,
+      "hs300_return": 5.0,
+      "rank": 370,
+      "total": 899
+    },
+    {
+      "title": "1N",
+      "return_rate": 3.05,
+      "avg": 3.53,
+      "hs300_return": 24.38,
+      "rank": 323,
+      "total": 837
+    },
+    {
+      "title": "2N",
+      "return_rate": 6.66,
+      "avg": 7.23,
+      "hs300_return": 34.02,
+      "rank": 290,
+      "total": 721
+    },
+    {
+      "title": "JN",
+      "return_rate": 1.17,
+      "avg": 1.55,
+      "hs300_return": 4.96,
+      "rank": 525,
+      "total": 911
+    }
+  ],
+  "accumulated_return": [
+    {
+      "date": "2024-01-18",
+      "fund_return": 0.0,
+      "index_return": 0.0,
+      "category_return": 0.0,
+      "bench_return": 0.0
+    },
+    {
+      "date": "2024-01-19",
+      "fund_return": 0.0,
+      "index_return": 0.0,
+      "category_return": -0.06,
+      "bench_return": 0.04
+    },
+    {
+      "date": "2024-01-26",
+      "fund_return": 0.03,
+      "index_return": 0.0,
+      "category_return": 0.08,
+      "bench_return": 0.22
+    },
+    {
+      "date": "2024-02-02",
+      "fund_return": 0.03,
+      "index_return": 0.0,
+      "category_return": -0.75,
+      "bench_return": 0.58
+    },
+    {
+      "date": "2024-02-08",
+      "fund_return": 0.1,
+      "index_return": 0.0,
+      "category_return": 0.11,
+      "bench_return": 0.52
+    },
+    {
+      "date": "2024-02-19",
+      "fund_return": 0.18,
+      "index_return": 0.0,
+      "category_return": 0.33,
+      "bench_return": 0.54
+    },
+    {
+      "date": "2024-02-20",
+      "fund_return": 0.21,
+      "index_return": 0.0,
+      "category_return": 0.53,
+      "bench_return": 0.59
+    },
+    {
+      "date": "2024-02-21",
+      "fund_return": 0.22,
+      "index_return": 0.0,
+      "category_return": 0.7,
+      "bench_return": 0.61
+    },
+    {
+      "date": "2024-02-22",
+      "fund_return": 0.24,
+      "index_return": 0.0,
+      "category_return": 0.89,
+      "bench_return": 0.64
+    },
+    {
+      "date": "2024-02-23",
+      "fund_return": 0.24,
+      "index_return": 0.0,
+      "category_return": 1.0,
+      "bench_return": 0.7
+    },
+    {
+      "date": "2024-02-26",
+      "fund_return": 0.23,
+      "index_return": 0.0,
+      "category_return": 1.0,
+      "bench_return": 0.73
+    },
+    {
+      "date": "2024-02-27",
+      "fund_return": 0.24,
+      "index_return": 0.0,
+      "category_return": 1.24,
+      "bench_return": 0.8
+    },
+    {
+      "date": "2024-02-28",
+      "fund_return": 0.24,
+      "index_return": 0.0,
+      "category_return": 0.83,
+      "bench_return": 0.86
+    },
+    {
+      "date": "2024-02-29",
+      "fund_return": 0.25,
+      "index_return": 0.0,
+      "category_return": 1.2,
+      "bench_return": 0.98
+    },
+    {
+      "date": "2024-03-01",
+      "fund_return": 0.25,
+      "index_return": 0.0,
+      "category_return": 1.26,
+      "bench_return": 0.85
+    },
+    {
+      "date": "2024-03-04",
+      "fund_return": 0.26,
+      "index_return": 0.0,
+      "category_return": 1.32,
+      "bench_return": 0.88
+    },
+    {
+      "date": "2024-03-05",
+      "fund_return": 0.26,
+      "index_return": 0.0,
+      "category_return": 1.26,
+      "bench_return": 0.91
+    },
+    {
+      "date": "2024-03-06",
+      "fund_return": 0.28,
+      "index_return": 0.0,
+      "category_return": 1.33,
+      "bench_return": 1.04
+    },
+    {
+      "date": "2024-03-07",
+      "fund_return": 0.28,
+      "index_return": 0.0,
+      "category_return": 1.25,
+      "bench_return": 1.1
+    },
+    {
+      "date": "2024-03-08",
+      "fund_return": 0.29,
+      "index_return": 0.0,
+      "category_return": 1.37,
+      "bench_return": 1.09
+    },
+    {
+      "date": "2024-03-11",
+      "fund_return": 0.32,
+      "index_return": 0.0,
+      "category_return": 1.5,
+      "bench_return": 1.01
+    },
+    {
+      "date": "2024-03-12",
+      "fund_return": 0.3,
+      "index_return": 0.0,
+      "category_return": 1.43,
+      "bench_return": 0.84
+    },
+    {
+      "date": "2024-03-13",
+      "fund_return": 0.29,
+      "index_return": 0.0,
+      "category_return": 1.41,
+      "bench_return": 0.79
+    },
+    {
+      "date": "2024-03-14",
+      "fund_return": 0.28,
+      "index_return": 0.0,
+      "category_return": 1.34,
+      "bench_return": 0.75
+    },
+    {
+      "date": "2024-03-15",
+      "fund_return": 0.3,
+      "index_return": 0.0,
+      "category_return": 1.47,
+      "bench_return": 0.78
+    },
+    {
+      "date": "2024-03-18",
+      "fund_return": 0.35,
+      "index_return": 0.0,
+      "category_return": 1.69,
+      "bench_return": 0.84
+    },
+    {
+      "date": "2024-03-19",
+      "fund_return": 0.38,
+      "index_return": 0.0,
+      "category_return": 1.68,
+      "bench_return": 0.91
+    },
+    {
+      "date": "2024-03-20",
+      "fund_return": 0.38,
+      "index_return": 0.0,
+      "category_return": 1.77,
+      "bench_return": 0.89
+    },
+    {
+      "date": "2024-03-21",
+      "fund_return": 0.39,
+      "index_return": 0.0,
+      "category_return": 1.79,
+      "bench_return": 0.9
+    },
+    {
+      "date": "2024-03-22",
+      "fund_return": 0.39,
+      "index_return": 0.0,
+      "category_return": 1.7,
+      "bench_return": 0.89
+    },
+    {
+      "date": "2024-03-25",
+      "fund_return": 0.39,
+      "index_return": 0.0,
+      "category_return": 1.55,
+      "bench_return": 0.82
+    },
+    {
+      "date": "2024-03-26",
+      "fund_return": 0.38,
+      "index_return": 0.0,
+      "category_return": 1.5,
+      "bench_return": 0.81
+    },
+    {
+      "date": "2024-03-27",
+      "fund_return": 0.4,
+      "index_return": 0.0,
+      "category_return": 1.3,
+      "bench_return": 0.86
+    },
+    {
+      "date": "2024-03-28",
+      "fund_return": 0.41,
+      "index_return": 0.0,
+      "category_return": 1.45,
+      "bench_return": 0.89
+    },
+    {
+      "date": "2024-03-29",
+      "fund_return": 0.43,
+      "index_return": 0.0,
+      "category_return": 1.62,
+      "bench_return": 0.93
+    },
+    {
+      "date": "2024-04-01",
+      "fund_return": 0.44,
+      "index_return": 0.0,
+      "category_return": 1.84,
+      "bench_return": 0.89
+    },
+    {
+      "date": "2024-04-02",
+      "fund_return": 0.47,
+      "index_return": 0.0,
+      "category_return": 1.85,
+      "bench_return": 0.94
+    },
+    {
+      "date": "2024-04-03",
+      "fund_return": 0.49,
+      "index_return": 0.0,
+      "category_return": 1.9,
+      "bench_return": 1.0
+    },
+    {
+      "date": "2024-04-08",
+      "fund_return": 0.56,
+      "index_return": 0.0,
+      "category_return": 1.8,
+      "bench_return": 1.04
+    },
+    {
+      "date": "2024-04-09",
+      "fund_return": 0.59,
+      "index_return": 0.0,
+      "category_return": 1.91,
+      "bench_return": 1.08
+    },
+    {
+      "date": "2024-04-10",
+      "fund_return": 0.6,
+      "index_return": 0.0,
+      "category_return": 1.83,
+      "bench_return": 1.06
+    },
+    {
+      "date": "2024-04-11",
+      "fund_return": 0.62,
+      "index_return": 0.0,
+      "category_return": 1.92,
+      "bench_return": 1.07
+    },
+    {
+      "date": "2024-04-12",
+      "fund_return": 0.65,
+      "index_return": 0.0,
+      "category_return": 1.99,
+      "bench_return": 1.15
+    },
+    {
+      "date": "2024-04-15",
+      "fund_return": 0.67,
+      "index_return": 0.0,
+      "category_return": 2.04,
+      "bench_return": 1.17
+    },
+    {
+      "date": "2024-04-16",
+      "fund_return": 0.68,
+      "index_return": 0.0,
+      "category_return": 1.75,
+      "bench_return": 1.19
+    },
+    {
+      "date": "2024-04-17",
+      "fund_return": 0.71,
+      "index_return": 0.0,
+      "category_return": 2.12,
+      "bench_return": 1.23
+    },
+    {
+      "date": "2024-04-18",
+      "fund_return": 0.71,
+      "index_return": 0.0,
+      "category_return": 2.2,
+      "bench_return": 1.32
+    },
+    {
+      "date": "2024-04-19",
+      "fund_return": 0.75,
+      "index_return": 0.0,
+      "category_return": 2.18,
+      "bench_return": 1.39
+    },
+    {
+      "date": "2024-04-22",
+      "fund_return": 0.82,
+      "index_return": 0.0,
+      "category_return": 2.11,
+      "bench_return": 1.47
+    },
+    {
+      "date": "2024-04-23",
+      "fund_return": 0.85,
+      "index_return": 0.0,
+      "category_return": 2.06,
+      "bench_return": 1.58
+    },
+    {
+      "date": "2024-04-24",
+      "fund_return": 0.79,
+      "index_return": 0.0,
+      "category_return": 2.14,
+      "bench_return": 1.45
+    },
+    {
+      "date": "2024-04-25",
+      "fund_return": 0.77,
+      "index_return": 0.0,
+      "category_return": 2.15,
+      "bench_return": 1.38
+    },
+    {
+      "date": "2024-04-26",
+      "fund_return": 0.74,
+      "index_return": 0.0,
+      "category_return": 2.3,
+      "bench_return": 1.24
+    },
+    {
+      "date": "2024-04-29",
+      "fund_return": 0.7,
+      "index_return": 0.0,
+      "category_return": 2.33,
+      "bench_return": 1.08
+    },
+    {
+      "date": "2024-04-30",
+      "fund_return": 0.77,
+      "index_return": 0.0,
+      "category_return": 2.41,
+      "bench_return": 1.2
+    },
+    {
+      "date": "2024-05-06",
+      "fund_return": 0.82,
+      "index_return": 0.0,
+      "category_return": 2.75,
+      "bench_return": 1.23
+    },
+    {
+      "date": "2024-05-07",
+      "fund_return": 0.86,
+      "index_return": 0.0,
+      "category_return": 2.87,
+      "bench_return": 1.32
+    },
+    {
+      "date": "2024-05-08",
+      "fund_return": 0.88,
+      "index_return": 0.0,
+      "category_return": 2.76,
+      "bench_return": 1.34
+    },
+    {
+      "date": "2024-05-09",
+      "fund_return": 0.87,
+      "index_return": 0.0,
+      "category_return": 2.98,
+      "bench_return": 1.3
+    },
+    {
+      "date": "2024-05-10",
+      "fund_return": 0.87,
+      "index_return": 0.0,
+      "category_return": 2.99,
+      "bench_return": 1.28
+    },
+    {
+      "date": "2024-05-13",
+      "fund_return": 0.9,
+      "index_return": 0.0,
+      "category_return": 2.99,
+      "bench_return": 1.42
+    },
+    {
+      "date": "2024-05-14",
+      "fund_return": 0.93,
+      "index_return": 0.0,
+      "category_return": 3.05,
+      "bench_return": 1.48
+    },
+    {
+      "date": "2024-05-15",
+      "fund_return": 0.95,
+      "index_return": 0.0,
+      "category_return": 2.95,
+      "bench_return": 1.48
+    },
+    {
+      "date": "2024-05-16",
+      "fund_return": 0.95,
+      "index_return": 0.0,
+      "category_return": 2.95,
+      "bench_return": 1.44
+    },
+    {
+      "date": "2024-05-17",
+      "fund_return": 0.94,
+      "index_return": 0.0,
+      "category_return": 3.05,
+      "bench_return": 1.4
+    },
+    {
+      "date": "2024-05-20",
+      "fund_return": 0.96,
+      "index_return": 0.0,
+      "category_return": 3.21,
+      "bench_return": 1.42
+    },
+    {
+      "date": "2024-05-21",
+      "fund_return": 0.96,
+      "index_return": 0.0,
+      "category_return": 3.11,
+      "bench_return": 1.4
+    },
+    {
+      "date": "2024-05-22",
+      "fund_return": 0.98,
+      "index_return": 0.0,
+      "category_return": 3.12,
+      "bench_return": 1.42
+    },
+    {
+      "date": "2024-05-23",
+      "fund_return": 0.99,
+      "index_return": 0.0,
+      "category_return": 2.92,
+      "bench_return": 1.47
+    },
+    {
+      "date": "2024-05-24",
+      "fund_return": 0.99,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.46
+    },
+    {
+      "date": "2024-05-27",
+      "fund_return": 1.0,
+      "index_return": 0.0,
+      "category_return": 3.0,
+      "bench_return": 1.44
+    },
+    {
+      "date": "2024-05-28",
+      "fund_return": 1.03,
+      "index_return": 0.0,
+      "category_return": 2.93,
+      "bench_return": 1.49
+    },
+    {
+      "date": "2024-05-29",
+      "fund_return": 1.04,
+      "index_return": 0.0,
+      "category_return": 2.96,
+      "bench_return": 1.55
+    },
+    {
+      "date": "2024-05-30",
+      "fund_return": 1.06,
+      "index_return": 0.0,
+      "category_return": 2.91,
+      "bench_return": 1.56
+    },
+    {
+      "date": "2024-05-31",
+      "fund_return": 1.07,
+      "index_return": 0.0,
+      "category_return": 2.89,
+      "bench_return": 1.52
+    },
+    {
+      "date": "2024-06-03",
+      "fund_return": 1.09,
+      "index_return": 0.0,
+      "category_return": 2.81,
+      "bench_return": 1.57
+    },
+    {
+      "date": "2024-06-04",
+      "fund_return": 1.11,
+      "index_return": 0.0,
+      "category_return": 2.94,
+      "bench_return": 1.6
+    },
+    {
+      "date": "2024-06-05",
+      "fund_return": 1.14,
+      "index_return": 0.0,
+      "category_return": 2.83,
+      "bench_return": 1.66
+    },
+    {
+      "date": "2024-06-06",
+      "fund_return": 1.15,
+      "index_return": 0.0,
+      "category_return": 2.8,
+      "bench_return": 1.69
+    },
+    {
+      "date": "2024-06-07",
+      "fund_return": 1.16,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.71
+    },
+    {
+      "date": "2024-06-11",
+      "fund_return": 1.18,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.75
+    },
+    {
+      "date": "2024-06-12",
+      "fund_return": 1.2,
+      "index_return": 0.0,
+      "category_return": 2.9,
+      "bench_return": 1.76
+    },
+    {
+      "date": "2024-06-13",
+      "fund_return": 1.21,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.79
+    },
+    {
+      "date": "2024-06-14",
+      "fund_return": 1.22,
+      "index_return": 0.0,
+      "category_return": 2.87,
+      "bench_return": 1.85
+    },
+    {
+      "date": "2024-06-17",
+      "fund_return": 1.24,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.85
+    },
+    {
+      "date": "2024-06-18",
+      "fund_return": 1.26,
+      "index_return": 0.0,
+      "category_return": 2.9,
+      "bench_return": 1.89
+    },
+    {
+      "date": "2024-06-19",
+      "fund_return": 1.3,
+      "index_return": 0.0,
+      "category_return": 2.82,
+      "bench_return": 1.93
+    },
+    {
+      "date": "2024-06-20",
+      "fund_return": 1.32,
+      "index_return": 0.0,
+      "category_return": 2.65,
+      "bench_return": 1.97
+    },
+    {
+      "date": "2024-06-21",
+      "fund_return": 1.29,
+      "index_return": 0.0,
+      "category_return": 2.63,
+      "bench_return": 1.92
+    },
+    {
+      "date": "2024-06-24",
+      "fund_return": 1.3,
+      "index_return": 0.0,
+      "category_return": 2.35,
+      "bench_return": 1.94
+    },
+    {
+      "date": "2024-06-25",
+      "fund_return": 1.33,
+      "index_return": 0.0,
+      "category_return": 2.38,
+      "bench_return": 2.0
+    },
+    {
+      "date": "2024-06-26",
+      "fund_return": 1.34,
+      "index_return": 0.0,
+      "category_return": 2.63,
+      "bench_return": 2.03
+    },
+    {
+      "date": "2024-06-27",
+      "fund_return": 1.38,
+      "index_return": 0.0,
+      "category_return": 2.51,
+      "bench_return": 2.09
+    },
+    {
+      "date": "2024-06-28",
+      "fund_return": 1.41,
+      "index_return": 0.0,
+      "category_return": 2.65,
+      "bench_return": 2.13
+    },
+    {
+      "date": "2024-06-30",
+      "fund_return": 1.42,
+      "index_return": 0.0,
+      "category_return": 0.0,
+      "bench_return": 0.0
+    },
+    {
+      "date": "2024-07-01",
+      "fund_return": 1.41,
+      "index_return": 0.0,
+      "category_return": 2.74,
+      "bench_return": 2.03
+    },
+    {
+      "date": "2024-07-02",
+      "fund_return": 1.43,
+      "index_return": 0.0,
+      "category_return": 2.68,
+      "bench_return": 2.07
+    },
+    {
+      "date": "2024-07-03",
+      "fund_return": 1.46,
+      "index_return": 0.0,
+      "category_return": 2.59,
+      "bench_return": 2.13
+    },
+    {
+      "date": "2024-07-04",
+      "fund_return": 1.5,
+      "index_return": 0.0,
+      "category_return": 2.44,
+      "bench_return": 2.14
+    },
+    {
+      "date": "2024-07-05",
+      "fund_return": 1.48,
+      "index_return": 0.0,
+      "category_return": 2.47,
+      "bench_return": 2.07
+    },
+    {
+      "date": "2024-07-08",
+      "fund_return": 1.48,
+      "index_return": 0.0,
+      "category_return": 2.22,
+      "bench_return": 1.96
+    },
+    {
+      "date": "2024-07-09",
+      "fund_return": 1.48,
+      "index_return": 0.0,
+      "category_return": 2.47,
+      "bench_return": 2.03
+    },
+    {
+      "date": "2024-07-10",
+      "fund_return": 1.48,
+      "index_return": 0.0,
+      "category_return": 2.38,
+      "bench_return": 2.04
+    },
+    {
+      "date": "2024-07-11",
+      "fund_return": 1.5,
+      "index_return": 0.0,
+      "category_return": 2.6,
+      "bench_return": 2.06
+    },
+    {
+      "date": "2024-07-12",
+      "fund_return": 1.5,
+      "index_return": 0.0,
+      "category_return": 2.57,
+      "bench_return": 2.1
+    },
+    {
+      "date": "2024-07-15",
+      "fund_return": 1.51,
+      "index_return": 0.0,
+      "category_return": 2.53,
+      "bench_return": 2.14
+    },
+    {
+      "date": "2024-07-16",
+      "fund_return": 1.53,
+      "index_return": 0.0,
+      "category_return": 2.56,
+      "bench_return": 2.14
+    },
+    {
+      "date": "2024-07-17",
+      "fund_return": 1.53,
+      "index_return": 0.0,
+      "category_return": 2.4,
+      "bench_return": 2.14
+    },
+    {
+      "date": "2024-07-18",
+      "fund_return": 1.54,
+      "index_return": 0.0,
+      "category_return": 2.44,
+      "bench_return": 2.12
+    },
+    {
+      "date": "2024-07-19",
+      "fund_return": 1.53,
+      "index_return": 0.0,
+      "category_return": 2.45,
+      "bench_return": 2.12
+    },
+    {
+      "date": "2024-07-22",
+      "fund_return": 1.57,
+      "index_return": 0.0,
+      "category_return": 2.4,
+      "bench_return": 2.22
+    },
+    {
+      "date": "2024-07-23",
+      "fund_return": 1.6,
+      "index_return": 0.0,
+      "category_return": 2.09,
+      "bench_return": 2.3
+    },
+    {
+      "date": "2024-07-24",
+      "fund_return": 1.61,
+      "index_return": 0.0,
+      "category_return": 1.91,
+      "bench_return": 2.33
+    },
+    {
+      "date": "2024-07-25",
+      "fund_return": 1.64,
+      "index_return": 0.0,
+      "category_return": 1.87,
+      "bench_return": 2.4
+    },
+    {
+      "date": "2024-07-26",
+      "fund_return": 1.68,
+      "index_return": 0.0,
+      "category_return": 2.14,
+      "bench_return": 2.46
+    },
+    {
+      "date": "2024-07-29",
+      "fund_return": 1.74,
+      "index_return": 0.0,
+      "category_return": 2.13,
+      "bench_return": 2.54
+    },
+    {
+      "date": "2024-07-30",
+      "fund_return": 1.83,
+      "index_return": 0.0,
+      "category_return": 2.09,
+      "bench_return": 2.61
+    },
+    {
+      "date": "2024-07-31",
+      "fund_return": 1.88,
+      "index_return": 0.0,
+      "category_return": 2.49,
+      "bench_return": 2.66
+    },
+    {
+      "date": "2024-08-01",
+      "fund_return": 1.89,
+      "index_return": 0.0,
+      "category_return": 2.49,
+      "bench_return": 2.74
+    },
+    {
+      "date": "2024-08-02",
+      "fund_return": 2.01,
+      "index_return": 0.0,
+      "category_return": 2.38,
+      "bench_return": 2.8
+    },
+    {
+      "date": "2024-08-05",
+      "fund_return": 2.05,
+      "index_return": 0.0,
+      "category_return": 2.15,
+      "bench_return": 2.87
+    },
+    {
+      "date": "2024-08-06",
+      "fund_return": 2.03,
+      "index_return": 0.0,
+      "category_return": 2.18,
+      "bench_return": 2.82
+    },
+    {
+      "date": "2024-08-07",
+      "fund_return": 2.02,
+      "index_return": 0.0,
+      "category_return": 2.24,
+      "bench_return": 2.88
+    },
+    {
+      "date": "2024-08-08",
+      "fund_return": 2.08,
+      "index_return": 0.0,
+      "category_return": 2.17,
+      "bench_return": 2.79
+    },
+    {
+      "date": "2024-08-09",
+      "fund_return": 2.06,
+      "index_return": 0.0,
+      "category_return": 2.08,
+      "bench_return": 2.68
+    },
+    {
+      "date": "2024-08-12",
+      "fund_return": 1.99,
+      "index_return": 0.0,
+      "category_return": 1.89,
+      "bench_return": 2.43
+    },
+    {
+      "date": "2024-08-13",
+      "fund_return": 2.0,
+      "index_return": 0.0,
+      "category_return": 1.94,
+      "bench_return": 2.49
+    },
+    {
+      "date": "2024-08-14",
+      "fund_return": 2.02,
+      "index_return": 0.0,
+      "category_return": 1.89,
+      "bench_return": 2.64
+    },
+    {
+      "date": "2024-08-15",
+      "fund_return": 2.0,
+      "index_return": 0.0,
+      "category_return": 1.85,
+      "bench_return": 2.58
+    },
+    {
+      "date": "2024-08-16",
+      "fund_return": 1.99,
+      "index_return": 0.0,
+      "category_return": 1.7,
+      "bench_return": 2.58
+    },
+    {
+      "date": "2024-08-19",
+      "fund_return": 1.96,
+      "index_return": 0.0,
+      "category_return": 1.8,
+      "bench_return": 2.6
+    },
+    {
+      "date": "2024-08-20",
+      "fund_return": 1.94,
+      "index_return": 0.0,
+      "category_return": 1.6,
+      "bench_return": 2.63
+    },
+    {
+      "date": "2024-08-21",
+      "fund_return": 1.89,
+      "index_return": 0.0,
+      "category_return": 1.55,
+      "bench_return": 2.59
+    },
+    {
+      "date": "2024-08-22",
+      "fund_return": 1.84,
+      "index_return": 0.0,
+      "category_return": 1.49,
+      "bench_return": 2.63
+    },
+    {
+      "date": "2024-08-23",
+      "fund_return": 1.81,
+      "index_return": 0.0,
+      "category_return": 1.5,
+      "bench_return": 2.64
+    },
+    {
+      "date": "2024-08-26",
+      "fund_return": 1.78,
+      "index_return": 0.0,
+      "category_return": 1.57,
+      "bench_return": 2.6
+    },
+    {
+      "date": "2024-08-27",
+      "fund_return": 1.76,
+      "index_return": 0.0,
+      "category_return": 1.4,
+      "bench_return": 2.5
+    },
+    {
+      "date": "2024-08-28",
+      "fund_return": 1.75,
+      "index_return": 0.0,
+      "category_return": 1.41,
+      "bench_return": 2.53
+    },
+    {
+      "date": "2024-08-29",
+      "fund_return": 1.77,
+      "index_return": 0.0,
+      "category_return": 1.52,
+      "bench_return": 2.53
+    },
+    {
+      "date": "2024-08-30",
+      "fund_return": 1.8,
+      "index_return": 0.0,
+      "category_return": 1.74,
+      "bench_return": 2.52
+    },
+    {
+      "date": "2024-09-02",
+      "fund_return": 1.83,
+      "index_return": 0.0,
+      "category_return": 1.61,
+      "bench_return": 2.63
+    },
+    {
+      "date": "2024-09-03",
+      "fund_return": 1.87,
+      "index_return": 0.0,
+      "category_return": 1.69,
+      "bench_return": 2.67
+    },
+    {
+      "date": "2024-09-04",
+      "fund_return": 1.9,
+      "index_return": 0.0,
+      "category_return": 1.67,
+      "bench_return": 2.73
+    },
+    {
+      "date": "2024-09-05",
+      "fund_return": 1.92,
+      "index_return": 0.0,
+      "category_return": 1.78,
+      "bench_return": 2.81
+    },
+    {
+      "date": "2024-09-06",
+      "fund_return": 1.89,
+      "index_return": 0.0,
+      "category_return": 1.67,
+      "bench_return": 2.82
+    },
+    {
+      "date": "2024-09-09",
+      "fund_return": 1.9,
+      "index_return": 0.0,
+      "category_return": 1.55,
+      "bench_return": 2.88
+    },
+    {
+      "date": "2024-09-10",
+      "fund_return": 1.88,
+      "index_return": 0.0,
+      "category_return": 1.51,
+      "bench_return": 2.94
+    },
+    {
+      "date": "2024-09-11",
+      "fund_return": 1.91,
+      "index_return": 0.0,
+      "category_return": 1.51,
+      "bench_return": 3.0
+    },
+    {
+      "date": "2024-09-12",
+      "fund_return": 1.93,
+      "index_return": 0.0,
+      "category_return": 1.48,
+      "bench_return": 3.04
+    },
+    {
+      "date": "2024-09-13",
+      "fund_return": 1.94,
+      "index_return": 0.0,
+      "category_return": 1.45,
+      "bench_return": 3.1
+    },
+    {
+      "date": "2024-09-18",
+      "fund_return": 2.0,
+      "index_return": 0.0,
+      "category_return": 1.51,
+      "bench_return": 3.13
+    },
+    {
+      "date": "2024-09-19",
+      "fund_return": 2.01,
+      "index_return": 0.0,
+      "category_return": 1.63,
+      "bench_return": 3.12
+    },
+    {
+      "date": "2024-09-20",
+      "fund_return": 1.96,
+      "index_return": 0.0,
+      "category_return": 1.59,
+      "bench_return": 3.1
+    },
+    {
+      "date": "2024-09-23",
+      "fund_return": 1.95,
+      "index_return": 0.0,
+      "category_return": 1.6,
+      "bench_return": 3.12
+    },
+    {
+      "date": "2024-09-24",
+      "fund_return": 2.03,
+      "index_return": 0.0,
+      "category_return": 2.07,
+      "bench_return": 3.03
+    },
+    {
+      "date": "2024-09-25",
+      "fund_return": 2.1,
+      "index_return": 0.0,
+      "category_return": 2.25,
+      "bench_return": 3.08
+    },
+    {
+      "date": "2024-09-26",
+      "fund_return": 2.11,
+      "index_return": 0.0,
+      "category_return": 2.68,
+      "bench_return": 3.01
+    },
+    {
+      "date": "2024-09-27",
+      "fund_return": 1.91,
+      "index_return": 0.0,
+      "category_return": 2.95,
+      "bench_return": 2.55
+    },
+    {
+      "date": "2024-09-30",
+      "fund_return": 1.54,
+      "index_return": 0.0,
+      "category_return": 3.73,
+      "bench_return": 2.76
+    },
+    {
+      "date": "2024-10-08",
+      "fund_return": 1.38,
+      "index_return": 0.0,
+      "category_return": 4.36,
+      "bench_return": 2.67
+    },
+    {
+      "date": "2024-10-09",
+      "fund_return": 1.19,
+      "index_return": 0.0,
+      "category_return": 3.2,
+      "bench_return": 2.67
+    },
+    {
+      "date": "2024-10-10",
+      "fund_return": 1.41,
+      "index_return": 0.0,
+      "category_return": 3.41,
+      "bench_return": 2.87
+    },
+    {
+      "date": "2024-10-11",
+      "fund_return": 1.59,
+      "index_return": 0.0,
+      "category_return": 3.15,
+      "bench_return": 2.97
+    },
+    {
+      "date": "2024-10-14",
+      "fund_return": 1.72,
+      "index_return": 0.0,
+      "category_return": 3.6,
+      "bench_return": 2.98
+    },
+    {
+      "date": "2024-10-15",
+      "fund_return": 1.78,
+      "index_return": 0.0,
+      "category_return": 3.42,
+      "bench_return": 2.98
+    },
+    {
+      "date": "2024-10-16",
+      "fund_return": 1.79,
+      "index_return": 0.0,
+      "category_return": 3.48,
+      "bench_return": 2.99
+    },
+    {
+      "date": "2024-10-17",
+      "fund_return": 1.83,
+      "index_return": 0.0,
+      "category_return": 3.46,
+      "bench_return": 3.06
+    },
+    {
+      "date": "2024-10-18",
+      "fund_return": 1.82,
+      "index_return": 0.0,
+      "category_return": 3.85,
+      "bench_return": 3.06
+    },
+    {
+      "date": "2024-10-21",
+      "fund_return": 1.83,
+      "index_return": 0.0,
+      "category_return": 3.99,
+      "bench_return": 3.02
+    },
+    {
+      "date": "2024-10-22",
+      "fund_return": 1.77,
+      "index_return": 0.0,
+      "category_return": 4.0,
+      "bench_return": 2.93
+    },
+    {
+      "date": "2024-10-23",
+      "fund_return": 1.74,
+      "index_return": 0.0,
+      "category_return": 3.99,
+      "bench_return": 2.82
+    },
+    {
+      "date": "2024-10-24",
+      "fund_return": 1.73,
+      "index_return": 0.0,
+      "category_return": 3.8,
+      "bench_return": 2.82
+    },
+    {
+      "date": "2024-10-25",
+      "fund_return": 1.74,
+      "index_return": 0.0,
+      "category_return": 3.96,
+      "bench_return": 2.77
+    },
+    {
+      "date": "2024-10-28",
+      "fund_return": 1.72,
+      "index_return": 0.0,
+      "category_return": 4.05,
+      "bench_return": 2.69
+    },
+    {
+      "date": "2024-10-29",
+      "fund_return": 1.71,
+      "index_return": 0.0,
+      "category_return": 3.86,
+      "bench_return": 2.7
+    },
+    {
+      "date": "2024-10-30",
+      "fund_return": 1.7,
+      "index_return": 0.0,
+      "category_return": 3.77,
+      "bench_return": 2.71
+    },
+    {
+      "date": "2024-10-31",
+      "fund_return": 1.72,
+      "index_return": 0.0,
+      "category_return": 3.84,
+      "bench_return": 2.74
+    },
+    {
+      "date": "2024-11-01",
+      "fund_return": 1.76,
+      "index_return": 0.0,
+      "category_return": 3.86,
+      "bench_return": 2.83
+    },
+    {
+      "date": "2024-11-04",
+      "fund_return": 1.79,
+      "index_return": 0.0,
+      "category_return": 4.07,
+      "bench_return": 2.88
+    },
+    {
+      "date": "2024-11-05",
+      "fund_return": 1.79,
+      "index_return": 0.0,
+      "category_return": 4.39,
+      "bench_return": 2.91
+    },
+    {
+      "date": "2024-11-06",
+      "fund_return": 1.81,
+      "index_return": 0.0,
+      "category_return": 4.36,
+      "bench_return": 2.94
+    },
+    {
+      "date": "2024-11-07",
+      "fund_return": 1.85,
+      "index_return": 0.0,
+      "category_return": 4.66,
+      "bench_return": 2.98
+    },
+    {
+      "date": "2024-11-08",
+      "fund_return": 1.86,
+      "index_return": 0.0,
+      "category_return": 4.6,
+      "bench_return": 3.02
+    },
+    {
+      "date": "2024-11-11",
+      "fund_return": 1.89,
+      "index_return": 0.0,
+      "category_return": 4.86,
+      "bench_return": 3.05
+    },
+    {
+      "date": "2024-11-12",
+      "fund_return": 1.91,
+      "index_return": 0.0,
+      "category_return": 4.75,
+      "bench_return": 3.11
+    },
+    {
+      "date": "2024-11-13",
+      "fund_return": 1.9,
+      "index_return": 0.0,
+      "category_return": 4.76,
+      "bench_return": 3.11
+    },
+    {
+      "date": "2024-11-14",
+      "fund_return": 1.9,
+      "index_return": 0.0,
+      "category_return": 4.47,
+      "bench_return": 3.1
+    },
+    {
+      "date": "2024-11-15",
+      "fund_return": 1.91,
+      "index_return": 0.0,
+      "category_return": 4.27,
+      "bench_return": 3.09
+    },
+    {
+      "date": "2024-11-18",
+      "fund_return": 1.94,
+      "index_return": 0.0,
+      "category_return": 4.09,
+      "bench_return": 3.01
+    },
+    {
+      "date": "2024-11-19",
+      "fund_return": 1.95,
+      "index_return": 0.0,
+      "category_return": 4.29,
+      "bench_return": 3.01
+    },
+    {
+      "date": "2024-11-20",
+      "fund_return": 1.95,
+      "index_return": 0.0,
+      "category_return": 4.44,
+      "bench_return": 3.01
+    },
+    {
+      "date": "2024-11-21",
+      "fund_return": 1.98,
+      "index_return": 0.0,
+      "category_return": 4.49,
+      "bench_return": 3.05
+    },
+    {
+      "date": "2024-11-22",
+      "fund_return": 1.99,
+      "index_return": 0.0,
+      "category_return": 4.18,
+      "bench_return": 3.08
+    },
+    {
+      "date": "2024-11-25",
+      "fund_return": 2.04,
+      "index_return": 0.0,
+      "category_return": 4.2,
+      "bench_return": 3.15
+    },
+    {
+      "date": "2024-11-26",
+      "fund_return": 2.06,
+      "index_return": 0.0,
+      "category_return": 4.18,
+      "bench_return": 3.2
+    },
+    {
+      "date": "2024-11-27",
+      "fund_return": 2.07,
+      "index_return": 0.0,
+      "category_return": 4.43,
+      "bench_return": 3.23
+    },
+    {
+      "date": "2024-11-28",
+      "fund_return": 2.09,
+      "index_return": 0.0,
+      "category_return": 4.44,
+      "bench_return": 3.31
+    },
+    {
+      "date": "2024-11-29",
+      "fund_return": 2.14,
+      "index_return": 0.0,
+      "category_return": 4.68,
+      "bench_return": 3.4
+    },
+    {
+      "date": "2024-12-02",
+      "fund_return": 2.3,
+      "index_return": 0.0,
+      "category_return": 4.97,
+      "bench_return": 3.63
+    },
+    {
+      "date": "2024-12-03",
+      "fund_return": 2.3,
+      "index_return": 0.0,
+      "category_return": 4.99,
+      "bench_return": 3.63
+    },
+    {
+      "date": "2024-12-04",
+      "fund_return": 2.36,
+      "index_return": 0.0,
+      "category_return": 4.93,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2024-12-05",
+      "fund_return": 2.4,
+      "index_return": 0.0,
+      "category_return": 5.02,
+      "bench_return": 3.79
+    },
+    {
+      "date": "2024-12-06",
+      "fund_return": 2.41,
+      "index_return": 0.0,
+      "category_return": 5.18,
+      "bench_return": 3.78
+    },
+    {
+      "date": "2024-12-09",
+      "fund_return": 2.42,
+      "index_return": 0.0,
+      "category_return": 5.24,
+      "bench_return": 3.85
+    },
+    {
+      "date": "2024-12-10",
+      "fund_return": 2.51,
+      "index_return": 0.0,
+      "category_return": 5.55,
+      "bench_return": 4.16
+    },
+    {
+      "date": "2024-12-11",
+      "fund_return": 2.53,
+      "index_return": 0.0,
+      "category_return": 5.73,
+      "bench_return": 4.19
+    },
+    {
+      "date": "2024-12-12",
+      "fund_return": 2.56,
+      "index_return": 0.0,
+      "category_return": 5.94,
+      "bench_return": 4.26
+    },
+    {
+      "date": "2024-12-13",
+      "fund_return": 2.66,
+      "index_return": 0.0,
+      "category_return": 5.8,
+      "bench_return": 4.48
+    },
+    {
+      "date": "2024-12-16",
+      "fund_return": 2.73,
+      "index_return": 0.0,
+      "category_return": 5.71,
+      "bench_return": 4.68
+    },
+    {
+      "date": "2024-12-17",
+      "fund_return": 2.7,
+      "index_return": 0.0,
+      "category_return": 5.54,
+      "bench_return": 4.62
+    },
+    {
+      "date": "2024-12-18",
+      "fund_return": 2.69,
+      "index_return": 0.0,
+      "category_return": 5.59,
+      "bench_return": 4.51
+    },
+    {
+      "date": "2024-12-19",
+      "fund_return": 2.68,
+      "index_return": 0.0,
+      "category_return": 5.57,
+      "bench_return": 4.46
+    },
+    {
+      "date": "2024-12-20",
+      "fund_return": 2.73,
+      "index_return": 0.0,
+      "category_return": 5.74,
+      "bench_return": 4.65
+    },
+    {
+      "date": "2024-12-23",
+      "fund_return": 2.78,
+      "index_return": 0.0,
+      "category_return": 5.65,
+      "bench_return": 4.71
+    },
+    {
+      "date": "2024-12-24",
+      "fund_return": 2.78,
+      "index_return": 0.0,
+      "category_return": 5.76,
+      "bench_return": 4.62
+    },
+    {
+      "date": "2024-12-25",
+      "fund_return": 2.76,
+      "index_return": 0.0,
+      "category_return": 5.65,
+      "bench_return": 4.54
+    },
+    {
+      "date": "2024-12-26",
+      "fund_return": 2.76,
+      "index_return": 0.0,
+      "category_return": 5.73,
+      "bench_return": 4.56
+    },
+    {
+      "date": "2024-12-27",
+      "fund_return": 2.83,
+      "index_return": 0.0,
+      "category_return": 5.84,
+      "bench_return": 4.72
+    },
+    {
+      "date": "2024-12-30",
+      "fund_return": 2.86,
+      "index_return": 0.0,
+      "category_return": 5.87,
+      "bench_return": 4.7
+    },
+    {
+      "date": "2024-12-31",
+      "fund_return": 2.9,
+      "index_return": 0.0,
+      "category_return": 5.74,
+      "bench_return": 4.85
+    },
+    {
+      "date": "2025-01-02",
+      "fund_return": 2.97,
+      "index_return": 0.0,
+      "category_return": 5.6,
+      "bench_return": 5.15
+    },
+    {
+      "date": "2025-01-03",
+      "fund_return": 3.03,
+      "index_return": 0.0,
+      "category_return": 5.5,
+      "bench_return": 5.27
+    },
+    {
+      "date": "2025-01-06",
+      "fund_return": 3.05,
+      "index_return": 0.0,
+      "category_return": 5.5,
+      "bench_return": 5.29
+    },
+    {
+      "date": "2025-01-07",
+      "fund_return": 3.03,
+      "index_return": 0.0,
+      "category_return": 5.62,
+      "bench_return": 5.2
+    },
+    {
+      "date": "2025-01-08",
+      "fund_return": 3.02,
+      "index_return": 0.0,
+      "category_return": 5.59,
+      "bench_return": 5.16
+    },
+    {
+      "date": "2025-01-09",
+      "fund_return": 2.97,
+      "index_return": 0.0,
+      "category_return": 5.55,
+      "bench_return": 5.02
+    },
+    {
+      "date": "2025-01-10",
+      "fund_return": 2.96,
+      "index_return": 0.0,
+      "category_return": 5.42,
+      "bench_return": 5.03
+    },
+    {
+      "date": "2025-01-13",
+      "fund_return": 2.93,
+      "index_return": 0.0,
+      "category_return": 5.33,
+      "bench_return": 4.95
+    },
+    {
+      "date": "2025-01-14",
+      "fund_return": 2.92,
+      "index_return": 0.0,
+      "category_return": 5.72,
+      "bench_return": 5.01
+    },
+    {
+      "date": "2025-01-15",
+      "fund_return": 2.93,
+      "index_return": 0.0,
+      "category_return": 5.72,
+      "bench_return": 5.06
+    },
+    {
+      "date": "2025-01-16",
+      "fund_return": 2.9,
+      "index_return": 0.0,
+      "category_return": 5.69,
+      "bench_return": 5.02
+    },
+    {
+      "date": "2025-01-17",
+      "fund_return": 2.89,
+      "index_return": 0.0,
+      "category_return": 5.77,
+      "bench_return": 4.97
+    },
+    {
+      "date": "2025-01-20",
+      "fund_return": 2.88,
+      "index_return": 0.0,
+      "category_return": 5.83,
+      "bench_return": 4.91
+    },
+    {
+      "date": "2025-01-21",
+      "fund_return": 2.9,
+      "index_return": 0.0,
+      "category_return": 5.94,
+      "bench_return": 4.97
+    },
+    {
+      "date": "2025-01-22",
+      "fund_return": 2.91,
+      "index_return": 0.0,
+      "category_return": 5.88,
+      "bench_return": 4.99
+    },
+    {
+      "date": "2025-01-23",
+      "fund_return": 2.87,
+      "index_return": 0.0,
+      "category_return": 5.82,
+      "bench_return": 4.94
+    },
+    {
+      "date": "2025-01-24",
+      "fund_return": 2.86,
+      "index_return": 0.0,
+      "category_return": 5.99,
+      "bench_return": 4.9
+    },
+    {
+      "date": "2025-01-27",
+      "fund_return": 2.92,
+      "index_return": 0.0,
+      "category_return": 5.98,
+      "bench_return": 5.04
+    },
+    {
+      "date": "2025-02-05",
+      "fund_return": 2.95,
+      "index_return": 0.0,
+      "category_return": 6.03,
+      "bench_return": 5.12
+    },
+    {
+      "date": "2025-02-06",
+      "fund_return": 2.98,
+      "index_return": 0.0,
+      "category_return": 6.33,
+      "bench_return": 5.22
+    },
+    {
+      "date": "2025-02-07",
+      "fund_return": 3.01,
+      "index_return": 0.0,
+      "category_return": 6.5,
+      "bench_return": 5.23
+    },
+    {
+      "date": "2025-02-10",
+      "fund_return": 2.97,
+      "index_return": 0.0,
+      "category_return": 6.52,
+      "bench_return": 5.15
+    },
+    {
+      "date": "2025-02-11",
+      "fund_return": 2.96,
+      "index_return": 0.0,
+      "category_return": 6.46,
+      "bench_return": 5.15
+    },
+    {
+      "date": "2025-02-12",
+      "fund_return": 2.96,
+      "index_return": 0.0,
+      "category_return": 6.59,
+      "bench_return": 5.16
+    },
+    {
+      "date": "2025-02-13",
+      "fund_return": 2.94,
+      "index_return": 0.0,
+      "category_return": 6.49,
+      "bench_return": 5.14
+    },
+    {
+      "date": "2025-02-14",
+      "fund_return": 2.9,
+      "index_return": 0.0,
+      "category_return": 6.52,
+      "bench_return": 5.05
+    },
+    {
+      "date": "2025-02-17",
+      "fund_return": 2.87,
+      "index_return": 0.0,
+      "category_return": 6.47,
+      "bench_return": 4.89
+    },
+    {
+      "date": "2025-02-18",
+      "fund_return": 2.84,
+      "index_return": 0.0,
+      "category_return": 6.26,
+      "bench_return": 4.8
+    },
+    {
+      "date": "2025-02-19",
+      "fund_return": 2.85,
+      "index_return": 0.0,
+      "category_return": 6.5,
+      "bench_return": 4.81
+    },
+    {
+      "date": "2025-02-20",
+      "fund_return": 2.74,
+      "index_return": 0.0,
+      "category_return": 6.49,
+      "bench_return": 4.71
+    },
+    {
+      "date": "2025-02-21",
+      "fund_return": 2.9,
+      "index_return": 0.0,
+      "category_return": 6.61,
+      "bench_return": 4.54
+    },
+    {
+      "date": "2025-02-24",
+      "fund_return": 2.85,
+      "index_return": 0.0,
+      "category_return": 6.47,
+      "bench_return": 4.29
+    },
+    {
+      "date": "2025-02-25",
+      "fund_return": 2.91,
+      "index_return": 0.0,
+      "category_return": 6.39,
+      "bench_return": 4.26
+    },
+    {
+      "date": "2025-02-26",
+      "fund_return": 2.98,
+      "index_return": 0.0,
+      "category_return": 6.61,
+      "bench_return": 4.27
+    },
+    {
+      "date": "2025-02-27",
+      "fund_return": 2.96,
+      "index_return": 0.0,
+      "category_return": 6.52,
+      "bench_return": 4.14
+    },
+    {
+      "date": "2025-02-28",
+      "fund_return": 2.95,
+      "index_return": 0.0,
+      "category_return": 6.17,
+      "bench_return": 4.16
+    },
+    {
+      "date": "2025-03-03",
+      "fund_return": 3.06,
+      "index_return": 0.0,
+      "category_return": 6.18,
+      "bench_return": 4.23
+    },
+    {
+      "date": "2025-03-04",
+      "fund_return": 3.06,
+      "index_return": 0.0,
+      "category_return": 6.27,
+      "bench_return": 4.24
+    },
+    {
+      "date": "2025-03-05",
+      "fund_return": 3.13,
+      "index_return": 0.0,
+      "category_return": 6.39,
+      "bench_return": 4.25
+    },
+    {
+      "date": "2025-03-06",
+      "fund_return": 3.14,
+      "index_return": 0.0,
+      "category_return": 6.57,
+      "bench_return": 4.14
+    },
+    {
+      "date": "2025-03-07",
+      "fund_return": 3.08,
+      "index_return": 0.0,
+      "category_return": 6.47,
+      "bench_return": 3.88
+    },
+    {
+      "date": "2025-03-10",
+      "fund_return": 3.07,
+      "index_return": 0.0,
+      "category_return": 6.44,
+      "bench_return": 3.8
+    },
+    {
+      "date": "2025-03-11",
+      "fund_return": 3.02,
+      "index_return": 0.0,
+      "category_return": 6.31,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2025-03-12",
+      "fund_return": 3.12,
+      "index_return": 0.0,
+      "category_return": 6.36,
+      "bench_return": 3.62
+    },
+    {
+      "date": "2025-03-13",
+      "fund_return": 3.17,
+      "index_return": 0.0,
+      "category_return": 6.28,
+      "bench_return": 3.64
+    },
+    {
+      "date": "2025-03-14",
+      "fund_return": 3.2,
+      "index_return": 0.0,
+      "category_return": 6.59,
+      "bench_return": 3.64
+    },
+    {
+      "date": "2025-03-17",
+      "fund_return": 3.26,
+      "index_return": 0.0,
+      "category_return": 6.57,
+      "bench_return": 3.37
+    },
+    {
+      "date": "2025-03-18",
+      "fund_return": 3.26,
+      "index_return": 0.0,
+      "category_return": 6.64,
+      "bench_return": 3.38
+    },
+    {
+      "date": "2025-03-19",
+      "fund_return": 3.28,
+      "index_return": 0.0,
+      "category_return": 6.58,
+      "bench_return": 3.4
+    },
+    {
+      "date": "2025-03-20",
+      "fund_return": 3.37,
+      "index_return": 0.0,
+      "category_return": 6.58,
+      "bench_return": 3.59
+    },
+    {
+      "date": "2025-03-21",
+      "fund_return": 3.39,
+      "index_return": 0.0,
+      "category_return": 6.34,
+      "bench_return": 3.6
+    },
+    {
+      "date": "2025-03-24",
+      "fund_return": 3.43,
+      "index_return": 0.0,
+      "category_return": 6.35,
+      "bench_return": 3.58
+    },
+    {
+      "date": "2025-03-25",
+      "fund_return": 3.46,
+      "index_return": 0.0,
+      "category_return": 6.41,
+      "bench_return": 3.68
+    },
+    {
+      "date": "2025-03-26",
+      "fund_return": 3.47,
+      "index_return": 0.0,
+      "category_return": 6.49,
+      "bench_return": 3.73
+    },
+    {
+      "date": "2025-03-27",
+      "fund_return": 3.57,
+      "index_return": 0.0,
+      "category_return": 6.52,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-03-28",
+      "fund_return": 3.55,
+      "index_return": 0.0,
+      "category_return": 6.43,
+      "bench_return": 3.74
+    },
+    {
+      "date": "2025-03-31",
+      "fund_return": 3.6,
+      "index_return": 0.0,
+      "category_return": 6.33,
+      "bench_return": 3.76
+    },
+    {
+      "date": "2025-04-01",
+      "fund_return": 3.61,
+      "index_return": 0.0,
+      "category_return": 6.41,
+      "bench_return": 3.8
+    },
+    {
+      "date": "2025-04-02",
+      "fund_return": 3.7,
+      "index_return": 0.0,
+      "category_return": 6.49,
+      "bench_return": 3.93
+    },
+    {
+      "date": "2025-04-03",
+      "fund_return": 3.86,
+      "index_return": 0.0,
+      "category_return": 6.52,
+      "bench_return": 4.32
+    },
+    {
+      "date": "2025-04-07",
+      "fund_return": 3.93,
+      "index_return": 0.0,
+      "category_return": 5.56,
+      "bench_return": 4.72
+    },
+    {
+      "date": "2025-04-08",
+      "fund_return": 3.97,
+      "index_return": 0.0,
+      "category_return": 5.68,
+      "bench_return": 4.55
+    },
+    {
+      "date": "2025-04-09",
+      "fund_return": 4.1,
+      "index_return": 0.0,
+      "category_return": 5.9,
+      "bench_return": 4.57
+    },
+    {
+      "date": "2025-04-10",
+      "fund_return": 4.15,
+      "index_return": 0.0,
+      "category_return": 6.16,
+      "bench_return": 4.54
+    },
+    {
+      "date": "2025-04-11",
+      "fund_return": 4.15,
+      "index_return": 0.0,
+      "category_return": 6.18,
+      "bench_return": 4.56
+    },
+    {
+      "date": "2025-04-14",
+      "fund_return": 4.17,
+      "index_return": 0.0,
+      "category_return": 6.27,
+      "bench_return": 4.53
+    },
+    {
+      "date": "2025-04-15",
+      "fund_return": 4.16,
+      "index_return": 0.0,
+      "category_return": 6.2,
+      "bench_return": 4.52
+    },
+    {
+      "date": "2025-04-16",
+      "fund_return": 4.16,
+      "index_return": 0.0,
+      "category_return": 6.12,
+      "bench_return": 4.56
+    },
+    {
+      "date": "2025-04-17",
+      "fund_return": 4.17,
+      "index_return": 0.0,
+      "category_return": 6.14,
+      "bench_return": 4.52
+    },
+    {
+      "date": "2025-04-18",
+      "fund_return": 4.18,
+      "index_return": 0.0,
+      "category_return": 6.13,
+      "bench_return": 4.5
+    },
+    {
+      "date": "2025-04-21",
+      "fund_return": 4.19,
+      "index_return": 0.0,
+      "category_return": 6.25,
+      "bench_return": 4.46
+    },
+    {
+      "date": "2025-04-22",
+      "fund_return": 4.24,
+      "index_return": 0.0,
+      "category_return": 6.31,
+      "bench_return": 4.49
+    },
+    {
+      "date": "2025-04-23",
+      "fund_return": 4.19,
+      "index_return": 0.0,
+      "category_return": 6.35,
+      "bench_return": 4.43
+    },
+    {
+      "date": "2025-04-24",
+      "fund_return": 4.21,
+      "index_return": 0.0,
+      "category_return": 6.27,
+      "bench_return": 4.43
+    },
+    {
+      "date": "2025-04-25",
+      "fund_return": 4.21,
+      "index_return": 0.0,
+      "category_return": 6.31,
+      "bench_return": 4.45
+    },
+    {
+      "date": "2025-04-28",
+      "fund_return": 4.22,
+      "index_return": 0.0,
+      "category_return": 6.27,
+      "bench_return": 4.5
+    },
+    {
+      "date": "2025-04-29",
+      "fund_return": 4.34,
+      "index_return": 0.0,
+      "category_return": 6.39,
+      "bench_return": 4.61
+    },
+    {
+      "date": "2025-04-30",
+      "fund_return": 4.34,
+      "index_return": 0.0,
+      "category_return": 6.45,
+      "bench_return": 4.66
+    },
+    {
+      "date": "2025-05-06",
+      "fund_return": 4.38,
+      "index_return": 0.0,
+      "category_return": 6.7,
+      "bench_return": 4.7
+    },
+    {
+      "date": "2025-05-07",
+      "fund_return": 4.37,
+      "index_return": 0.0,
+      "category_return": 6.7,
+      "bench_return": 4.66
+    },
+    {
+      "date": "2025-05-08",
+      "fund_return": 4.42,
+      "index_return": 0.0,
+      "category_return": 6.86,
+      "bench_return": 4.74
+    },
+    {
+      "date": "2025-05-09",
+      "fund_return": 4.45,
+      "index_return": 0.0,
+      "category_return": 6.81,
+      "bench_return": 4.77
+    },
+    {
+      "date": "2025-05-12",
+      "fund_return": 4.46,
+      "index_return": 0.0,
+      "category_return": 6.91,
+      "bench_return": 4.58
+    },
+    {
+      "date": "2025-05-13",
+      "fund_return": 4.49,
+      "index_return": 0.0,
+      "category_return": 6.95,
+      "bench_return": 4.62
+    },
+    {
+      "date": "2025-05-14",
+      "fund_return": 4.49,
+      "index_return": 0.0,
+      "category_return": 6.97,
+      "bench_return": 4.6
+    },
+    {
+      "date": "2025-05-15",
+      "fund_return": 4.48,
+      "index_return": 0.0,
+      "category_return": 6.83,
+      "bench_return": 4.58
+    },
+    {
+      "date": "2025-05-16",
+      "fund_return": 4.46,
+      "index_return": 0.0,
+      "category_return": 6.82,
+      "bench_return": 4.54
+    },
+    {
+      "date": "2025-05-19",
+      "fund_return": 4.47,
+      "index_return": 0.0,
+      "category_return": 6.87,
+      "bench_return": 4.58
+    },
+    {
+      "date": "2025-05-20",
+      "fund_return": 4.48,
+      "index_return": 0.0,
+      "category_return": 6.98,
+      "bench_return": 4.59
+    },
+    {
+      "date": "2025-05-21",
+      "fund_return": 4.55,
+      "index_return": 0.0,
+      "category_return": 7.03,
+      "bench_return": 4.57
+    },
+    {
+      "date": "2025-05-22",
+      "fund_return": 4.57,
+      "index_return": 0.0,
+      "category_return": 6.95,
+      "bench_return": 4.57
+    },
+    {
+      "date": "2025-05-23",
+      "fund_return": 4.55,
+      "index_return": 0.0,
+      "category_return": 6.86,
+      "bench_return": 4.56
+    },
+    {
+      "date": "2025-05-26",
+      "fund_return": 4.58,
+      "index_return": 0.0,
+      "category_return": 6.84,
+      "bench_return": 4.56
+    },
+    {
+      "date": "2025-05-27",
+      "fund_return": 4.55,
+      "index_return": 0.0,
+      "category_return": 6.75,
+      "bench_return": 4.53
+    },
+    {
+      "date": "2025-05-28",
+      "fund_return": 4.52,
+      "index_return": 0.0,
+      "category_return": 6.75,
+      "bench_return": 4.5
+    },
+    {
+      "date": "2025-05-29",
+      "fund_return": 4.57,
+      "index_return": 0.0,
+      "category_return": 6.84,
+      "bench_return": 4.41
+    },
+    {
+      "date": "2025-05-30",
+      "fund_return": 4.59,
+      "index_return": 0.0,
+      "category_return": 6.83,
+      "bench_return": 4.49
+    },
+    {
+      "date": "2025-06-03",
+      "fund_return": 4.61,
+      "index_return": 0.0,
+      "category_return": 6.91,
+      "bench_return": 4.5
+    },
+    {
+      "date": "2025-06-04",
+      "fund_return": 4.63,
+      "index_return": 0.0,
+      "category_return": 7.04,
+      "bench_return": 4.5
+    },
+    {
+      "date": "2025-06-05",
+      "fund_return": 4.63,
+      "index_return": 0.0,
+      "category_return": 7.1,
+      "bench_return": 4.52
+    },
+    {
+      "date": "2025-06-06",
+      "fund_return": 4.66,
+      "index_return": 0.0,
+      "category_return": 7.16,
+      "bench_return": 4.58
+    },
+    {
+      "date": "2025-06-09",
+      "fund_return": 4.7,
+      "index_return": 0.0,
+      "category_return": 7.29,
+      "bench_return": 4.61
+    },
+    {
+      "date": "2025-06-10",
+      "fund_return": 4.73,
+      "index_return": 0.0,
+      "category_return": 7.22,
+      "bench_return": 4.63
+    },
+    {
+      "date": "2025-06-11",
+      "fund_return": 4.78,
+      "index_return": 0.0,
+      "category_return": 7.34,
+      "bench_return": 4.69
+    },
+    {
+      "date": "2025-06-12",
+      "fund_return": 4.78,
+      "index_return": 0.0,
+      "category_return": 7.37,
+      "bench_return": 4.71
+    },
+    {
+      "date": "2025-06-13",
+      "fund_return": 4.76,
+      "index_return": 0.0,
+      "category_return": 7.25,
+      "bench_return": 4.72
+    },
+    {
+      "date": "2025-06-16",
+      "fund_return": 4.77,
+      "index_return": 0.0,
+      "category_return": 7.32,
+      "bench_return": 4.72
+    },
+    {
+      "date": "2025-06-17",
+      "fund_return": 4.82,
+      "index_return": 0.0,
+      "category_return": 7.34,
+      "bench_return": 4.77
+    },
+    {
+      "date": "2025-06-18",
+      "fund_return": 4.84,
+      "index_return": 0.0,
+      "category_return": 7.37,
+      "bench_return": 4.79
+    },
+    {
+      "date": "2025-06-19",
+      "fund_return": 4.84,
+      "index_return": 0.0,
+      "category_return": 7.25,
+      "bench_return": 4.86
+    },
+    {
+      "date": "2025-06-20",
+      "fund_return": 4.85,
+      "index_return": 0.0,
+      "category_return": 7.24,
+      "bench_return": 4.9
+    },
+    {
+      "date": "2025-06-23",
+      "fund_return": 4.87,
+      "index_return": 0.0,
+      "category_return": 7.33,
+      "bench_return": 4.91
+    },
+    {
+      "date": "2025-06-24",
+      "fund_return": 4.86,
+      "index_return": 0.0,
+      "category_return": 7.48,
+      "bench_return": 4.86
+    },
+    {
+      "date": "2025-06-25",
+      "fund_return": 4.88,
+      "index_return": 0.0,
+      "category_return": 7.65,
+      "bench_return": 4.8
+    },
+    {
+      "date": "2025-06-26",
+      "fund_return": 4.87,
+      "index_return": 0.0,
+      "category_return": 7.63,
+      "bench_return": 4.8
+    },
+    {
+      "date": "2025-06-27",
+      "fund_return": 4.9,
+      "index_return": 0.0,
+      "category_return": 7.68,
+      "bench_return": 4.82
+    },
+    {
+      "date": "2025-06-30",
+      "fund_return": 4.92,
+      "index_return": 0.0,
+      "category_return": 7.77,
+      "bench_return": 4.79
+    },
+    {
+      "date": "2025-07-01",
+      "fund_return": 5.0,
+      "index_return": 0.0,
+      "category_return": 7.89,
+      "bench_return": 4.83
+    },
+    {
+      "date": "2025-07-02",
+      "fund_return": 5.04,
+      "index_return": 0.0,
+      "category_return": 7.88,
+      "bench_return": 4.92
+    },
+    {
+      "date": "2025-07-03",
+      "fund_return": 5.1,
+      "index_return": 0.0,
+      "category_return": 8.0,
+      "bench_return": 4.94
+    },
+    {
+      "date": "2025-07-04",
+      "fund_return": 5.12,
+      "index_return": 0.0,
+      "category_return": 8.03,
+      "bench_return": 4.96
+    },
+    {
+      "date": "2025-07-07",
+      "fund_return": 5.12,
+      "index_return": 0.0,
+      "category_return": 8.0,
+      "bench_return": 4.97
+    },
+    {
+      "date": "2025-07-08",
+      "fund_return": 5.13,
+      "index_return": 0.0,
+      "category_return": 8.15,
+      "bench_return": 4.94
+    },
+    {
+      "date": "2025-07-09",
+      "fund_return": 5.11,
+      "index_return": 0.0,
+      "category_return": 8.08,
+      "bench_return": 4.94
+    },
+    {
+      "date": "2025-07-10",
+      "fund_return": 5.12,
+      "index_return": 0.0,
+      "category_return": 8.12,
+      "bench_return": 4.88
+    },
+    {
+      "date": "2025-07-11",
+      "fund_return": 5.13,
+      "index_return": 0.0,
+      "category_return": 8.14,
+      "bench_return": 4.85
+    },
+    {
+      "date": "2025-07-14",
+      "fund_return": 5.1,
+      "index_return": 0.0,
+      "category_return": 8.1,
+      "bench_return": 4.8
+    },
+    {
+      "date": "2025-07-15",
+      "fund_return": 5.15,
+      "index_return": 0.0,
+      "category_return": 8.13,
+      "bench_return": 4.88
+    },
+    {
+      "date": "2025-07-16",
+      "fund_return": 5.13,
+      "index_return": 0.0,
+      "category_return": 8.19,
+      "bench_return": 4.89
+    },
+    {
+      "date": "2025-07-17",
+      "fund_return": 5.31,
+      "index_return": 0.0,
+      "category_return": 8.36,
+      "bench_return": 4.9
+    },
+    {
+      "date": "2025-07-18",
+      "fund_return": 5.32,
+      "index_return": 0.0,
+      "category_return": 8.44,
+      "bench_return": 4.88
+    },
+    {
+      "date": "2025-07-21",
+      "fund_return": 5.38,
+      "index_return": 0.0,
+      "category_return": 8.56,
+      "bench_return": 4.8
+    },
+    {
+      "date": "2025-07-22",
+      "fund_return": 5.43,
+      "index_return": 0.0,
+      "category_return": 8.65,
+      "bench_return": 4.74
+    },
+    {
+      "date": "2025-07-23",
+      "fund_return": 5.41,
+      "index_return": 0.0,
+      "category_return": 8.58,
+      "bench_return": 4.65
+    },
+    {
+      "date": "2025-07-24",
+      "fund_return": 5.44,
+      "index_return": 0.0,
+      "category_return": 8.63,
+      "bench_return": 4.49
+    },
+    {
+      "date": "2025-07-25",
+      "fund_return": 5.43,
+      "index_return": 0.0,
+      "category_return": 8.62,
+      "bench_return": 4.47
+    },
+    {
+      "date": "2025-07-28",
+      "fund_return": 5.4,
+      "index_return": 0.0,
+      "category_return": 8.63,
+      "bench_return": 4.55
+    },
+    {
+      "date": "2025-07-29",
+      "fund_return": 5.32,
+      "index_return": 0.0,
+      "category_return": 8.61,
+      "bench_return": 4.38
+    },
+    {
+      "date": "2025-07-30",
+      "fund_return": 5.4,
+      "index_return": 0.0,
+      "category_return": 8.63,
+      "bench_return": 4.45
+    },
+    {
+      "date": "2025-07-31",
+      "fund_return": 5.47,
+      "index_return": 0.0,
+      "category_return": 8.46,
+      "bench_return": 4.57
+    },
+    {
+      "date": "2025-08-01",
+      "fund_return": 5.48,
+      "index_return": 0.0,
+      "category_return": 8.47,
+      "bench_return": 4.58
+    },
+    {
+      "date": "2025-08-04",
+      "fund_return": 5.53,
+      "index_return": 0.0,
+      "category_return": 8.66,
+      "bench_return": 4.6
+    },
+    {
+      "date": "2025-08-05",
+      "fund_return": 5.61,
+      "index_return": 0.0,
+      "category_return": 8.82,
+      "bench_return": 4.59
+    },
+    {
+      "date": "2025-08-06",
+      "fund_return": 5.67,
+      "index_return": 0.0,
+      "category_return": 8.96,
+      "bench_return": 4.61
+    },
+    {
+      "date": "2025-08-07",
+      "fund_return": 5.69,
+      "index_return": 0.0,
+      "category_return": 8.96,
+      "bench_return": 4.63
+    },
+    {
+      "date": "2025-08-08",
+      "fund_return": 5.71,
+      "index_return": 0.0,
+      "category_return": 8.96,
+      "bench_return": 4.63
+    },
+    {
+      "date": "2025-08-11",
+      "fund_return": 5.71,
+      "index_return": 0.0,
+      "category_return": 9.02,
+      "bench_return": 4.51
+    },
+    {
+      "date": "2025-08-12",
+      "fund_return": 5.69,
+      "index_return": 0.0,
+      "category_return": 8.98,
+      "bench_return": 4.41
+    },
+    {
+      "date": "2025-08-13",
+      "fund_return": 5.72,
+      "index_return": 0.0,
+      "category_return": 9.16,
+      "bench_return": 4.4
+    },
+    {
+      "date": "2025-08-14",
+      "fund_return": 5.69,
+      "index_return": 0.0,
+      "category_return": 9.02,
+      "bench_return": 4.35
+    },
+    {
+      "date": "2025-08-15",
+      "fund_return": 5.71,
+      "index_return": 0.0,
+      "category_return": 9.21,
+      "bench_return": 4.27
+    },
+    {
+      "date": "2025-08-18",
+      "fund_return": 5.68,
+      "index_return": 0.0,
+      "category_return": 9.26,
+      "bench_return": 3.99
+    },
+    {
+      "date": "2025-08-19",
+      "fund_return": 5.68,
+      "index_return": 0.0,
+      "category_return": 9.26,
+      "bench_return": 4.0
+    },
+    {
+      "date": "2025-08-20",
+      "fund_return": 5.71,
+      "index_return": 0.0,
+      "category_return": 9.37,
+      "bench_return": 3.96
+    },
+    {
+      "date": "2025-08-21",
+      "fund_return": 5.73,
+      "index_return": 0.0,
+      "category_return": 9.45,
+      "bench_return": 3.97
+    },
+    {
+      "date": "2025-08-22",
+      "fund_return": 5.8,
+      "index_return": 0.0,
+      "category_return": 9.69,
+      "bench_return": 3.95
+    },
+    {
+      "date": "2025-08-25",
+      "fund_return": 5.85,
+      "index_return": 0.0,
+      "category_return": 9.96,
+      "bench_return": 3.98
+    },
+    {
+      "date": "2025-08-26",
+      "fund_return": 5.89,
+      "index_return": 0.0,
+      "category_return": 9.99,
+      "bench_return": 4.04
+    },
+    {
+      "date": "2025-08-27",
+      "fund_return": 5.85,
+      "index_return": 0.0,
+      "category_return": 9.56,
+      "bench_return": 4.05
+    },
+    {
+      "date": "2025-08-28",
+      "fund_return": 5.83,
+      "index_return": 0.0,
+      "category_return": 9.65,
+      "bench_return": 3.96
+    },
+    {
+      "date": "2025-08-29",
+      "fund_return": 5.82,
+      "index_return": 0.0,
+      "category_return": 9.68,
+      "bench_return": 3.98
+    },
+    {
+      "date": "2025-09-01",
+      "fund_return": 5.81,
+      "index_return": 0.0,
+      "category_return": 9.73,
+      "bench_return": 4.0
+    },
+    {
+      "date": "2025-09-02",
+      "fund_return": 5.8,
+      "index_return": 0.0,
+      "category_return": 9.52,
+      "bench_return": 4.02
+    },
+    {
+      "date": "2025-09-03",
+      "fund_return": 5.86,
+      "index_return": 0.0,
+      "category_return": 9.53,
+      "bench_return": 4.1
+    },
+    {
+      "date": "2025-09-04",
+      "fund_return": 5.88,
+      "index_return": 0.0,
+      "category_return": 9.32,
+      "bench_return": 4.13
+    },
+    {
+      "date": "2025-09-05",
+      "fund_return": 5.95,
+      "index_return": 0.0,
+      "category_return": 9.72,
+      "bench_return": 4.04
+    },
+    {
+      "date": "2025-09-08",
+      "fund_return": 5.95,
+      "index_return": 0.0,
+      "category_return": 9.79,
+      "bench_return": 3.93
+    },
+    {
+      "date": "2025-09-09",
+      "fund_return": 5.86,
+      "index_return": 0.0,
+      "category_return": 9.62,
+      "bench_return": 3.86
+    },
+    {
+      "date": "2025-09-10",
+      "fund_return": 5.77,
+      "index_return": 0.0,
+      "category_return": 9.49,
+      "bench_return": 3.72
+    },
+    {
+      "date": "2025-09-11",
+      "fund_return": 5.8,
+      "index_return": 0.0,
+      "category_return": 9.77,
+      "bench_return": 3.69
+    },
+    {
+      "date": "2025-09-12",
+      "fund_return": 5.82,
+      "index_return": 0.0,
+      "category_return": 9.81,
+      "bench_return": 3.72
+    },
+    {
+      "date": "2025-09-15",
+      "fund_return": 5.83,
+      "index_return": 0.0,
+      "category_return": 9.76,
+      "bench_return": 3.72
+    },
+    {
+      "date": "2025-09-16",
+      "fund_return": 5.84,
+      "index_return": 0.0,
+      "category_return": 9.8,
+      "bench_return": 3.74
+    },
+    {
+      "date": "2025-09-17",
+      "fund_return": 5.87,
+      "index_return": 0.0,
+      "category_return": 9.98,
+      "bench_return": 3.8
+    },
+    {
+      "date": "2025-09-18",
+      "fund_return": 5.78,
+      "index_return": 0.0,
+      "category_return": 9.78,
+      "bench_return": 3.76
+    },
+    {
+      "date": "2025-09-19",
+      "fund_return": 5.74,
+      "index_return": 0.0,
+      "category_return": 9.7,
+      "bench_return": 3.68
+    },
+    {
+      "date": "2025-09-22",
+      "fund_return": 5.71,
+      "index_return": 0.0,
+      "category_return": 9.72,
+      "bench_return": 3.68
+    },
+    {
+      "date": "2025-09-23",
+      "fund_return": 5.64,
+      "index_return": 0.0,
+      "category_return": 9.63,
+      "bench_return": 3.59
+    },
+    {
+      "date": "2025-09-24",
+      "fund_return": 5.58,
+      "index_return": 0.0,
+      "category_return": 9.8,
+      "bench_return": 3.46
+    },
+    {
+      "date": "2025-09-25",
+      "fund_return": 5.57,
+      "index_return": 0.0,
+      "category_return": 9.84,
+      "bench_return": 3.4
+    },
+    {
+      "date": "2025-09-26",
+      "fund_return": 5.6,
+      "index_return": 0.0,
+      "category_return": 9.75,
+      "bench_return": 3.4
+    },
+    {
+      "date": "2025-09-29",
+      "fund_return": 5.61,
+      "index_return": 0.0,
+      "category_return": 9.98,
+      "bench_return": 3.37
+    },
+    {
+      "date": "2025-09-30",
+      "fund_return": 5.64,
+      "index_return": 0.0,
+      "category_return": 10.17,
+      "bench_return": 3.42
+    },
+    {
+      "date": "2025-10-09",
+      "fund_return": 5.78,
+      "index_return": 0.0,
+      "category_return": 10.41,
+      "bench_return": 3.51
+    },
+    {
+      "date": "2025-10-10",
+      "fund_return": 5.77,
+      "index_return": 0.0,
+      "category_return": 10.19,
+      "bench_return": 3.49
+    },
+    {
+      "date": "2025-10-13",
+      "fund_return": 5.82,
+      "index_return": 0.0,
+      "category_return": 10.15,
+      "bench_return": 3.44
+    },
+    {
+      "date": "2025-10-14",
+      "fund_return": 5.81,
+      "index_return": 0.0,
+      "category_return": 9.9,
+      "bench_return": 3.42
+    },
+    {
+      "date": "2025-10-15",
+      "fund_return": 5.8,
+      "index_return": 0.0,
+      "category_return": 10.1,
+      "bench_return": 3.39
+    },
+    {
+      "date": "2025-10-16",
+      "fund_return": 5.8,
+      "index_return": 0.0,
+      "category_return": 10.02,
+      "bench_return": 3.44
+    },
+    {
+      "date": "2025-10-17",
+      "fund_return": 5.83,
+      "index_return": 0.0,
+      "category_return": 9.77,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2025-10-20",
+      "fund_return": 5.83,
+      "index_return": 0.0,
+      "category_return": 9.81,
+      "bench_return": 3.48
+    },
+    {
+      "date": "2025-10-21",
+      "fund_return": 5.88,
+      "index_return": 0.0,
+      "category_return": 10.06,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2025-10-22",
+      "fund_return": 5.87,
+      "index_return": 0.0,
+      "category_return": 9.99,
+      "bench_return": 3.51
+    },
+    {
+      "date": "2025-10-23",
+      "fund_return": 5.89,
+      "index_return": 0.0,
+      "category_return": 10.02,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2025-10-24",
+      "fund_return": 5.9,
+      "index_return": 0.0,
+      "category_return": 10.18,
+      "bench_return": 3.46
+    },
+    {
+      "date": "2025-10-27",
+      "fund_return": 5.98,
+      "index_return": 0.0,
+      "category_return": 10.39,
+      "bench_return": 3.46
+    },
+    {
+      "date": "2025-10-28",
+      "fund_return": 6.01,
+      "index_return": 0.0,
+      "category_return": 10.37,
+      "bench_return": 3.59
+    },
+    {
+      "date": "2025-10-29",
+      "fund_return": 6.1,
+      "index_return": 0.0,
+      "category_return": 10.6,
+      "bench_return": 3.61
+    },
+    {
+      "date": "2025-10-30",
+      "fund_return": 6.05,
+      "index_return": 0.0,
+      "category_return": 10.48,
+      "bench_return": 3.64
+    },
+    {
+      "date": "2025-10-31",
+      "fund_return": 6.07,
+      "index_return": 0.0,
+      "category_return": 10.48,
+      "bench_return": 3.73
+    },
+    {
+      "date": "2025-11-03",
+      "fund_return": 6.1,
+      "index_return": 0.0,
+      "category_return": 10.54,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-04",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.35,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-05",
+      "fund_return": 6.12,
+      "index_return": 0.0,
+      "category_return": 10.47,
+      "bench_return": 3.78
+    },
+    {
+      "date": "2025-11-06",
+      "fund_return": 6.12,
+      "index_return": 0.0,
+      "category_return": 10.63,
+      "bench_return": 3.73
+    },
+    {
+      "date": "2025-11-07",
+      "fund_return": 6.09,
+      "index_return": 0.0,
+      "category_return": 10.58,
+      "bench_return": 3.71
+    },
+    {
+      "date": "2025-11-10",
+      "fund_return": 6.16,
+      "index_return": 0.0,
+      "category_return": 10.7,
+      "bench_return": 3.72
+    },
+    {
+      "date": "2025-11-11",
+      "fund_return": 6.18,
+      "index_return": 0.0,
+      "category_return": 10.64,
+      "bench_return": 3.73
+    },
+    {
+      "date": "2025-11-12",
+      "fund_return": 6.19,
+      "index_return": 0.0,
+      "category_return": 10.62,
+      "bench_return": 3.76
+    },
+    {
+      "date": "2025-11-13",
+      "fund_return": 6.25,
+      "index_return": 0.0,
+      "category_return": 10.84,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-14",
+      "fund_return": 6.21,
+      "index_return": 0.0,
+      "category_return": 10.64,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-17",
+      "fund_return": 6.22,
+      "index_return": 0.0,
+      "category_return": 10.58,
+      "bench_return": 3.76
+    },
+    {
+      "date": "2025-11-18",
+      "fund_return": 6.19,
+      "index_return": 0.0,
+      "category_return": 10.44,
+      "bench_return": 3.77
+    },
+    {
+      "date": "2025-11-19",
+      "fund_return": 6.2,
+      "index_return": 0.0,
+      "category_return": 10.46,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-20",
+      "fund_return": 6.19,
+      "index_return": 0.0,
+      "category_return": 10.39,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2025-11-21",
+      "fund_return": 6.14,
+      "index_return": 0.0,
+      "category_return": 10.03,
+      "bench_return": 3.73
+    },
+    {
+      "date": "2025-11-24",
+      "fund_return": 6.14,
+      "index_return": 0.0,
+      "category_return": 10.11,
+      "bench_return": 3.72
+    },
+    {
+      "date": "2025-11-25",
+      "fund_return": 6.13,
+      "index_return": 0.0,
+      "category_return": 10.2,
+      "bench_return": 3.66
+    },
+    {
+      "date": "2025-11-26",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.08,
+      "bench_return": 3.55
+    },
+    {
+      "date": "2025-11-27",
+      "fund_return": 6.0,
+      "index_return": 0.0,
+      "category_return": 10.01,
+      "bench_return": 3.49
+    },
+    {
+      "date": "2025-11-28",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.13,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2025-12-01",
+      "fund_return": 6.09,
+      "index_return": 0.0,
+      "category_return": 10.25,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2025-12-02",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.13,
+      "bench_return": 3.45
+    },
+    {
+      "date": "2025-12-03",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.05,
+      "bench_return": 3.38
+    },
+    {
+      "date": "2025-12-04",
+      "fund_return": 6.01,
+      "index_return": 0.0,
+      "category_return": 9.97,
+      "bench_return": 3.25
+    },
+    {
+      "date": "2025-12-05",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.16,
+      "bench_return": 3.26
+    },
+    {
+      "date": "2025-12-08",
+      "fund_return": 6.09,
+      "index_return": 0.0,
+      "category_return": 10.23,
+      "bench_return": 3.25
+    },
+    {
+      "date": "2025-12-09",
+      "fund_return": 6.03,
+      "index_return": 0.0,
+      "category_return": 10.13,
+      "bench_return": 3.3
+    },
+    {
+      "date": "2025-12-10",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.21,
+      "bench_return": 3.32
+    },
+    {
+      "date": "2025-12-11",
+      "fund_return": 6.05,
+      "index_return": 0.0,
+      "category_return": 10.13,
+      "bench_return": 3.39
+    },
+    {
+      "date": "2025-12-12",
+      "fund_return": 6.08,
+      "index_return": 0.0,
+      "category_return": 10.23,
+      "bench_return": 3.36
+    },
+    {
+      "date": "2025-12-15",
+      "fund_return": 6.06,
+      "index_return": 0.0,
+      "category_return": 10.12,
+      "bench_return": 3.27
+    },
+    {
+      "date": "2025-12-16",
+      "fund_return": 6.01,
+      "index_return": 0.0,
+      "category_return": 9.93,
+      "bench_return": 3.26
+    },
+    {
+      "date": "2025-12-17",
+      "fund_return": 6.12,
+      "index_return": 0.0,
+      "category_return": 10.22,
+      "bench_return": 3.33
+    },
+    {
+      "date": "2025-12-18",
+      "fund_return": 6.16,
+      "index_return": 0.0,
+      "category_return": 10.22,
+      "bench_return": 3.35
+    },
+    {
+      "date": "2025-12-19",
+      "fund_return": 6.18,
+      "index_return": 0.0,
+      "category_return": 10.34,
+      "bench_return": 3.39
+    },
+    {
+      "date": "2025-12-22",
+      "fund_return": 6.27,
+      "index_return": 0.0,
+      "category_return": 10.48,
+      "bench_return": 3.37
+    },
+    {
+      "date": "2025-12-23",
+      "fund_return": 6.22,
+      "index_return": 0.0,
+      "category_return": 10.51,
+      "bench_return": 3.42
+    },
+    {
+      "date": "2025-12-24",
+      "fund_return": 6.34,
+      "index_return": 0.0,
+      "category_return": 10.64,
+      "bench_return": 3.45
+    },
+    {
+      "date": "2025-12-25",
+      "fund_return": 6.42,
+      "index_return": 0.0,
+      "category_return": 10.73,
+      "bench_return": 3.46
+    },
+    {
+      "date": "2025-12-26",
+      "fund_return": 6.42,
+      "index_return": 0.0,
+      "category_return": 10.76,
+      "bench_return": 3.49
+    },
+    {
+      "date": "2025-12-29",
+      "fund_return": 6.34,
+      "index_return": 0.0,
+      "category_return": 10.62,
+      "bench_return": 3.37
+    },
+    {
+      "date": "2025-12-30",
+      "fund_return": 6.42,
+      "index_return": 0.0,
+      "category_return": 10.67,
+      "bench_return": 3.36
+    },
+    {
+      "date": "2025-12-31",
+      "fund_return": 6.43,
+      "index_return": 0.0,
+      "category_return": 10.65,
+      "bench_return": 3.36
+    },
+    {
+      "date": "2026-01-05",
+      "fund_return": 6.54,
+      "index_return": 0.0,
+      "category_return": 10.98,
+      "bench_return": 3.27
+    },
+    {
+      "date": "2026-01-06",
+      "fund_return": 6.6,
+      "index_return": 0.0,
+      "category_return": 11.22,
+      "bench_return": 3.19
+    },
+    {
+      "date": "2026-01-07",
+      "fund_return": 6.62,
+      "index_return": 0.0,
+      "category_return": 11.24,
+      "bench_return": 3.13
+    },
+    {
+      "date": "2026-01-08",
+      "fund_return": 6.63,
+      "index_return": 0.0,
+      "category_return": 11.27,
+      "bench_return": 3.16
+    },
+    {
+      "date": "2026-01-09",
+      "fund_return": 6.7,
+      "index_return": 0.0,
+      "category_return": 11.48,
+      "bench_return": 3.19
+    },
+    {
+      "date": "2026-01-12",
+      "fund_return": 6.77,
+      "index_return": 0.0,
+      "category_return": 11.75,
+      "bench_return": 3.23
+    },
+    {
+      "date": "2026-01-13",
+      "fund_return": 6.68,
+      "index_return": 0.0,
+      "category_return": 11.6,
+      "bench_return": 3.26
+    },
+    {
+      "date": "2026-01-14",
+      "fund_return": 6.68,
+      "index_return": 0.0,
+      "category_return": 11.65,
+      "bench_return": 3.27
+    },
+    {
+      "date": "2026-01-15",
+      "fund_return": 6.72,
+      "index_return": 0.0,
+      "category_return": 11.73,
+      "bench_return": 3.3
+    },
+    {
+      "date": "2026-01-16",
+      "fund_return": 6.76,
+      "index_return": 0.0,
+      "category_return": 11.79,
+      "bench_return": 3.32
+    },
+    {
+      "date": "2026-01-19",
+      "fund_return": 6.81,
+      "index_return": 0.0,
+      "category_return": 11.91,
+      "bench_return": 3.33
+    },
+    {
+      "date": "2026-01-20",
+      "fund_return": 6.82,
+      "index_return": 0.0,
+      "category_return": 11.86,
+      "bench_return": 3.39
+    },
+    {
+      "date": "2026-01-21",
+      "fund_return": 6.9,
+      "index_return": 0.0,
+      "category_return": 12.07,
+      "bench_return": 3.46
+    },
+    {
+      "date": "2026-01-22",
+      "fund_return": 6.98,
+      "index_return": 0.0,
+      "category_return": 12.18,
+      "bench_return": 3.48
+    },
+    {
+      "date": "2026-01-23",
+      "fund_return": 7.03,
+      "index_return": 0.0,
+      "category_return": 12.38,
+      "bench_return": 3.52
+    },
+    {
+      "date": "2026-01-26",
+      "fund_return": 6.99,
+      "index_return": 0.0,
+      "category_return": 12.27,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2026-01-27",
+      "fund_return": 6.97,
+      "index_return": 0.0,
+      "category_return": 12.31,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-01-28",
+      "fund_return": 7.07,
+      "index_return": 0.0,
+      "category_return": 12.49,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2026-01-29",
+      "fund_return": 7.03,
+      "index_return": 0.0,
+      "category_return": 12.41,
+      "bench_return": 3.54
+    },
+    {
+      "date": "2026-01-30",
+      "fund_return": 6.91,
+      "index_return": 0.0,
+      "category_return": 12.12,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2026-02-02",
+      "fund_return": 6.78,
+      "index_return": 0.0,
+      "category_return": 11.6,
+      "bench_return": 3.53
+    },
+    {
+      "date": "2026-02-03",
+      "fund_return": 6.91,
+      "index_return": 0.0,
+      "category_return": 12.0,
+      "bench_return": 3.51
+    },
+    {
+      "date": "2026-02-04",
+      "fund_return": 6.94,
+      "index_return": 0.0,
+      "category_return": 12.05,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-02-05",
+      "fund_return": 6.94,
+      "index_return": 0.0,
+      "category_return": 11.89,
+      "bench_return": 3.52
+    },
+    {
+      "date": "2026-02-06",
+      "fund_return": 7.01,
+      "index_return": 0.0,
+      "category_return": 11.96,
+      "bench_return": 3.58
+    },
+    {
+      "date": "2026-02-09",
+      "fund_return": 7.1,
+      "index_return": 0.0,
+      "category_return": 12.27,
+      "bench_return": 3.62
+    },
+    {
+      "date": "2026-02-10",
+      "fund_return": 7.11,
+      "index_return": 0.0,
+      "category_return": 12.28,
+      "bench_return": 3.63
+    },
+    {
+      "date": "2026-02-11",
+      "fund_return": 7.15,
+      "index_return": 0.0,
+      "category_return": 12.32,
+      "bench_return": 3.65
+    },
+    {
+      "date": "2026-02-12",
+      "fund_return": 7.17,
+      "index_return": 0.0,
+      "category_return": 12.42,
+      "bench_return": 3.68
+    },
+    {
+      "date": "2026-02-13",
+      "fund_return": 7.16,
+      "index_return": 0.0,
+      "category_return": 12.23,
+      "bench_return": 3.68
+    },
+    {
+      "date": "2026-02-24",
+      "fund_return": 7.24,
+      "index_return": 0.0,
+      "category_return": 12.45,
+      "bench_return": 3.7
+    },
+    {
+      "date": "2026-02-25",
+      "fund_return": 7.2,
+      "index_return": 0.0,
+      "category_return": 12.53,
+      "bench_return": 3.64
+    },
+    {
+      "date": "2026-02-26",
+      "fund_return": 7.11,
+      "index_return": 0.0,
+      "category_return": 12.42,
+      "bench_return": 3.55
+    },
+    {
+      "date": "2026-02-27",
+      "fund_return": 7.14,
+      "index_return": 0.0,
+      "category_return": 12.46,
+      "bench_return": 3.55
+    },
+    {
+      "date": "2026-03-02",
+      "fund_return": 7.18,
+      "index_return": 0.0,
+      "category_return": 12.52,
+      "bench_return": 3.56
+    },
+    {
+      "date": "2026-03-03",
+      "fund_return": 7.12,
+      "index_return": 0.0,
+      "category_return": 12.08,
+      "bench_return": 3.57
+    },
+    {
+      "date": "2026-03-04",
+      "fund_return": 7.12,
+      "index_return": 0.0,
+      "category_return": 11.99,
+      "bench_return": 3.59
+    },
+    {
+      "date": "2026-03-05",
+      "fund_return": 7.12,
+      "index_return": 0.0,
+      "category_return": 12.07,
+      "bench_return": 3.61
+    },
+    {
+      "date": "2026-03-06",
+      "fund_return": 7.15,
+      "index_return": 0.0,
+      "category_return": 12.17,
+      "bench_return": 3.61
+    },
+    {
+      "date": "2026-03-09",
+      "fund_return": 7.11,
+      "index_return": 0.0,
+      "category_return": 11.96,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-03-10",
+      "fund_return": 7.16,
+      "index_return": 0.0,
+      "category_return": 12.19,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-03-11",
+      "fund_return": 7.22,
+      "index_return": 0.0,
+      "category_return": 12.23,
+      "bench_return": 3.48
+    },
+    {
+      "date": "2026-03-12",
+      "fund_return": 7.18,
+      "index_return": 0.0,
+      "category_return": 12.12,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-03-13",
+      "fund_return": 7.14,
+      "index_return": 0.0,
+      "category_return": 11.96,
+      "bench_return": 3.49
+    },
+    {
+      "date": "2026-03-16",
+      "fund_return": 7.09,
+      "index_return": 0.0,
+      "category_return": 11.88,
+      "bench_return": 3.41
+    },
+    {
+      "date": "2026-03-17",
+      "fund_return": 7.0,
+      "index_return": 0.0,
+      "category_return": 11.64,
+      "bench_return": 3.43
+    },
+    {
+      "date": "2026-03-18",
+      "fund_return": 7.07,
+      "index_return": 0.0,
+      "category_return": 11.8,
+      "bench_return": 3.47
+    },
+    {
+      "date": "2026-03-19",
+      "fund_return": 6.98,
+      "index_return": 0.0,
+      "category_return": 11.45,
+      "bench_return": 3.47
+    },
+    {
+      "date": "2026-03-20",
+      "fund_return": 6.94,
+      "index_return": 0.0,
+      "category_return": 11.33,
+      "bench_return": 3.47
+    },
+    {
+      "date": "2026-03-23",
+      "fund_return": 6.91,
+      "index_return": 0.0,
+      "category_return": 10.91,
+      "bench_return": 3.45
+    },
+    {
+      "date": "2026-03-24",
+      "fund_return": 7.05,
+      "index_return": 0.0,
+      "category_return": 11.26,
+      "bench_return": 3.48
+    },
+    {
+      "date": "2026-03-25",
+      "fund_return": 7.17,
+      "index_return": 0.0,
+      "category_return": 11.49,
+      "bench_return": 3.48
+    },
+    {
+      "date": "2026-03-26",
+      "fund_return": 7.09,
+      "index_return": 0.0,
+      "category_return": 11.28,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-03-27",
+      "fund_return": 7.14,
+      "index_return": 0.0,
+      "category_return": 11.42,
+      "bench_return": 3.5
+    },
+    {
+      "date": "2026-03-30",
+      "fund_return": 7.11,
+      "index_return": 0.0,
+      "category_return": 11.41,
+      "bench_return": 3.56
+    },
+    {
+      "date": "2026-03-31",
+      "fund_return": 7.02,
+      "index_return": 0.0,
+      "category_return": 11.17,
+      "bench_return": 3.58
+    },
+    {
+      "date": "2026-04-01",
+      "fund_return": 7.11,
+      "index_return": 0.0,
+      "category_return": 11.47,
+      "bench_return": 3.56
+    },
+    {
+      "date": "2026-04-02",
+      "fund_return": 7.09,
+      "index_return": 0.0,
+      "category_return": 11.29,
+      "bench_return": 3.55
+    },
+    {
+      "date": "2026-04-03",
+      "fund_return": 7.14,
+      "index_return": 0.0,
+      "category_return": 11.25,
+      "bench_return": 3.59
+    },
+    {
+      "date": "2026-04-07",
+      "fund_return": 7.25,
+      "index_return": 0.0,
+      "category_return": 11.36,
+      "bench_return": 3.66
+    },
+    {
+      "date": "2026-04-08",
+      "fund_return": 7.41,
+      "index_return": 0.0,
+      "category_return": 11.94,
+      "bench_return": 3.7
+    },
+    {
+      "date": "2026-04-09",
+      "fund_return": 7.4,
+      "index_return": 0.0,
+      "category_return": 11.89,
+      "bench_return": 3.71
+    },
+    {
+      "date": "2026-04-10",
+      "fund_return": 7.42,
+      "index_return": 0.0,
+      "category_return": 12.0,
+      "bench_return": 3.75
+    },
+    {
+      "date": "2026-04-13",
+      "fund_return": 7.39,
+      "index_return": 0.0,
+      "category_return": 11.98,
+      "bench_return": 3.81
+    },
+    {
+      "date": "2026-04-14",
+      "fund_return": 7.5,
+      "index_return": 0.0,
+      "category_return": 12.18,
+      "bench_return": 3.84
+    },
+    {
+      "date": "2026-04-15",
+      "fund_return": 7.53,
+      "index_return": 0.0,
+      "category_return": 12.16,
+      "bench_return": 3.84
+    },
+    {
+      "date": "2026-04-16",
+      "fund_return": 7.62,
+      "index_return": 0.0,
+      "category_return": 12.43,
+      "bench_return": 3.85
+    },
+    {
+      "date": "2026-04-17",
+      "fund_return": 7.64,
+      "index_return": 0.0,
+      "category_return": 12.48,
+      "bench_return": 3.91
+    },
+    {
+      "date": "2026-04-20",
+      "fund_return": 7.63,
+      "index_return": 0.0,
+      "category_return": 12.55,
+      "bench_return": 3.95
+    },
+    {
+      "date": "2026-04-21",
+      "fund_return": 7.67,
+      "index_return": 0.0,
+      "category_return": 12.59,
+      "bench_return": 4.0
+    },
+    {
+      "date": "2026-04-22",
+      "fund_return": 7.72,
+      "index_return": 0.0,
+      "category_return": 12.77,
+      "bench_return": 4.05
+    },
+    {
+      "date": "2026-04-23",
+      "fund_return": 7.73,
+      "index_return": 0.0,
+      "category_return": 12.62,
+      "bench_return": 4.01
+    },
+    {
+      "date": "2026-04-24",
+      "fund_return": 7.69,
+      "index_return": 0.0,
+      "category_return": 12.55,
+      "bench_return": 3.96
+    },
+    {
+      "date": "2026-04-27",
+      "fund_return": 7.68,
+      "index_return": 0.0,
+      "category_return": 12.58,
+      "bench_return": 3.88
+    },
+    {
+      "date": "2026-04-28",
+      "fund_return": 7.69,
+      "index_return": 0.0,
+      "category_return": 12.49,
+      "bench_return": 3.9
+    },
+    {
+      "date": "2026-04-29",
+      "fund_return": 7.78,
+      "index_return": 0.0,
+      "category_return": 12.75,
+      "bench_return": 3.93
+    },
+    {
+      "date": "2026-04-30",
+      "fund_return": 7.77,
+      "index_return": 0.0,
+      "category_return": 12.75,
+      "bench_return": 3.91
+    },
+    {
+      "date": "2026-05-06",
+      "fund_return": 7.83,
+      "index_return": 0.0,
+      "category_return": 13.01,
+      "bench_return": 3.85
+    },
+    {
+      "date": "2026-05-07",
+      "fund_return": 7.79,
+      "index_return": 0.0,
+      "category_return": 13.12,
+      "bench_return": 3.86
+    },
+    {
+      "date": "2026-05-08",
+      "fund_return": 7.8,
+      "index_return": 0.0,
+      "category_return": 13.09,
+      "bench_return": 3.88
+    },
+    {
+      "date": "2026-05-11",
+      "fund_return": 7.86,
+      "index_return": 0.0,
+      "category_return": 13.31,
+      "bench_return": 3.91
+    },
+    {
+      "date": "2026-05-12",
+      "fund_return": 7.78,
+      "index_return": 0.0,
+      "category_return": 13.2,
+      "bench_return": 3.96
+    },
+    {
+      "date": "2026-05-13",
+      "fund_return": 7.83,
+      "index_return": 0.0,
+      "category_return": 13.38,
+      "bench_return": 3.98
+    },
+    {
+      "date": "2026-05-14",
+      "fund_return": 7.71,
+      "index_return": 0.0,
+      "category_return": 13.05,
+      "bench_return": 3.98
+    },
+    {
+      "date": "2026-05-15",
+      "fund_return": 7.67,
+      "index_return": 0.0,
+      "category_return": 12.86,
+      "bench_return": 3.97
+    }
+  ],
+  "risk_metrics": {
+    "annualized_return": 3.764155660806101,
+    "max_drawdown": 0.7149152874351056,
+    "volatility": 0.7864096524298665,
+    "sharpe_ratio": 2.243303671763403,
+    "positive_days": 308,
+    "negative_days": 151,
+    "monthly_win_rate": 85.71428571428571,
+    "excess_return": 3.6999999999999997,
+    "data_points": 500
+  },
+  "fee_rules": {
+    "purchase": [
+      {
+        "scope": "小于100万元",
+        "rate": "0.30%&nbsp;&nbsp;|&nbsp;&nbsp;0.03%"
+      },
+      {
+        "scope": "大于等于100万元，小于500万元",
+        "rate": "0.20%&nbsp;&nbsp;|&nbsp;&nbsp;0.02%"
+      },
+      {
+        "scope": "大于等于500万元",
+        "rate": "每笔1000元"
+      }
+    ],
+    "redemption": [
+      {
+        "scope": "---",
+        "rate": "0.00%"
+      }
+    ]
+  },
+  "manager_info": {
+    "MGRID": "30634032",
+    "MGRNAME": "田元强",
+    "RESUME": "田元强先生:中国国籍,西安交通大学工商管理硕士,曾先后担任鹏元资信评估有限公司信用评级部分析师、生命保险资产管理有限公司信用评估部分析师、中国中投证券有限责任公司研究总部分析员。2016年11月加入平安基金管理有限公司,曾任固定收益投资中心固定收益高级研究员。现任固定收益投资中心研究部负责人。现担任平安合信3个月定期开放债券型发起式证券投资基金(2019-12-16至今)、平安惠金定期开放债券型证券投资基金(2020-08-25至今)、平安惠利纯债债券型证券投资基金(2021-06-07至今)、平安合瑞定期开放债券型发起式证券投资基金(2021-06-07至2025年11月18日)、平安合进1年定期开放债券型发起式证券投资基金(2021-06-23至2025-05-07)、平安惠信3个月定期开放债券型证券投资基金(2021-07-15至2025-05-07)、平安鑫惠90天持有期债券型证券投资基金(2024-01-18至今)基金经理。曾管理的基金名称及管理时间:平安合颖定期开放纯债债券型发起式证券投资基金(2018-11-26至2020-01-17)、平安鑫利灵活配置混合型证券投资基金(2018-11-26至2020-01-17)、平安鑫安混合型证券投资基金(2019-04-10至2020-05-25)、平安如意中短债债券型证券投资基金(2019-04-19至2021-04-08)、平安惠铭纯债债券型证券投资基金(2020-09-07至2021-09-09)、平安3-5年期政策性金融债债券型证券投资基金(2019-02-22至2022-01-20)、平安交易型货币市场基金(2018-11-26至2022-06-13)、平安日增利货币市场基金(2019-03-21至2022-06-13)、平安合锦定期开放债券型发起式证券投资基金(2020-08-25至2023-02-08)、平安惠融纯债债券型证券投资基金(2022-01-20至2023-04-24)。曾任平安元和90天滚动持有短债债券型证券投资基金基金经理。2024年08月20日至2025年12月2日任平安惠聚纯债债券型证券投资基金基金经理。2024年12月09日担任平安中证同业存单AAA指数7天持有期证券投资基金基金经理。2025年2月20日至2026年3月18日担任平安惠兴纯债债券型证券投资基金基金经理。2025年05月07日起担任平安惠嘉纯债债券型证券投资基金基金经理。曾任平安惠合纯债债券型证券投资基金基金经理。2025年11月18日任平安增利六个月定期开放债券型证券投资基金、平安惠享纯债债券型证券投资基金基金经理。2025年12月4日起任平安合顺1年定期开放债券型发起式证券投资基金基金经理。",
+    "TOTALDAYS": "2728",
+    "NETNAV": "18164661024.02",
+    "FCOUNT": "18",
+    "PRENAME": "平安合信定开债",
+    "YIELDSE": "3.4281",
+    "JJGS": "平安基金",
+    "FMAXEARN1": "0.2536",
+    "FMAXRETRA1": "0.0475",
+    "MGOLD": "8.3635"
+  },
+  "manager_eval": {
+    "MAXRETRA_1": "0.014",
+    "MAXRETRA_3": "0.023",
+    "SHARP_1": "0.5488",
+    "SHARP_3": "1.2216",
+    "STDDEV_1": "0.8985",
+    "STDDEV_3": "1.3773",
+    "WIN_1": "29.63",
+    "WIN_3": "52.59"
+  },
+  "manager_char": null,
+  "scores": {
+    "overall": 83,
+    "items": [
+      {
+        "name": "收益",
+        "score": 75,
+        "weight": 15
+      },
+      {
+        "name": "风险",
+        "score": 89,
+        "weight": 30
+      },
+      {
+        "name": "稳定",
+        "score": 84,
+        "weight": 20
+      },
+      {
+        "name": "费用",
+        "score": 80,
+        "weight": 15
+      },
+      {
+        "name": "规模",
+        "score": 90,
+        "weight": 10
+      },
+      {
+        "name": "经理",
+        "score": 80,
+        "weight": 5
+      },
+      {
+        "name": "风格",
+        "score": 70,
+        "weight": 5
+      }
+    ]
+  },
+  "holdings": {
+    "generated_at": "2026-03-31",
+    "quarter": "2026年1季度",
+    "total_portfolio": 904673.0,
+    "this_fund": {
+      "code": "020262",
+      "name": "平安鑫惠90天持有债券A",
+      "amount": 105000.0,
+      "fund_type": "债券型-混合一级",
+      "asset_class": "债券",
+      "top_stocks": [],
+      "industries": [
+        {
+          "industry_code": "C",
+          "industry_name": "制造业",
+          "ratio": 0.16,
+          "market_value_wan": 134.87,
+          "end_date": "2025-09-30"
+        }
+      ],
+      "period": "",
+      "end_date": ""
+    },
+    "allocation": [
+      {
+        "asset_class": "债券",
+        "amount": 739673.0,
+        "weight": 81.76136570893571,
+        "fund_count": 7
+      },
+      {
+        "asset_class": "混合",
+        "amount": 165000.0,
+        "weight": 18.238634291064283,
+        "fund_count": 1
+      }
+    ],
+    "top_stocks": [
+      {
+        "code": "300502",
+        "name": "新易盛",
+        "amount": 2589.0,
+        "weight": 0.28618075260342685,
+        "fund_count": 2
+      },
+      {
+        "code": "600498",
+        "name": "烽火通信",
+        "amount": 2550.0,
+        "weight": 0.28186980268008444,
+        "fund_count": 1
+      },
+      {
+        "code": "600036",
+        "name": "招商银行",
+        "amount": 2376.0,
+        "weight": 0.26263633379132567,
+        "fund_count": 1
+      },
+      {
+        "code": "600486",
+        "name": "扬农化工",
+        "amount": 2310.0,
+        "weight": 0.25534088007489997,
+        "fund_count": 1
+      },
+      {
+        "code": "600690",
+        "name": "海尔智家",
+        "amount": 2241.0,
+        "weight": 0.24771381482590948,
+        "fund_count": 1
+      },
+      {
+        "code": "600826",
+        "name": "兰生股份",
+        "amount": 2160.0,
+        "weight": 0.23876030344665974,
+        "fund_count": 1
+      },
+      {
+        "code": "300308",
+        "name": "中际旭创",
+        "amount": 2040.0000000000002,
+        "weight": 0.22549584214406754,
+        "fund_count": 1
+      },
+      {
+        "code": "601009",
+        "name": "南京银行",
+        "amount": 2025.0,
+        "weight": 0.2238377844812435,
+        "fund_count": 1
+      },
+      {
+        "code": "601838",
+        "name": "成都银行",
+        "amount": 1998.0,
+        "weight": 0.22085328068816024,
+        "fund_count": 1
+      },
+      {
+        "code": "688521",
+        "name": "芯原股份",
+        "amount": 1995.0,
+        "weight": 0.22052166915559543,
+        "fund_count": 1
+      },
+      {
+        "code": "000651",
+        "name": "格力电器",
+        "amount": 1944.0,
+        "weight": 0.21488427310199376,
+        "fund_count": 1
+      },
+      {
+        "code": "603606",
+        "name": "东方电缆",
+        "amount": 1755.0,
+        "weight": 0.19399274655041102,
+        "fund_count": 1
+      },
+      {
+        "code": "600919",
+        "name": "江苏银行",
+        "amount": 1728.0,
+        "weight": 0.19100824275732778,
+        "fund_count": 1
+      },
+      {
+        "code": "601225",
+        "name": "陕西煤业",
+        "amount": 1593.0,
+        "weight": 0.17608572379191156,
+        "fund_count": 1
+      },
+      {
+        "code": "002353",
+        "name": "杰瑞股份",
+        "amount": 1560.0,
+        "weight": 0.1724379969336987,
+        "fund_count": 1
+      }
+    ],
+    "industries": [
+      {
+        "code": "C",
+        "name": "制造业",
+        "amount": 58724.6849,
+        "weight": 6.491260919691425,
+        "fund_count": 5
+      },
+      {
+        "code": "J",
+        "name": "金融业",
+        "amount": 15971.3257,
+        "weight": 1.7654252641562198,
+        "fund_count": 4
+      },
+      {
+        "code": "B",
+        "name": "采矿业",
+        "amount": 8396.355,
+        "weight": 0.9281093831693883,
+        "fund_count": 4
+      },
+      {
+        "code": "I",
+        "name": "信息传输、软件和信息技术服务业",
+        "amount": 6829.0877,
+        "weight": 0.7548680794054868,
+        "fund_count": 4
+      },
+      {
+        "code": "D",
+        "name": "电力、热力、燃气及水生产和供应业",
+        "amount": 6296.7547,
+        "weight": 0.6960254920838801,
+        "fund_count": 4
+      },
+      {
+        "code": "L",
+        "name": "租赁和商务服务业",
+        "amount": 4034.119,
+        "weight": 0.44592012804626646,
+        "fund_count": 4
+      },
+      {
+        "code": "S",
+        "name": "综合",
+        "amount": 3721.2495,
+        "weight": 0.41133641658367165,
+        "fund_count": 2
+      },
+      {
+        "code": "N",
+        "name": "水利、环境和公共设施管理业",
+        "amount": 2638.8017,
+        "weight": 0.2916856919572044,
+        "fund_count": 4
+      },
+      {
+        "code": "K",
+        "name": "房地产业",
+        "amount": 2260.6618,
+        "weight": 0.2498871747029037,
+        "fund_count": 4
+      },
+      {
+        "code": "A",
+        "name": "农、林、牧、渔业",
+        "amount": 2051.9499,
+        "weight": 0.2268167503617329,
+        "fund_count": 4
+      },
+      {
+        "code": "G",
+        "name": "交通运输、仓储和邮政业",
+        "amount": 1396.238,
+        "weight": 0.15433620766840617,
+        "fund_count": 4
+      },
+      {
+        "code": "Q",
+        "name": "卫生和社会工作",
+        "amount": 1268.8831,
+        "weight": 0.1402587564788603,
+        "fund_count": 4
+      },
+      {
+        "code": "M",
+        "name": "科学研究和技术服务业",
+        "amount": 1266.1952,
+        "weight": 0.13996164359940003,
+        "fund_count": 4
+      },
+      {
+        "code": "F",
+        "name": "批发和零售业",
+        "amount": 1186.6785,
+        "weight": 0.13117209201556806,
+        "fund_count": 4
+      },
+      {
+        "code": "H",
+        "name": "住宿和餐饮业",
+        "amount": 631.4499,
+        "weight": 0.06979868969229766,
+        "fund_count": 3
+      },
+      {
+        "code": "E",
+        "name": "建筑业",
+        "amount": 448.238,
+        "weight": 0.04954696337792771,
+        "fund_count": 2
+      },
+      {
+        "code": "R",
+        "name": "文化、体育和娱乐业",
+        "amount": 262.8904,
+        "weight": 0.029059162813524886,
+        "fund_count": 2
+      }
+    ],
+    "notes": [
+      "已跳过 2 只债/货基的股票穿透（暴露低、F10 不必要）"
+    ]
+  }
+}

@@ -113,6 +113,15 @@ pub struct NetValuePoint {
     pub growth: f64,
 }
 
+/// One row per calendar month, aggregated locally from fundMNHisNetList.
+/// Unlike `PeriodIncrease`, this is a true monthly series (e.g. "2026-04"),
+/// not the rolling-period enum (Z/Y/3Y/...).
+#[derive(Debug, Clone, Serialize)]
+pub struct MonthlyReturnPoint {
+    pub month: String,
+    pub return_rate: f64,
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct RankHistoryPoint {
     #[serde(rename = "PDATE")]
