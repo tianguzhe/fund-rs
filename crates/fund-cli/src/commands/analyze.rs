@@ -5,7 +5,7 @@ use fund_core::f10::{
     TopBondsReport,
 };
 use fund_core::models::*;
-use fund_core::scoring::{self, BenchmarkMetrics, RiskMetrics};
+use fund_core::scoring::{self, BenchmarkMetrics, DistributionStats, RiskMetrics, RollingReturns};
 use owo_colors::OwoColorize;
 use serde::Serialize;
 
@@ -57,6 +57,10 @@ pub struct FundAnalysis {
     pub risk_metrics: RiskMetrics,
     /// Benchmark-relative metrics (alpha/beta/IR/TE) derived from accumulated_return.
     pub benchmark_metrics: BenchmarkMetrics,
+    /// Tail-risk + shape descriptors of daily return distribution.
+    pub distribution: DistributionStats,
+    /// Rolling 1Y / 3Y return distribution stats.
+    pub rolling_returns: RollingReturns,
     pub fee_rules: Option<FeeRules>,
     /// Bond holdings (zqcc). Only populated for bond-type funds.
     pub top_bonds: Option<TopBondsReport>,
@@ -71,6 +75,8 @@ pub struct FundAnalysis {
     pub manager_eval: Option<ManagerPerformance>,
     pub manager_char: Option<ManagerHoldingChar>,
     pub manager_info: Option<ManagerInfo>,
+    /// Funds the current manager has managed (current + historical), structured.
+    pub manager_history: Vec<ManagerHistoryFund>,
     pub scores: ScoreBreakdown,
     pub meta: AnalysisMeta,
 }
@@ -158,19 +164,28 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     let risk_metrics =
         scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
     let benchmark_metrics = scoring::compute_benchmark_metrics(&accumulated_return);
+    let distribution = scoring::compute_distribution_stats(&nav_trend);
+    let rolling_returns = scoring::compute_rolling_returns(&nav_full);
 
     // Batch 2: manager details in parallel (depends on manager_id from batch 1)
     let manager_id = managers.into_iter().next().map(|m| m.manager_id);
-    let (manager_info, manager_eval, manager_char) = if let Some(mid) = &manager_id {
+    let (manager_info, manager_eval, manager_char, manager_history) = if let Some(mid) = &manager_id
+    {
         eprintln!("查询经理 {} ...", mid);
         std::thread::scope(|s| {
             let t1 = s.spawn(|| client.get_manager_info(mid));
             let t2 = s.spawn(|| client.get_manager_performance(mid));
             let t3 = s.spawn(|| client.get_manager_holding_char(mid));
-            (t1.join().unwrap().ok(), t2.join().unwrap().ok(), t3.join().unwrap().ok())
+            let t4 = s.spawn(|| client.get_manager_history_funds(mid));
+            (
+                t1.join().unwrap().ok(),
+                t2.join().unwrap().ok(),
+                t3.join().unwrap().ok(),
+                t4.join().unwrap().unwrap_or_default(),
+            )
         })
     } else {
-        (None, None, None)
+        (None, None, None, Vec::new())
     };
 
     let (overall, score_details) = scoring::compute_overall_score(
@@ -236,6 +251,8 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         accumulated_return,
         risk_metrics,
         benchmark_metrics,
+        distribution,
+        rolling_returns,
         fee_rules,
         top_bonds,
         scale_changes,
@@ -245,6 +262,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         manager_eval,
         manager_char,
         manager_info,
+        manager_history,
         scores,
         meta,
     };

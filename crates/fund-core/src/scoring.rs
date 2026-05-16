@@ -1,6 +1,6 @@
 use crate::models::{
     AccumulatedReturn, FundDetail, ManagerHoldingChar, ManagerPerformance, NavTrendPoint,
-    PeriodIncrease,
+    NetValuePoint, PeriodIncrease,
 };
 use serde::Serialize;
 
@@ -539,4 +539,156 @@ pub fn compute_overall_score(
     let overall = total / 100;
     let details = weights.into_iter().map(|(n, s, _)| (n.to_string(), s)).collect();
     (overall, details)
+}
+
+// ─── Rolling returns ──────────────────────────────────────────────────
+
+/// Distribution of N-day rolling returns (period-over-period, not annualized).
+/// All values are percentages. `count` is the number of overlapping windows
+/// observed; below ~20 the percentiles are noisy so callers should hide them.
+#[derive(Debug, Serialize)]
+pub struct RollingReturnStats {
+    pub window_days: usize,
+    pub count: usize,
+    pub max: f64,
+    pub min: f64,
+    pub mean: f64,
+    pub median: f64,
+    pub p25: f64,
+    pub p75: f64,
+}
+
+#[derive(Debug, Serialize)]
+pub struct RollingReturns {
+    /// 1-year (~250 trading days) rolling window stats.
+    pub y1: Option<RollingReturnStats>,
+    /// 3-year (~750 trading days) rolling window stats.
+    pub y3: Option<RollingReturnStats>,
+}
+
+/// Compute rolling return distributions over the given NAV history.
+///
+/// Daily NAV history (`fundMNHisNetList`) is the right source here because it
+/// gives every trading day. We use accumulated NAV (`LJJZ`) so dividends are
+/// already incorporated in the return calculation.
+pub fn compute_rolling_returns(history: &[NetValuePoint]) -> RollingReturns {
+    let mut sorted: Vec<&NetValuePoint> = history.iter().collect();
+    sorted.sort_by(|a, b| a.date.cmp(&b.date));
+    let navs: Vec<f64> = sorted.iter().map(|p| p.acc_value).collect();
+    RollingReturns { y1: rolling_window_stats(&navs, 250), y3: rolling_window_stats(&navs, 750) }
+}
+
+fn rolling_window_stats(navs: &[f64], window: usize) -> Option<RollingReturnStats> {
+    if navs.len() <= window {
+        return None;
+    }
+    // (end_nav / start_nav - 1) * 100, percent
+    let returns: Vec<f64> = (window..navs.len())
+        .filter_map(|i| {
+            let start = navs[i - window];
+            if start <= 0.0 {
+                None
+            } else {
+                Some((navs[i] / start - 1.0) * 100.0)
+            }
+        })
+        .collect();
+    if returns.is_empty() {
+        return None;
+    }
+
+    let mut sorted = returns.clone();
+    sorted.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let n = sorted.len();
+    let mean = returns.iter().sum::<f64>() / n as f64;
+    Some(RollingReturnStats {
+        window_days: window,
+        count: n,
+        max: sorted[n - 1],
+        min: sorted[0],
+        mean,
+        median: percentile(&sorted, 0.5),
+        p25: percentile(&sorted, 0.25),
+        p75: percentile(&sorted, 0.75),
+    })
+}
+
+/// Linear-interpolation percentile (R-7), matching numpy / Excel default.
+fn percentile(sorted: &[f64], q: f64) -> f64 {
+    if sorted.is_empty() {
+        return 0.0;
+    }
+    let n = sorted.len();
+    let pos = q * (n as f64 - 1.0);
+    let lo = pos.floor() as usize;
+    let hi = (lo + 1).min(n - 1);
+    let frac = pos - lo as f64;
+    sorted[lo] * (1.0 - frac) + sorted[hi] * frac
+}
+
+// ─── Distribution statistics ──────────────────────────────────────────
+
+/// Tail-risk and shape descriptors over daily returns from the NAV trend.
+/// All ratios are in percent of NAV (consistent with `RiskMetrics.max_drawdown`).
+#[derive(Debug, Serialize)]
+pub struct DistributionStats {
+    /// 95% Value at Risk: the 5th-percentile daily loss as a positive number.
+    /// A var_95 of 1.2 means "on a bad day (5% probability) the fund drops ≥ 1.2%".
+    pub var_95: Option<f64>,
+    /// 95% Conditional VaR (expected shortfall): average loss in the worst 5%
+    /// of days, also as a positive number.
+    pub cvar_95: Option<f64>,
+    /// Skewness of daily returns. Negative = left-tailed (occasional sharp losses).
+    pub skewness: Option<f64>,
+    /// Excess kurtosis (Pearson - 3). Positive = fat-tailed.
+    pub excess_kurtosis: Option<f64>,
+    pub data_points: usize,
+}
+
+impl DistributionStats {
+    pub fn empty() -> Self {
+        Self { var_95: None, cvar_95: None, skewness: None, excess_kurtosis: None, data_points: 0 }
+    }
+}
+
+pub fn compute_distribution_stats(points: &[NavTrendPoint]) -> DistributionStats {
+    if points.len() < 30 {
+        return DistributionStats::empty();
+    }
+    let mut sorted: Vec<&NavTrendPoint> = points.iter().collect();
+    sorted.sort_by(|a, b| a.date.cmp(&b.date));
+    let navs: Vec<f64> = sorted.iter().map(|p| p.nav).collect();
+    let daily_returns: Vec<f64> = navs.windows(2).map(|w| w[1] / w[0] - 1.0).collect();
+    let n = daily_returns.len();
+    if n < 30 {
+        return DistributionStats::empty();
+    }
+
+    let mean = daily_returns.iter().sum::<f64>() / n as f64;
+    let var_pop = daily_returns.iter().map(|r| (r - mean).powi(2)).sum::<f64>() / n as f64;
+    let sd = var_pop.sqrt();
+
+    let (skewness, excess_kurtosis) = if sd > 0.0 {
+        let m3 = daily_returns.iter().map(|r| (r - mean).powi(3)).sum::<f64>() / n as f64;
+        let m4 = daily_returns.iter().map(|r| (r - mean).powi(4)).sum::<f64>() / n as f64;
+        (Some(m3 / sd.powi(3)), Some(m4 / sd.powi(4) - 3.0))
+    } else {
+        (None, None)
+    };
+
+    // Tail percentile in original return space, then flip sign so losses are positive %.
+    let mut asc = daily_returns.clone();
+    asc.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let var = percentile(&asc, 0.05);
+    let var_95 = Some(-var * 100.0);
+
+    let tail_cutoff = ((n as f64) * 0.05).ceil() as usize;
+    let cvar_95 = if tail_cutoff > 0 {
+        let tail_mean = asc.iter().take(tail_cutoff).sum::<f64>() / tail_cutoff as f64;
+        Some(-tail_mean * 100.0)
+    } else {
+        None
+    };
+
+    DistributionStats { var_95, cvar_95, skewness, excess_kurtosis, data_points: n }
 }
