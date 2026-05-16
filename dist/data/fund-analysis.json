@@ -1,8 +1,4 @@
 {
-  "meta": {
-    "generated_at": "2026-05-16",
-    "fund_code": "020262"
-  },
   "detail": {
     "FCODE": "020262",
     "SHORTNAME": "平安鑫惠90天持有债券A",
@@ -144,6 +140,482 @@
       "hs300_return": 4.96,
       "rank": 525,
       "total": 911
+    }
+  ],
+  "monthly_series": [
+    {
+      "month": "2024-02",
+      "return_rate": 0.24999999999999467
+    },
+    {
+      "month": "2024-03",
+      "return_rate": 0.17955112219452118
+    },
+    {
+      "month": "2024-04",
+      "return_rate": 0.3385442596833599
+    },
+    {
+      "month": "2024-05",
+      "return_rate": 0.29770765108663166
+    },
+    {
+      "month": "2024-06",
+      "return_rate": 0.34629464727418124
+    },
+    {
+      "month": "2024-07",
+      "return_rate": 0.4535594557286471
+    },
+    {
+      "month": "2024-08",
+      "return_rate": -0.07852375343541107
+    },
+    {
+      "month": "2024-09",
+      "return_rate": -0.2554027504911516
+    },
+    {
+      "month": "2024-10",
+      "return_rate": 0.17727004136300906
+    },
+    {
+      "month": "2024-11",
+      "return_rate": 0.4128981517892205
+    },
+    {
+      "month": "2024-12",
+      "return_rate": 0.7440767573918095
+    },
+    {
+      "month": "2025-01",
+      "return_rate": 0.019436345966949986
+    },
+    {
+      "month": "2025-02",
+      "return_rate": 0.029148853478444536
+    },
+    {
+      "month": "2025-03",
+      "return_rate": 0.6313744536182497
+    },
+    {
+      "month": "2025-04",
+      "return_rate": 0.7142857142857117
+    },
+    {
+      "month": "2025-05",
+      "return_rate": 0.23960130343108066
+    },
+    {
+      "month": "2025-06",
+      "return_rate": 0.31551773592120025
+    },
+    {
+      "month": "2025-07",
+      "return_rate": 0.5242089210827361
+    },
+    {
+      "month": "2025-08",
+      "return_rate": 0.3318479188394896
+    },
+    {
+      "month": "2025-09",
+      "return_rate": -0.17010017010017364
+    },
+    {
+      "month": "2025-10",
+      "return_rate": 0.4070427868231752
+    },
+    {
+      "month": "2025-11",
+      "return_rate": -0.009427736400491327
+    },
+    {
+      "month": "2025-12",
+      "return_rate": 0.3488591363379312
+    },
+    {
+      "month": "2026-01",
+      "return_rate": 0.45100065770928843
+    },
+    {
+      "month": "2026-02",
+      "return_rate": 0.21513422504910729
+    },
+    {
+      "month": "2026-03",
+      "return_rate": -0.11200298674629572
+    },
+    {
+      "month": "2026-04",
+      "return_rate": 0.7008035881143737
+    },
+    {
+      "month": "2026-05",
+      "return_rate": -0.09279020135474214
+    }
+  ],
+  "nav_history": [
+    {
+      "date": "2026-05-15",
+      "net_value": 1.0767,
+      "acc_value": 1.0767,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-05-14",
+      "net_value": 1.0771,
+      "acc_value": 1.0771,
+      "growth": -0.11
+    },
+    {
+      "date": "2026-05-13",
+      "net_value": 1.0783,
+      "acc_value": 1.0783,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-05-12",
+      "net_value": 1.0778,
+      "acc_value": 1.0778,
+      "growth": -0.07
+    },
+    {
+      "date": "2026-05-11",
+      "net_value": 1.0786,
+      "acc_value": 1.0786,
+      "growth": 0.06
+    },
+    {
+      "date": "2026-05-08",
+      "net_value": 1.078,
+      "acc_value": 1.078,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-05-07",
+      "net_value": 1.0779,
+      "acc_value": 1.0779,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-05-06",
+      "net_value": 1.0783,
+      "acc_value": 1.0783,
+      "growth": 0.06
+    },
+    {
+      "date": "2026-04-30",
+      "net_value": 1.0777,
+      "acc_value": 1.0777,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-04-29",
+      "net_value": 1.0778,
+      "acc_value": 1.0778,
+      "growth": 0.08
+    },
+    {
+      "date": "2026-04-28",
+      "net_value": 1.0769,
+      "acc_value": 1.0769,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-04-27",
+      "net_value": 1.0768,
+      "acc_value": 1.0768,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-04-24",
+      "net_value": 1.0769,
+      "acc_value": 1.0769,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-04-23",
+      "net_value": 1.0773,
+      "acc_value": 1.0773,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-04-22",
+      "net_value": 1.0772,
+      "acc_value": 1.0772,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-04-21",
+      "net_value": 1.0767,
+      "acc_value": 1.0767,
+      "growth": 0.04
+    },
+    {
+      "date": "2026-04-20",
+      "net_value": 1.0763,
+      "acc_value": 1.0763,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-04-17",
+      "net_value": 1.0764,
+      "acc_value": 1.0764,
+      "growth": 0.02
+    },
+    {
+      "date": "2026-04-16",
+      "net_value": 1.0762,
+      "acc_value": 1.0762,
+      "growth": 0.08
+    },
+    {
+      "date": "2026-04-15",
+      "net_value": 1.0753,
+      "acc_value": 1.0753,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-04-14",
+      "net_value": 1.075,
+      "acc_value": 1.075,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-04-13",
+      "net_value": 1.0739,
+      "acc_value": 1.0739,
+      "growth": -0.03
+    },
+    {
+      "date": "2026-04-10",
+      "net_value": 1.0742,
+      "acc_value": 1.0742,
+      "growth": 0.02
+    },
+    {
+      "date": "2026-04-09",
+      "net_value": 1.074,
+      "acc_value": 1.074,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-04-08",
+      "net_value": 1.0741,
+      "acc_value": 1.0741,
+      "growth": 0.15
+    },
+    {
+      "date": "2026-04-07",
+      "net_value": 1.0725,
+      "acc_value": 1.0725,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-04-03",
+      "net_value": 1.0714,
+      "acc_value": 1.0714,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-04-02",
+      "net_value": 1.0709,
+      "acc_value": 1.0709,
+      "growth": -0.02
+    },
+    {
+      "date": "2026-04-01",
+      "net_value": 1.0711,
+      "acc_value": 1.0711,
+      "growth": 0.08
+    },
+    {
+      "date": "2026-03-31",
+      "net_value": 1.0702,
+      "acc_value": 1.0702,
+      "growth": -0.08
+    },
+    {
+      "date": "2026-03-30",
+      "net_value": 1.0711,
+      "acc_value": 1.0711,
+      "growth": -0.03
+    },
+    {
+      "date": "2026-03-27",
+      "net_value": 1.0714,
+      "acc_value": 1.0714,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-03-26",
+      "net_value": 1.0709,
+      "acc_value": 1.0709,
+      "growth": -0.07
+    },
+    {
+      "date": "2026-03-25",
+      "net_value": 1.0717,
+      "acc_value": 1.0717,
+      "growth": 0.11
+    },
+    {
+      "date": "2026-03-24",
+      "net_value": 1.0705,
+      "acc_value": 1.0705,
+      "growth": 0.13
+    },
+    {
+      "date": "2026-03-23",
+      "net_value": 1.0691,
+      "acc_value": 1.0691,
+      "growth": -0.03
+    },
+    {
+      "date": "2026-03-20",
+      "net_value": 1.0694,
+      "acc_value": 1.0694,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-03-19",
+      "net_value": 1.0698,
+      "acc_value": 1.0698,
+      "growth": -0.08
+    },
+    {
+      "date": "2026-03-18",
+      "net_value": 1.0707,
+      "acc_value": 1.0707,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-03-17",
+      "net_value": 1.07,
+      "acc_value": 1.07,
+      "growth": -0.08
+    },
+    {
+      "date": "2026-03-16",
+      "net_value": 1.0709,
+      "acc_value": 1.0709,
+      "growth": -0.05
+    },
+    {
+      "date": "2026-03-13",
+      "net_value": 1.0714,
+      "acc_value": 1.0714,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-03-12",
+      "net_value": 1.0718,
+      "acc_value": 1.0718,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-03-11",
+      "net_value": 1.0722,
+      "acc_value": 1.0722,
+      "growth": 0.06
+    },
+    {
+      "date": "2026-03-10",
+      "net_value": 1.0716,
+      "acc_value": 1.0716,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-03-09",
+      "net_value": 1.0711,
+      "acc_value": 1.0711,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-03-06",
+      "net_value": 1.0715,
+      "acc_value": 1.0715,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-03-05",
+      "net_value": 1.0712,
+      "acc_value": 1.0712,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-03-04",
+      "net_value": 1.0712,
+      "acc_value": 1.0712,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-03-03",
+      "net_value": 1.0712,
+      "acc_value": 1.0712,
+      "growth": -0.06
+    },
+    {
+      "date": "2026-03-02",
+      "net_value": 1.0718,
+      "acc_value": 1.0718,
+      "growth": 0.04
+    },
+    {
+      "date": "2026-02-27",
+      "net_value": 1.0714,
+      "acc_value": 1.0714,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-02-26",
+      "net_value": 1.0711,
+      "acc_value": 1.0711,
+      "growth": -0.08
+    },
+    {
+      "date": "2026-02-25",
+      "net_value": 1.072,
+      "acc_value": 1.072,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-02-24",
+      "net_value": 1.0724,
+      "acc_value": 1.0724,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-02-13",
+      "net_value": 1.0716,
+      "acc_value": 1.0716,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-02-12",
+      "net_value": 1.0717,
+      "acc_value": 1.0717,
+      "growth": 0.02
+    },
+    {
+      "date": "2026-02-11",
+      "net_value": 1.0715,
+      "acc_value": 1.0715,
+      "growth": 0.04
+    },
+    {
+      "date": "2026-02-10",
+      "net_value": 1.0711,
+      "acc_value": 1.0711,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-02-09",
+      "net_value": 1.071,
+      "acc_value": 1.071,
+      "growth": 0.08
     }
   ],
   "accumulated_return": [
@@ -3993,7 +4465,38 @@
     "negative_days": 151,
     "monthly_win_rate": 85.71428571428571,
     "excess_return": 3.6999999999999997,
-    "data_points": 500
+    "data_points": 500,
+    "calmar_ratio": 5.265177185272852,
+    "sortino_ratio": 3.765424290954901,
+    "current_drawdown": 0.17615427405896653,
+    "max_drawdown_recovery_days": 52
+  },
+  "benchmark_metrics": {
+    "beta": 0.0644277714158658,
+    "alpha": 1.3932403332612877,
+    "tracking_error": 2.2808797525693665,
+    "information_ratio": 0.6904516302612002,
+    "data_points": 547
+  },
+  "distribution": {
+    "var_95": 0.05659424344759745,
+    "cvar_95": 0.10012802893842965,
+    "skewness": -0.6929387213170708,
+    "excess_kurtosis": 7.7351641404043185,
+    "data_points": 499
+  },
+  "rolling_returns": {
+    "y1": {
+      "window_days": 250,
+      "count": 294,
+      "max": 4.585433343215728,
+      "min": 2.7650229586744013,
+      "mean": 3.721312980317531,
+      "median": 3.693010200887592,
+      "p25": 3.581036914465307,
+      "p75": 3.9190211833615427
+    },
+    "y3": null
   },
   "fee_rules": {
     "purchase": [
@@ -4017,6 +4520,358 @@
       }
     ]
   },
+  "top_bonds": {
+    "period": "2026年1季度债券投资明细",
+    "end_date": "2026-03-31",
+    "bonds": [
+      {
+        "bond_code": "092280139",
+        "bond_name": "22交行二级资本债02A",
+        "ratio": 3.97,
+        "market_value_wan": 9304.18
+      },
+      {
+        "bond_code": "244399",
+        "bond_name": "25山能Y3",
+        "ratio": 3.01,
+        "market_value_wan": 7056.85
+      },
+      {
+        "bond_code": "092280083",
+        "bond_name": "22建行永续债01",
+        "ratio": 2.67,
+        "market_value_wan": 6245.04
+      },
+      {
+        "bond_code": "112585247",
+        "bond_name": "25广州农村商业银行CD118",
+        "ratio": 2.54,
+        "market_value_wan": 5943.07
+      },
+      {
+        "bond_code": "200204",
+        "bond_name": "20国开04",
+        "ratio": 2.18,
+        "market_value_wan": 5115.18
+      },
+      {
+        "bond_code": "110098",
+        "bond_name": "南药转债",
+        "ratio": 0.43,
+        "market_value_wan": 1012.27
+      },
+      {
+        "bond_code": "113066",
+        "bond_name": "平煤转债",
+        "ratio": 0.43,
+        "market_value_wan": 999.92
+      },
+      {
+        "bond_code": "127110",
+        "bond_name": "广核转债",
+        "ratio": 0.42,
+        "market_value_wan": 987.63
+      },
+      {
+        "bond_code": "127067",
+        "bond_name": "恒逸转2",
+        "ratio": 0.31,
+        "market_value_wan": 717.95
+      },
+      {
+        "bond_code": "110087",
+        "bond_name": "天业转债",
+        "ratio": 0.3,
+        "market_value_wan": 694.61
+      },
+      {
+        "bond_code": "110093",
+        "bond_name": "神马转债",
+        "ratio": 0.28,
+        "market_value_wan": 665.54
+      },
+      {
+        "bond_code": "123107",
+        "bond_name": "温氏转债",
+        "ratio": 0.27,
+        "market_value_wan": 630.27
+      },
+      {
+        "bond_code": "113042",
+        "bond_name": "上银转债",
+        "ratio": 0.21,
+        "market_value_wan": 494.72
+      },
+      {
+        "bond_code": "113046",
+        "bond_name": "金田转债",
+        "ratio": 0.21,
+        "market_value_wan": 483.82
+      },
+      {
+        "bond_code": "113070",
+        "bond_name": "渝水转债",
+        "ratio": 0.2,
+        "market_value_wan": 475.44
+      },
+      {
+        "bond_code": "113062",
+        "bond_name": "常银转债",
+        "ratio": 0.19,
+        "market_value_wan": 450.2
+      },
+      {
+        "bond_code": "113043",
+        "bond_name": "财通转债",
+        "ratio": 0.17,
+        "market_value_wan": 408.02
+      },
+      {
+        "bond_code": "113056",
+        "bond_name": "重银转债",
+        "ratio": 0.17,
+        "market_value_wan": 408.93
+      },
+      {
+        "bond_code": "127027",
+        "bond_name": "能化转债",
+        "ratio": 0.15,
+        "market_value_wan": 359.99
+      },
+      {
+        "bond_code": "127040",
+        "bond_name": "国泰转债",
+        "ratio": 0.15,
+        "market_value_wan": 359.86
+      },
+      {
+        "bond_code": "113052",
+        "bond_name": "兴业转债",
+        "ratio": 0.15,
+        "market_value_wan": 350.84
+      },
+      {
+        "bond_code": "127038",
+        "bond_name": "国微转债",
+        "ratio": 0.15,
+        "market_value_wan": 362.0
+      },
+      {
+        "bond_code": "123254",
+        "bond_name": "亿纬转债",
+        "ratio": 0.14,
+        "market_value_wan": 316.53
+      },
+      {
+        "bond_code": "113631",
+        "bond_name": "皖天转债",
+        "ratio": 0.14,
+        "market_value_wan": 332.12
+      },
+      {
+        "bond_code": "113616",
+        "bond_name": "韦尔转债",
+        "ratio": 0.13,
+        "market_value_wan": 314.88
+      },
+      {
+        "bond_code": "113053",
+        "bond_name": "隆22转债",
+        "ratio": 0.13,
+        "market_value_wan": 315.44
+      },
+      {
+        "bond_code": "127024",
+        "bond_name": "盈峰转债",
+        "ratio": 0.12,
+        "market_value_wan": 287.69
+      },
+      {
+        "bond_code": "127030",
+        "bond_name": "盛虹转债",
+        "ratio": 0.1,
+        "market_value_wan": 245.05
+      },
+      {
+        "bond_code": "127089",
+        "bond_name": "晶澳转债",
+        "ratio": 0.09,
+        "market_value_wan": 218.32
+      },
+      {
+        "bond_code": "127064",
+        "bond_name": "杭氧转债",
+        "ratio": 0.09,
+        "market_value_wan": 212.93
+      },
+      {
+        "bond_code": "127018",
+        "bond_name": "本钢转债",
+        "ratio": 0.07,
+        "market_value_wan": 165.17
+      },
+      {
+        "bond_code": "127083",
+        "bond_name": "山路转债",
+        "ratio": 0.07,
+        "market_value_wan": 153.72
+      },
+      {
+        "bond_code": "110075",
+        "bond_name": "南航转债",
+        "ratio": 0.06,
+        "market_value_wan": 144.51
+      },
+      {
+        "bond_code": "127049",
+        "bond_name": "希望转2",
+        "ratio": 0.06,
+        "market_value_wan": 144.32
+      },
+      {
+        "bond_code": "123257",
+        "bond_name": "安克转债",
+        "ratio": 0.06,
+        "market_value_wan": 151.86
+      },
+      {
+        "bond_code": "127016",
+        "bond_name": "鲁泰转债",
+        "ratio": 0.05,
+        "market_value_wan": 121.36
+      }
+    ]
+  },
+  "scale_changes": [
+    {
+      "date": "2026-03-31",
+      "purchase_yi": 12.08,
+      "redemption_yi": 2.98,
+      "end_shares_yi": 17.8,
+      "end_nav_yi": 19.05,
+      "change_pct": 105.64
+    },
+    {
+      "date": "2025-12-31",
+      "purchase_yi": 5.44,
+      "redemption_yi": 2.2,
+      "end_shares_yi": 8.7,
+      "end_nav_yi": 9.26,
+      "change_pct": 60.52
+    },
+    {
+      "date": "2025-09-30",
+      "purchase_yi": 4.96,
+      "redemption_yi": 0.28,
+      "end_shares_yi": 5.46,
+      "end_nav_yi": 5.77,
+      "change_pct": 602.85
+    },
+    {
+      "date": "2025-06-30",
+      "purchase_yi": 0.61,
+      "redemption_yi": 0.02,
+      "end_shares_yi": 0.78,
+      "end_nav_yi": 0.82,
+      "change_pct": 321.1
+    },
+    {
+      "date": "2025-03-31",
+      "purchase_yi": 0.01,
+      "redemption_yi": 0.22,
+      "end_shares_yi": 0.19,
+      "end_nav_yi": 0.19,
+      "change_pct": -52.63
+    },
+    {
+      "date": "2024-12-31",
+      "purchase_yi": 0.08,
+      "redemption_yi": 0.24,
+      "end_shares_yi": 0.4,
+      "end_nav_yi": 0.41,
+      "change_pct": -27.45
+    },
+    {
+      "date": "2024-09-30",
+      "purchase_yi": 0.01,
+      "redemption_yi": 0.59,
+      "end_shares_yi": 0.56,
+      "end_nav_yi": 0.57,
+      "change_pct": -51.27
+    },
+    {
+      "date": "2024-06-30",
+      "purchase_yi": 0.0,
+      "redemption_yi": 7.14,
+      "end_shares_yi": 1.15,
+      "end_nav_yi": 1.16,
+      "change_pct": -86.02
+    },
+    {
+      "date": "2024-03-31",
+      "purchase_yi": 0.0,
+      "redemption_yi": 0.0,
+      "end_shares_yi": 8.29,
+      "end_nav_yi": 8.33,
+      "change_pct": 0.47
+    },
+    {
+      "date": "2024-01-18",
+      "purchase_yi": 0.0,
+      "redemption_yi": 0.0,
+      "end_shares_yi": 8.29,
+      "end_nav_yi": 8.29,
+      "change_pct": 0.0
+    }
+  ],
+  "holder_structure": [
+    {
+      "announce_date": "2025-12-31",
+      "institutional_pct": 0.0,
+      "retail_pct": 100.0,
+      "internal_pct": 0.04,
+      "total_shares_yi": 8.7
+    },
+    {
+      "announce_date": "2025-06-30",
+      "institutional_pct": 0.0,
+      "retail_pct": 100.0,
+      "internal_pct": 0.05,
+      "total_shares_yi": 0.78
+    },
+    {
+      "announce_date": "2024-12-31",
+      "institutional_pct": 0.0,
+      "retail_pct": 100.0,
+      "internal_pct": 0.0,
+      "total_shares_yi": 0.4
+    },
+    {
+      "announce_date": "2024-06-30",
+      "institutional_pct": 0.0,
+      "retail_pct": 100.0,
+      "internal_pct": 0.0,
+      "total_shares_yi": 1.15
+    }
+  ],
+  "dividends": [],
+  "holding_constraints": {
+    "purchase_status": "",
+    "redemption_status": "",
+    "min_holding_days": 90,
+    "features": "平安鑫惠90天持有期债券型证券投资基金"
+  },
+  "manager_eval": {
+    "MAXRETRA_1": "0.014",
+    "MAXRETRA_3": "0.023",
+    "SHARP_1": "0.5488",
+    "SHARP_3": "1.2216",
+    "STDDEV_1": "0.8985",
+    "STDDEV_3": "1.3773",
+    "WIN_1": "29.63",
+    "WIN_3": "52.59"
+  },
+  "manager_char": null,
   "manager_info": {
     "MGRID": "30634032",
     "MGRNAME": "田元强",
@@ -4031,17 +4886,478 @@
     "FMAXRETRA1": "0.0475",
     "MGOLD": "8.3635"
   },
-  "manager_eval": {
-    "MAXRETRA_1": "0.014",
-    "MAXRETRA_3": "0.023",
-    "SHARP_1": "0.5488",
-    "SHARP_3": "1.2216",
-    "STDDEV_1": "0.8985",
-    "STDDEV_3": "1.3773",
-    "WIN_1": "29.63",
-    "WIN_3": "52.59"
-  },
-  "manager_char": null,
+  "manager_history": [
+    {
+      "FCODE": "005766",
+      "SHORTNAME": "平安合瑞定开债",
+      "FEMPDATE": "2021-06-06T16:00:00Z",
+      "LEMPDATE": "2025-11-17T16:00:00Z",
+      "TOTALDAYS": "1625",
+      "PENAVGROWTH": "17.9003",
+      "TLRANK": "85",
+      "TLSC": "432"
+    },
+    {
+      "FCODE": "012418",
+      "SHORTNAME": "平安合进1年定开债发起式",
+      "FEMPDATE": "2021-06-22T16:00:00Z",
+      "LEMPDATE": "2025-05-06T16:00:00Z",
+      "TOTALDAYS": "1414",
+      "PENAVGROWTH": "17.3148",
+      "TLRANK": "69",
+      "TLSC": "443"
+    },
+    {
+      "FCODE": "006934",
+      "SHORTNAME": "平安3-5年期政策性金融债债券A",
+      "FEMPDATE": "2019-02-21T16:00:00Z",
+      "LEMPDATE": "2022-01-19T16:00:00Z",
+      "TOTALDAYS": "1063",
+      "PENAVGROWTH": "15.43",
+      "TLRANK": "480",
+      "TLSC": "1502"
+    },
+    {
+      "FCODE": "006935",
+      "SHORTNAME": "平安3-5年期政策性金融债债券C",
+      "FEMPDATE": "2019-02-21T16:00:00Z",
+      "LEMPDATE": "2022-01-19T16:00:00Z",
+      "TOTALDAYS": "1063",
+      "PENAVGROWTH": "15.1462",
+      "TLRANK": "489",
+      "TLSC": "1502"
+    },
+    {
+      "FCODE": "012440",
+      "SHORTNAME": "平安惠信3个月定开债A",
+      "FEMPDATE": "2021-07-14T16:00:00Z",
+      "LEMPDATE": "2025-05-06T16:00:00Z",
+      "TOTALDAYS": "1392",
+      "PENAVGROWTH": "14.4866",
+      "TLRANK": "171",
+      "TLSC": "450"
+    },
+    {
+      "FCODE": "012441",
+      "SHORTNAME": "平安惠信3个月定开债C",
+      "FEMPDATE": "2021-07-14T16:00:00Z",
+      "LEMPDATE": "2025-05-06T16:00:00Z",
+      "TOTALDAYS": "1392",
+      "PENAVGROWTH": "11.9592",
+      "TLRANK": "342",
+      "TLSC": "450"
+    },
+    {
+      "FCODE": "003034",
+      "SHORTNAME": "平安日鑫A",
+      "FEMPDATE": "2018-11-25T16:00:00Z",
+      "LEMPDATE": "2022-06-12T16:00:00Z",
+      "TOTALDAYS": "1295",
+      "PENAVGROWTH": "9.4991",
+      "TLRANK": "35",
+      "TLSC": "631"
+    },
+    {
+      "FCODE": "511700",
+      "SHORTNAME": "货币ETF平安",
+      "FEMPDATE": "2018-11-25T16:00:00Z",
+      "LEMPDATE": "2022-06-12T16:00:00Z",
+      "TOTALDAYS": "1295",
+      "PENAVGROWTH": "9.4989",
+      "TLRANK": "35",
+      "TLSC": "631"
+    },
+    {
+      "FCODE": "007017",
+      "SHORTNAME": "平安如意中短债A",
+      "FEMPDATE": "2019-04-18T16:00:00Z",
+      "LEMPDATE": "2021-04-07T16:00:00Z",
+      "TOTALDAYS": "720",
+      "PENAVGROWTH": "7.3252",
+      "TLRANK": "762",
+      "TLSC": "1639"
+    },
+    {
+      "FCODE": "014468",
+      "SHORTNAME": "平安元和90天滚动持有短债A",
+      "FEMPDATE": "2022-08-03T16:00:00Z",
+      "LEMPDATE": "2024-07-24T16:00:00Z",
+      "TOTALDAYS": "721",
+      "PENAVGROWTH": "7.253",
+      "TLRANK": "509",
+      "TLSC": "3292"
+    },
+    {
+      "FCODE": "000379",
+      "SHORTNAME": "平安日增利货币A",
+      "FEMPDATE": "2019-03-20T16:00:00Z",
+      "LEMPDATE": "2022-06-12T16:00:00Z",
+      "TOTALDAYS": "1180",
+      "PENAVGROWTH": "7.122",
+      "TLRANK": "398",
+      "TLSC": "632"
+    },
+    {
+      "FCODE": "007018",
+      "SHORTNAME": "平安如意中短债C",
+      "FEMPDATE": "2019-04-18T16:00:00Z",
+      "LEMPDATE": "2021-04-07T16:00:00Z",
+      "TOTALDAYS": "720",
+      "PENAVGROWTH": "7.1048",
+      "TLRANK": "819",
+      "TLSC": "1639"
+    },
+    {
+      "FCODE": "014469",
+      "SHORTNAME": "平安元和90天滚动持有短债C",
+      "FEMPDATE": "2022-08-03T16:00:00Z",
+      "LEMPDATE": "2024-07-24T16:00:00Z",
+      "TOTALDAYS": "721",
+      "PENAVGROWTH": "6.8286",
+      "TLRANK": "699",
+      "TLSC": "3292"
+    },
+    {
+      "FCODE": "007019",
+      "SHORTNAME": "平安如意中短债E",
+      "FEMPDATE": "2019-04-18T16:00:00Z",
+      "LEMPDATE": "2021-04-07T16:00:00Z",
+      "TOTALDAYS": "720",
+      "PENAVGROWTH": "6.5919",
+      "TLRANK": "959",
+      "TLSC": "1639"
+    },
+    {
+      "FCODE": "006412",
+      "SHORTNAME": "平安合锦定开债",
+      "FEMPDATE": "2020-08-24T16:00:00Z",
+      "LEMPDATE": "2023-02-07T16:00:00Z",
+      "TOTALDAYS": "897",
+      "PENAVGROWTH": "6.253",
+      "TLRANK": "307",
+      "TLSC": "357"
+    },
+    {
+      "FCODE": "005897",
+      "SHORTNAME": "平安合颖定开债",
+      "FEMPDATE": "2018-11-25T16:00:00Z",
+      "LEMPDATE": "2020-01-16T16:00:00Z",
+      "TOTALDAYS": "417",
+      "PENAVGROWTH": "5.513",
+      "TLRANK": "109",
+      "TLSC": "215"
+    },
+    {
+      "FCODE": "003487",
+      "SHORTNAME": "平安惠融纯债",
+      "FEMPDATE": "2022-01-19T16:00:00Z",
+      "LEMPDATE": "2023-04-23T16:00:00Z",
+      "TOTALDAYS": "459",
+      "PENAVGROWTH": "5.2382",
+      "TLRANK": "83",
+      "TLSC": "3015"
+    },
+    {
+      "FCODE": "001664",
+      "SHORTNAME": "平安鑫安混合A",
+      "FEMPDATE": "2019-04-09T16:00:00Z",
+      "LEMPDATE": "2020-05-24T16:00:00Z",
+      "TOTALDAYS": "411",
+      "PENAVGROWTH": "5.0401",
+      "TLRANK": "2200",
+      "TLSC": "2850"
+    },
+    {
+      "FCODE": "009306",
+      "SHORTNAME": "平安惠铭纯债",
+      "FEMPDATE": "2020-09-06T16:00:00Z",
+      "LEMPDATE": "2021-09-08T16:00:00Z",
+      "TOTALDAYS": "367",
+      "PENAVGROWTH": "5",
+      "TLRANK": "836",
+      "TLSC": "2367"
+    },
+    {
+      "FCODE": "007049",
+      "SHORTNAME": "平安鑫安混合E",
+      "FEMPDATE": "2019-04-09T16:00:00Z",
+      "LEMPDATE": "2020-05-24T16:00:00Z",
+      "TOTALDAYS": "411",
+      "PENAVGROWTH": "4.9028",
+      "TLRANK": "2210",
+      "TLSC": "2850"
+    },
+    {
+      "FCODE": "003626",
+      "SHORTNAME": "平安鑫利混合A",
+      "FEMPDATE": "2018-11-25T16:00:00Z",
+      "LEMPDATE": "2020-01-16T16:00:00Z",
+      "TOTALDAYS": "417",
+      "PENAVGROWTH": "4.5868",
+      "TLRANK": "2634",
+      "TLSC": "2706"
+    },
+    {
+      "FCODE": "001665",
+      "SHORTNAME": "平安鑫安混合C",
+      "FEMPDATE": "2019-04-09T16:00:00Z",
+      "LEMPDATE": "2020-05-24T16:00:00Z",
+      "TOTALDAYS": "411",
+      "PENAVGROWTH": "4.5615",
+      "TLRANK": "2246",
+      "TLSC": "2850"
+    },
+    {
+      "FCODE": "006433",
+      "SHORTNAME": "平安鑫利混合C",
+      "FEMPDATE": "2018-11-25T16:00:00Z",
+      "LEMPDATE": "2020-01-16T16:00:00Z",
+      "TOTALDAYS": "417",
+      "PENAVGROWTH": "4.3398",
+      "TLRANK": "2642",
+      "TLSC": "2706"
+    },
+    {
+      "FCODE": "010208",
+      "SHORTNAME": "平安日增利货币B",
+      "FEMPDATE": "2020-09-13T16:00:00Z",
+      "LEMPDATE": "2022-06-12T16:00:00Z",
+      "TOTALDAYS": "637",
+      "PENAVGROWTH": "4.0938",
+      "TLRANK": "159",
+      "TLSC": "653"
+    },
+    {
+      "FCODE": "006544",
+      "SHORTNAME": "平安惠聚纯债债券",
+      "FEMPDATE": "2024-08-19T16:00:00Z",
+      "LEMPDATE": "2025-12-01T16:00:00Z",
+      "TOTALDAYS": "469",
+      "PENAVGROWTH": "2.8974",
+      "TLRANK": "2189",
+      "TLSC": "4843"
+    },
+    {
+      "FCODE": "007196",
+      "SHORTNAME": "平安惠合纯债",
+      "FEMPDATE": "2024-08-19T16:00:00Z",
+      "LEMPDATE": "2025-11-17T16:00:00Z",
+      "TOTALDAYS": "455",
+      "PENAVGROWTH": "2.8411",
+      "TLRANK": "2458",
+      "TLSC": "4858"
+    },
+    {
+      "FCODE": "006222",
+      "SHORTNAME": "平安惠兴债券",
+      "FEMPDATE": "2025-02-19T16:00:00Z",
+      "LEMPDATE": "2026-03-17T16:00:00Z",
+      "TOTALDAYS": "391",
+      "PENAVGROWTH": "1.4119",
+      "TLRANK": "3905",
+      "TLSC": "5285"
+    },
+    {
+      "FCODE": "004960",
+      "SHORTNAME": "平安合泰定开债",
+      "FEMPDATE": "2022-07-31T16:00:00Z",
+      "LEMPDATE": "2023-02-26T16:00:00Z",
+      "TOTALDAYS": "210",
+      "PENAVGROWTH": "1.1194",
+      "TLRANK": "83",
+      "TLSC": "616"
+    },
+    {
+      "FCODE": "015021",
+      "SHORTNAME": "平安日鑫C",
+      "FEMPDATE": "2022-02-07T16:00:00Z",
+      "LEMPDATE": "2022-06-12T16:00:00Z",
+      "TOTALDAYS": "125",
+      "PENAVGROWTH": "0.6866",
+      "TLRANK": "245",
+      "TLSC": "689"
+    },
+    {
+      "FCODE": "004630",
+      "SHORTNAME": "平安合信定开债",
+      "FEMPDATE": "2019-12-15T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "2343",
+      "PENAVGROWTH": "25.3477",
+      "TLRANK": "86",
+      "TLSC": "268"
+    },
+    {
+      "FCODE": "003024",
+      "SHORTNAME": "平安惠金定开债A",
+      "FEMPDATE": "2020-08-24T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "2090",
+      "PENAVGROWTH": "21.2571",
+      "TLRANK": "130",
+      "TLSC": "371"
+    },
+    {
+      "FCODE": "006717",
+      "SHORTNAME": "平安惠金定开债C",
+      "FEMPDATE": "2020-08-24T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "2090",
+      "PENAVGROWTH": "20.5665",
+      "TLRANK": "158",
+      "TLSC": "371"
+    },
+    {
+      "FCODE": "003568",
+      "SHORTNAME": "平安惠利纯债A",
+      "FEMPDATE": "2021-06-06T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "1804",
+      "PENAVGROWTH": "16.8826",
+      "TLRANK": "970",
+      "TLSC": "2480"
+    },
+    {
+      "FCODE": "020262",
+      "SHORTNAME": "平安鑫惠90天持有债券A",
+      "FEMPDATE": "2024-01-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "849",
+      "PENAVGROWTH": "7.67",
+      "TLRANK": "1666",
+      "TLSC": "4208"
+    },
+    {
+      "FCODE": "020263",
+      "SHORTNAME": "平安鑫惠90天持有债券C",
+      "FEMPDATE": "2024-01-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "849",
+      "PENAVGROWTH": "7.17",
+      "TLRANK": "1950",
+      "TLSC": "4208"
+    },
+    {
+      "FCODE": "021001",
+      "SHORTNAME": "平安惠利纯债C",
+      "FEMPDATE": "2024-03-20T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "786",
+      "PENAVGROWTH": "4.6937",
+      "TLRANK": "3231",
+      "TLSC": "4357"
+    },
+    {
+      "FCODE": "021003",
+      "SHORTNAME": "平安惠利纯债E",
+      "FEMPDATE": "2024-03-20T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "786",
+      "PENAVGROWTH": "4.3634",
+      "TLRANK": "3560",
+      "TLSC": "4357"
+    },
+    {
+      "FCODE": "017776",
+      "SHORTNAME": "平安合顺1年定开债发起式",
+      "FEMPDATE": "2025-12-03T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "163",
+      "PENAVGROWTH": "2.4817",
+      "TLRANK": "32",
+      "TLSC": "988"
+    },
+    {
+      "FCODE": "015645",
+      "SHORTNAME": "平安中证同业存单AAA指数7天持有",
+      "FEMPDATE": "2024-12-08T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "523",
+      "PENAVGROWTH": "1.9968",
+      "TLRANK": "7445",
+      "TLSC": "8008"
+    },
+    {
+      "FCODE": "003286",
+      "SHORTNAME": "平安惠享纯债A",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "1.9178",
+      "TLRANK": "898",
+      "TLSC": "5894"
+    },
+    {
+      "FCODE": "022021",
+      "SHORTNAME": "平安惠享纯债D",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "1.9176",
+      "TLRANK": "898",
+      "TLSC": "5894"
+    },
+    {
+      "FCODE": "009404",
+      "SHORTNAME": "平安惠享纯债C",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "1.7374",
+      "TLRANK": "1031",
+      "TLSC": "5894"
+    },
+    {
+      "FCODE": "020301",
+      "SHORTNAME": "平安惠嘉纯债A",
+      "FEMPDATE": "2025-05-06T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "374",
+      "PENAVGROWTH": "1.3043",
+      "TLRANK": "4452",
+      "TLSC": "5445"
+    },
+    {
+      "FCODE": "008690",
+      "SHORTNAME": "平安增利六个月定开债A",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "1.1155",
+      "TLRANK": "445",
+      "TLSC": "989"
+    },
+    {
+      "FCODE": "020302",
+      "SHORTNAME": "平安惠嘉纯债C",
+      "FEMPDATE": "2025-05-06T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "374",
+      "PENAVGROWTH": "0.9711",
+      "TLRANK": "4840",
+      "TLSC": "5445"
+    },
+    {
+      "FCODE": "008692",
+      "SHORTNAME": "平安增利六个月定开债E",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "0.9209",
+      "TLRANK": "656",
+      "TLSC": "989"
+    },
+    {
+      "FCODE": "008691",
+      "SHORTNAME": "平安增利六个月定开债C",
+      "FEMPDATE": "2025-11-17T16:00:00Z",
+      "LEMPDATE": "--",
+      "TOTALDAYS": "179",
+      "PENAVGROWTH": "0.9209",
+      "TLRANK": "656",
+      "TLSC": "989"
+    }
+  ],
   "scores": {
     "overall": 83,
     "items": [
@@ -4082,273 +5398,16 @@
       }
     ]
   },
-  "holdings": {
-    "generated_at": "2026-03-31",
-    "quarter": "2026年1季度",
-    "total_portfolio": 904673.0,
-    "this_fund": {
-      "code": "020262",
-      "name": "平安鑫惠90天持有债券A",
-      "amount": 105000.0,
-      "fund_type": "债券型-混合一级",
-      "asset_class": "债券",
-      "top_stocks": [],
-      "industries": [
-        {
-          "industry_code": "C",
-          "industry_name": "制造业",
-          "ratio": 0.16,
-          "market_value_wan": 134.87,
-          "end_date": "2025-09-30"
-        }
-      ],
-      "period": "",
-      "end_date": ""
-    },
-    "allocation": [
-      {
-        "asset_class": "债券",
-        "amount": 739673.0,
-        "weight": 81.76136570893571,
-        "fund_count": 7
-      },
-      {
-        "asset_class": "混合",
-        "amount": 165000.0,
-        "weight": 18.238634291064283,
-        "fund_count": 1
-      }
-    ],
-    "top_stocks": [
-      {
-        "code": "300502",
-        "name": "新易盛",
-        "amount": 2589.0,
-        "weight": 0.28618075260342685,
-        "fund_count": 2
-      },
-      {
-        "code": "600498",
-        "name": "烽火通信",
-        "amount": 2550.0,
-        "weight": 0.28186980268008444,
-        "fund_count": 1
-      },
-      {
-        "code": "600036",
-        "name": "招商银行",
-        "amount": 2376.0,
-        "weight": 0.26263633379132567,
-        "fund_count": 1
-      },
-      {
-        "code": "600486",
-        "name": "扬农化工",
-        "amount": 2310.0,
-        "weight": 0.25534088007489997,
-        "fund_count": 1
-      },
-      {
-        "code": "600690",
-        "name": "海尔智家",
-        "amount": 2241.0,
-        "weight": 0.24771381482590948,
-        "fund_count": 1
-      },
-      {
-        "code": "600826",
-        "name": "兰生股份",
-        "amount": 2160.0,
-        "weight": 0.23876030344665974,
-        "fund_count": 1
-      },
-      {
-        "code": "300308",
-        "name": "中际旭创",
-        "amount": 2040.0000000000002,
-        "weight": 0.22549584214406754,
-        "fund_count": 1
-      },
-      {
-        "code": "601009",
-        "name": "南京银行",
-        "amount": 2025.0,
-        "weight": 0.2238377844812435,
-        "fund_count": 1
-      },
-      {
-        "code": "601838",
-        "name": "成都银行",
-        "amount": 1998.0,
-        "weight": 0.22085328068816024,
-        "fund_count": 1
-      },
-      {
-        "code": "688521",
-        "name": "芯原股份",
-        "amount": 1995.0,
-        "weight": 0.22052166915559543,
-        "fund_count": 1
-      },
-      {
-        "code": "000651",
-        "name": "格力电器",
-        "amount": 1944.0,
-        "weight": 0.21488427310199376,
-        "fund_count": 1
-      },
-      {
-        "code": "603606",
-        "name": "东方电缆",
-        "amount": 1755.0,
-        "weight": 0.19399274655041102,
-        "fund_count": 1
-      },
-      {
-        "code": "600919",
-        "name": "江苏银行",
-        "amount": 1728.0,
-        "weight": 0.19100824275732778,
-        "fund_count": 1
-      },
-      {
-        "code": "601225",
-        "name": "陕西煤业",
-        "amount": 1593.0,
-        "weight": 0.17608572379191156,
-        "fund_count": 1
-      },
-      {
-        "code": "002353",
-        "name": "杰瑞股份",
-        "amount": 1560.0,
-        "weight": 0.1724379969336987,
-        "fund_count": 1
-      }
-    ],
-    "industries": [
-      {
-        "code": "C",
-        "name": "制造业",
-        "amount": 58724.6849,
-        "weight": 6.491260919691425,
-        "fund_count": 5
-      },
-      {
-        "code": "J",
-        "name": "金融业",
-        "amount": 15971.3257,
-        "weight": 1.7654252641562198,
-        "fund_count": 4
-      },
-      {
-        "code": "B",
-        "name": "采矿业",
-        "amount": 8396.355,
-        "weight": 0.9281093831693883,
-        "fund_count": 4
-      },
-      {
-        "code": "I",
-        "name": "信息传输、软件和信息技术服务业",
-        "amount": 6829.0877,
-        "weight": 0.7548680794054868,
-        "fund_count": 4
-      },
-      {
-        "code": "D",
-        "name": "电力、热力、燃气及水生产和供应业",
-        "amount": 6296.7547,
-        "weight": 0.6960254920838801,
-        "fund_count": 4
-      },
-      {
-        "code": "L",
-        "name": "租赁和商务服务业",
-        "amount": 4034.119,
-        "weight": 0.44592012804626646,
-        "fund_count": 4
-      },
-      {
-        "code": "S",
-        "name": "综合",
-        "amount": 3721.2495,
-        "weight": 0.41133641658367165,
-        "fund_count": 2
-      },
-      {
-        "code": "N",
-        "name": "水利、环境和公共设施管理业",
-        "amount": 2638.8017,
-        "weight": 0.2916856919572044,
-        "fund_count": 4
-      },
-      {
-        "code": "K",
-        "name": "房地产业",
-        "amount": 2260.6618,
-        "weight": 0.2498871747029037,
-        "fund_count": 4
-      },
-      {
-        "code": "A",
-        "name": "农、林、牧、渔业",
-        "amount": 2051.9499,
-        "weight": 0.2268167503617329,
-        "fund_count": 4
-      },
-      {
-        "code": "G",
-        "name": "交通运输、仓储和邮政业",
-        "amount": 1396.238,
-        "weight": 0.15433620766840617,
-        "fund_count": 4
-      },
-      {
-        "code": "Q",
-        "name": "卫生和社会工作",
-        "amount": 1268.8831,
-        "weight": 0.1402587564788603,
-        "fund_count": 4
-      },
-      {
-        "code": "M",
-        "name": "科学研究和技术服务业",
-        "amount": 1266.1952,
-        "weight": 0.13996164359940003,
-        "fund_count": 4
-      },
-      {
-        "code": "F",
-        "name": "批发和零售业",
-        "amount": 1186.6785,
-        "weight": 0.13117209201556806,
-        "fund_count": 4
-      },
-      {
-        "code": "H",
-        "name": "住宿和餐饮业",
-        "amount": 631.4499,
-        "weight": 0.06979868969229766,
-        "fund_count": 3
-      },
-      {
-        "code": "E",
-        "name": "建筑业",
-        "amount": 448.238,
-        "weight": 0.04954696337792771,
-        "fund_count": 2
-      },
-      {
-        "code": "R",
-        "name": "文化、体育和娱乐业",
-        "amount": 262.8904,
-        "weight": 0.029059162813524886,
-        "fund_count": 2
-      }
-    ],
-    "notes": [
-      "已跳过 2 只债/货基的股票穿透（暴露低、F10 不必要）"
-    ]
+  "meta": {
+    "generated_at": "2026-05-16",
+    "as_of": {
+      "nav_history": "2026-05-15",
+      "nav_trend": "2026-05-15",
+      "accumulated_return": "2026-05-15",
+      "monthly_series": "2026-05",
+      "top_bonds": "2026-03-31",
+      "scale_changes": "2026-03-31",
+      "holder_structure": "2025-12-31"
+    }
   }
 }
