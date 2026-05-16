@@ -380,47 +380,14 @@ impl Client {
     /// return in percent.
     ///
     /// `months` is the desired number of recent months; we fetch ~22 trading days
-    /// per month with a small buffer.
+    /// per month with a small buffer. Callers that already hold a NAV history can
+    /// skip this round-trip and use `aggregate_monthly_returns` directly.
     pub fn get_monthly_series(&self, code: &str, months: usize) -> Result<Vec<MonthlyReturnPoint>> {
         Self::validate_non_empty(code, "fund code")?;
         // 22 trading days/month + 30-day cushion; need one extra month for the first delta.
         let days = ((months + 1) * 22 + 30) as i32;
-        let mut points = self.get_net_value_history(code, days)?;
-        // History API returns newest-first; sort ascending for chronological aggregation.
-        points.sort_by(|a, b| a.date.cmp(&b.date));
-
-        // Bucket by YYYY-MM, keeping the last (chronologically latest) acc NAV per month.
-        let mut last_per_month: Vec<(String, f64)> = Vec::new();
-        for p in &points {
-            if p.date.len() < 7 {
-                continue;
-            }
-            let month = p.date[..7].to_string();
-            match last_per_month.last_mut() {
-                Some((m, v)) if *m == month => *v = p.acc_value,
-                _ => last_per_month.push((month, p.acc_value)),
-            }
-        }
-
-        // Month-over-month delta in percent. The earliest bucket has no prior, so
-        // it serves only as the baseline and is not emitted.
-        let series: Vec<MonthlyReturnPoint> = last_per_month
-            .windows(2)
-            .filter_map(|w| {
-                let (prev_v, (cur_m, cur_v)) = (w[0].1, (&w[1].0, w[1].1));
-                if prev_v <= 0.0 {
-                    return None;
-                }
-                Some(MonthlyReturnPoint {
-                    month: cur_m.clone(),
-                    return_rate: (cur_v / prev_v - 1.0) * 100.0,
-                })
-            })
-            .collect();
-
-        // Trim to requested window (keep most recent N months).
-        let start = series.len().saturating_sub(months);
-        Ok(series[start..].to_vec())
+        let points = self.get_net_value_history(code, days)?;
+        Ok(aggregate_monthly_returns(&points, months))
     }
 
     fn get_period_increase_with_range(
@@ -652,4 +619,51 @@ impl Client {
     pub fn get_theme_focus_list(&self, _code: Option<&str>) -> Result<serde_json::Value> {
         anyhow::bail!("fundThemeFocusList 接口当前不可用（超时或返回 HTML）")
     }
+}
+
+/// Aggregate per-day NAV history into a month-by-month return series.
+///
+/// Takes the last trading day's accumulated NAV per calendar month, then
+/// computes the month-over-month return in percent. The earliest month acts
+/// only as the baseline and is not emitted. The series is trimmed to the
+/// `months` most recent entries.
+///
+/// Free function so callers that already hold a NAV history (e.g. to also
+/// expose `nav_history`) can avoid a second HTTP round-trip.
+pub fn aggregate_monthly_returns(
+    points: &[NetValuePoint],
+    months: usize,
+) -> Vec<MonthlyReturnPoint> {
+    // History API returns newest-first; sort ascending for chronological aggregation.
+    let mut sorted: Vec<&NetValuePoint> = points.iter().collect();
+    sorted.sort_by(|a, b| a.date.cmp(&b.date));
+
+    let mut last_per_month: Vec<(String, f64)> = Vec::new();
+    for p in &sorted {
+        if p.date.len() < 7 {
+            continue;
+        }
+        let month = p.date[..7].to_string();
+        match last_per_month.last_mut() {
+            Some((m, v)) if *m == month => *v = p.acc_value,
+            _ => last_per_month.push((month, p.acc_value)),
+        }
+    }
+
+    let series: Vec<MonthlyReturnPoint> = last_per_month
+        .windows(2)
+        .filter_map(|w| {
+            let (prev_v, (cur_m, cur_v)) = (w[0].1, (&w[1].0, w[1].1));
+            if prev_v <= 0.0 {
+                return None;
+            }
+            Some(MonthlyReturnPoint {
+                month: cur_m.clone(),
+                return_rate: (cur_v / prev_v - 1.0) * 100.0,
+            })
+        })
+        .collect();
+
+    let start = series.len().saturating_sub(months);
+    series[start..].to_vec()
 }

@@ -105,7 +105,7 @@ pub struct PeriodIncrease {
     pub total: i32,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct NetValuePoint {
     pub date: String,
     pub net_value: f64,

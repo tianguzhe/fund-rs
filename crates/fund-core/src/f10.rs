@@ -115,6 +115,22 @@ pub struct HoldingConstraints {
     pub features: String,
 }
 
+#[derive(Debug, Serialize, Clone)]
+pub struct DividendRecord {
+    /// 年份原文，例如 "2021年"
+    pub year: String,
+    /// 权益登记日 YYYY-MM-DD
+    pub record_date: String,
+    /// 除息日 YYYY-MM-DD
+    pub ex_date: String,
+    /// 每份分红金额（元），从"每份派现金 0.9000 元"解析
+    pub amount_per_share: f64,
+    /// 原始分红文案（兜底）
+    pub amount_text: String,
+    /// 分红发放日 YYYY-MM-DD
+    pub pay_date: String,
+}
+
 fn http_get(url: &str) -> Result<String> {
     let debug = std::env::var("FUND_DEBUG").is_ok();
     if debug {
@@ -566,4 +582,72 @@ pub fn detect_holding_constraints(short_name: &str, full_name: &str) -> HoldingC
         min_holding_days,
         features,
     }
+}
+
+/// Locate the first `<table>` whose class attribute contains `class_kw`.
+/// Returns the inner HTML between `<table ...>` and the matching `</table>`.
+fn extract_table_by_class<'a>(html: &'a str, class_kw: &str) -> Option<&'a str> {
+    let mut search_from = 0;
+    while let Some(rel) = html[search_from..].find("<table") {
+        let abs = search_from + rel;
+        let close_rel = html[abs..].find('>')?;
+        let tag_end = abs + close_rel + 1;
+        let tag = &html[abs..tag_end];
+        if tag.contains(class_kw) {
+            let end_rel = html[tag_end..].find("</table>")?;
+            return Some(&html[tag_end..tag_end + end_rel]);
+        }
+        search_from = tag_end;
+    }
+    None
+}
+
+/// Parse "每份派现金 0.9000 元" → 0.9000. Returns 0.0 on no match.
+fn parse_dividend_amount(text: &str) -> f64 {
+    let mut num = String::new();
+    let mut saw_digit = false;
+    for c in text.chars() {
+        if c.is_ascii_digit() || c == '.' {
+            num.push(c);
+            saw_digit = true;
+        } else if saw_digit {
+            break;
+        }
+    }
+    num.parse().unwrap_or(0.0)
+}
+
+/// Dividend history from the F10 fhsp page. Returns an empty Vec when the
+/// fund has no dividend record (Eastmoney shows a single "暂无分红信息!" row,
+/// which fails the column check and gets dropped naturally).
+pub fn get_dividends(code: &str) -> Result<Vec<DividendRecord>> {
+    let url = format!("{}/fhsp_{}.html", F10_BASE, code);
+    let body = http_get(&url)?;
+    // `cfxq` is the canonical class for the dividend table; `fhxq` would be a
+    // sibling split-history table that we ignore here.
+    let table = match extract_table_by_class(&body, "cfxq") {
+        Some(t) => t,
+        None => return Ok(Vec::new()),
+    };
+    let rows = parse_table_rows(table);
+
+    let mut out = Vec::new();
+    for row in rows {
+        if row.len() < 5 {
+            continue;
+        }
+        // Skip placeholder row "暂无分红信息!" (single cell merged via colspan).
+        if !row[1].contains('-') {
+            continue;
+        }
+        out.push(DividendRecord {
+            year: row[0].clone(),
+            record_date: row[1].clone(),
+            ex_date: row[2].clone(),
+            amount_per_share: parse_dividend_amount(&row[3]),
+            amount_text: row[3].clone(),
+            pay_date: row[4].clone(),
+        });
+    }
+    Ok(out)
 }

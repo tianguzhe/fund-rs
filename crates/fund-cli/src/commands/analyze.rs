@@ -1,10 +1,11 @@
 use anyhow::Result;
-use fund_core::api::Client;
+use fund_core::api::{aggregate_monthly_returns, Client};
 use fund_core::f10::{
-    FeeRules, HolderStructurePoint, HoldingConstraints, ScaleChangePoint, TopBondsReport,
+    DividendRecord, FeeRules, HolderStructurePoint, HoldingConstraints, ScaleChangePoint,
+    TopBondsReport,
 };
 use fund_core::models::*;
-use fund_core::scoring::{self, RiskMetrics};
+use fund_core::scoring::{self, BenchmarkMetrics, RiskMetrics};
 use owo_colors::OwoColorize;
 use serde::Serialize;
 
@@ -21,6 +22,26 @@ pub struct ScoreBreakdown {
     pub items: Vec<ScoreItem>,
 }
 
+/// Per-section data freshness for downstream UIs to surface "as of" labels.
+/// Each field reports the latest date observed in that section's payload, or
+/// None when the section is empty / failed to fetch.
+#[derive(Serialize)]
+pub struct AnalysisMeta {
+    pub generated_at: String,
+    pub as_of: AsOf,
+}
+
+#[derive(Serialize)]
+pub struct AsOf {
+    pub nav_history: Option<String>,
+    pub nav_trend: Option<String>,
+    pub accumulated_return: Option<String>,
+    pub monthly_series: Option<String>,
+    pub top_bonds: Option<String>,
+    pub scale_changes: Option<String>,
+    pub holder_structure: Option<String>,
+}
+
 #[derive(Serialize)]
 pub struct FundAnalysis {
     pub detail: FundDetail,
@@ -30,8 +51,12 @@ pub struct FundAnalysis {
     /// True month-by-month return series locally aggregated from daily NAV history.
     /// Distinct from `monthly_returns`, which echoes the rolling-period enum.
     pub monthly_series: Vec<MonthlyReturnPoint>,
+    /// Daily unit NAV + accumulated NAV history (most recent ≤ N trading days).
+    pub nav_history: Vec<NetValuePoint>,
     pub accumulated_return: Vec<AccumulatedReturn>,
     pub risk_metrics: RiskMetrics,
+    /// Benchmark-relative metrics (alpha/beta/IR/TE) derived from accumulated_return.
+    pub benchmark_metrics: BenchmarkMetrics,
     pub fee_rules: Option<FeeRules>,
     /// Bond holdings (zqcc). Only populated for bond-type funds.
     pub top_bonds: Option<TopBondsReport>,
@@ -39,12 +64,15 @@ pub struct FundAnalysis {
     pub scale_changes: Vec<ScaleChangePoint>,
     /// Holder structure history (institutional / retail / internal) from F10 cyrjg.
     pub holder_structure: Vec<HolderStructurePoint>,
+    /// Dividend history from F10 fhsp.
+    pub dividends: Vec<DividendRecord>,
     /// Purchase/redemption status + minimum holding period from F10 jbgk.
     pub holding_constraints: Option<HoldingConstraints>,
     pub manager_eval: Option<ManagerPerformance>,
     pub manager_char: Option<ManagerHoldingChar>,
     pub manager_info: Option<ManagerInfo>,
     pub scores: ScoreBreakdown,
+    pub meta: AnalysisMeta,
 }
 
 pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
@@ -56,23 +84,26 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         periods_r,
         yearly_r,
         monthly_r,
-        monthly_series_r,
+        nav_full_r,
         nav_trend_r,
         managers_r,
         scale_changes_r,
         holder_structure_r,
+        dividends_r,
     ) = std::thread::scope(|s| {
         let t1 = s.spawn(|| client.get_fund_estimate(code));
         let t2 = s.spawn(|| client.get_period_increase(code));
         let t3 = s.spawn(|| client.get_yearly_returns(code));
         let t4 = s.spawn(|| client.get_monthly_returns(code));
-        // 36-month window mirrors the canonical "近3年" risk horizon.
-        let t5 = s.spawn(|| client.get_monthly_series(code, 36));
+        // ~36 months of daily NAV: feeds both monthly_series (aggregated locally)
+        // and nav_history (the most recent slice exposed verbatim).
+        let t5 = s.spawn(|| client.get_net_value_history(code, 820));
         // 3-year window covers at least one full market cycle for risk metrics.
         let t6 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
         let t7 = s.spawn(|| client.get_fund_managers(code));
         let t8 = s.spawn(|| fund_core::f10::get_scale_changes(code));
         let t9 = s.spawn(|| fund_core::f10::get_holder_structure(code));
+        let t10 = s.spawn(|| fund_core::f10::get_dividends(code));
         (
             t1.join().unwrap(),
             t2.join().unwrap(),
@@ -83,6 +114,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
             t7.join().unwrap(),
             t8.join().unwrap(),
             t9.join().unwrap(),
+            t10.join().unwrap(),
         )
     });
 
@@ -90,11 +122,20 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     let periods = periods_r?;
     let yearly_returns = yearly_r.unwrap_or_default();
     let monthly_returns = monthly_r.unwrap_or_default();
-    let monthly_series = monthly_series_r.unwrap_or_default();
+    let nav_full = nav_full_r.unwrap_or_default();
+    // Derive monthly series from the same NAV pull instead of re-fetching.
+    let monthly_series = aggregate_monthly_returns(&nav_full, 36);
+    // Expose only the most recent ~60 trading days to keep JSON payload bounded.
+    let nav_history = {
+        let mut sorted: Vec<NetValuePoint> = nav_full.to_vec();
+        sorted.sort_by(|a, b| b.date.cmp(&a.date));
+        sorted.into_iter().take(60).collect::<Vec<_>>()
+    };
     let nav_trend = nav_trend_r.unwrap_or_default();
     let managers = managers_r.unwrap_or_default();
     let scale_changes = scale_changes_r.unwrap_or_default();
     let holder_structure = holder_structure_r.unwrap_or_default();
+    let dividends = dividends_r.unwrap_or_default();
     // Pure parser over fund name — cheap, deterministic, no network.
     let holding_constraints =
         Some(fund_core::f10::detect_holding_constraints(&detail.name, &detail.full_name));
@@ -116,6 +157,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
 
     let risk_metrics =
         scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
+    let benchmark_metrics = scoring::compute_benchmark_metrics(&accumulated_return);
 
     // Batch 2: manager details in parallel (depends on manager_id from batch 1)
     let manager_id = managers.into_iter().next().map(|m| m.manager_id);
@@ -170,23 +212,41 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
             .collect(),
     };
 
+    // Compose per-section as_of: latest date observed in each section's payload.
+    let meta = AnalysisMeta {
+        generated_at: today_ymd(),
+        as_of: AsOf {
+            nav_history: nav_history.first().map(|p| p.date.clone()),
+            nav_trend: nav_trend.iter().map(|p| p.date.clone()).max(),
+            accumulated_return: accumulated_return.last().map(|p| p.date.clone()),
+            monthly_series: monthly_series.last().map(|p| p.month.clone()),
+            top_bonds: top_bonds.as_ref().map(|t| t.end_date.clone()),
+            scale_changes: scale_changes.first().map(|p| p.date.clone()),
+            holder_structure: holder_structure.first().map(|p| p.announce_date.clone()),
+        },
+    };
+
     let analysis = FundAnalysis {
         detail,
         periods,
         yearly_returns,
         monthly_returns,
         monthly_series,
+        nav_history,
         accumulated_return,
         risk_metrics,
+        benchmark_metrics,
         fee_rules,
         top_bonds,
         scale_changes,
         holder_structure,
+        dividends,
         holding_constraints,
         manager_eval,
         manager_char,
         manager_info,
         scores,
+        meta,
     };
 
     if json {
@@ -352,6 +412,16 @@ fn format_pct(value: f64) -> String {
 // Local-time year/month without pulling chrono. Matches the holdings.rs helper —
 // extracting to a shared util belongs to a later cleanup batch.
 fn current_year_month() -> (u32, u32) {
+    let (y, m, _d) = current_ymd();
+    (y, m)
+}
+
+fn today_ymd() -> String {
+    let (y, m, d) = current_ymd();
+    format!("{:04}-{:02}-{:02}", y, m, d)
+}
+
+fn current_ymd() -> (u32, u32, u32) {
     let secs = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
@@ -380,5 +450,5 @@ fn current_year_month() -> (u32, u32) {
         dd -= md;
         m += 1;
     }
-    (y as u32, (m + 1) as u32)
+    (y as u32, (m + 1) as u32, (dd + 1) as u32)
 }

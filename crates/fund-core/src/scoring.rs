@@ -15,6 +15,17 @@ pub struct RiskMetrics {
     pub monthly_win_rate: f64,
     pub excess_return: f64,
     pub data_points: usize,
+    /// Calmar ratio = annualized_return / max_drawdown.
+    /// Caps at 99 to avoid Inf when max_drawdown is essentially zero.
+    pub calmar_ratio: f64,
+    /// Sortino ratio = (annualized_return - rf) / downside_volatility.
+    /// Downside volatility uses only negative daily returns (target = 0).
+    pub sortino_ratio: f64,
+    /// Drawdown at the latest data point (% of peak). 0 if currently at a new high.
+    pub current_drawdown: f64,
+    /// Calendar days from the trough of the max-drawdown episode back to a new
+    /// equal-or-higher peak. `None` means the fund has not yet recovered.
+    pub max_drawdown_recovery_days: Option<i64>,
 }
 
 pub fn compute_risk_metrics(
@@ -33,6 +44,10 @@ pub fn compute_risk_metrics(
             monthly_win_rate: 0.0,
             excess_return: 0.0,
             data_points: 0,
+            calmar_ratio: 0.0,
+            sortino_ratio: 0.0,
+            current_drawdown: 0.0,
+            max_drawdown_recovery_days: None,
         };
     }
 
@@ -41,15 +56,23 @@ pub fn compute_risk_metrics(
     sorted.sort_by(|a, b| a.date.cmp(&b.date));
     let navs: Vec<f64> = sorted.iter().map(|p| p.nav).collect();
 
+    // Track both the magnitude of max drawdown AND when it bottomed, so we can
+    // measure recovery time afterwards.
     let mut peak = navs[0];
     let mut max_dd = 0.0f64;
-    for nav in &navs {
+    let mut max_dd_peak_idx = 0usize;
+    let mut max_dd_trough_idx = 0usize;
+    let mut running_peak_idx = 0usize;
+    for (i, nav) in navs.iter().enumerate() {
         if *nav > peak {
             peak = *nav;
+            running_peak_idx = i;
         }
         let dd = (peak - nav) / peak;
         if dd > max_dd {
             max_dd = dd;
+            max_dd_peak_idx = running_peak_idx;
+            max_dd_trough_idx = i;
         }
     }
 
@@ -66,6 +89,30 @@ pub fn compute_risk_metrics(
 
     // Sharpe ratio with risk-free rate = 2%
     let sharpe = if volatility > 0.0 { (annualized_return - 2.0) / volatility } else { 0.0 };
+
+    // Downside volatility for Sortino: only negative daily returns, target = 0.
+    let downside_sq_sum: f64 = daily_returns.iter().filter(|r| **r < 0.0).map(|r| r.powi(2)).sum();
+    let downside_vol = (downside_sq_sum / n).sqrt() * 250.0_f64.sqrt() * 100.0;
+    let sortino = if downside_vol > 0.0 { (annualized_return - 2.0) / downside_vol } else { 0.0 };
+
+    // Calmar = annualized return / max drawdown. Cap at 99 when MDD ≈ 0 to keep
+    // JSON output finite — funds with truly zero historical drawdown are rare
+    // and this ceiling is meaningful for downstream UI ranking.
+    let calmar =
+        if max_dd * 100.0 > 0.01 { (annualized_return / (max_dd * 100.0)).min(99.0) } else { 0.0 };
+
+    // Current drawdown: distance from the running peak at the most recent point.
+    let current_peak = navs[..navs.len()].iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    let last_nav = *navs.last().unwrap();
+    let current_drawdown = if current_peak > 0.0 {
+        ((current_peak - last_nav) / current_peak).max(0.0) * 100.0
+    } else {
+        0.0
+    };
+
+    // Recovery time: how long from the max-drawdown trough did it take for NAV
+    // to climb back to the pre-drawdown peak. None if still under water.
+    let max_dd_recovery_days = recovery_days(&sorted, max_dd_peak_idx, max_dd_trough_idx);
 
     let positive = daily_returns.iter().filter(|r| **r > 0.0).count();
     let negative = daily_returns.iter().filter(|r| **r < 0.0).count();
@@ -93,6 +140,151 @@ pub fn compute_risk_metrics(
         monthly_win_rate,
         excess_return,
         data_points: points.len(),
+        calmar_ratio: calmar,
+        sortino_ratio: sortino,
+        current_drawdown,
+        max_drawdown_recovery_days: max_dd_recovery_days,
+    }
+}
+
+/// Calendar days between the pre-drawdown peak and the first subsequent date
+/// where NAV recovers to that peak value. Returns None if recovery never
+/// happened within the sample. Uses simple lexicographic date diff so a
+/// proper date parser is unnecessary — input dates are already YYYY-MM-DD.
+fn recovery_days(sorted: &[&NavTrendPoint], peak_idx: usize, trough_idx: usize) -> Option<i64> {
+    if peak_idx >= sorted.len() || trough_idx >= sorted.len() {
+        return None;
+    }
+    let peak_nav = sorted[peak_idx].nav;
+    for p in sorted.iter().skip(trough_idx + 1) {
+        if p.nav >= peak_nav {
+            return calendar_day_diff(&sorted[trough_idx].date, &p.date);
+        }
+    }
+    None
+}
+
+/// Calendar day diff between two YYYY-MM-DD strings. Returns None on parse error.
+fn calendar_day_diff(start: &str, end: &str) -> Option<i64> {
+    let s = parse_ymd(start)?;
+    let e = parse_ymd(end)?;
+    Some(days_from_civil(e) - days_from_civil(s))
+}
+
+fn parse_ymd(s: &str) -> Option<(i32, u32, u32)> {
+    let parts: Vec<&str> = s.split('-').collect();
+    if parts.len() != 3 {
+        return None;
+    }
+    Some((parts[0].parse().ok()?, parts[1].parse().ok()?, parts[2].parse().ok()?))
+}
+
+/// Howard Hinnant's days_from_civil algorithm — proleptic Gregorian, no Y/M overflow concerns.
+fn days_from_civil((y, m, d): (i32, u32, u32)) -> i64 {
+    let y = if m <= 2 { y - 1 } else { y } as i64;
+    let era = (if y >= 0 { y } else { y - 399 }) / 400;
+    let yoe = (y - era * 400) as u64;
+    let m = m as u64;
+    let doy = (153 * (if m > 2 { m - 3 } else { m + 9 }) + 2) / 5 + d as u64 - 1;
+    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    era * 146097 + doe as i64 - 719468
+}
+
+/// Benchmark-relative metrics derived from the `accumulated_return` series.
+/// All four fields are annualized and report None when there is not enough
+/// overlap with non-trivial benchmark variance to make the math meaningful.
+#[derive(Debug, Serialize)]
+pub struct BenchmarkMetrics {
+    /// CAPM beta — fund daily return regressed on benchmark daily return.
+    pub beta: Option<f64>,
+    /// Jensen's alpha, annualized (%/year). Risk-free rate = 2%.
+    pub alpha: Option<f64>,
+    /// Tracking error (annualized stdev of fund - benchmark daily return), %.
+    pub tracking_error: Option<f64>,
+    /// Information ratio (annualized): mean(active) / stdev(active) × √250.
+    pub information_ratio: Option<f64>,
+    /// Number of overlapping daily return points used.
+    pub data_points: usize,
+}
+
+impl BenchmarkMetrics {
+    pub fn empty() -> Self {
+        Self {
+            beta: None,
+            alpha: None,
+            tracking_error: None,
+            information_ratio: None,
+            data_points: 0,
+        }
+    }
+}
+
+/// Compute benchmark-relative metrics from cumulative return series.
+///
+/// `acc_return` rows carry `fund_return` / `bench_return` as cumulative %
+/// since the series start. We diff them into daily returns:
+///   r_t = (1 + cum_t/100) / (1 + cum_{t-1}/100) - 1
+/// then run OLS on (r_bench, r_fund) for beta/alpha, and stdev/mean on
+/// active return for TE / IR. Rows where bench_return is unavailable (all
+/// zeros — Eastmoney returns 0 when INDEXCODE doesn't apply) collapse to
+/// `BenchmarkMetrics::empty()` so downstream callers don't divide by zero.
+pub fn compute_benchmark_metrics(acc_return: &[AccumulatedReturn]) -> BenchmarkMetrics {
+    if acc_return.len() < 30 {
+        return BenchmarkMetrics::empty();
+    }
+    let mut sorted: Vec<&AccumulatedReturn> = acc_return.iter().collect();
+    sorted.sort_by(|a, b| a.date.cmp(&b.date));
+
+    let to_daily = |key: fn(&AccumulatedReturn) -> f64| -> Vec<f64> {
+        sorted
+            .windows(2)
+            .map(|w| {
+                let a = 1.0 + key(w[0]) / 100.0;
+                let b = 1.0 + key(w[1]) / 100.0;
+                if a == 0.0 {
+                    0.0
+                } else {
+                    b / a - 1.0
+                }
+            })
+            .collect()
+    };
+    let r_fund = to_daily(|p| p.fund_return);
+    let r_bench = to_daily(|p| p.bench_return);
+
+    // Reject if benchmark is essentially flat — common when bench data is missing.
+    let bench_var: f64 = {
+        let mean = r_bench.iter().sum::<f64>() / r_bench.len() as f64;
+        r_bench.iter().map(|r| (r - mean).powi(2)).sum::<f64>() / r_bench.len() as f64
+    };
+    if bench_var < 1e-12 {
+        return BenchmarkMetrics::empty();
+    }
+
+    let n = r_fund.len() as f64;
+    let mean_f = r_fund.iter().sum::<f64>() / n;
+    let mean_b = r_bench.iter().sum::<f64>() / n;
+    let cov: f64 =
+        r_fund.iter().zip(r_bench.iter()).map(|(f, b)| (f - mean_f) * (b - mean_b)).sum::<f64>()
+            / n;
+    let beta = cov / bench_var;
+    // Annualized Jensen's alpha. Daily rf ≈ 2%/250 = 0.00008.
+    let daily_rf = 0.02 / 250.0;
+    let alpha_daily = mean_f - daily_rf - beta * (mean_b - daily_rf);
+    let alpha_annual = alpha_daily * 250.0 * 100.0;
+
+    let active: Vec<f64> = r_fund.iter().zip(r_bench.iter()).map(|(f, b)| f - b).collect();
+    let mean_a = active.iter().sum::<f64>() / n;
+    let te_daily = (active.iter().map(|x| (x - mean_a).powi(2)).sum::<f64>() / n).sqrt();
+    let tracking_error = te_daily * 250.0_f64.sqrt() * 100.0;
+    let ir = if te_daily > 0.0 { mean_a / te_daily * 250.0_f64.sqrt() } else { 0.0 };
+
+    BenchmarkMetrics {
+        beta: Some(beta),
+        alpha: Some(alpha_annual),
+        tracking_error: Some(tracking_error),
+        information_ratio: Some(ir),
+        data_points: r_fund.len(),
     }
 }
 
