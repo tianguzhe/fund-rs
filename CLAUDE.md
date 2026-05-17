@@ -192,6 +192,45 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - X/Y 轴刻度按实际数据范围调整，保持等距
 - 优先放在对比报告的"综合对比"或"结论"章节之前
 
+## Claude 协作经验
+
+### 上游 API 已知限制（重要）
+- `fundMNRank` 接口的 `FundType` 参数**静默忽略**，过滤必须客户端做（`api.rs::get_fund_rank` 内已做循环分页 + BFUNDTYPE 客户端过滤）
+- `fundMNRank` `pageSize` 上游硬 cap **30 行/页**，需循环 pageIndex 翻页
+- BFUNDTYPE 数字代码：`001`=股票 / `002`=混合 / `003`=债券 / `004`=指数 / `006`=QDII / `007`=货币
+- 多经理基金的 `fundMSNMangerInfo / PerEval / PosChar / ProContr` 常返回 null（**不是 bug**，是 API 限制）
+
+### fund-deep-analyzer agent 调用注意
+- 若 Agent 调用报"1m 上下文已经全量可用"错误，**直接 fallback 到主 Claude 自己执行**（`./target/release/fund analyze -c <code> --json > /tmp/fund_<code>.json` + jq 提取）
+- 主 Claude 已加载 agent 模板时，可不通过 Agent 工具直接产出 10 节研究级报告
+
+### 深度分析数据提取
+- 标准 jq 字段提取脚本：见 `.claude/agents/fund-deep-analyzer.md` 的 Step 2
+- 关键字段：`risk_metrics.max_drawdown_start_date / end_date`（已在 `scoring.rs` 暴露）+ `accumulated_return[0/250/750/1250/last]` 切片做真实基准对照
+
+### 深度分析报告生成习惯
+- 模板深化采用**审视 → 列差距 → 用户确认 → 补强**循环（避免一次过度设计）
+- 报告产出后再生成 HTML 数据：`fund analyze -c <code> --json -o dist/data/fund-<code>.json`
+- 若 CLI 数据缺失（如 `manager_info=null`），报告显式标注"⚠️ 数据缺失"，**不要伪造**
+
+### dist/fund-analysis.html 架构
+- 模板 + 数据分离：URL `?code=<6位>` 自动 fetch `./data/fund-<code>.json`；`?amount=` 控制金额化卡片基准
+- 视觉风格：**白色 Editorial**（Spectral display + Newsreader body + IBM Plex Mono numerals）
+- chart 颜色硬编码点：`renderAccChart` 的 `series` 数组 / legend 的 ldot inline style / `renderRadar` 的 stroke/fill —— 改色调需同步这 3 处
+- builder 函数约 25 个，新增需同步 `init()` 数组 + 任何用到的 class 都要在 `<style>` 块定义（否则静默不显示）
+
+### UI 渲染验证（headless）
+```bash
+# 启 server
+cd dist && python3 -m http.server 9876 &
+# 全页截图（含动画中间帧）
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+  --window-size=1400,5000 --hide-scrollbars --virtual-time-budget=6000 \
+  --screenshot=/tmp/snap.png "http://localhost:9876/fund-analysis.html?code=000171&amount=150000"
+```
+- 校验 JS 语法（重写 chart 后必跑）：`awk '/<script>/{f=1;next} /<\/script>/{f=0} f' dist/fund-analysis.html > /tmp/c.js && node --check /tmp/c.js`
+- 验证所有 class 已定义：`comm -23 <(grep -oE 'class="[^"]+"' dist/fund-analysis.html | tr ' ' '\n' | grep -oE '^[a-z][a-z0-9_-]+$' | sort -u) <(grep -oE '\.[a-z][a-z0-9_-]+' dist/fund-analysis.html | sed 's/^\.//' | sort -u)`
+
 ## 常见问题
 
 ### 编译错误
