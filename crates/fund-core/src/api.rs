@@ -205,12 +205,54 @@ impl Client {
     }
 
     pub fn get_fund_rank(&self, params: &FundRankParams) -> Result<Vec<FundRank>> {
+        // Two upstream quirks force the workaround below:
+        //   1. `fundMNRank` silently ignores `FundType` and always returns the
+        //      full universe. We must filter on `BFUNDTYPE` client-side.
+        //   2. The upstream caps actual `pageSize` at ~30 rows regardless of
+        //      what we ask, so we have to paginate ourselves to gather enough
+        //      candidates for the client filter.
+        const UPSTREAM_PAGE_CAP: usize = 30;
+        const MAX_PAGES_WITH_FILTER: usize = 20;
+
+        let type_filter = normalize_fund_type(&params.fund_type);
+
+        if type_filter.is_none() {
+            // No filter requested → single page passthrough, honour caller's size up to cap.
+            let size = params.page_size.min(UPSTREAM_PAGE_CAP);
+            return self.fetch_rank_page(params, params.page_index, size);
+        }
+
+        let target_code = type_filter.unwrap();
+        let mut result: Vec<FundRank> = Vec::with_capacity(params.page_size);
+        for page in params.page_index..params.page_index + MAX_PAGES_WITH_FILTER {
+            let batch = self.fetch_rank_page(params, page, UPSTREAM_PAGE_CAP)?;
+            if batch.is_empty() {
+                break;
+            }
+            for r in batch {
+                if r.fund_type_code == target_code {
+                    result.push(r);
+                    if result.len() >= params.page_size {
+                        return Ok(result);
+                    }
+                }
+            }
+        }
+        Ok(result)
+    }
+
+    fn fetch_rank_page(
+        &self,
+        params: &FundRankParams,
+        page_index: usize,
+        page_size: usize,
+    ) -> Result<Vec<FundRank>> {
         let mut query_params: Vec<(&str, String)> = vec![
-            ("FundType", params.fund_type.clone()),
+            ("FundType", "all".to_string()),
             ("SortColumn", params.sort_column.clone()),
             ("Sort", params.sort.clone()),
-            ("pageIndex", params.page_index.to_string()),
-            ("pageSize", params.page_size.to_string()),
+            ("pageIndex", page_index.to_string()),
+            ("pageSize", page_size.to_string()),
         ];
 
         Self::push_param(&mut query_params, "CLTYPE", &params.cltype);
@@ -626,6 +668,30 @@ impl Client {
 /// Takes the last trading day's accumulated NAV per calendar month, then
 /// computes the month-over-month return in percent. The earliest month acts
 /// only as the baseline and is not emitted. The series is trimmed to the
+/// Map user-facing short codes to upstream `BFUNDTYPE` numeric codes.
+///
+/// Returns `None` for "all" / empty / unknown labels so the caller can skip
+/// client-side filtering and pass results through untouched.
+///
+/// Number codes observed empirically from `fundMNRank` payloads:
+/// 001=股票, 002=混合, 003=债券, 004=指数, 006=QDII, 007=货币.
+/// Codes are passed through as-is, so callers can supply the upstream digit
+/// when a short code is missing.
+pub fn normalize_fund_type(fund_type: &str) -> Option<String> {
+    let lower = fund_type.trim().to_lowercase();
+    match lower.as_str() {
+        "all" | "" => None,
+        "zq" | "债" | "债券" | "bond" => Some("003".into()),
+        "hh" | "混" | "混合" | "mixed" => Some("002".into()),
+        "gp" | "股" | "股票" | "stock" => Some("001".into()),
+        "zs" | "指数" | "index" => Some("004".into()),
+        "qdii" | "海外" => Some("006".into()),
+        "hb" | "货币" | "money" => Some("007".into()),
+        other if other.len() == 3 && other.chars().all(|c| c.is_ascii_digit()) => Some(lower),
+        _ => None,
+    }
+}
+
 /// `months` most recent entries.
 ///
 /// Free function so callers that already hold a NAV history (e.g. to also

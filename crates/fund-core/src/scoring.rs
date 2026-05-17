@@ -26,6 +26,11 @@ pub struct RiskMetrics {
     /// Calendar days from the trough of the max-drawdown episode back to a new
     /// equal-or-higher peak. `None` means the fund has not yet recovered.
     pub max_drawdown_recovery_days: Option<i64>,
+    /// Date (YYYY-MM-DD) when the max-drawdown episode started (pre-drawdown peak).
+    /// `None` only when there is no usable sample.
+    pub max_drawdown_start_date: Option<String>,
+    /// Date (YYYY-MM-DD) of the max-drawdown trough.
+    pub max_drawdown_end_date: Option<String>,
 }
 
 pub fn compute_risk_metrics(
@@ -48,6 +53,8 @@ pub fn compute_risk_metrics(
             sortino_ratio: 0.0,
             current_drawdown: 0.0,
             max_drawdown_recovery_days: None,
+            max_drawdown_start_date: None,
+            max_drawdown_end_date: None,
         };
     }
 
@@ -114,6 +121,12 @@ pub fn compute_risk_metrics(
     // to climb back to the pre-drawdown peak. None if still under water.
     let max_dd_recovery_days = recovery_days(&sorted, max_dd_peak_idx, max_dd_trough_idx);
 
+    // Expose the calendar dates of the max-drawdown episode so downstream
+    // narratives can correlate the trough with specific macro events (债灾、新冠、
+    // 政策转向 etc.) without re-deriving from the NAV series.
+    let max_dd_start_date = sorted.get(max_dd_peak_idx).map(|p| p.date.clone());
+    let max_dd_end_date = sorted.get(max_dd_trough_idx).map(|p| p.date.clone());
+
     let positive = daily_returns.iter().filter(|r| **r > 0.0).count();
     let negative = daily_returns.iter().filter(|r| **r < 0.0).count();
 
@@ -144,6 +157,8 @@ pub fn compute_risk_metrics(
         sortino_ratio: sortino,
         current_drawdown,
         max_drawdown_recovery_days: max_dd_recovery_days,
+        max_drawdown_start_date: max_dd_start_date,
+        max_drawdown_end_date: max_dd_end_date,
     }
 }
 

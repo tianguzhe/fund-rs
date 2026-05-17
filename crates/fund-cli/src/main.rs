@@ -67,6 +67,7 @@ enum Commands {
         detail: Option<String>,
     },
     Rank {
+        /// 基金类型短码：all / zq(债券) / hh(混合) / gp(股票) / zs(指数) / qdii / hb(货币)
         #[arg(short = 't', long, default_value = "all")]
         fund_type: String,
         #[arg(short = 'n', long, default_value = "20")]
