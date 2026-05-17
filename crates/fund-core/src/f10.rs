@@ -131,6 +131,24 @@ pub struct DividendRecord {
     pub pay_date: String,
 }
 
+/// Asset allocation snapshot at one report date — what fraction of NAV is held
+/// as stocks / bonds / cash. For bond funds these can sum to more than 100%
+/// because of repo-financed leverage; callers should compute `total - 100`
+/// to surface the leverage ratio.
+#[derive(Debug, Serialize, Clone)]
+pub struct AssetAllocationPoint {
+    /// 报告期日期 YYYY-MM-DD
+    pub date: String,
+    /// 股票占净比 (%)
+    pub stock_pct: f64,
+    /// 债券占净比 (%)
+    pub bond_pct: f64,
+    /// 现金占净比 (%)
+    pub cash_pct: f64,
+    /// 净资产（亿元）— Eastmoney 标签原样保留；对债基这通常是"基金资产合计"而非真净资产
+    pub total_assets_yi: f64,
+}
+
 fn http_get(url: &str) -> Result<String> {
     let debug = std::env::var("FUND_DEBUG").is_ok();
     if debug {
@@ -647,6 +665,53 @@ pub fn get_dividends(code: &str) -> Result<Vec<DividendRecord>> {
             amount_per_share: parse_dividend_amount(&row[3]),
             amount_text: row[3].clone(),
             pay_date: row[4].clone(),
+        });
+    }
+    Ok(out)
+}
+
+/// Asset allocation history from `zcpz_<code>.html`.
+///
+/// Unlike most F10 endpoints this is an HTML *page* (not the FundArchivesDatas
+/// AJAX endpoint), so we fetch and locate the table whose thead contains the
+/// signature header keywords. Layout: 报告期 / 股票占净比 / 债券占净比 /
+/// 现金占净比 / 净资产(亿元). Newest first.
+pub fn get_asset_allocation(code: &str) -> Result<Vec<AssetAllocationPoint>> {
+    let url = format!("{}/zcpz_{}.html", F10_BASE, code);
+    let body = http_get(&url)?;
+    // Search every <table>...</table> for the one with our signature columns.
+    let table = body.match_indices("<table").find_map(|(start, _)| {
+        let end = body[start..].find("</table>")?;
+        let slice = &body[start..start + end + "</table>".len()];
+        if slice.contains("股票占净比")
+            && slice.contains("债券占净比")
+            && slice.contains("现金占净比")
+        {
+            Some(slice)
+        } else {
+            None
+        }
+    });
+    let table = match table {
+        Some(t) => t,
+        None => return Ok(Vec::new()),
+    };
+
+    let mut out = Vec::new();
+    for row in parse_table_rows(table) {
+        if row.len() < 5 {
+            continue;
+        }
+        // Eastmoney occasionally renders a "暂无数据" placeholder row.
+        if !row[0].contains('-') {
+            continue;
+        }
+        out.push(AssetAllocationPoint {
+            date: row[0].clone(),
+            stock_pct: parse_pct(&row[1]),
+            bond_pct: parse_pct(&row[2]),
+            cash_pct: parse_pct(&row[3]),
+            total_assets_yi: parse_num(&row[4]),
         });
     }
     Ok(out)

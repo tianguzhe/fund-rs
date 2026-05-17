@@ -50,6 +50,9 @@ jq '{
   yearly: .yearly_returns,
   monthly_n: (.monthly_series|length),
   hc: .holding_constraints,
+  asset_allocation_latest: .asset_allocation[0],
+  asset_allocation_recent: .asset_allocation[:4],
+  top_stocks: {n: (.top_stocks.stocks // [] | length), period: .top_stocks.period, end_date: .top_stocks.end_date, top10: (.top_stocks.stocks // [])[:10], total_pct: ((.top_stocks.stocks // []) | map(.ratio) | add)},
   top_bonds: {n: (.top_bonds.bonds // [] | length), top5: (.top_bonds.bonds // [])[:5], total_pct: ((.top_bonds.bonds // []) | map(.ratio) | add)},
   scale_recent: .scale_changes[:4],
   scale_n: (.scale_changes|length),
@@ -65,7 +68,7 @@ jq '{
 }' /tmp/fund_<CODE>.json
 ```
 
-### Step 3 · 按 8 节模板输出
+### Step 3 · 按 9 节模板输出
 
 下文每一节的标题、字段、顺序都**不可省略**。任何一段没数据时显式标注"数据缺失"，不要静默跳过。
 
@@ -154,14 +157,51 @@ VaR_95 / CVaR_95 / 偏度 skewness / 超额峰度 excess_kurtosis
 
 ## 五、持仓与风格
 
-### 重仓债券（前 5）
-表格：# / 名称 / 代码 / 占净值 / 市值（万元）
-**必须标注**：转债（含"转债"或"可转"的名称）、银行二级资本债等高利率券。
-合计：前 N 大集中度 = sum(ratio)。
+### 5.1 资产配置（近 4 期趋势）
 
-### 分红记录
-全列；若 `dividends_n == 0` 写"成立来无分红"；
-若最近 2 年无分红但更早有，标注"近 2 年未分红"。
+表格：报告期 / 股票占净比 / 债券占净比 / 现金占净比 / 合计
+合计列 > 100% 时**必须解释**："债基通过质押式回购融资加杠杆"，超出部分 = 杠杆率。
+
+若 `asset_allocation` 为空（基金类型 / 成立期较短未披露），写一行"该基金未披露资产配置历史"，跳过本子节。
+
+判断风格：
+- 股票 < 5% → 纯债 / 一级债
+- 股票 5-20% → 二级债 / 偏债
+- 股票 60-95% → 偏股 / 灵活配置 / 主动股票
+- 股票 ≥ 90% 长期 → 股票型 / 指数
+
+### 5.2 重仓股票（前 10，仅 top_stocks 非空时）
+
+表格：# / 代码 / 名称 / 占净值 / 持股(万股) / 市值(万元)
+**前 10 合计** = sum(ratio)，必须给出。
+
+**风格画像**：按板块给 4-6 行分类小结。常用桶：
+- 银行（招商 / 工行 / 城商行）
+- 消费白马（茅台 / 五粮液 / 海尔 / 美的 / 格力）
+- 资源 / 周期（陕煤 / 紫金 / 中海油）
+- 科技 / 半导体 / AI（中芯 / 韦尔 / 寒武纪）
+- 医药 / 创新药（恒瑞 / 药明 / 百济）
+- 新能源（宁德 / 比亚迪 / 阳光电源）
+- 国资改革 / 红利 / 公用事业
+
+**集中度警示**：
+- 前 10 合计 < 30%（且单股 < 5%）→ "高度分散"
+- 前 10 合计 50-70% → "中等集中"
+- 前 10 合计 > 70%（或单股 > 8%）→ "⚠️ 高集中"
+
+若 top_stocks 为空 → 写一行"未持股票 / 数据未披露"，跳过本子节。
+
+### 5.3 重仓债券（前 5，仅债基且 top_bonds 非空时）
+
+表格：# / 名称 / 代码 / 占净值 / 市值（万元）
+**必须标注**：转债（含"转债"或"可转"的名称）、银行二级 / 永续债等高利率券、利率债（国债 / 国开 / 农发）。
+合计：前 N 大集中度 = sum(ratio)；与债券占净比对照判断"分散程度"。
+
+### 5.4 分红记录
+
+全列（前 5）；若 `dividends_n == 0` 写"成立来无分红"；
+若最近 2 年无分红但更早有，标注"近 2 年未分红"；
+若年内分红 ≥ 2 次，估算年化分红率：`(年内 sum(amount_per_share) / 最新单位净值) × 100%`。
 
 ## 六、规模与持有人结构
 
@@ -220,6 +260,8 @@ VaR_95 / CVaR_95 / 偏度 skewness / 超额峰度 excess_kurtosis
 - 阶段收益 → `fundMNPeriodIncrease` → `periods`
 - 年度收益 → `fundMNPeriodIncrease&RANGE=n` → `yearly_returns`
 - 月度真实序列 → 本地按月聚合 → `monthly_series`
+- 资产配置 → F10 `zcpz_<code>.html` → `asset_allocation`
+- 重仓股票 → F10 `jjcc` → `top_stocks`
 - 重仓债券 → F10 `zqcc` → `top_bonds`
 - 规模变动 → F10 `gmbd` → `scale_changes`
 - 持有人结构 → F10 `cyrjg` → `holder_structure`
@@ -249,7 +291,9 @@ VaR_95 / CVaR_95 / 偏度 skewness / 超额峰度 excess_kurtosis
 | 评分 | `scores` | 项目内 scoring.rs 加权 | 7 维度 × 权重 |
 | 费率（申/赎） | `fee_rules` | F10 `jjfl_<code>.html` | 含费率区间 |
 | 申购/赎回费 | `holding_constraints` | 基金名词法识别 | "N 天/年持有" |
-| 重仓债券 | `top_bonds` | F10 `FundArchivesDatas.aspx?type=zqcc` | 仅债基会调 |
+| 重仓债券 | `top_bonds` | F10 `FundArchivesDatas.aspx?type=zqcc` | 仅债基会调（debt funds only） |
+| **重仓股票** | `top_stocks` | F10 `FundArchivesDatas.aspx?type=jjcc&topline=10` | 非纯债 / 货币基金均会调，前 10 |
+| **资产配置** | `asset_allocation` | F10 `zcpz_<code>.html`（HTML 页非 AJAX） | 全部基金，含杠杆率信号 |
 | 规模变动 | `scale_changes` | F10 `FundArchivesDatas.aspx?type=gmbd` | HTML 表格解析 |
 | 持有人结构 | `holder_structure` | F10 `FundArchivesDatas.aspx?type=cyrjg` | 季度快照 |
 | 分红记录 | `dividends` | F10 `fhsp_<code>.html` | "每份派现金 X.XXXX 元" 解析 |

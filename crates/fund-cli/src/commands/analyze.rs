@@ -1,8 +1,8 @@
 use anyhow::Result;
 use fund_core::api::{aggregate_monthly_returns, Client};
 use fund_core::f10::{
-    DividendRecord, FeeRules, HolderStructurePoint, HoldingConstraints, ScaleChangePoint,
-    TopBondsReport,
+    AssetAllocationPoint, DividendRecord, FeeRules, HolderStructurePoint, HoldingConstraints,
+    ScaleChangePoint, TopBondsReport, TopStocksReport,
 };
 use fund_core::models::*;
 use fund_core::scoring::{self, BenchmarkMetrics, DistributionStats, RiskMetrics, RollingReturns};
@@ -37,7 +37,9 @@ pub struct AsOf {
     pub nav_trend: Option<String>,
     pub accumulated_return: Option<String>,
     pub monthly_series: Option<String>,
+    pub top_stocks: Option<String>,
     pub top_bonds: Option<String>,
+    pub asset_allocation: Option<String>,
     pub scale_changes: Option<String>,
     pub holder_structure: Option<String>,
 }
@@ -64,6 +66,10 @@ pub struct FundAnalysis {
     pub fee_rules: Option<FeeRules>,
     /// Bond holdings (zqcc). Only populated for bond-type funds.
     pub top_bonds: Option<TopBondsReport>,
+    /// Top-10 stock holdings (jjcc). Skipped for funds with no equity exposure.
+    pub top_stocks: Option<TopStocksReport>,
+    /// Asset allocation history from F10 zcpz page (stock / bond / cash %).
+    pub asset_allocation: Vec<AssetAllocationPoint>,
     /// Historical scale + flows from F10 gmbd.
     pub scale_changes: Vec<ScaleChangePoint>,
     /// Holder structure history (institutional / retail / internal) from F10 cyrjg.
@@ -96,6 +102,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         scale_changes_r,
         holder_structure_r,
         dividends_r,
+        asset_allocation_r,
     ) = std::thread::scope(|s| {
         let t1 = s.spawn(|| client.get_fund_estimate(code));
         let t2 = s.spawn(|| client.get_period_increase(code));
@@ -110,6 +117,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         let t8 = s.spawn(|| fund_core::f10::get_scale_changes(code));
         let t9 = s.spawn(|| fund_core::f10::get_holder_structure(code));
         let t10 = s.spawn(|| fund_core::f10::get_dividends(code));
+        let t11 = s.spawn(|| fund_core::f10::get_asset_allocation(code));
         (
             t1.join().unwrap(),
             t2.join().unwrap(),
@@ -121,6 +129,7 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
             t8.join().unwrap(),
             t9.join().unwrap(),
             t10.join().unwrap(),
+            t11.join().unwrap(),
         )
     });
 
@@ -142,19 +151,29 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     let scale_changes = scale_changes_r.unwrap_or_default();
     let holder_structure = holder_structure_r.unwrap_or_default();
     let dividends = dividends_r.unwrap_or_default();
+    let asset_allocation = asset_allocation_r.unwrap_or_default();
     // Pure parser over fund name — cheap, deterministic, no network.
     let holding_constraints =
         Some(fund_core::f10::detect_holding_constraints(&detail.name, &detail.full_name));
     let fee_rules = fund_core::f10::get_fee_rules(code).ok();
 
     // Bond holdings only make sense for bond-type funds; skip the F10 round-trip otherwise.
+    let (cy, cm) = current_year_month();
+    let (qy, qm) = fund_core::f10::latest_quarter_end(cy, cm);
     let top_bonds = if detail.fund_type.contains("债") {
-        let (cy, cm) = current_year_month();
-        let (qy, qm) = fund_core::f10::latest_quarter_end(cy, cm);
         fund_core::f10::get_top_bonds(code, qy, qm).ok()
     } else {
         None
     };
+
+    // Top-10 stock holdings — relevant whenever there is any equity exposure.
+    // Cheapest signal: 货币 / 纯债 / 短债 / 中短债 declare zero equity by design.
+    // Two-tier check so 二级债基 / 偏债混合 / 灵活配置 / 股票 / 指数 all get stocks.
+    let has_equity = !(detail.fund_type.contains("货币")
+        || detail.fund_type.contains("纯债")
+        || detail.fund_type.contains("短债"));
+    let top_stocks =
+        if has_equity { fund_core::f10::get_top_stocks(code, qy, qm).ok() } else { None };
 
     // Use INDEXCODE from fund detail for index/ETF funds; fallback to type-based selection.
     let benchmark = scoring::select_benchmark(&detail.fund_type, &detail.index_code);
@@ -235,7 +254,9 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
             nav_trend: nav_trend.iter().map(|p| p.date.clone()).max(),
             accumulated_return: accumulated_return.last().map(|p| p.date.clone()),
             monthly_series: monthly_series.last().map(|p| p.month.clone()),
+            top_stocks: top_stocks.as_ref().map(|t| t.end_date.clone()),
             top_bonds: top_bonds.as_ref().map(|t| t.end_date.clone()),
+            asset_allocation: asset_allocation.first().map(|p| p.date.clone()),
             scale_changes: scale_changes.first().map(|p| p.date.clone()),
             holder_structure: holder_structure.first().map(|p| p.announce_date.clone()),
         },
@@ -255,6 +276,8 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
         rolling_returns,
         fee_rules,
         top_bonds,
+        top_stocks,
+        asset_allocation,
         scale_changes,
         holder_structure,
         dividends,
