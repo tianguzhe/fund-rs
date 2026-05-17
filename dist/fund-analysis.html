@@ -1294,8 +1294,17 @@ window.toggleResume = function () {
 
 async function init() {
   try {
-    const data = await fetch('./data/fund-analysis.json').then(r => {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+    // Resolve data file from `?code=<6-digit>` query, falling back to the
+    // legacy fixed path so old bookmarks keep working. Whitelist 6-digit
+    // codes to avoid path traversal via crafted URLs.
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    const dataUrl = /^\d{6}$/.test(code || '')
+      ? `./data/fund-${code}.json`
+      : './data/fund-analysis.json';
+
+    const data = await fetch(dataUrl).then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' on ' + dataUrl);
       return r.json();
     });
 

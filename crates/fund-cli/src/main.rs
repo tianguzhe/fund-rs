@@ -100,6 +100,9 @@ enum Commands {
         /// 输出 JSON 格式
         #[arg(long)]
         json: bool,
+        /// 写入指定路径而非 stdout（仅与 --json 配合使用），用于喂给 dist/fund-analysis.html
+        #[arg(short = 'o', long)]
+        output: Option<std::path::PathBuf>,
     },
     /// 对比两只基金，输出 JSON 供网页展示
     Compare {
@@ -187,7 +190,9 @@ fn run() -> Result<()> {
             commands::rank_history::run(&client, &code, &range)
         }
         Commands::Compare { a, b, output } => commands::compare::run(&a, &b, &output),
-        Commands::Analyze { code, json } => commands::analyze::run(&client, &code, json),
+        Commands::Analyze { code, json, output } => {
+            commands::analyze::run(&client, &code, json, output.as_deref())
+        }
         Commands::Holdings { init, top, json } => {
             if init {
                 commands::holdings::init(false)

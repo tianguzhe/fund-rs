@@ -120,10 +120,14 @@ fund compare --a 020602 --b 020156 [-o out.json]  # 对比两只基金并输出 
 fund search -k 天弘
 fund info -c 420002
 fund history -c 420002 -d 30 -l 10
-fund analyze -c 020262 [--json]
+fund analyze -c 020262 [--json] [-o dist/data/fund-020262.json]
+#   --json 输出 JSON；-o 写文件而非 stdout（用于喂 dist/fund-analysis.html）
 
 # 排行 / 主题 / 大数据
-fund rank [-t hh|zq|gp] [-n 20]
+fund rank [-t hh|zq|gp|zs|qdii|hb|all] [-n 20] [--sort-column SYL_1N|SYL_3N|DWJZ]
+#   -t 客户端按 BFUNDTYPE 过滤（zq=003 债券 / hh=002 混合 / gp=001 股票 /
+#   zs=004 指数 / qdii=006 / hb=007 货币）；上游 cap 30 行/页，CLI 自动翻 ≤20 页
+#   债基排同类前 N 推荐 --sort-column SYL_3N（按 1Y 排序股基会挤掉债基）
 fund rank-history -c 420002 -r 3y
 fund theme -l 20
 fund bigdata [--detail 1]
@@ -138,6 +142,14 @@ fund portfolio --save        # 拉取当日数据并写入 SQLite
 fund export                  # 导出 JSON（可选）
 fund backfill --from <date> --to <date>  # 补录历史日期范围
 ```
+
+### 深度分析网页（fund-analysis.html）
+- 模板路径：`dist/fund-analysis.html`（统一模板，无硬编码基金代码）
+- 数据目录：`dist/data/fund-<6位代码>.json`，由 `fund analyze -c <CODE> --json -o dist/data/fund-<CODE>.json` 生成
+- 访问方式：`dist/fund-analysis.html?code=000171` → 自动加载 `./data/fund-000171.json`
+- 无 `?code=` 参数时回落到 `./data/fund-analysis.json`（旧链接兼容）
+- 代码白名单：仅 6 位数字才接受，防止路径穿越
+- 批量更新：循环跑 `fund analyze -c <CODE> --json -o dist/data/fund-<CODE>.json` 即可给每只基金更新数据
 
 ### 持仓收益输出规范（Claude 整理格式）
 当用户要求查看"今日收益"、"持仓收益"时，运行 `fund portfolio` 后按以下格式整理输出：
@@ -154,6 +166,31 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
   - `Bond: 739,673 CNY, 81.76%`
   - `Mixed: 165,000 CNY, 18.24%`
 - **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要三段输出
+
+### 基金对比风险收益散点图（ASCII）
+多基金对比时，在数据表之后追加 ASCII 散点图，X 轴为最大回撤%，Y 轴为年化收益%，直观展示风险收益分布：
+
+```
+年化收益%
+    ↑
+ 18% │                                          ● fund_code (label)
+     │
+ 12% │
+     │
+  8% │      ★ current_holding (label)
+     │  ● candidate_a ←── annotation
+  7% │  ● current_holding (label)
+  6% │          ● candidate_b ←── annotation
+  5% │      ● candidate_c ←── annotation
+  4% │
+     └──────────────────────────────────→ 最大回撤%
+         2%    5%    7%    9%    11%   17%
+```
+
+- **★** 标记用户当前持仓，**●** 标记候选基金
+- 每个点右侧用 `←──` 追加一句话定位（如"收益最高"、"卡玛最优"）
+- X/Y 轴刻度按实际数据范围调整，保持等距
+- 优先放在对比报告的"综合对比"或"结论"章节之前
 
 ## 常见问题
 

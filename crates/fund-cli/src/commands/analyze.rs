@@ -87,7 +87,7 @@ pub struct FundAnalysis {
     pub meta: AnalysisMeta,
 }
 
-pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
+pub fn run(client: &Client, code: &str, json: bool, output: Option<&std::path::Path>) -> Result<()> {
     eprintln!("查询基金 {} ...", code);
 
     // Batch 1: independent requests in parallel — fund-core API + F10 + local NAV aggregation.
@@ -291,7 +291,18 @@ pub fn run(client: &Client, code: &str, json: bool) -> Result<()> {
     };
 
     if json {
-        println!("{}", serde_json::to_string_pretty(&analysis)?);
+        let payload = serde_json::to_string_pretty(&analysis)?;
+        if let Some(path) = output {
+            if let Some(parent) = path.parent() {
+                if !parent.as_os_str().is_empty() {
+                    std::fs::create_dir_all(parent)?;
+                }
+            }
+            std::fs::write(path, &payload)?;
+            eprintln!("已写入 {}", path.display());
+        } else {
+            println!("{}", payload);
+        }
     } else {
         display_analysis(&analysis);
     }
