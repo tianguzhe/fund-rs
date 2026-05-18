@@ -78,16 +78,20 @@ pub struct FundAnalysis {
     pub dividends: Vec<DividendRecord>,
     /// Purchase/redemption status + minimum holding period from F10 jbgk.
     pub holding_constraints: Option<HoldingConstraints>,
-    pub manager_eval: Option<ManagerPerformance>,
-    pub manager_char: Option<ManagerHoldingChar>,
-    pub manager_info: Option<ManagerInfo>,
-    /// Funds the current manager has managed (current + historical), structured.
-    pub manager_history: Vec<ManagerHistoryFund>,
+    /// All fund managers (typically 1, occasionally 2-3 co-managers). Each entry
+    /// is fully populated via independent fundMSN* calls for that single manager_id.
+    /// See `ManagerProfile` docs for why a compound MGRID must be split first.
+    pub managers: Vec<ManagerProfile>,
     pub scores: ScoreBreakdown,
     pub meta: AnalysisMeta,
 }
 
-pub fn run(client: &Client, code: &str, json: bool, output: Option<&std::path::Path>) -> Result<()> {
+pub fn run(
+    client: &Client,
+    code: &str,
+    json: bool,
+    output: Option<&std::path::Path>,
+) -> Result<()> {
     eprintln!("查询基金 {} ...", code);
 
     // Batch 1: independent requests in parallel — fund-core API + F10 + local NAV aggregation.
@@ -186,34 +190,60 @@ pub fn run(client: &Client, code: &str, json: bool, output: Option<&std::path::P
     let distribution = scoring::compute_distribution_stats(&nav_trend);
     let rolling_returns = scoring::compute_rolling_returns(&nav_full);
 
-    // Batch 2: manager details in parallel (depends on manager_id from batch 1)
-    let manager_id = managers.into_iter().next().map(|m| m.manager_id);
-    let (manager_info, manager_eval, manager_char, manager_history) = if let Some(mid) = &manager_id
-    {
-        eprintln!("查询经理 {} ...", mid);
-        std::thread::scope(|s| {
-            let t1 = s.spawn(|| client.get_manager_info(mid));
-            let t2 = s.spawn(|| client.get_manager_performance(mid));
-            let t3 = s.spawn(|| client.get_manager_holding_char(mid));
-            let t4 = s.spawn(|| client.get_manager_history_funds(mid));
-            (
-                t1.join().unwrap().ok(),
-                t2.join().unwrap().ok(),
-                t3.join().unwrap().ok(),
-                t4.join().unwrap().unwrap_or_default(),
-            )
+    // Batch 2: per-manager details. Upstream `fundmsmanger` collapses multi-manager
+    // funds into a single record with comma-joined MGRID/MGRNAME (e.g. "ID_A,ID_B").
+    // Passing that compound string to fundMSNMangerInfo etc. returns null —
+    // split and call each sub-id individually.
+    let manager_pairs: Vec<(String, String)> = managers
+        .into_iter()
+        .next()
+        .map(|m| {
+            m.manager_id
+                .split(',')
+                .zip(m.manager_name.split(','))
+                .map(|(i, n)| (i.trim().to_string(), n.trim().to_string()))
+                .filter(|(i, _)| !i.is_empty())
+                .collect()
         })
-    } else {
-        (None, None, None, Vec::new())
-    };
+        .unwrap_or_default();
 
+    let managers: Vec<ManagerProfile> = manager_pairs
+        .into_iter()
+        .map(|(mid, mname)| {
+            eprintln!("查询经理 {} ({}) ...", mid, mname);
+            let (info, eval, holding_char, history) = std::thread::scope(|s| {
+                let t1 = s.spawn(|| client.get_manager_info(&mid));
+                let t2 = s.spawn(|| client.get_manager_performance(&mid));
+                let t3 = s.spawn(|| client.get_manager_holding_char(&mid));
+                let t4 = s.spawn(|| client.get_manager_history_funds(&mid));
+                (
+                    t1.join().unwrap().ok(),
+                    t2.join().unwrap().ok(),
+                    t3.join().unwrap().ok(),
+                    t4.join().unwrap().unwrap_or_default(),
+                )
+            });
+            ManagerProfile {
+                manager_id: mid,
+                manager_name: mname,
+                info,
+                eval,
+                holding_char,
+                history,
+            }
+        })
+        .collect();
+
+    // Scoring uses the primary (first) manager only — matches the upstream convention
+    // that the first listed manager is the lead decision-maker.
+    let primary = managers.first();
     let (overall, score_details) = scoring::compute_overall_score(
         &detail,
         &periods,
         &yearly_returns,
         &risk_metrics,
-        &manager_eval,
-        &manager_char,
+        primary.and_then(|m| m.eval.as_ref()),
+        primary.and_then(|m| m.holding_char.as_ref()),
     );
     let is_bond = detail.fund_type.contains("债");
     let weights: &[(&str, u32)] = if is_bond {
@@ -282,10 +312,7 @@ pub fn run(client: &Client, code: &str, json: bool, output: Option<&std::path::P
         holder_structure,
         dividends,
         holding_constraints,
-        manager_eval,
-        manager_char,
-        manager_info,
-        manager_history,
+        managers,
         scores,
         meta,
     };
@@ -327,11 +354,17 @@ fn display_analysis(a: &FundAnalysis) {
     if let Some(fee_rules) = &a.fee_rules {
         print_redemption_fee_rules(fee_rules);
     }
-    if let Some(info) = &a.manager_info {
+    let primary = a.managers.first();
+    if let Some(info) = primary.and_then(|m| m.info.as_ref()) {
         let days: f64 = info.total_days.parse().unwrap_or(0.0);
         let years = days / 365.0;
         let mgr_scale: f64 = info.net_nav.parse().unwrap_or(0.0) / 100_000_000.0;
         println!("  经理: {} (从业{:.1}年, 在管{:.0}亿)", info.manager_name, years, mgr_scale);
+        if a.managers.len() > 1 {
+            let others: Vec<&str> =
+                a.managers.iter().skip(1).map(|m| m.manager_name.as_str()).collect();
+            println!("  共管: {}", others.join(", "));
+        }
     }
 
     println!();
@@ -396,7 +429,7 @@ fn display_analysis(a: &FundAnalysis) {
     );
     println!("  月胜率: {:.0}%  超额收益: {}", r.monthly_win_rate, format_pct(r.excess_return));
 
-    if let Some(eval) = &a.manager_eval {
+    if let Some(eval) = primary.and_then(|m| m.eval.as_ref()) {
         println!();
         println!("{}", "经理评价".bright_white().bold());
         let dd1: f64 = eval.max_drawdown_1y.parse().unwrap_or(0.0);
@@ -409,7 +442,7 @@ fn display_analysis(a: &FundAnalysis) {
         println!("  近1年波动率: {:.2}%", vol1);
     }
 
-    if let Some(ch) = &a.manager_char {
+    if let Some(ch) = primary.and_then(|m| m.holding_char.as_ref()) {
         let pos: f64 = ch.stock_position.parse().unwrap_or(0.0);
         let concentration: f64 = ch.top10_concentration.parse().unwrap_or(0.0);
         if pos > 0.0 {
@@ -424,8 +457,8 @@ fn display_analysis(a: &FundAnalysis) {
         &a.periods,
         &a.yearly_returns,
         &a.risk_metrics,
-        &a.manager_eval,
-        &a.manager_char,
+        primary.and_then(|m| m.eval.as_ref()),
+        primary.and_then(|m| m.holding_char.as_ref()),
     );
     println!();
     println!(

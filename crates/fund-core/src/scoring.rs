@@ -468,7 +468,7 @@ pub fn score_scale(detail: &FundDetail) -> u32 {
     }
 }
 
-pub fn score_manager(eval: &Option<ManagerPerformance>) -> u32 {
+pub fn score_manager(eval: Option<&ManagerPerformance>) -> u32 {
     if let Some(e) = eval {
         let sharpe: f64 = e.sharpe_1y.parse().unwrap_or(0.0);
         let dd: f64 = e.max_drawdown_1y.parse().unwrap_or(100.0);
@@ -485,7 +485,7 @@ pub fn score_manager(eval: &Option<ManagerPerformance>) -> u32 {
     }
 }
 
-pub fn score_holding_style(char_data: &Option<ManagerHoldingChar>) -> u32 {
+pub fn score_holding_style(char_data: Option<&ManagerHoldingChar>) -> u32 {
     if let Some(ch) = char_data {
         let stock_pos: f64 = ch.stock_position.parse().unwrap_or(0.0);
         let concentration: f64 = ch.top10_concentration.parse().unwrap_or(50.0);
@@ -514,8 +514,8 @@ pub fn compute_overall_score(
     periods: &[PeriodIncrease],
     yearly_returns: &[PeriodIncrease],
     risk_metrics: &RiskMetrics,
-    manager_eval: &Option<ManagerPerformance>,
-    manager_char: &Option<ManagerHoldingChar>,
+    manager_eval: Option<&ManagerPerformance>,
+    manager_char: Option<&ManagerHoldingChar>,
 ) -> (u32, Vec<(String, u32)>) {
     let fund_type = &detail.fund_type;
     let is_bond = fund_type.contains("债券") || fund_type.contains("债");

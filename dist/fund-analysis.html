@@ -1782,8 +1782,10 @@ function bScores(d) {
 }
 
 function bManager(d) {
-  const mi = d.manager_info, me = d.manager_eval;
-  if (!mi) return '';
+  const all = d.managers || [];
+  const primary = all[0];
+  if (!primary || !primary.info) return '';
+  const mi = primary.info, me = primary.eval;
   const years = (parseFloat(mi.TOTALDAYS||'0') / 365).toFixed(1);
   const navB  = (parseFloat(mi.NETNAV||'0') / 1e8).toFixed(0);
   const earn1 = (parseFloat(mi.FMAXEARN1||'0') * 100).toFixed(2);
@@ -1824,16 +1826,24 @@ function bManager(d) {
       <button class="resume-btn" type="button" onclick="toggleResume()">展开全文 ▾</button>
     </div>` : '';
 
+  // Title: primary manager + comma-joined co-managers when len > 1.
+  // Card body shows primary's full profile only; co-managers' info objects are
+  // available in d.managers[1..] for future tab UI.
+  const coManagers = all.slice(1).map(m => m.manager_name).filter(Boolean).join('、');
+  const title = '基金经理 · ' + (mi.MGRNAME || '')
+    + (coManagers ? `（共管：${esc(coManagers)}）` : '');
+
   return `
   <div class="card mb24 fade">
-    ${sl('基金经理 · ' + (mi.MGRNAME || ''))}
+    ${sl(title)}
     <div class="mgrg" style="grid-template-columns:repeat(${cols},1fr)">${cellHtml}</div>
     ${resumeHtml}
   </div>`;
 }
 
 function bManagerHistory(d) {
-  const list = d.manager_history;
+  const primary = (d.managers || [])[0];
+  const list = primary ? primary.history : null;
   if (!Array.isArray(list) || !list.length) return '';
   // Sort by start date desc, keep top 8 to bound page length.
   const sorted = [...list]

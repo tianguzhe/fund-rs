@@ -1,6 +1,6 @@
 ---
 name: fund-deep-analyzer
-description: 显式触发"单基金深度分析"工作流。当用户输入 `/fund-deep-analyzer <6位代码>` 时使用本技能。它会启动同名项目级 subagent，按 8 节模板对该基金做 23 字段研究级中文报告。**与自动触发 agent 的区别**：本 skill 是手动入口，确保用户意图明确（避免主 Claude 把"提个代码闲聊"误判成深度分析）。
+description: 显式触发"单基金深度分析"工作流。当用户输入 `/fund-deep-analyzer <6位代码>` 时使用本技能。它会启动同名项目级 subagent，按 10 节模板对该基金做 23 字段研究级中文报告。**与自动触发 agent 的区别**：本 skill 是手动入口，确保用户意图明确（避免主 Claude 把"提个代码闲聊"误判成深度分析）。
 ---
 
 # fund-deep-analyzer（手动触发版）

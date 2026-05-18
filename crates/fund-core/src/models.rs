@@ -439,6 +439,22 @@ pub struct ManagerHistoryFund {
     pub total: String,
 }
 
+/// Aggregated profile for a single fund manager, combining info / eval / style / history.
+///
+/// Upstream `fundmsmanger` returns multi-manager funds with a comma-joined `MGRID`
+/// (e.g. `"30731558,30131775"`) in the first record. Passing that compound string to
+/// `fundMSNMangerInfo` etc. yields null. Callers must split on `,` first and call
+/// each sub-id individually — see `analyze.rs::run` for the canonical pattern.
+#[derive(Debug, Deserialize, Serialize, Default)]
+pub struct ManagerProfile {
+    pub manager_id: String,
+    pub manager_name: String,
+    pub info: Option<ManagerInfo>,
+    pub eval: Option<ManagerPerformance>,
+    pub holding_char: Option<ManagerHoldingChar>,
+    pub history: Vec<ManagerHistoryFund>,
+}
+
 // ── Fund Estimation ──────────────────────────────────────────────────
 
 #[derive(Debug, Deserialize, Serialize)]

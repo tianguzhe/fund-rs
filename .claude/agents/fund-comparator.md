@@ -22,28 +22,42 @@ model: sonnet
 
 ### Step 1 · 并行拉每只基金数据
 
-为每只基金生成独立 JSON：
+为每只基金生成独立 JSON。**保留 stderr 到 .err 文件**，失败时可读取。**别名按实际基金数动态扩展**（2 只用 A B，3 只用 A B C，最多 A B C D E）：
 
 ```bash
-./target/release/fund analyze -c <CODE_A> --json 2>/dev/null > /tmp/cmp_A.json &
-./target/release/fund analyze -c <CODE_B> --json 2>/dev/null > /tmp/cmp_B.json &
-# ... 最多 5 只
+# 示例：3 只对比
+./target/release/fund analyze -c <CODE_A> --json 2>/tmp/cmp_A.err > /tmp/cmp_A.json &
+./target/release/fund analyze -c <CODE_B> --json 2>/tmp/cmp_B.err > /tmp/cmp_B.json &
+./target/release/fund analyze -c <CODE_C> --json 2>/tmp/cmp_C.err > /tmp/cmp_C.json &
 wait
+
+# 失败检查：只遍历实际生成的别名（保持与上面 spawn 的列表一致）
+for f in A B C; do
+  if [ ! -s /tmp/cmp_$f.json ]; then
+    echo "代码 $f 拉取失败，stderr："; cat /tmp/cmp_$f.err
+  fi
+done
 ```
 
-如果任何一只失败（文件空 / jq 报错），直接告诉用户该代码无效，**不要伪造数据**。
+如果任何一只失败（JSON 文件空 / jq 报错），告诉用户该代码无效**并附上 stderr 内容**，**不要伪造数据**。
 
 ### Step 2 · 提取每只关键字段
 
-对每个 JSON 文件跑 jq 提取一个统一字典：
+对每个 JSON 文件跑 jq 提取一个统一字典。
+
+**重要的 jq 容错**：
+1. `scale_yi` / `total_fee_pct` 必须用 `tonumber?` —— ETF 类（510300/510050 等）的 `SALESEXP` 是 `"--"`，直接 `tonumber` 会让整个 jq 命令报错退出，导致该基金被静默丢弃。
+2. `ret_3y` / `ret_5y` 必须用 `[...] | first // null` —— 年轻基金没 3Y/5Y 数据时 `select` 返回 empty，会让构造对象里**对应 key 整体消失**（不是变成 null）。
+3. 缺数据时统一返回 `null`，让 Step 3 渲染时打 "—"。
 
 ```bash
 jq '{
   code: .detail.FCODE, name: .detail.SHORTNAME, type: .detail.FTYPE,
   estab: .detail.ESTABDATE, risk: .detail.RISKLEVEL,
-  scale_yi: ((.detail.ENDNAV|tonumber)/1e8),
+  scale_yi: ((.detail.ENDNAV | tonumber? // 0) / 1e8),
   mgr_fee: .detail.MGREXP, trust_fee: .detail.TRUSTEXP, sales_fee: .detail.SALESEXP,
-  total_fee_pct: ((.detail.MGREXP|rtrimstr("%")|tonumber) + (.detail.TRUSTEXP|rtrimstr("%")|tonumber) + (.detail.SALESEXP|rtrimstr("%")|tonumber)),
+  total_fee_pct: ([.detail.MGREXP, .detail.TRUSTEXP, .detail.SALESEXP]
+                  | map(rtrimstr("%") | tonumber? // 0) | add),
   manager: .detail.JJJL, company: .detail.JJGS,
   bench: .detail.BENCH,
   hc_days: .holding_constraints.min_holding_days,
@@ -76,12 +90,12 @@ jq '{
   rolling_3y_min: (.rolling_returns.y3 // {} | .min),
   rolling_3y_median: (.rolling_returns.y3 // {} | .median),
 
-  ret_1y: (.periods[] | select(.title=="Last Year") | .return_rate),
-  ret_1y_rank: (.periods[] | select(.title=="Last Year") | "\(.rank)/\(.total)"),
-  ret_3y: (.periods[] | select(.title=="Last 3 Years") | .return_rate),
-  ret_3y_rank: (.periods[] | select(.title=="Last 3 Years") | "\(.rank)/\(.total)"),
-  ret_5y: (.periods[] | select(.title=="Last 5 Years") | .return_rate),
-  ret_5y_rank: (.periods[] | select(.title=="Last 5 Years") | "\(.rank)/\(.total)"),
+  ret_1y: ([.periods[] | select(.title=="Last Year") | .return_rate] | first // null),
+  ret_1y_rank: ([.periods[] | select(.title=="Last Year") | "\(.rank)/\(.total)"] | first // null),
+  ret_3y: ([.periods[] | select(.title=="Last 3 Years") | .return_rate] | first // null),
+  ret_3y_rank: ([.periods[] | select(.title=="Last 3 Years") | "\(.rank)/\(.total)"] | first // null),
+  ret_5y: ([.periods[] | select(.title=="Last 5 Years") | .return_rate] | first // null),
+  ret_5y_rank: ([.periods[] | select(.title=="Last 5 Years") | "\(.rank)/\(.total)"] | first // null),
 
   yearly: .yearly_returns,
   divs_n: (.dividends|length),
@@ -92,7 +106,8 @@ jq '{
   scale_change_recent: (.scale_changes[0].change_pct // null),
   scale_trend: ([.scale_changes[:4][].change_pct]),
 
-  mgr_resume: (.manager_info.RESUME // ""),
+  mgr_resume: (((.managers // [])[0].info // {}).RESUME // ""),
+  mgr_names: [(.managers // [])[].manager_name],
   as_of_nav: .meta.as_of.nav_history,
   as_of_bonds: .meta.as_of.top_bonds,
   as_of_holder: .meta.as_of.holder_structure

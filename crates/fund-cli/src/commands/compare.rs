@@ -14,9 +14,9 @@ struct FundCompareData {
     accumulated_return: Vec<AccumulatedReturn>,
     nav_trend: Vec<NavTrendPoint>,
     risk_metrics: RiskMetrics,
-    manager_info: Option<ManagerInfo>,
-    manager_eval: Option<ManagerPerformance>,
-    manager_char: Option<ManagerHoldingChar>,
+    /// All fund managers. Comparison templates typically render only the primary
+    /// (managers[0]); other entries are exposed for downstream consumers.
+    managers: Vec<ManagerProfile>,
     scores: FundScores,
 }
 
@@ -44,8 +44,8 @@ fn compute_scores(
     periods: &[PeriodIncrease],
     yearly: &[PeriodIncrease],
     metrics: &RiskMetrics,
-    eval: &Option<ManagerPerformance>,
-    char_data: &Option<ManagerHoldingChar>,
+    eval: Option<&ManagerPerformance>,
+    char_data: Option<&ManagerHoldingChar>,
 ) -> FundScores {
     let return_score = scoring::score_return(periods, metrics);
     let risk_score = scoring::score_risk(metrics, &detail.fund_type);
@@ -122,26 +122,51 @@ fn fetch_fund(client: &Client, code: &str) -> Result<FundCompareData> {
     let risk_metrics =
         scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
 
-    // Batch 2: manager details in parallel (depends on manager_id from batch 1)
-    let manager_id = managers.into_iter().next().map(|m| m.manager_id);
-    let (manager_info, manager_eval, manager_char) = if let Some(mid) = &manager_id {
-        std::thread::scope(|s| {
-            let t1 = s.spawn(|| client.get_manager_info(mid));
-            let t2 = s.spawn(|| client.get_manager_performance(mid));
-            let t3 = s.spawn(|| client.get_manager_holding_char(mid));
-            (t1.join().unwrap().ok(), t2.join().unwrap().ok(), t3.join().unwrap().ok())
+    // Batch 2: per-manager details. See analyze.rs for why a compound MGRID
+    // (multi-manager funds) must be split before calling fundMSN* endpoints.
+    let manager_pairs: Vec<(String, String)> = managers
+        .into_iter()
+        .next()
+        .map(|m| {
+            m.manager_id
+                .split(',')
+                .zip(m.manager_name.split(','))
+                .map(|(i, n)| (i.trim().to_string(), n.trim().to_string()))
+                .filter(|(i, _)| !i.is_empty())
+                .collect()
         })
-    } else {
-        (None, None, None)
-    };
+        .unwrap_or_default();
 
+    let managers: Vec<ManagerProfile> = manager_pairs
+        .into_iter()
+        .map(|(mid, mname)| {
+            let (info, eval, holding_char) = std::thread::scope(|s| {
+                let t1 = s.spawn(|| client.get_manager_info(&mid));
+                let t2 = s.spawn(|| client.get_manager_performance(&mid));
+                let t3 = s.spawn(|| client.get_manager_holding_char(&mid));
+                (t1.join().unwrap().ok(), t2.join().unwrap().ok(), t3.join().unwrap().ok())
+            });
+            // Compare command does not consume manager_history; leave it empty
+            // to avoid the extra round-trip per manager.
+            ManagerProfile {
+                manager_id: mid,
+                manager_name: mname,
+                info,
+                eval,
+                holding_char,
+                history: Vec::new(),
+            }
+        })
+        .collect();
+
+    let primary = managers.first();
     let scores = compute_scores(
         &detail,
         &periods,
         &yearly_returns,
         &risk_metrics,
-        &manager_eval,
-        &manager_char,
+        primary.and_then(|m| m.eval.as_ref()),
+        primary.and_then(|m| m.holding_char.as_ref()),
     );
 
     Ok(FundCompareData {
@@ -152,9 +177,7 @@ fn fetch_fund(client: &Client, code: &str) -> Result<FundCompareData> {
         accumulated_return,
         nav_trend,
         risk_metrics,
-        manager_info,
-        manager_eval,
-        manager_char,
+        managers,
         scores,
     })
 }
