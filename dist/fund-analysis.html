@@ -68,6 +68,173 @@ function sl(text, badge='', asof='') {
   return html;
 }
 
+function nval(v, fallback=null) {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function safePct(v, d=2, sign=false) {
+  const n = nval(v);
+  return n == null ? '--' : pct(n, d, sign);
+}
+
+function commentaryBox(title, bullets, cls='') {
+  const list = (bullets || []).filter(Boolean);
+  if (!list.length) return '';
+  return `
+    <div class="commentary ${cls}">
+      <div class="commentary-title">${esc(title)}</div>
+      <ul class="commentary-list">${list.map(x => `<li>${x}</li>`).join('')}</ul>
+    </div>`;
+}
+
+function getPeriod(d, title) {
+  return (d.periods || []).find(p => p.title === title) || null;
+}
+
+function scoreTier(score) {
+  if (score >= 80) return { label:'优秀', cls:'pos', text:'综合质量突出，数据层面具备较强可持有性' };
+  if (score >= 65) return { label:'中等偏上', cls:'warn', text:'综合表现可用，但仍需要看清风险来源' };
+  if (score >= 55) return { label:'中等', cls:'neu', text:'优缺点并存，更适合作为候选而非直接重仓' };
+  return { label:'偏弱', cls:'neg', text:'关键维度偏弱，除非有明确配置理由，否则不宜放大仓位' };
+}
+
+function stockExposureLabel(stockPct) {
+  if (stockPct == null) return '权益仓位未披露';
+  if (stockPct < 5) return '接近纯债定位';
+  if (stockPct < 20) return '偏债增强定位';
+  if (stockPct < 60) return '权益增强较明显';
+  if (stockPct < 90) return '偏股/灵活配置定位';
+  return '股票型/高权益定位';
+}
+
+function latestAsset(d) {
+  return Array.isArray(d.asset_allocation) && d.asset_allocation.length ? d.asset_allocation[0] : null;
+}
+
+function latestScale(d) {
+  return Array.isArray(d.scale_changes) && d.scale_changes.length ? d.scale_changes[0] : null;
+}
+
+function latestHolder(d) {
+  return Array.isArray(d.holder_structure) && d.holder_structure.length ? d.holder_structure[0] : null;
+}
+
+function topStockStats(d, limit=10) {
+  const stocks = d.top_stocks?.stocks || [];
+  const top = stocks.slice(0, limit);
+  const total = top.reduce((acc, s) => acc + (nval(s.ratio, 0) || 0), 0);
+  const max = top.reduce((acc, s) => Math.max(acc, nval(s.ratio, 0) || 0), 0);
+  return { top, total, max };
+}
+
+function topBondStats(d, limit=10) {
+  const bonds = d.top_bonds?.bonds || [];
+  const top = bonds.slice(0, limit);
+  const total = top.reduce((acc, b) => acc + (nval(b.ratio, 0) || 0), 0);
+  return { top, total };
+}
+
+function holdingHorizonText(d) {
+  const r = d.rolling_returns || {};
+  const hc = d.holding_constraints;
+  if (hc?.min_holding_days) {
+    const days = hc.min_holding_days;
+    const label = days >= 365 ? `${Math.round(days / 365)} 年` : `${days} 天`;
+    return `合同含最短持有期 <b>${esc(label)}</b>，流动性敏感资金需要先接受锁定安排。`;
+  }
+  if (r.y3?.min > 0) return `拉长到 <b>3 年持有</b> 的历史滚动体验更稳，任意 3 年窗口未亏损。`;
+  if (r.y1?.min < 0) return `1 年维度曾出现亏损窗口，更适合用 <b>分批 + 中长期</b> 的方式持有。`;
+  return `历史滚动样本有限，持有期判断以回撤承受能力为主。`;
+}
+
+function mainRiskBullets(d) {
+  const bullets = [];
+  const r = d.risk_metrics || {};
+  const dist = d.distribution || {};
+  const aa = latestAsset(d);
+  const hs = latestHolder(d);
+  const sc = latestScale(d);
+  const stockPct = aa ? nval(aa.stock_pct, 0) : null;
+  const bondPct = aa ? nval(aa.bond_pct, 0) : null;
+  const cashPct = aa ? nval(aa.cash_pct, 0) : null;
+  const leverage = aa ? stockPct + bondPct + cashPct - 100 : 0;
+
+  if (nval(r.sharpe_ratio) != null && r.sharpe_ratio < 0) {
+    bullets.push(`近 ${esc(r.data_points || '--')} 交易日 Sharpe 为 <b class="neg">${fmt(r.sharpe_ratio)}</b>，风险调整收益偏弱。`);
+  }
+  if (nval(r.max_drawdown) != null && r.max_drawdown > 8) {
+    bullets.push(`最大回撤 <b class="neg">-${fmt(r.max_drawdown)}%</b>，持有体验不应按低波现金替代品理解。`);
+  }
+  if (nval(dist.excess_kurtosis) != null && dist.excess_kurtosis > 3) {
+    bullets.push(`日收益分布呈厚尾，极端单日波动概率高于普通正态假设。`);
+  }
+  if (stockPct != null && stockPct >= 15) {
+    bullets.push(`最新股票仓位 <b>${fmt(stockPct)}%</b>，收益弹性和回撤都明显受权益市场影响。`);
+  }
+  if (leverage > 5) {
+    bullets.push(`资产合计约 <b>${fmt(stockPct + bondPct + cashPct)}%</b>，债基杠杆信号较明确。`);
+  }
+  if (hs && nval(hs.institutional_pct, 0) > 70) {
+    bullets.push(`机构持有人占比 <b>${fmt(hs.institutional_pct)}%</b>，资金结构偏机构盘，需关注大额申赎扰动。`);
+  }
+  if (sc && Math.abs(nval(sc.change_pct, 0)) > 20) {
+    bullets.push(`最近一期净资产变动 <b class="${sc.change_pct >= 0 ? 'pos' : 'neg'}">${pct(sc.change_pct,2,true)}</b>，规模变化会影响建仓与流动性管理。`);
+  }
+  return bullets;
+}
+
+function bInvestmentSummary(d) {
+  const det = d.detail || {};
+  const score = nval(d.scores?.overall, 0) || 0;
+  const tier = scoreTier(score);
+  const r = d.risk_metrics || {};
+  const y1 = getPeriod(d, 'Last Year');
+  const m3 = getPeriod(d, 'Last 3 Months');
+  const aa = latestAsset(d);
+  const stockPct = aa ? nval(aa.stock_pct, null) : null;
+  const profile = stockExposureLabel(stockPct);
+  const trend = [];
+  if (m3 && y1) {
+    const shortLead = (m3.return_rate || 0) - ((y1.return_rate || 0) / 4);
+    if (shortLead > 2) {
+      trend.push(`近 3 月收益 ${safePct(m3.return_rate,2,true)} 明显强于近 1 年折算节奏，近期行情贡献偏大。`);
+    } else if (shortLead < -2) {
+      trend.push(`近 3 月收益 ${safePct(m3.return_rate,2,true)} 弱于近 1 年折算节奏，近期动能放缓。`);
+    } else {
+      trend.push(`近 3 月与近 1 年收益节奏大体一致，短期没有明显脱离长期状态。`);
+    }
+  }
+  const risks = mainRiskBullets(d).slice(0, 2);
+  const bullets = [
+    `<b class="${tier.cls}">${score}/100 · ${esc(tier.label)}</b>：${esc(tier.text)}。`,
+    `<b>真实定位</b>：${esc(det.FTYPE || '--')} / R${esc(det.RISKLEVEL || '--')}，${esc(profile)}${stockPct == null ? '' : `（股票 ${fmt(stockPct)}%）`}。`,
+    trend[0],
+    risks.length ? `<b>主要风险</b>：${risks.map(x => x.replace(/^<b>|<\/b>$/g, '')).join('；')}` : null,
+    holdingHorizonText(d),
+  ].filter(Boolean).slice(0, 6);
+  const meta = [
+    { k:'评分档位', v:tier.label, cls:tier.cls },
+    { k:'最大回撤', v:r.max_drawdown != null ? `-${fmt(r.max_drawdown)}%` : '--', cls:'neg' },
+    { k:'适配持有', v:d.rolling_returns?.y3?.min > 0 ? '3 年以上' : '中长期', cls:'neu' },
+  ].map(x => `
+    <div class="summary-chip">
+      <div class="summary-chip-k">${esc(x.k)}</div>
+      <div class="summary-chip-v ${x.cls}">${esc(x.v)}</div>
+    </div>`).join('');
+
+  return `
+  <section class="card insight-card mb24 fade">
+    ${sl('投资解读摘要', '规则化判断')}
+    <div class="insight-layout">
+      <div>
+        <ol class="insight-list">${bullets.map(x => `<li>${x}</li>`).join('')}</ol>
+      </div>
+      <div class="summary-chips">${meta}</div>
+    </div>
+  </section>`;
+}
+
 /* ─── builders ─── */
 
 function bHeader(d) {
@@ -233,7 +400,44 @@ function bPeriods(d) {
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${periodCommentary(d)}
   </div>`;
+}
+
+function periodCommentary(d) {
+  const p1m = getPeriod(d, 'Last Month');
+  const p3m = getPeriod(d, 'Last 3 Months');
+  const p1y = getPeriod(d, 'Last Year');
+  const p3y = getPeriod(d, 'Last 3 Years');
+  const bullets = [];
+  const rankText = p => p && p.total ? rankpct(p.rank, p.total) : null;
+  if (p3m && p1y) {
+    const shortLead = p3m.return_rate - p1y.return_rate / 4;
+    if (shortLead > 2) {
+      bullets.push(`近 3 月收益 <b class="${cc(p3m.return_rate)}">${pct(p3m.return_rate,2,true)}</b>，明显高于近 1 年折算节奏，短期行情贡献偏大。`);
+    } else if (shortLead < -2) {
+      bullets.push(`近 3 月收益 <b class="${cc(p3m.return_rate)}">${pct(p3m.return_rate,2,true)}</b>，弱于近 1 年折算节奏，近期动能放缓。`);
+    } else {
+      bullets.push(`近 3 月与近 1 年表现节奏接近，短期收益没有明显偏离长期状态。`);
+    }
+  }
+  if (p1y && p3y) {
+    const r1 = rankText(p1y), r3 = rankText(p3y);
+    if (r1 != null && r3 != null) {
+      if (r1 <= 25 && r3 <= 25) {
+        bullets.push(`1 年和 3 年同类排名都在前 25%，中长期相对收益具备连续性。`);
+      } else if (r1 <= 25 && r3 > 50) {
+        bullets.push(`近 1 年排名明显好于 3 年排名，当前更像阶段性修复或风格顺风。`);
+      } else if (r1 > 50 && r3 <= 25) {
+        bullets.push(`3 年排名优于近 1 年，近期可能处在风格逆风或收益消化阶段。`);
+      } else {
+        bullets.push(`中长期排名未进入同类前 25%，需要用低回撤、低相关或费用等其他理由支撑配置。`);
+      }
+    }
+  } else if (p1m && p3m) {
+    bullets.push(`当前只有较短区间可比，近 1 月 ${pct(p1m.return_rate,2,true)}、近 3 月 ${pct(p3m.return_rate,2,true)}，长期判断仍需结合滚动收益。`);
+  }
+  return commentaryBox('阶段解读', bullets);
 }
 
 function bYearly(d) {
@@ -259,7 +463,7 @@ function bMonthlySeries(d) {
   if (!d.monthly_series?.length) return '';
   const series = [...d.monthly_series].sort((a, b) => b.month.localeCompare(a.month));
   const mx = Math.max(...series.map(m => Math.abs(m.return_rate)), 0.01);
-  const rows = series.map(m => {
+  const rowHtml = m => {
     const v = m.return_rate;
     const pctW = Math.min(50, Math.abs(v) / mx * 50);
     const col = v >= 0 ? 'var(--pos)' : 'var(--neg)';
@@ -273,12 +477,20 @@ function bMonthlySeries(d) {
       </div>
       <div class="val ${v>=0?'pos':'neg'}">${pct(v,2,true)}</div>
     </div>`;
-  }).join('');
+  };
+  const visible = series.slice(0, 12).map(rowHtml).join('');
+  const hidden = series.slice(12).map(rowHtml).join('');
   const asof = d.meta?.as_of?.monthly_series;
+  const more = hidden ? `
+    <details class="compact-details">
+      <summary>展开更早 ${series.length - 12} 个月</summary>
+      <div>${hidden}</div>
+    </details>` : '';
   return `
   <div class="card mb24 fade">
     ${sl('真月度收益序列', `共 ${series.length} 月`, asof)}
-    <div>${rows}</div>
+    <div>${visible}</div>
+    ${more}
   </div>`;
 }
 
@@ -345,7 +557,42 @@ function bRisk(d) {
   <div class="card mb24 fade">
     ${sl('风险指标', `近 ${r.data_points} 交易日`)}
     <div class="mgrid">${cells}</div>
+    ${riskCommentary(d)}
   </div>`;
+}
+
+function riskCommentary(d) {
+  const r = d.risk_metrics || {};
+  const bullets = [];
+  if (nval(r.sharpe_ratio) != null) {
+    if (r.sharpe_ratio < 0) {
+      bullets.push(`Sharpe 为 <b class="neg">${fmt(r.sharpe_ratio)}</b>，近期承担波动后没有获得正向超额补偿。`);
+    } else if (r.sharpe_ratio >= 1) {
+      bullets.push(`Sharpe 为 <b class="pos">${fmt(r.sharpe_ratio)}</b>，风险调整收益较好。`);
+    } else {
+      bullets.push(`Sharpe 为 ${fmt(r.sharpe_ratio)}，风险调整收益处于一般区间。`);
+    }
+  }
+  if (nval(r.calmar_ratio) != null) {
+    if (r.calmar_ratio < 0.5) {
+      bullets.push(`Calmar 仅 <b class="warn">${fmt(r.calmar_ratio)}</b>，年化收益对最大回撤的覆盖偏薄。`);
+    } else if (r.calmar_ratio >= 1) {
+      bullets.push(`Calmar 达到 <b class="pos">${fmt(r.calmar_ratio)}</b>，回撤补偿相对充分。`);
+    }
+  }
+  if (nval(r.current_drawdown) != null) {
+    if (r.current_drawdown < 1) {
+      bullets.push(`当前回撤 ${fmt(r.current_drawdown)}%，净值接近历史高点，买入后的短期安全垫主要来自后续市场而非估值回撤。`);
+    } else if (r.current_drawdown > 5) {
+      bullets.push(`当前仍处 ${fmt(r.current_drawdown)}% 回撤中，短期体验可能继续受修复节奏影响。`);
+    }
+  }
+  if (r.max_drawdown_recovery_days == null) {
+    bullets.push(`最大回撤尚未修复，历史回撤数据不能只看跌幅，还要看恢复时间。`);
+  } else if (r.max_drawdown_recovery_days > 90) {
+    bullets.push(`最大回撤修复耗时 <b>${r.max_drawdown_recovery_days} 天</b>，需要有跨季度持有的心理准备。`);
+  }
+  return commentaryBox('风险解读', bullets);
 }
 
 function bBenchmark(d) {
@@ -367,7 +614,31 @@ function bBenchmark(d) {
   <div class="card mb24 fade">
     ${sl('相对基准表现', `${b.data_points} 日`)}
     <div class="mgrid mgrid-4">${cells}</div>
+    ${benchmarkCommentary(d)}
   </div>`;
+}
+
+function benchmarkCommentary(d) {
+  const b = d.benchmark_metrics || {};
+  const bullets = [];
+  if (nval(b.alpha) != null) {
+    bullets.push(b.alpha > 0
+      ? `Alpha 为 <b class="pos">${pct(b.alpha,2,true)}</b>，相对基准有正向主动收益。`
+      : `Alpha 为 <b class="neg">${pct(b.alpha,2,true)}</b>，主动收益未覆盖基准。`);
+  }
+  if (nval(b.beta) != null) {
+    const abs = Math.abs(b.beta);
+    if (abs < 0.2) bullets.push(`Beta 约 ${fmt(b.beta)}，与基准同步性低，收益主要不是简单跟随基准波动。`);
+    else if (abs > 1.2) bullets.push(`Beta 约 ${fmt(b.beta)}，对基准波动较敏感。`);
+  }
+  if (nval(b.information_ratio) != null && nval(b.tracking_error) != null) {
+    if (b.information_ratio > 0.5) {
+      bullets.push(`信息比率 ${fmt(b.information_ratio)}，在 ${fmt(b.tracking_error)}% 跟踪误差下主动收益稳定性较好。`);
+    } else if (b.information_ratio < 0.1) {
+      bullets.push(`信息比率 ${fmt(b.information_ratio)} 偏低，偏离基准并没有稳定转化为超额收益。`);
+    }
+  }
+  return commentaryBox('基准解读', bullets);
 }
 
 function bDistribution(d) {
@@ -389,7 +660,34 @@ function bDistribution(d) {
   <div class="card mb24 fade">
     ${sl('日收益分布', `${dist.data_points} 日`)}
     <div class="mgrid mgrid-4">${cells}</div>
+    ${distributionCommentary(d)}
   </div>`;
+}
+
+function distributionCommentary(d) {
+  const dist = d.distribution || {};
+  const bullets = [];
+  const var95 = nval(dist.var_95);
+  const cvar95 = nval(dist.cvar_95);
+  if (var95 != null) {
+    const label = var95 < 0.3 ? '几乎不见单日大跌'
+      : var95 < 0.8 ? '温和波动'
+      : var95 < 1.5 ? '明显波动'
+      : var95 < 3 ? '显著单日下跌风险'
+      : '极端波动';
+    bullets.push(`VaR 95% 为 <b class="neg">-${fmt(var95)}%</b>，按阈值属于“${esc(label)}”。`);
+  }
+  if (cvar95 != null && var95 != null) {
+    bullets.push(`CVaR 95% 为 <b class="neg">-${fmt(cvar95)}%</b>，意味着最差 5% 交易日的平均跌幅比 VaR 更深。`);
+  }
+  if (nval(dist.skewness) != null) {
+    if (dist.skewness <= -0.5) bullets.push(`偏度 ${fmt(dist.skewness)}，左尾更重，偶发大跌需要重点关注。`);
+    else if (dist.skewness >= 0.5) bullets.push(`偏度 ${fmt(dist.skewness)}，右尾更明显，偶发大涨对收益贡献较大。`);
+  }
+  if (nval(dist.excess_kurtosis) != null && dist.excess_kurtosis > 3) {
+    bullets.push(`超额峰度 <b class="warn">${fmt(dist.excess_kurtosis)}</b>，厚尾特征明显，正态分布假设会低估极端波动。`);
+  }
+  return commentaryBox('尾部风险解读', bullets);
 }
 
 function bRolling(d) {
@@ -571,12 +869,12 @@ function bManagerHistory(d) {
   const primary = (d.managers || [])[0];
   const list = primary ? primary.history : null;
   if (!Array.isArray(list) || !list.length) return '';
-  // Sort by start date desc, keep top 8 to bound page length.
+  // Sort by start date desc; show the first 5 directly and keep the full
+  // history in an expandable block to preserve data without dominating flow.
   const sorted = [...list]
-    .sort((a, b) => (b.FEMPDATE || '').localeCompare(a.FEMPDATE || ''))
-    .slice(0, 8);
+    .sort((a, b) => (b.FEMPDATE || '').localeCompare(a.FEMPDATE || ''));
   const fmtDate = s => s && s.length >= 10 ? s.slice(0, 10) : (s === '--' ? '至今' : esc(s));
-  const rows = sorted.map((m, i) => {
+  const row = (m, i) => {
     const days = parseInt(m.TOTALDAYS || '0', 10);
     const yrs = (days / 365).toFixed(1);
     const ret = parseFloat(m.PENAVGROWTH || '0');
@@ -594,16 +892,28 @@ function bManagerHistory(d) {
       <td class="${retCls}">${pct(ret, 2, true)}</td>
       <td>${rank}</td>
     </tr>`;
-  }).join('');
+  };
+  const visibleRows = sorted.slice(0, 5).map(row).join('');
+  const hiddenRows = sorted.slice(5).map((m, i) => row(m, i + 5)).join('');
+  const more = hiddenRows ? `
+    <details class="table-details">
+      <summary>展开其余 ${sorted.length - 5} 条履历</summary>
+      <div class="tscroll">
+        <table class="mtbl">
+          <tbody>${hiddenRows}</tbody>
+        </table>
+      </div>
+    </details>` : '';
   return `
   <div class="card mb24 fade">
-    ${sl('经理任职履历', `共 ${list.length} 只 · 显示前 ${sorted.length}`)}
+    ${sl('经理任职履历', `共 ${list.length} 只 · 默认 5 只`)}
     <div class="tscroll">
       <table class="mtbl">
         <thead><tr><th>#</th><th>基金</th><th>任期</th><th>时长</th><th>任内收益</th><th>同类排名</th></tr></thead>
-        <tbody>${rows}</tbody>
+        <tbody>${visibleRows}</tbody>
       </table>
     </div>
+    ${more}
   </div>`;
 }
 
@@ -611,6 +921,7 @@ function bTopBonds(d) {
   const tb = d.top_bonds;
   if (!tb || !tb.bonds?.length) return '';
   const top = tb.bonds.slice(0, 10);
+  const stats = topBondStats(d, 10);
   const rows = top.map((b, i) => `
     <tr>
       <td>${i+1}</td>
@@ -624,13 +935,31 @@ function bTopBonds(d) {
   return `
   <div class="card mb24 fade">
     ${sl('重仓债券', tb.period || '', tb.end_date)}
+    <div class="sub-label">前 ${top.length} 合计 <b>${fmt(stats.total)}%</b></div>
     <div class="tscroll">
       <table class="mtbl">
         <thead><tr><th>#</th><th>债券</th><th>占净值</th><th>市值</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${bondCommentary(d)}
   </div>`;
+}
+
+function bondCommentary(d) {
+  const bonds = d.top_bonds?.bonds || [];
+  const top = bonds.slice(0, 10);
+  const bullets = [];
+  if (!top.length) return '';
+  const hasCb = top.some(b => /转债|可转/.test(b.bond_name || ''));
+  const perpetual = top.filter(b => /永续|二级|资本补充/.test(b.bond_name || ''));
+  const rates = top.filter(b => /国债|国开|农发|进出|地方债/.test(b.bond_name || ''));
+  const total = top.reduce((acc, b) => acc + (nval(b.ratio, 0) || 0), 0);
+  if (hasCb) bullets.push(`前十大债券含转债，债券仓位里带有权益弹性和转股波动。`);
+  if (perpetual.length) bullets.push(`前十大包含 ${perpetual.length} 只银行永续/二级资本/资本补充债，信用利差暴露需要关注。`);
+  if (rates.length) bullets.push(`前十大包含 ${rates.length} 只利率债/政策性金融债，组合对利率变化较敏感。`);
+  bullets.push(`前 ${top.length} 大债券合计 ${fmt(total)}%，${total > 40 ? '债券持仓集中度较高' : '债券持仓集中度不算高'}。`);
+  return commentaryBox('债券风格解读', bullets);
 }
 
 function bScaleChanges(d) {
@@ -660,7 +989,29 @@ function bScaleChanges(d) {
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${scaleCommentary(d)}
   </div>`;
+}
+
+function scaleCommentary(d) {
+  const sc = d.scale_changes;
+  if (!Array.isArray(sc) || !sc.length) return '';
+  const latest = sc[0];
+  const recent = sc.slice(0, 4).map(x => nval(x.change_pct, 0) || 0);
+  const bullets = [];
+  if (Math.abs(nval(latest.change_pct, 0)) > 20) {
+    bullets.push(latest.change_pct > 0
+      ? `最近一期净资产增长 <b class="pos">${pct(latest.change_pct,2,true)}</b>，资金快速流入可能带来建仓摊薄或调仓压力。`
+      : `最近一期净资产下降 <b class="neg">${pct(latest.change_pct,2,true)}</b>，需关注赎回导致的被动减仓。`);
+  }
+  const swings = recent.filter(v => Math.abs(v) > 10).length;
+  if (swings >= 2) {
+    bullets.push(`近 4 期有 ${swings} 次超过 10% 的规模波动，份额稳定性一般。`);
+  }
+  if (nval(latest.purchase_yi, 0) > nval(latest.redemption_yi, 0) * 2 && latest.purchase_yi > 5) {
+    bullets.push(`最近一期申购额显著高于赎回额，新增资金对组合再配置影响更大。`);
+  }
+  return commentaryBox('规模解读', bullets);
 }
 
 function bHolderStructure(d) {
@@ -699,13 +1050,35 @@ function bHolderStructure(d) {
       <div class="litem"><div class="ldot" style="background:var(--ink3)"></div>内部</div>
     </div>
     ${rows}
+    ${holderCommentary(d)}
   </div>`;
+}
+
+function holderCommentary(d) {
+  const hs = d.holder_structure;
+  if (!Array.isArray(hs) || !hs.length) return '';
+  const latest = hs[0];
+  const inst = nval(latest.institutional_pct, 0) || 0;
+  const retail = nval(latest.retail_pct, 0) || 0;
+  const internal = nval(latest.internal_pct, 0) || 0;
+  const bullets = [];
+  if (inst > 80) {
+    bullets.push(`机构占比 <b>${fmt(inst)}%</b>，接近机构主导盘，大额赎回对规模和组合管理的扰动更值得关注。`);
+  } else if (inst > 70) {
+    bullets.push(`机构占比 <b>${fmt(inst)}%</b>，资金结构偏机构，稳定性取决于机构资金续作意愿。`);
+  } else if (retail > 70) {
+    bullets.push(`个人占比 <b>${fmt(retail)}%</b>，资金更分散，但也更容易受市场情绪影响。`);
+  }
+  if (internal >= 0.5) {
+    bullets.push(`内部持有 ${fmt(internal)}%，管理人/员工有一定跟投信号。`);
+  }
+  return commentaryBox('持有人解读', bullets);
 }
 
 function bDividends(d) {
   const divs = d.dividends;
   if (!Array.isArray(divs) || !divs.length) return '';
-  const rows = divs.map((v, i) => `
+  const row = (v, i) => `
     <tr>
       <td>${i+1}</td>
       <td>${esc(v.year)}</td>
@@ -713,16 +1086,28 @@ function bDividends(d) {
       <td>${esc(v.ex_date)}</td>
       <td class="pos">${fmt(v.amount_per_share, 4)} 元</td>
       <td>${esc(v.pay_date)}</td>
-    </tr>`).join('');
+    </tr>`;
+  const visible = divs.slice(0, 8).map(row).join('');
+  const hidden = divs.slice(8).map((v, i) => row(v, i + 8)).join('');
+  const more = hidden ? `
+    <details class="table-details">
+      <summary>展开其余 ${divs.length - 8} 次分红</summary>
+      <div class="tscroll">
+        <table class="mtbl">
+          <tbody>${hidden}</tbody>
+        </table>
+      </div>
+    </details>` : '';
   return `
   <div class="card mb24 fade">
-    ${sl('分红记录', `${divs.length} 次`)}
+    ${sl('分红记录', `${divs.length} 次 · 默认 8 次`)}
     <div class="tscroll">
       <table class="mtbl">
         <thead><tr><th>#</th><th>年份</th><th>权益登记</th><th>除息日</th><th>每份分红</th><th>发放日</th></tr></thead>
-        <tbody>${rows}</tbody>
+        <tbody>${visible}</tbody>
       </table>
     </div>
+    ${more}
   </div>`;
 }
 
@@ -770,7 +1155,7 @@ function bMaxDrawdownEvent(d) {
       <div class="mhint">${esc(it.hint)}</div>
     </div>`).join('');
   const noteHtml = note
-    ? `<div class="sub-label sub-label-callout">📌 ${esc(note)}</div>`
+    ? `<div class="sub-label sub-label-callout">日期映射推断：${esc(note)}</div>`
     : '';
   return `
   <div class="card mb24 fade">
@@ -794,12 +1179,14 @@ function bBenchAccCompare(d) {
     { label: '近 1 年',  start: at(250) },
   ].filter(r => r.start && r.start.date !== last.date);
 
+  const interpreted = [];
   const tr = rows.map(row => {
     const fund  = last.fund_return     - row.start.fund_return;
     const bench = last.bench_return    - row.start.bench_return;
     const cat   = last.category_return - row.start.category_return;
     const exB = fund - bench;
     const exC = fund - cat;
+    interpreted.push({ label: row.label, fund, bench, cat, exB, exC });
     return `
     <tr>
       <td>${esc(row.label)}</td>
@@ -825,7 +1212,27 @@ function bBenchAccCompare(d) {
         <tbody>${tr}</tbody>
       </table>
     </div>
+    ${benchAccCommentary(interpreted)}
   </div>`;
+}
+
+function benchAccCommentary(rows) {
+  const bullets = [];
+  const preferred = rows.find(r => r.label === '近 3 年') || rows.find(r => r.label === '近 1 年') || rows[0];
+  if (preferred) {
+    const exB = preferred.exB;
+    const exC = preferred.exC;
+    if (exB > 0 && exC > 0) {
+      bullets.push(`${esc(preferred.label)}同时跑赢业绩基准和同类均值，超额分别为 <b class="pos">${pct(exB,2,true)}pp</b>、<b class="pos">${pct(exC,2,true)}pp</b>。`);
+    } else if (exB > 0 && exC <= 0) {
+      bullets.push(`${esc(preferred.label)}跑赢业绩基准 <b class="pos">${pct(exB,2,true)}pp</b>，但未跑赢同类均值，说明同类中还有更强替代品。`);
+    } else if (exB <= 0 && exC > 0) {
+      bullets.push(`${esc(preferred.label)}跑输业绩基准，但跑赢同类均值，可能是基准本身偏强或同类整体偏弱。`);
+    } else {
+      bullets.push(`${esc(preferred.label)}同时跑输业绩基准和同类均值，配置理由需要来自低波、低相关或特定风格暴露。`);
+    }
+  }
+  return commentaryBox('累计对照解读', bullets);
 }
 
 function bRollingMoney(d) {
@@ -857,9 +1264,9 @@ function bRollingMoney(d) {
   };
   const baseLabel = (amount === 100000) ? '10 万元基准' : amount.toLocaleString('zh-CN') + ' 元';
   const hintLine = (r.y3 && r.y3.min > 0)
-    ? `✅ 任意 3 年滚动从未亏损，最差也赚 ${fmtCNY(amount * r.y3.min / 100)}`
+    ? `任意 3 年滚动从未亏损，最差也赚 ${fmtCNY(amount * r.y3.min / 100)}`
     : (r.y1 && r.y1.min < -3)
-      ? `⚠️ 极端情况下 1 年可亏 ${fmtCNY(amount * r.y1.min / 100)}（约 ${pct(Math.abs(r.y1.min),1)} 本金）`
+      ? `极端情况下 1 年可亏 ${fmtCNY(amount * r.y1.min / 100)}（约 ${pct(Math.abs(r.y1.min),1)} 本金）`
       : '';
   return `
   <div class="card mb24 fade">
@@ -910,7 +1317,7 @@ function bAssetAllocation(d) {
   const drift = allStock.length > 1 ? Math.max(...allStock) - Math.min(...allStock) : 0;
   const driftLabel = drift <= 5  ? '风格稳定（仓位 ≤ 5pp）'
                    : drift <= 15 ? '温和择时（5–15pp）'
-                                 : '⚠️ 风格漂移（> 15pp）';
+                                 : '风格漂移（> 15pp）';
   const driftCls = drift <= 5 ? 'pos' : drift <= 15 ? 'neu' : 'warn';
   const latest = aa[0];
   const summary = [
@@ -939,7 +1346,33 @@ function bAssetAllocation(d) {
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${assetCommentary(d)}
   </div>`;
+}
+
+function assetCommentary(d) {
+  const aa = d.asset_allocation;
+  if (!Array.isArray(aa) || !aa.length) return '';
+  const latest = aa[0];
+  const stock = nval(latest.stock_pct, 0) || 0;
+  const bond = nval(latest.bond_pct, 0) || 0;
+  const cash = nval(latest.cash_pct, 0) || 0;
+  const total = stock + bond + cash;
+  const lev = total - 100;
+  const stockVals = aa.map(x => nval(x.stock_pct)).filter(v => v != null);
+  const drift = stockVals.length > 1 ? Math.max(...stockVals) - Math.min(...stockVals) : 0;
+  const bullets = [
+    `最新资产配置显示 ${esc(stockExposureLabel(stock))}，股票 ${fmt(stock)}%、债券 ${fmt(bond)}%、现金 ${fmt(cash)}%。`,
+  ];
+  if (lev > 5) {
+    bullets.push(`股票+债券+现金合计 <b class="warn">${fmt(total)}%</b>，超过 100% 的部分可视为债基通过质押式回购等方式加杠杆的信号。`);
+  }
+  if (drift > 15) {
+    bullets.push(`历史股票仓位跨度 <b class="warn">${fmt(drift,1)}pp</b>，风格漂移或择时幅度较明显。`);
+  } else if (drift <= 5 && stockVals.length > 1) {
+    bullets.push(`历史股票仓位跨度 ${fmt(drift,1)}pp，仓位风格较稳定。`);
+  }
+  return commentaryBox('资产配置解读', bullets);
 }
 
 function bTopStocks(d) {
@@ -951,7 +1384,7 @@ function bTopStocks(d) {
                : totalPct > 70 ? 'warn'
                                : 'neu';
   const concLabel = totalPct < 30 ? '高度分散'
-                  : totalPct > 70 ? '⚠️ 高集中'
+                  : totalPct > 70 ? '高集中'
                   : totalPct > 50 ? '中等集中'
                                   : '中等分散';
   const rows = top.map((s, i) => `
@@ -976,7 +1409,39 @@ function bTopStocks(d) {
         <tbody>${rows}</tbody>
       </table>
     </div>
+    ${stockCommentary(d)}
   </div>`;
+}
+
+function inferStockBuckets(stocks) {
+  const buckets = [
+    { name:'科技/AI/半导体/通信', re:/通信|新易盛|中际|芯原|寒武纪|半导体|电子|科技|软件|信息|光模块|算力|AI/i },
+    { name:'消费白马/家电/食品饮料', re:/茅台|五粮液|泸州|海尔|美的|格力|消费|食品|饮料|家电/ },
+    { name:'银行/金融', re:/银行|保险|证券|招商|兴业|平安|中信|东方财富/ },
+    { name:'资源/周期/能源', re:/煤|矿|油|石化|钢|铜|铝|紫金|中海油|杰瑞/ },
+    { name:'医药/创新药', re:/药|医|生物|恒瑞|药明|百济|迈瑞/ },
+    { name:'新能源/汽车', re:/宁德|比亚迪|阳光|电池|新能源|光伏|风电|北汽|汽车/ },
+  ];
+  return buckets
+    .map(b => ({ name:b.name, count:stocks.filter(s => b.re.test(s.stock_name || '')).length }))
+    .filter(b => b.count > 0)
+    .sort((a, b) => b.count - a.count);
+}
+
+function stockCommentary(d) {
+  const { top, total, max } = topStockStats(d, 10);
+  if (!top.length) return '';
+  const bullets = [];
+  const buckets = inferStockBuckets(top);
+  const concLabel = total < 30 ? '高度分散'
+    : total > 70 || max > 8 ? '高集中'
+    : total > 50 ? '中等集中'
+    : '中等分散';
+  bullets.push(`前 ${top.length} 大股票合计 <b>${fmt(total)}%</b>，单股最高 ${fmt(max)}%，按阈值属于“${esc(concLabel)}”。`);
+  if (buckets.length) {
+    bullets.push(`重仓股名称映射显示主要暴露在 ${buckets.slice(0, 3).map(b => `${esc(b.name)}（${b.count} 只）`).join('、')}。`);
+  }
+  return commentaryBox('股票风格解读', bullets);
 }
 
 function bFooter(d) {
@@ -995,13 +1460,16 @@ function bFooter(d) {
       <div class="as-of-v">${esc(v)}</div>
     </div>`).join('');
   return `
-  <div class="card mb24 fade data-freshness">
-    ${sl('数据时效性')}
-    <div class="as-of-grid">${cells}</div>
-  </div>
   <footer>
-    <span>生成时间：${esc(d.meta?.generated_at || '')} &nbsp;·&nbsp; 数据来源：天天基金（eastmoney.com）</span>
-    <span>仅供参考，不构成投资建议</span>
+    <div class="footer-main">
+      <span>生成时间：${esc(d.meta?.generated_at || '')} &nbsp;·&nbsp; 数据来源：天天基金（eastmoney.com）</span>
+      <span>仅供参考，不构成投资建议</span>
+    </div>
+    ${cells ? `
+      <details class="freshness-details">
+        <summary>数据时效性</summary>
+        <div class="as-of-grid">${cells}</div>
+      </details>` : ''}
   </footer>`;
 }
 
@@ -1591,20 +2059,29 @@ async function init() {
     // codes to avoid path traversal via crafted URLs.
     const params = new URLSearchParams(location.search);
     const code = params.get('code');
-    const dataUrl = /^\d{6}$/.test(code || '')
+    const requestedDataUrl = /^\d{6}$/.test(code || '')
       ? `./data/fund-${code}.json`
       : './data/fund-analysis.json';
 
-    const data = await fetch(dataUrl).then(r => {
-      if (!r.ok) throw new Error('HTTP ' + r.status + ' on ' + dataUrl);
-      return r.json();
-    });
+    async function loadJsonWithFallback(primaryUrl) {
+      const primary = await fetch(primaryUrl);
+      if (primary.ok) return primary.json();
+      if (primaryUrl !== './data/fund-analysis.json') {
+        const fallback = await fetch('./data/fund-analysis.json');
+        if (fallback.ok) return fallback.json();
+        throw new Error('HTTP ' + fallback.status + ' on ./data/fund-analysis.json');
+      }
+      throw new Error('HTTP ' + primary.status + ' on ' + primaryUrl);
+    }
+
+    const data = await loadJsonWithFallback(requestedDataUrl);
 
     const app = document.getElementById('app');
     app.innerHTML = [
       bHeader(data),
       bHoldingBanner(data),
       bHeroStats(data),
+      bInvestmentSummary(data),
       bInfo(data),
       bFee(data),
       bPeriods(data),
