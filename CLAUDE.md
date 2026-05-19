@@ -216,8 +216,9 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 ### dist/fund-analysis.html 架构
 - 模板 + 数据分离：URL `?code=<6位>` 自动 fetch `./data/fund-<code>.json`；`?amount=` 控制金额化卡片基准
 - 视觉风格：**白色 Editorial**（Spectral display + Newsreader body + IBM Plex Mono numerals）
+- 样式入口：`dist/fund-analysis.css`（HTML 只保留 stylesheet 引用，后续视觉修改优先改 CSS）
 - chart 颜色硬编码点：`renderAccChart` 的 `series` 数组 / legend 的 ldot inline style / `renderRadar` 的 stroke/fill —— 改色调需同步这 3 处
-- builder 函数约 25 个，新增需同步 `init()` 数组 + 任何用到的 class 都要在 `<style>` 块定义（否则静默不显示）
+- builder 函数约 25 个，新增需同步 `init()` 数组 + 任何用到的 class 都要在 `dist/fund-analysis.css` 定义（否则静默不显示）
 
 ### UI 渲染验证（headless）
 ```bash
