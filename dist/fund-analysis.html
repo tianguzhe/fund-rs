@@ -257,7 +257,7 @@ function bYearly(d) {
 
 function bMonthlySeries(d) {
   if (!d.monthly_series?.length) return '';
-  const series = d.monthly_series;
+  const series = [...d.monthly_series].sort((a, b) => b.month.localeCompare(a.month));
   const mx = Math.max(...series.map(m => Math.abs(m.return_rate)), 0.01);
   const rows = series.map(m => {
     const v = m.return_rate;
@@ -289,10 +289,10 @@ function bAccChart() {
     { v:'6m', label:'6M', days:132 },
     { v:'1y', label:'1Y', days:250 },
     { v:'3y', label:'3Y', days:750 },
-    { v:'all', label:'全部', days:0 },
+    { v:'5y', label:'5Y', days:1250 },
   ];
   const btns = ranges.map(r =>
-    `<button class="rngbtn${r.v === 'all' ? ' active' : ''}" data-range="${r.v}" data-days="${r.days}">${esc(r.label)}</button>`
+    `<button type="button" class="rngbtn${r.v === '5y' ? ' active' : ''}" data-range="${r.v}" data-days="${r.days}">${esc(r.label)}</button>`
   ).join('');
   return `
   <div class="card mb24 fade" id="sec-acc">
@@ -300,7 +300,7 @@ function bAccChart() {
     <div class="rng-wrap">${btns}</div>
     <div class="chwrap">
       <canvas class="acc-chart" id="accchart-base" aria-label="基金累计收益走势"></canvas>
-      <canvas class="acc-chart" id="accchart-overlay" style="position:absolute;inset:0;pointer-events:auto" aria-hidden="true"></canvas>
+      <canvas class="acc-chart" id="accchart-overlay" aria-hidden="true"></canvas>
       <div class="tip" id="ctip"><div class="tipdt" id="tipdt"></div><div id="tipbd"></div></div>
     </div>
     <div class="legend legend-acc">
@@ -428,7 +428,59 @@ function bRolling(d) {
     <div class="axis-note">
       取值轴 ${fmt(lo,1)}% &nbsp;→&nbsp; ${fmt(hi,1)}%
     </div>
+    ${rollingCommentary(r.y1, r.y3)}
   </div>`;
+}
+
+function rollingCommentary(y1, y3) {
+  const bullets = [];
+  const ref = y1 || y3;
+  if (!ref) return '';
+  const refLabel = y1 ? '近 1 年滚动' : '近 3 年滚动';
+
+  const iqr = ref.p75 - ref.p25;
+  const tag = iqr < 2 ? '极窄' : iqr < 5 ? '较窄' : iqr < 10 ? '中等' : '偏宽';
+  bullets.push(
+    `<li><b>${refLabel}中位收益 ${pct(ref.median,2,true)}</b>，IQR 区间 `
+    + `${pct(ref.p25,2,true)} ~ ${pct(ref.p75,2,true)}（宽度 ${fmt(iqr,2)}pp，${tag}），`
+    + `${tag === '极窄' || tag === '较窄' ? '体感平稳' : '体感波动较明显'}。</li>`
+  );
+
+  if (ref.min >= 0) {
+    bullets.push(
+      `<li><b>历史上任意时点持有 ${y1 ? 1 : 3} 年均未出现亏损</b>，`
+      + `最差窗口仍录得 ${pct(ref.min,2,true)}。</li>`
+    );
+  } else {
+    bullets.push(
+      `<li>最差窗口收益 <b class="neg">${pct(ref.min,2,true)}</b>，`
+      + `最佳 <b class="pos">${pct(ref.max,2,true)}</b>，极端区间跨度 `
+      + `${fmt(ref.max - ref.min,1)}pp。</li>`
+    );
+  }
+
+  if (y1 && y3) {
+    const diff = y1.median - y3.median;
+    if (Math.abs(diff) < 0.8) {
+      bullets.push(
+        `<li>1Y 与 3Y 中位差仅 ${fmt(Math.abs(diff),2)}pp，<b>近一年风格与长期一致</b>。</li>`
+      );
+    } else if (diff > 0) {
+      bullets.push(
+        `<li>1Y 中位较 3Y 高 <b class="pos">+${fmt(diff,2)}pp</b>，近期回报优于长期均值。</li>`
+      );
+    } else {
+      bullets.push(
+        `<li>1Y 中位较 3Y 低 <b class="neg">${fmt(diff,2)}pp</b>，近一年收益弱于长期均值，留意是否进入估值消化。</li>`
+      );
+    }
+  }
+
+  return `
+    <div class="commentary">
+      <div class="commentary-title">解读</div>
+      <ul class="commentary-list">${bullets.join('')}</ul>
+    </div>`;
 }
 
 function bScores(d) {
@@ -616,16 +668,28 @@ function bHolderStructure(d) {
   if (!Array.isArray(hs) || !hs.length) return '';
   // Newest first; cap at 6 rows.
   const top = hs.slice(0, 6);
-  const rows = top.map(h => `
+  const rows = top.map(h => {
+    const inst = Number(h.institutional_pct) || 0;
+    const retail = Number(h.retail_pct) || 0;
+    const internal = Number(h.internal_pct) || 0;
+    return `
     <div class="holder-row">
-      <div class="lbl">${esc(h.announce_date)}</div>
+      <div class="holder-meta">
+        <div class="lbl">${esc(h.announce_date)}</div>
+        <div class="holder-pcts" aria-label="持有人比例">
+          <span class="holder-pct holder-pct-inst">机构 ${fmt(inst)}%</span>
+          <span class="holder-pct holder-pct-retail">个人 ${fmt(retail)}%</span>
+          <span class="holder-pct holder-pct-internal">内部 ${fmt(internal)}%</span>
+        </div>
+      </div>
       <div class="stack" title="机构 ${fmt(h.institutional_pct)}% · 个人 ${fmt(h.retail_pct)}% · 内部 ${fmt(h.internal_pct)}%">
-        <div class="stack-inst"     style="width:${Math.max(0,h.institutional_pct)}%"></div>
-        <div class="stack-retail"   style="width:${Math.max(0,h.retail_pct)}%"></div>
-        <div class="stack-internal" style="width:${Math.max(0,h.internal_pct)}%"></div>
+        <div class="stack-inst"     style="width:${Math.max(0, inst)}%"></div>
+        <div class="stack-retail"   style="width:${Math.max(0, retail)}%"></div>
+        <div class="stack-internal" style="width:${Math.max(0, internal)}%"></div>
       </div>
       <div class="val">${fmt(h.total_shares_yi)} 亿份</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   return `
   <div class="card mb24 fade">
     ${sl('持有人结构', `近 ${top.length} 期`, d.meta?.as_of?.holder_structure)}
@@ -1004,42 +1068,90 @@ function downsample(points, target) {
   return out;
 }
 
+function finiteSeriesValue(point, key) {
+  const value = point?.[key];
+  return isFinite(value) ? value : null;
+}
+
 // Holds the raw daily accumulated_return series so we can re-window it
 // when the user clicks a range button without re-fetching JSON.
 let _accRaw = null;
+let _accRenderId = 0;
+let _accResizeObserver = null;
+let _accOverlayCleanup = null;
+let _accAnimFrame = 0;
+let _accCurrentDays = 0;
+
+function normalizeAccWindow(source, days) {
+  if (!source?.length) return [];
+  const activeDays = Math.max(0, Number.isFinite(days) ? days : 0);
+  let windowed = source;
+  if (activeDays > 0 && source.length > activeDays) {
+    windowed = source.slice(-activeDays);
+  }
+  if (windowed.length <= 1) return windowed;
+
+  const keys = ['fund_return', 'index_return', 'category_return', 'bench_return'];
+  const starts = Object.fromEntries(keys.map(key => [key, windowed[0][key]]));
+  const rebase = (value, start) => {
+    if (!isFinite(value) || !isFinite(start)) return null;
+    const base = 1 + start / 100;
+    if (!isFinite(base) || Math.abs(base) < 1e-9) return value - start;
+    return ((1 + value / 100) / base - 1) * 100;
+  };
+
+  return windowed.map((p, idx) => {
+    const out = { date: p.date };
+    keys.forEach(key => {
+      const value = p[key];
+      const isMissingZero = idx > 0 && value === 0 && starts[key] !== 0;
+      out[key] = isMissingZero ? null : rebase(value, starts[key]);
+    });
+    return out;
+  });
+}
 
 function renderAccChart(rawPoints, days) {
   if (Array.isArray(rawPoints)) _accRaw = rawPoints;
   const source = _accRaw || rawPoints;
   if (!source?.length) return;
 
-  const base = document.getElementById('accchart-base');
-  const overlay = document.getElementById('accchart-overlay');
+  let base = document.getElementById('accchart-base');
+  let overlay = document.getElementById('accchart-overlay');
   if (!base || !overlay) return;
 
-  // Slice the tail when a numeric window is supplied; otherwise use the
-  // whole series. Re-baseline so each window starts at 0% — otherwise
-  // short windows show absolute cumulative gains and lose detail.
-  let windowed = source;
-  if (days && days > 0 && source.length > days) {
-    windowed = source.slice(-days);
+  if (Number.isFinite(days)) _accCurrentDays = Math.max(0, days);
+  const activeDays = _accCurrentDays;
+  const renderId = ++_accRenderId;
+  if (_accResizeObserver) {
+    _accResizeObserver.disconnect();
+    _accResizeObserver = null;
   }
-  if (windowed.length > 1) {
-    const f0 = windowed[0].fund_return;
-    const i0 = windowed[0].index_return;
-    const c0 = windowed[0].category_return;
-    const b0 = windowed[0].bench_return;
-    windowed = windowed.map(p => ({
-      date: p.date,
-      fund_return:     p.fund_return - f0,
-      index_return:    p.index_return - i0,
-      category_return: p.category_return - c0,
-      bench_return:    p.bench_return - b0,
-    }));
+  if (_accOverlayCleanup) {
+    _accOverlayCleanup();
+    _accOverlayCleanup = null;
+  }
+  if (_accAnimFrame) {
+    cancelAnimationFrame(_accAnimFrame);
+    _accAnimFrame = 0;
   }
 
-  // Downsample to ~150 points; original 548 ≈ daily, that's overkill for a chart.
-  const points = downsample(windowed, 150);
+  const freshBase = base.cloneNode(false);
+  const freshOverlay = overlay.cloneNode(false);
+  base.replaceWith(freshBase);
+  overlay.replaceWith(freshOverlay);
+  base = freshBase;
+  overlay = freshOverlay;
+
+  const tip = document.getElementById('ctip');
+  if (tip) tip.style.opacity = '0';
+  const overlayCtx = overlay.getContext('2d');
+  overlayCtx.clearRect(0, 0, overlay.width, overlay.height);
+
+  base.dataset.rangeDays = String(activeDays);
+  overlay.dataset.rangeDays = String(activeDays);
+  const windowed = normalizeAccWindow(source, activeDays);
+
   const series = [
     { key:'fund_return',     color:'#1c3a2a', w:3.2, label:'本基金',    glow:true,  dash:[] },
     { key:'index_return',    color:'#c8941d', w:1.6, label:'基准指数', glow:false, dash:[] },
@@ -1049,55 +1161,81 @@ function renderAccChart(rawPoints, days) {
 
   // Cached geometry — computed once per resize.
   let geom = null;
+  let points = [];
   let prog = 0;
 
   function resize() {
-    const dpr = window.devicePixelRatio || 1;
+    if (renderId !== _accRenderId) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const W = base.clientWidth, H = base.clientHeight;
     if (!W || !H) return;
+    const compact = W < 420;
+    const mid = W < 640;
+    const target = compact ? Math.max(48, Math.floor(W / 4.8)) : Math.min(150, Math.max(80, Math.floor(W / 5)));
+    points = downsample(windowed, target);
+    if (points.length < 2) return;
     [base, overlay].forEach(c => {
       if (c.width !== W * dpr || c.height !== H * dpr) {
         c.width = W * dpr; c.height = H * dpr;
       }
     });
-    const pd = { t: 14, r: 14, b: 28, l: 44 };
-    const cW = W - pd.l - pd.r, cH = H - pd.t - pd.b;
+    const pd = compact
+      ? { t: 12, r: 8, b: 24, l: 40 }
+      : mid
+        ? { t: 12, r: 10, b: 26, l: 42 }
+        : { t: 14, r: 14, b: 28, l: 44 };
+    const cW = Math.max(10, W - pd.l - pd.r);
+    const cH = Math.max(10, H - pd.t - pd.b);
     let lo = Infinity, hi = -Infinity;
-    series.forEach(s => points.forEach(p => { const v = p[s.key]; if (v < lo) lo = v; if (v > hi) hi = v; }));
+    series.forEach(s => points.forEach(p => {
+      const v = finiteSeriesValue(p, s.key);
+      if (v == null) return;
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }));
+    if (!isFinite(lo) || !isFinite(hi)) { lo = -0.5; hi = 0.5; }
     const pad2 = (hi - lo) * 0.1 || 0.5; lo -= pad2; hi += pad2;
     const ts = points.map(p => +new Date(p.date));
     const t0 = ts[0], t1 = ts[ts.length-1], tr = t1 - t0 || 1;
     geom = {
-      dpr, W, H, pd, cW, cH, lo, hi, ts,
+      dpr, W, H, pd, cW, cH, lo, hi, ts, compact,
+      strokeScale: compact ? 0.78 : mid ? 0.9 : 1,
+      yTicks: compact ? 3 : 4,
+      yearGap: compact ? 86 : mid ? 70 : 54,
       xp: t => pd.l + (t - t0) / tr * cW,
       yp: v => pd.t + (1 - (v - lo) / (hi - lo)) * cH,
     };
   }
 
   function drawBase(p) {
+    if (renderId !== _accRenderId) return;
     if (!geom) return;
-    const { dpr, W, H, pd, cW, cH, lo, hi, ts, xp, yp } = geom;
+    const { dpr, W, H, pd, cW, cH, lo, hi, ts, xp, yp, compact, strokeScale, yTicks, yearGap } = geom;
     const ctx = base.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
 
     // Grid
     ctx.strokeStyle = 'rgba(20,18,15,0.08)'; ctx.lineWidth = 0.6;
-    for (let i = 0; i <= 4; i++) {
-      const v = lo + (hi - lo) * (i / 4), y = yp(v);
+    for (let i = 0; i <= yTicks; i++) {
+      const v = lo + (hi - lo) * (i / yTicks), y = yp(v);
       ctx.beginPath(); ctx.moveTo(pd.l, y); ctx.lineTo(W - pd.r, y); ctx.stroke();
       ctx.fillStyle = '#8a8780';
-      ctx.font = `9px 'IBM Plex Mono', monospace`; ctx.textAlign = 'right';
-      ctx.fillText(v.toFixed(1) + '%', pd.l - 5, y + 3);
+      ctx.font = `${compact ? 8 : 9}px 'IBM Plex Mono', monospace`; ctx.textAlign = 'right';
+      const label = Math.abs(v) >= 10 && compact ? v.toFixed(0) : v.toFixed(1);
+      ctx.fillText(label + '%', pd.l - 5, y + 3);
     }
     const seen = new Set();
+    let lastLabelX = -Infinity;
     points.forEach(pt => {
       const yr = pt.date.slice(0, 4);
-      if (!seen.has(yr)) {
+      const x = xp(+new Date(pt.date));
+      if (!seen.has(yr) && x - lastLabelX >= yearGap) {
         seen.add(yr);
+        lastLabelX = x;
         ctx.fillStyle = '#8a8780';
-        ctx.font = `9px 'IBM Plex Mono', monospace`; ctx.textAlign = 'center';
-        ctx.fillText(yr, xp(+new Date(pt.date)), H - 7);
+        ctx.font = `${compact ? 8 : 9}px 'IBM Plex Mono', monospace`; ctx.textAlign = 'center';
+        ctx.fillText(yr, x, H - 7);
       }
     });
 
@@ -1112,7 +1250,10 @@ function renderAccChart(rawPoints, days) {
       ctx.fillStyle = gr; ctx.beginPath();
       const by = yp(Math.max(lo, 0));
       ctx.moveTo(xp(ts[0]), by);
-      points.forEach((pt, i) => ctx.lineTo(xp(ts[i]), yp(pt.fund_return)));
+      points.forEach((pt, i) => {
+        const v = finiteSeriesValue(pt, 'fund_return');
+        if (v != null) ctx.lineTo(xp(ts[i]), yp(v));
+      });
       ctx.lineTo(xp(ts[ts.length-1]), by); ctx.closePath(); ctx.fill();
       ctx.restore();
     }
@@ -1129,13 +1270,17 @@ function renderAccChart(rawPoints, days) {
       }
       ctx.setLineDash(s.dash || []);
       ctx.strokeStyle = s.color;
-      ctx.lineWidth = s.w;
+      ctx.lineWidth = Math.max(0.85, s.w * strokeScale);
       ctx.lineJoin = 'round';
       ctx.lineCap = 'round';
       ctx.beginPath();
+      let started = false;
       for (let i = 0; i < dp && i < points.length; i++) {
-        const x = xp(ts[i]), y = yp(points[i][s.key]);
-        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        const v = finiteSeriesValue(points[i], s.key);
+        if (v == null) { started = false; continue; }
+        const x = xp(ts[i]), y = yp(v);
+        started ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        started = true;
       }
       ctx.stroke();
       ctx.restore();
@@ -1144,13 +1289,15 @@ function renderAccChart(rawPoints, days) {
     // Endpoint marker on fund line — accentuates the latest value.
     if (p >= 1) {
       const lastI = points.length - 1;
-      const lx = xp(ts[lastI]), ly = yp(points[lastI].fund_return);
+      const lastFund = finiteSeriesValue(points[lastI], 'fund_return');
+      if (lastFund == null) return;
+      const lx = xp(ts[lastI]), ly = yp(lastFund);
       ctx.save();
       ctx.fillStyle = '#1c3a2a';
       ctx.strokeStyle = '#fbfaf6';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = compact ? 1.5 : 2;
       ctx.beginPath();
-      ctx.arc(lx, ly, 4.5, 0, Math.PI * 2);
+      ctx.arc(lx, ly, compact ? 3.8 : 4.5, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
       ctx.restore();
@@ -1158,6 +1305,7 @@ function renderAccChart(rawPoints, days) {
   }
 
   function drawOverlay(mouseX) {
+    if (renderId !== _accRenderId) return;
     if (!geom) return;
     const { dpr, W, H, pd, ts, xp, yp } = geom;
     const ctx = overlay.getContext('2d');
@@ -1181,7 +1329,9 @@ function renderAccChart(rawPoints, days) {
     ctx.beginPath(); ctx.moveTo(hx, pd.t); ctx.lineTo(hx, H - pd.b); ctx.stroke();
     ctx.setLineDash([]);
     series.forEach(s => {
-      const cy2 = yp(points[ci][s.key]);
+      const value = finiteSeriesValue(points[ci], s.key);
+      if (value == null) return;
+      const cy2 = yp(value);
       ctx.beginPath(); ctx.arc(hx, cy2, 3.5, 0, Math.PI * 2);
       ctx.fillStyle = s.color; ctx.fill();
       ctx.strokeStyle = '#fbfaf6'; ctx.lineWidth = 1.5; ctx.stroke();
@@ -1194,10 +1344,16 @@ function renderAccChart(rawPoints, days) {
     if (tip && tipdt && tipbd) {
       tipdt.textContent = points[ci].date;
       tipbd.innerHTML = series.map(s =>
-        `<div class="tiprow"><span style="color:${s.color}">${esc(s.label)}</span><span style="color:#14130f">${points[ci][s.key].toFixed(2)}%</span></div>`
+        `<div class="tiprow"><span style="color:${s.color}">${esc(s.label)}</span><span style="color:#14130f">${finiteSeriesValue(points[ci], s.key) == null ? '--' : finiteSeriesValue(points[ci], s.key).toFixed(2) + '%'}</span></div>`
       ).join('');
-      let lx = hx + 14; if (lx + 175 > W) lx = hx - 183;
-      tip.style.left = lx + 'px'; tip.style.top = pd.t + 'px'; tip.style.opacity = '1';
+      const parentW = overlay.parentElement.clientWidth;
+      const tipW = Math.min(tip.offsetWidth || 175, parentW - 16);
+      const ox = overlay.offsetLeft;
+      const oy = overlay.offsetTop;
+      let lx = ox + hx + 12;
+      if (lx + tipW > parentW - 8) lx = ox + hx - tipW - 12;
+      lx = Math.max(8, Math.min(lx, parentW - tipW - 8));
+      tip.style.left = lx + 'px'; tip.style.top = (oy + pd.t) + 'px'; tip.style.opacity = '1';
     }
   }
 
@@ -1205,21 +1361,50 @@ function renderAccChart(rawPoints, days) {
   resize();
   const dur = 900, st = performance.now();
   (function tick(now) {
+    if (renderId !== _accRenderId) return;
     const t = Math.min((now - st) / dur, 1);
     prog = t * t * (3 - 2 * t);
     drawBase(prog);
-    if (t < 1) requestAnimationFrame(tick);
+    if (t < 1) {
+      _accAnimFrame = requestAnimationFrame(tick);
+    } else {
+      _accAnimFrame = 0;
+    }
   })(performance.now());
 
-  overlay.addEventListener('mousemove', e => {
-    const x = e.clientX - overlay.getBoundingClientRect().left;
-    if (prog >= 1) drawOverlay(x);
-  });
-  overlay.addEventListener('mouseleave', () => { if (prog >= 1) drawOverlay(-1); });
-  new ResizeObserver(() => {
+  const pointerX = e => e.clientX - overlay.getBoundingClientRect().left;
+  const onPointerMove = e => {
+    if (renderId !== _accRenderId) return;
+    if (prog >= 1) drawOverlay(pointerX(e));
+  };
+  const onPointerDown = e => {
+    if (renderId !== _accRenderId) return;
+    if (overlay.setPointerCapture && e.pointerId != null) {
+      overlay.setPointerCapture(e.pointerId);
+    }
+    if (prog >= 1) drawOverlay(pointerX(e));
+  };
+  const onPointerLeave = () => {
+    if (renderId !== _accRenderId) return;
+    if (prog >= 1) drawOverlay(-1);
+  };
+  overlay.addEventListener('pointermove', onPointerMove);
+  overlay.addEventListener('pointerdown', onPointerDown);
+  overlay.addEventListener('pointerleave', onPointerLeave);
+  overlay.addEventListener('pointercancel', onPointerLeave);
+  _accOverlayCleanup = () => {
+    overlay.removeEventListener('pointermove', onPointerMove);
+    overlay.removeEventListener('pointerdown', onPointerDown);
+    overlay.removeEventListener('pointerleave', onPointerLeave);
+    overlay.removeEventListener('pointercancel', onPointerLeave);
+  };
+
+  _accResizeObserver = new ResizeObserver(() => {
+    if (renderId !== _accRenderId) return;
     resize();
     if (prog >= 1) { drawBase(1); drawOverlay(-1); }
-  }).observe(base.parentElement);
+  });
+  _accResizeObserver.observe(base.parentElement);
 }
 
 function animBars() {
@@ -1288,16 +1473,62 @@ window.toggleResume = function () {
   }
 };
 
-/* Range toggle for the accumulated chart — delegated click so it survives
- * any future re-render of the chart card. */
-document.addEventListener('click', e => {
-  const btn = e.target.closest('.rngbtn');
-  if (!btn) return;
-  const wrap = btn.parentElement;
+function setAccRangeFromButton(btn) {
+  if (!btn || btn.disabled) return;
+  const wrap = btn.closest('.rng-wrap');
+  if (!wrap) return;
   wrap.querySelectorAll('.rngbtn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const days = parseInt(btn.dataset.days || '0', 10);
   renderAccChart(null, days);
+}
+
+function configureAccRanges(points) {
+  const count = Array.isArray(points) ? points.length : 0;
+  const buttons = [...document.querySelectorAll('.rngbtn')];
+  if (!buttons.length) return;
+
+  let best = null;
+  buttons.forEach(btn => {
+    const days = parseInt(btn.dataset.days || '0', 10);
+    const available = count >= Math.max(2, days);
+    btn.disabled = !available;
+    btn.classList.toggle('disabled', !available);
+    btn.title = available ? '' : '历史数据不足，暂不可用';
+    if (available && (!best || days > parseInt(best.dataset.days || '0', 10))) best = btn;
+  });
+
+  buttons.forEach(btn => btn.classList.remove('active'));
+  (best || buttons.find(btn => !btn.disabled) || buttons[0])?.classList.add('active');
+}
+
+function renderActiveAccChart(rawPoints) {
+  const active = document.querySelector('.rngbtn.active') || document.querySelector('.rngbtn[data-range="5y"]');
+  const days = parseInt(active?.dataset.days || '0', 10);
+  renderAccChart(rawPoints || null, days);
+}
+
+/* Range toggle for the accumulated chart. Use pointer/touch first because
+ * mobile scrollable button strips can delay or drop synthetic click events. */
+let _lastRangeTap = 0;
+document.addEventListener('pointerup', e => {
+  const btn = e.target.closest('.rngbtn');
+  if (!btn) return;
+  _lastRangeTap = Date.now();
+  e.preventDefault();
+  setAccRangeFromButton(btn);
+});
+document.addEventListener('touchend', e => {
+  const btn = e.target.closest('.rngbtn');
+  if (!btn || Date.now() - _lastRangeTap < 350) return;
+  _lastRangeTap = Date.now();
+  e.preventDefault();
+  setAccRangeFromButton(btn);
+}, { passive: false });
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.rngbtn');
+  if (!btn || Date.now() - _lastRangeTap < 350) return;
+  setAccRangeFromButton(btn);
 });
 
 /* Build a sticky right-rail TOC from every .slabel inside the main article.
@@ -1402,12 +1633,13 @@ async function init() {
     app.style.transition = 'opacity 0.4s';
     app.style.opacity = '1';
     document.getElementById('loading').classList.add('out');
+    configureAccRanges(data.accumulated_return);
     stagger();
     buildTOC();
     setTimeout(() => {
       animGauge(data.scores.overall);
       renderRadar(data.scores.items);
-      renderAccChart(data.accumulated_return);
+      renderActiveAccChart(data.accumulated_return);
       animBars();
       animCount();
     }, 100);
