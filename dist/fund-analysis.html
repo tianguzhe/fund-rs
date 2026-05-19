@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<div class="scroll-prog" aria-hidden="true"><div class="scroll-prog-fill" id="scrollProgFill"></div></div>
+
 <div id="loading" role="status" aria-live="polite">
   <div class="spin"></div>
   <div class="ltxt">LOADING FUND DATA...</div>
@@ -59,9 +61,25 @@ function chip(r,t) {
   return `<span class="chip ${cls}">${r}/${t}</span>`;
 }
 
+/* Chapter + section auto-numbering. _secCh advances when bChapterBreak()
+ * fires; _secNo advances on every sl() call. The label injected as a
+ * monospace § prefix replaces the old 2px lead-in dash on .slabel. */
+let _secCh = 0;
+let _secNo = 0;
+
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+function nextSecId() {
+  _secNo += 1;
+  return `${pad2(_secCh)}.${pad2(_secNo)}`;
+}
+
 /* section label with optional badge / as-of date */
 function sl(text, badge='', asof='') {
-  let html = `<div class="slabel">${esc(text)}`;
+  const num = _secCh > 0 ? nextSecId() : '';
+  let html = `<div class="slabel">`;
+  if (num) html += `<span class="slabel-num">§${num}</span>`;
+  html += `<span class="slabel-title">${esc(text)}</span>`;
   if (badge) html += `<span class="badge">${esc(badge)}</span>`;
   if (asof) html += `<span class="asof">截至 ${esc(asof)}</span>`;
   html += `</div>`;
@@ -236,6 +254,111 @@ function bInvestmentSummary(d) {
 }
 
 /* ─── builders ─── */
+
+/* Chapter break — full-row divider that introduces a new top-level
+ * chapter (I PROFILE / II PERFORMANCE / ...). Resets the in-chapter
+ * section counter so sl() emits §02.01, §02.02, ... after II fires. */
+const CHAPTERS = [
+  { roman: 'I',   tag: 'PROFILE',           name: '基金画像',
+    desc: '这只基金是谁、由谁管、费率怎么收。' },
+  { roman: 'II',  tag: 'PERFORMANCE',       name: '业绩表现',
+    desc: '过去赚了多少：阶段、年度、月度、累计走势与基准对照。' },
+  { roman: 'III', tag: 'RISK',              name: '风险评估',
+    desc: '波动、回撤、尾部、滚动样本与金额化的盈亏区间。' },
+  { roman: 'IV',  tag: 'STEWARDSHIP',       name: '管理与评分',
+    desc: '综合评分明细、基金经理画像与任职履历。' },
+  { roman: 'V',   tag: 'PORTFOLIO & FLOW',  name: '持仓与资金',
+    desc: '资产配置、重仓股债、规模变动、持有人结构与分红。' },
+];
+
+function bChapterBreak(chapterIndex, sectionCount) {
+  _secCh = chapterIndex;
+  _secNo = 0;
+  const c = CHAPTERS[chapterIndex - 1];
+  if (!c) return '';
+  return `
+  <section class="chapter-break" id="ch-${chapterIndex}" aria-label="Chapter ${esc(c.roman)} · ${esc(c.tag)}">
+    <div class="chapter-roman">${esc(c.roman)}</div>
+    <div class="chapter-body">
+      <h2 class="chapter-name"><span class="chapter-name-tag">§</span>${esc(c.tag)}</h2>
+      <div class="chapter-rule"></div>
+      <p class="chapter-desc">${esc(c.desc)}</p>
+      <div class="chapter-meta">${pad2(sectionCount)} sections · ${esc(c.name)}</div>
+    </div>
+  </section>`;
+}
+
+/* Verdict — 35-50 字的一句话编辑导语，压缩 bInvestmentSummary 的判断。
+ * 走规则化判断，不依赖 LLM：评分档位 / 风格定位 / 回撤口径 / 费率水平 /
+ * 持有期建议。文案是 2-3 句分号串接，不超过两行屏宽。 */
+function feeBucket(d) {
+  const det = d.detail || {};
+  const total = (parseFloat(det.MGREXP || '0')
+               + parseFloat(det.TRUSTEXP || '0')
+               + parseFloat(det.SALESEXP || '0'));
+  if (!isFinite(total) || total <= 0) return { total: null, tier: '--', cls: 'neu' };
+  if (total <= 0.6) return { total, tier: '低', cls: 'pos' };
+  if (total <= 1.0) return { total, tier: '中', cls: 'neu' };
+  return { total, tier: '偏高', cls: 'warn' };
+}
+
+function bVerdict(d) {
+  const score = nval(d.scores?.overall, 0) || 0;
+  const tier = scoreTier(score);
+  const det = d.detail || {};
+  const r = d.risk_metrics || {};
+  const aa = latestAsset(d);
+  const stockPct = aa ? nval(aa.stock_pct, null) : null;
+  const profile = stockExposureLabel(stockPct);
+  const fee = feeBucket(d);
+  const roll = d.rolling_returns || {};
+  const hc = d.holding_constraints;
+
+  // Clause 1: 定位 + 档位
+  const ftype = det.FTYPE || '基金';
+  const clause1 = `<b>${esc(ftype)}</b> · ${esc(profile)}，综合评分 <b class="${tier.cls}">${score}/100 · ${esc(tier.label)}</b>`;
+
+  // Clause 2: 风险 + 滚动样本
+  const mdd = r.max_drawdown != null ? '-' + fmt(r.max_drawdown) + '%' : '--';
+  const rollSig = (roll.y3 && roll.y3.min > 0)
+    ? `任意 3 年持有未亏损`
+    : (roll.y1 && roll.y1.min < 0)
+      ? `近 1 年滚动曾亏损`
+      : `滚动样本有限`;
+  const clause2 = `最大回撤 <b class="neg">${esc(mdd)}</b>、${esc(rollSig)}`;
+
+  // Clause 3: 费率
+  let clause3 = '';
+  if (fee.total != null) {
+    clause3 = `费率 <b class="${fee.cls}">${fmt(fee.total)}%</b>（同类${esc(fee.tier)}）`;
+  }
+
+  // Clause 4: 持有期建议
+  const horizonDays = hc?.min_holding_days || 0;
+  let horizon = '';
+  if (horizonDays >= 365) {
+    horizon = `合同含 ${Math.round(horizonDays / 365)} 年最短持有期`;
+  } else if (roll.y3 && roll.y3.min > 0) {
+    horizon = `适合 3 年以上稳健账户底仓`;
+  } else if (score >= 65) {
+    horizon = `适合中长期持有`;
+  } else {
+    horizon = `更适合作为候选而非重仓`;
+  }
+
+  const parts = [clause1, clause2, clause3, horizon].filter(Boolean);
+  const text = parts.join('；') + '。';
+
+  return `
+  <section class="verdict fade" aria-label="一句话定论">
+    <div class="verdict-label">
+      <span class="verdict-label-tag">THE TAKE · §0</span>
+      <span class="verdict-label-rule"></span>
+    </div>
+    <p class="verdict-text">${text}</p>
+    <div class="verdict-attr">规则化判断 / 23 字段输入</div>
+  </section>`;
+}
 
 function bHeader(d) {
   const s = d.scores.overall;
@@ -1999,31 +2122,57 @@ document.addEventListener('click', e => {
   setAccRangeFromButton(btn);
 });
 
-/* Build a sticky right-rail TOC from every .slabel inside the main article.
- * Each section gets an auto-assigned anchor id; scroll-spy highlights the
- * active item via IntersectionObserver. */
+/* Build a sticky right-rail TOC grouped by chapter. Each chapter-break
+ * starts a group; .slabel elements found until the next break form the
+ * sections inside that chapter. Scroll-spy highlights the currently
+ * visible section link. */
 function buildTOC() {
   const aside = document.getElementById('toc');
   if (!aside) return;
-  const labels = document.querySelectorAll('#app .slabel');
-  if (!labels.length) return;
-  const items = [...labels].map((el, i) => {
-    const card = el.closest('.card, .banner, .hero-stats') || el;
-    const id = card.id || `sec-${i}`;
-    if (!card.id) card.id = id;
-    // Slabel may contain badge / asof children — strip them for the TOC
-    // label so we only show the chinese section title.
-    const clone = el.cloneNode(true);
-    clone.querySelectorAll('.badge, .asof').forEach(n => n.remove());
-    const title = clone.textContent.trim();
-    return { id, title };
+  const app = document.getElementById('app');
+  if (!app) return;
+  const breaks = [...app.querySelectorAll('.chapter-break')];
+  if (!breaks.length) return;
+
+  let sectionCounter = 0;
+  const groups = breaks.map((br, idx) => {
+    const meta = CHAPTERS[idx] || { roman: '?', tag: '', name: '' };
+    const sections = [];
+    let node = br.nextElementSibling;
+    while (node && !node.classList.contains('chapter-break')) {
+      const label = node.querySelector(':scope > .slabel');
+      if (label) {
+        sectionCounter += 1;
+        if (!node.id) node.id = `sec-toc-${sectionCounter}`;
+        const numNode = label.querySelector('.slabel-num');
+        const titleNode = label.querySelector('.slabel-title');
+        const num = numNode ? numNode.textContent.trim().replace(/^§/, '') : '';
+        const title = titleNode ? titleNode.textContent.trim() : label.textContent.trim();
+        sections.push({ id: node.id, num, title });
+      }
+      node = node.nextElementSibling;
+    }
+    return { roman: meta.roman, tag: meta.tag, name: meta.name, breakId: br.id, sections };
   });
+
   aside.innerHTML = `
     <div class="toc-head">目录 · INDEX</div>
     <ol class="toc-list">
-      ${items.map(it => `<li><a href="#${it.id}" data-target="${it.id}">${esc(it.title)}</a></li>`).join('')}
+      ${groups.map(g => `
+        <li class="toc-chapter">
+          <a class="toc-chapter-head" href="#${g.breakId}" data-target="${g.breakId}">
+            <span class="toc-chapter-roman">${esc(g.roman)}</span>
+            <span>${esc(g.tag)}</span>
+          </a>
+          <ul class="toc-sections">
+            ${g.sections.map(s => `
+              <li><a href="#${s.id}" data-target="${s.id}" data-num="${esc(s.num)}">${esc(s.title)}</a></li>
+            `).join('')}
+          </ul>
+        </li>
+      `).join('')}
     </ol>`;
-  // Smooth scroll on click + active state.
+
   aside.addEventListener('click', e => {
     const a = e.target.closest('a[data-target]');
     if (!a) return;
@@ -2031,22 +2180,70 @@ function buildTOC() {
     const t = document.getElementById(a.dataset.target);
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
-  // Scroll-spy: mark the topmost visible section.
+
   const links = new Map();
-  aside.querySelectorAll('a[data-target]').forEach(a => links.set(a.dataset.target, a));
+  aside.querySelectorAll('.toc-sections a[data-target]').forEach(a => links.set(a.dataset.target, a));
+  if (!links.size) return;
   const spy = new IntersectionObserver(entries => {
     entries.forEach(e => {
       const a = links.get(e.target.id);
       if (!a) return;
       if (e.isIntersecting) {
-        aside.querySelectorAll('a').forEach(x => x.classList.remove('active'));
+        aside.querySelectorAll('.toc-sections a').forEach(x => x.classList.remove('active'));
         a.classList.add('active');
       }
     });
   }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-  items.forEach(it => {
-    const el = document.getElementById(it.id);
+  groups.forEach(g => g.sections.forEach(s => {
+    const el = document.getElementById(s.id);
     if (el) spy.observe(el);
+  }));
+}
+
+/* Top scroll progress: fixed 2px hairline at viewport top that fills
+ * from 0 → 1 as the user scrolls. rAF-throttled so we don't write style
+ * more than once per frame. */
+function initScrollProgress() {
+  const fill = document.getElementById('scrollProgFill');
+  if (!fill) return;
+  let ticking = false;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    fill.style.transform = `scaleX(${p.toFixed(4)})`;
+    ticking = false;
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+}
+
+/* Chapter break reveal — uses its own IntersectionObserver because
+ * chapter-break sits outside .fade and has a bigger, slower animation. */
+function revealChapterBreaks() {
+  const breaks = document.querySelectorAll('.chapter-break');
+  if (!breaks.length) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '-10% 0px -10% 0px', threshold: 0.05 });
+  breaks.forEach(br => {
+    const rect = br.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 200) {
+      setTimeout(() => br.classList.add('in'), 200);
+    } else {
+      io.observe(br);
+    }
   });
 }
 
@@ -2077,33 +2274,55 @@ async function init() {
     const data = await loadJsonWithFallback(requestedDataUrl);
 
     const app = document.getElementById('app');
+    // Builder order is significant: bChapterBreak() advances _secCh and
+    // resets _secNo as a side effect, and the next builders' sl() calls
+    // pick up those counters in document order. Reordering across
+    // chapters will break the §NN.NN numbering.
     app.innerHTML = [
+      // Front matter — no chapter prefix
       bHeader(data),
       bHoldingBanner(data),
+      bVerdict(data),
       bHeroStats(data),
       bInvestmentSummary(data),
+
+      // I. PROFILE
+      bChapterBreak(1, 2),
       bInfo(data),
       bFee(data),
+
+      // II. PERFORMANCE
+      bChapterBreak(2, 5),
       bPeriods(data),
       bYearly(data),
       bMonthlySeries(data),
       bAccChart(),
       bBenchAccCompare(data),
+
+      // III. RISK
+      bChapterBreak(3, 6),
       bRisk(data),
       bMaxDrawdownEvent(data),
       bBenchmark(data),
       bDistribution(data),
       bRolling(data),
       bRollingMoney(data),
+
+      // IV. STEWARDSHIP
+      bChapterBreak(4, 3),
       bScores(data),
       bManager(data),
       bManagerHistory(data),
+
+      // V. PORTFOLIO & FLOW
+      bChapterBreak(5, 6),
       bAssetAllocation(data),
       bTopStocks(data),
       bTopBonds(data),
       bScaleChanges(data),
       bHolderStructure(data),
       bDividends(data),
+
       bFooter(data),
     ].join('');
 
@@ -2112,7 +2331,9 @@ async function init() {
     document.getElementById('loading').classList.add('out');
     configureAccRanges(data.accumulated_return);
     stagger();
+    revealChapterBreaks();
     buildTOC();
+    initScrollProgress();
     setTimeout(() => {
       animGauge(data.scores.overall);
       renderRadar(data.scores.items);

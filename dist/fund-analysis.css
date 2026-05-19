@@ -93,6 +93,25 @@ body {
   margin-top: 16px;
 }
 
+/* ── scroll progress (fixed hairline at the very top of the viewport) ── */
+.scroll-prog {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(20,18,15,0.06);
+  z-index: 999;
+  pointer-events: none;
+}
+.scroll-prog-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.08s linear;
+}
+
 /* ── page frame ── */
 .layout {
   display: grid;
@@ -158,49 +177,80 @@ body {
 }
 .toc-list {
   list-style: none;
-  counter-reset: toc;
   margin: 0;
   padding: 0;
 }
-.toc-list li {
-  counter-increment: toc;
-  margin: 0;
+.toc-chapter {
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
 }
-.toc-list a {
+.toc-chapter:first-child { border-top: 0; margin-top: 0; padding-top: 0; }
+.toc-chapter-head {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  padding: 7px 12px;
-  font-family: var(--body);
-  font-size: 13px;
-  color: var(--ink3);
+  padding: 2px 0 8px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--ink);
+  letter-spacing: 0.04em;
   text-decoration: none;
-  line-height: 1.45;
-  border-left: 2px solid transparent;
-  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, padding-left 0.25s ease;
+  cursor: pointer;
+  line-height: 1.25;
+  transition: color 0.2s;
 }
-.toc-list a::before {
-  content: counter(toc, decimal-leading-zero);
+.toc-chapter-head:hover { color: var(--acc); }
+.toc-chapter-roman {
   font-family: var(--mono);
   font-size: 9.5px;
-  letter-spacing: 0.12em;
-  color: var(--ink4);
+  letter-spacing: 0.20em;
+  color: var(--acc2);
   width: 22px;
   flex-shrink: 0;
-  transition: color 0.25s ease;
 }
-.toc-list a:hover {
+.toc-sections {
+  list-style: none;
+  margin: 0 0 0 32px;
+  padding: 0;
+}
+.toc-sections li { margin: 0; }
+.toc-sections a {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 10px 5px 10px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  color: var(--ink3);
+  text-decoration: none;
+  line-height: 1.42;
+  border-left: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, padding-left 0.2s ease;
+}
+.toc-sections a::before {
+  content: attr(data-num);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  color: var(--ink4);
+  width: 28px;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+.toc-sections a:hover {
   color: var(--ink);
   background: var(--tint);
-  padding-left: 14px;
+  padding-left: 12px;
 }
-.toc-list a.active {
+.toc-sections a.active {
   color: var(--ink);
   font-weight: 600;
   border-left-color: var(--acc);
   background: var(--tint);
 }
-.toc-list a.active::before { color: var(--acc); }
+.toc-sections a.active::before { color: var(--acc); }
 
 /* ── chart range toggle (1M / 3M / 6M / 1Y / 3Y / 5Y) ── */
 .rng-wrap {
@@ -371,6 +421,144 @@ body {
   animation: underlineSweep 0.8s cubic-bezier(0.22,1,0.36,1) 0.6s forwards;
 }
 
+/* ── verdict: editorial lead under the masthead, big italic display
+   serif quote that compresses the long bInvestmentSummary into one
+   2-3 clause sentence. Sits between holding banner and hero stats. */
+.verdict {
+  margin: 28px 0 36px;
+  padding: 22px 28px 24px;
+  border-left: 2px solid var(--acc);
+  background: linear-gradient(90deg, rgba(28,58,42,0.04), transparent 60%);
+  position: relative;
+}
+.verdict-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--acc);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.verdict-label-tag { font-weight: 600; }
+.verdict-label-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+  align-self: center;
+}
+.verdict-text {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.42;
+  color: var(--ink);
+  margin: 0;
+}
+.verdict-text b {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+}
+.verdict-text b.pos { color: var(--pos); }
+.verdict-text b.neg { color: var(--neg); }
+.verdict-text b.warn { color: var(--warn); }
+.verdict-attr {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-align: right;
+}
+
+/* ── chapter break: full-row section divider with oversized roman
+   numeral on the left and chapter title + summary on the right. Each
+   builds a new top-level chapter for the report. */
+.chapter-break {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) 2fr;
+  gap: 48px;
+  padding: 88px 0 64px;
+  margin: 32px 0 32px;
+  border-top: 1px solid var(--ink);
+  position: relative;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+              transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.chapter-break.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chapter-break::before {
+  content: 'CHAPTER';
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.42em;
+  color: var(--ink4);
+}
+.chapter-roman {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(80px, 14vw, 160px);
+  line-height: 0.86;
+  color: var(--ink4);
+  letter-spacing: -0.02em;
+  margin: 0;
+  user-select: none;
+}
+.chapter-body {
+  padding-top: 16px;
+  min-width: 0;
+}
+.chapter-name {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 10px;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+.chapter-name-tag {
+  color: var(--acc);
+  font-style: italic;
+  margin-right: 6px;
+}
+.chapter-rule {
+  width: 56px;
+  height: 2px;
+  background: var(--acc);
+  margin: 0 0 18px;
+}
+.chapter-desc {
+  font-family: var(--body);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink2);
+  line-height: 1.6;
+  margin: 0 0 16px;
+  max-width: 56ch;
+}
+.chapter-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink3);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
 /* ── highlight markers ── */
 .marker {
   background: linear-gradient(180deg, transparent 55%, rgba(239,232,210,0.85) 55%, rgba(239,232,210,0.85) 92%, transparent 92%);
@@ -520,17 +708,24 @@ body {
   line-height: 1.15;
   position: relative;
 }
-.slabel::before {
-  content: '';
-  width: 28px; height: 2px;
-  background: var(--acc);
+/* slabel: § chapter.section prefix replaces the old 2px lead-in dash.
+   The .slabel-num span sits before the title text inside .slabel. */
+.slabel-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: var(--acc);
   flex-shrink: 0;
-  transform: translateY(-8px) scaleX(0);
-  transform-origin: left;
-  animation: drawIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
-  animation-delay: 0.15s;
+  align-self: baseline;
+  white-space: nowrap;
+  padding-top: 0.45em;
+  text-transform: uppercase;
 }
-.fade.in .slabel::before { transform: translateY(-8px) scaleX(1); }
+.slabel-title {
+  flex-shrink: 0;
+  max-width: calc(100% - 12px);
+}
 .slabel::after {
   content: '';
   flex: 1; height: 1px;
@@ -1692,6 +1887,20 @@ footer {
     flex-direction: column;
     gap: 7px;
   }
+  .chapter-break {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 72px 0 56px;
+  }
+  .chapter-roman {
+    font-size: clamp(72px, 22vw, 130px);
+    line-height: 0.82;
+  }
+  .chapter-body { padding-top: 4px; }
+  .verdict {
+    padding: 20px 22px 22px;
+    margin: 22px 0 32px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1865,7 +2074,8 @@ footer {
     letter-spacing: 0.18em;
   }
   .hname {
-    font-size: clamp(30px, 11vw, 38px);
+    /* keep the 10-char fund name inside ~348px content width */
+    font-size: clamp(26px, 9.2vw, 32px);
   }
   .hero-stat .k {
     font-size: 9px;
@@ -1983,5 +2193,9 @@ footer {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+  .chapter-break {
+    opacity: 1;
+    transform: none;
   }
 }
