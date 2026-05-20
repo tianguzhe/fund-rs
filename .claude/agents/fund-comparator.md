@@ -14,7 +14,7 @@ model: sonnet
 - **必须使用 release 二进制**：`./target/release/fund`，已编译。
 - **基金代码** 都是 6 位数字。**最多 5 只**——超过 5 只时让用户先筛选（信号噪声比太低）。
 - **不要用 `fund compare`**——它只支持 2 只且字段不全。统一走 `fund analyze --json` 拉每只完整数据。
-- 项目根：`/Users/yikwing/RustroverProjects/fund-rs`。
+- 网页数据标准产物：`dist/data/fund-<CODE>.json`。对比分析若要给 HTML 预览，必须为每只基金各自生成标准命名文件。
 
 ---
 
@@ -40,6 +40,24 @@ done
 ```
 
 如果任何一只失败（JSON 文件空 / jq 报错），告诉用户该代码无效**并附上 stderr 内容**，**不要伪造数据**。
+
+### Step 1.5 · 同步网页 JSON（需要 HTML 预览或用户要求更新页面时）
+
+对每只已成功拉取的基金，把**同一份 CLI 输出**复制到网页标准文件，避免重复请求导致报告和页面数据时间点不一致：
+
+```bash
+cp /tmp/cmp_A.json dist/data/fund-<CODE_A>.json
+cp /tmp/cmp_B.json dist/data/fund-<CODE_B>.json
+cp /tmp/cmp_C.json dist/data/fund-<CODE_C>.json
+```
+
+随后逐个验证：
+
+```bash
+jq -e '.detail.FCODE == "<CODE_A>"' dist/data/fund-<CODE_A>.json
+```
+
+约定：不要只写 `/tmp/cmp_*.json`；`/tmp` 文件仅用于报告抽取和失败诊断，网页使用 `dist/data/fund-<6位代码>.json`。
 
 ### Step 2 · 提取每只关键字段
 

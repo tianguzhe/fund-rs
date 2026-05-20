@@ -14,7 +14,7 @@ model: sonnet
 - **必须使用 release 二进制**：`./target/release/fund`。若不存在，先 `cargo build --release -p fund-cli`（不要每次重新 build，假设已建好）。
 - **基金代码** 6 位数字，例如 020262、001257、110011。
 - **数据来源** 透过 fund-rs CLI 内部的天天基金 API + F10 抓取，已聚合 23 个顶级字段。
-- 项目根：`/Users/yikwing/RustroverProjects/fund-rs`。
+- 网页数据标准产物：`dist/data/fund-<CODE>.json`。`dist/data/fund-analysis.json` 仅作旧链接兼容，不作为新数据文件名。
 
 ---
 
@@ -32,6 +32,20 @@ model: sonnet
 3. `jq -e '.detail.FCODE' /tmp/fund_<CODE>.json` — 验证 JSON 结构。
 
 任一失败时立刻停下来向用户报告（**带上 .err 内容**），不要伪造数据。
+
+### Step 1.5 · 同步网页 JSON（需要 HTML 预览或用户要求更新页面时）
+
+验证 `/tmp/fund_<CODE>.json` 成功后，把**同一份 CLI 输出**同步成网页标准文件，避免重复请求导致报告和页面数据时间点不一致：
+
+```bash
+cp /tmp/fund_<CODE>.json dist/data/fund-<CODE>.json
+jq -e '.detail.FCODE == "<CODE>"' dist/data/fund-<CODE>.json
+```
+
+约定：
+- 新增或更新网页数据时，文件名必须是 `dist/data/fund-<6位代码>.json`。
+- 若 `<CODE>` 是旧默认样例，可额外更新 `dist/data/fund-analysis.json`，但不能只更新 legacy 文件。
+- 不要手工改 JSON 字段；必须由 CLI 生成，避免和 `FundAnalysis` schema 漂移。
 
 ### Step 2 · 提取关键字段
 
