@@ -31,6 +31,12 @@ pub struct RiskMetrics {
     pub max_drawdown_start_date: Option<String>,
     /// Date (YYYY-MM-DD) of the max-drawdown trough.
     pub max_drawdown_end_date: Option<String>,
+    /// Number of drawdown episodes whose depth reached at least 1%.
+    pub drawdown_count_ge_1pct: usize,
+    /// Average depth (%) across drawdown episodes whose depth reached at least 1%.
+    pub avg_drawdown_ge_1pct: Option<f64>,
+    /// Average duration in calendar days for recovered drawdown episodes ≥ 1%.
+    pub avg_drawdown_duration_days: Option<f64>,
 }
 
 pub fn compute_risk_metrics(
@@ -55,6 +61,9 @@ pub fn compute_risk_metrics(
             max_drawdown_recovery_days: None,
             max_drawdown_start_date: None,
             max_drawdown_end_date: None,
+            drawdown_count_ge_1pct: 0,
+            avg_drawdown_ge_1pct: None,
+            avg_drawdown_duration_days: None,
         };
     }
 
@@ -126,6 +135,7 @@ pub fn compute_risk_metrics(
     // 政策转向 etc.) without re-deriving from the NAV series.
     let max_dd_start_date = sorted.get(max_dd_peak_idx).map(|p| p.date.clone());
     let max_dd_end_date = sorted.get(max_dd_trough_idx).map(|p| p.date.clone());
+    let drawdown_stats = compute_drawdown_stats(&sorted, 0.01);
 
     let positive = daily_returns.iter().filter(|r| **r > 0.0).count();
     let negative = daily_returns.iter().filter(|r| **r < 0.0).count();
@@ -159,6 +169,63 @@ pub fn compute_risk_metrics(
         max_drawdown_recovery_days: max_dd_recovery_days,
         max_drawdown_start_date: max_dd_start_date,
         max_drawdown_end_date: max_dd_end_date,
+        drawdown_count_ge_1pct: drawdown_stats.count,
+        avg_drawdown_ge_1pct: drawdown_stats.avg_depth_pct,
+        avg_drawdown_duration_days: drawdown_stats.avg_duration_days,
+    }
+}
+
+struct DrawdownStats {
+    count: usize,
+    avg_depth_pct: Option<f64>,
+    avg_duration_days: Option<f64>,
+}
+
+fn compute_drawdown_stats(sorted: &[&NavTrendPoint], threshold: f64) -> DrawdownStats {
+    if sorted.len() < 2 {
+        return DrawdownStats { count: 0, avg_depth_pct: None, avg_duration_days: None };
+    }
+    let mut peak_nav = sorted[0].nav;
+    let mut peak_date = sorted[0].date.as_str();
+    let mut in_drawdown = false;
+    let mut trough = 0.0f64;
+    let mut depths = Vec::new();
+    let mut durations = Vec::new();
+
+    for p in sorted.iter().skip(1) {
+        if p.nav >= peak_nav {
+            if in_drawdown && trough >= threshold {
+                depths.push(trough * 100.0);
+                if let Some(days) = calendar_day_diff(peak_date, &p.date) {
+                    durations.push(days as f64);
+                }
+            }
+            peak_nav = p.nav;
+            peak_date = &p.date;
+            in_drawdown = false;
+            trough = 0.0;
+        } else if peak_nav > 0.0 {
+            in_drawdown = true;
+            trough = trough.max((peak_nav - p.nav) / peak_nav);
+        }
+    }
+
+    if in_drawdown && trough >= threshold {
+        depths.push(trough * 100.0);
+    }
+
+    DrawdownStats {
+        count: depths.len(),
+        avg_depth_pct: if depths.is_empty() {
+            None
+        } else {
+            Some(depths.iter().sum::<f64>() / depths.len() as f64)
+        },
+        avg_duration_days: if durations.is_empty() {
+            None
+        } else {
+            Some(durations.iter().sum::<f64>() / durations.len() as f64)
+        },
     }
 }
 
@@ -220,6 +287,16 @@ pub struct BenchmarkMetrics {
     pub information_ratio: Option<f64>,
     /// Number of overlapping daily return points used.
     pub data_points: usize,
+    /// Upside capture vs benchmark: fund return / benchmark return on positive benchmark days.
+    pub upside_capture: Option<f64>,
+    /// Downside capture vs benchmark: fund loss / benchmark loss on negative benchmark days.
+    pub downside_capture: Option<f64>,
+    /// Alpha vs category average, annualized (%/year).
+    pub category_alpha: Option<f64>,
+    /// Tracking error vs category average, annualized (%).
+    pub category_tracking_error: Option<f64>,
+    /// Information ratio vs category average.
+    pub category_information_ratio: Option<f64>,
 }
 
 impl BenchmarkMetrics {
@@ -230,6 +307,11 @@ impl BenchmarkMetrics {
             tracking_error: None,
             information_ratio: None,
             data_points: 0,
+            upside_capture: None,
+            downside_capture: None,
+            category_alpha: None,
+            category_tracking_error: None,
+            category_information_ratio: None,
         }
     }
 }
@@ -266,6 +348,7 @@ pub fn compute_benchmark_metrics(acc_return: &[AccumulatedReturn]) -> BenchmarkM
     };
     let r_fund = to_daily(|p| p.fund_return);
     let r_bench = to_daily(|p| p.bench_return);
+    let r_category = to_daily(|p| p.category_return);
 
     // Reject if benchmark is essentially flat — common when bench data is missing.
     let bench_var: f64 = {
@@ -293,6 +376,9 @@ pub fn compute_benchmark_metrics(acc_return: &[AccumulatedReturn]) -> BenchmarkM
     let te_daily = (active.iter().map(|x| (x - mean_a).powi(2)).sum::<f64>() / n).sqrt();
     let tracking_error = te_daily * 250.0_f64.sqrt() * 100.0;
     let ir = if te_daily > 0.0 { mean_a / te_daily * 250.0_f64.sqrt() } else { 0.0 };
+    let (upside_capture, downside_capture) = capture_ratios(&r_fund, &r_bench);
+    let (category_alpha, category_tracking_error, category_information_ratio) =
+        relative_active_metrics(&r_fund, &r_category);
 
     BenchmarkMetrics {
         beta: Some(beta),
@@ -300,7 +386,52 @@ pub fn compute_benchmark_metrics(acc_return: &[AccumulatedReturn]) -> BenchmarkM
         tracking_error: Some(tracking_error),
         information_ratio: Some(ir),
         data_points: r_fund.len(),
+        upside_capture,
+        downside_capture,
+        category_alpha,
+        category_tracking_error,
+        category_information_ratio,
     }
+}
+
+fn capture_ratios(fund: &[f64], benchmark: &[f64]) -> (Option<f64>, Option<f64>) {
+    let mut up_f = 0.0;
+    let mut up_b = 0.0;
+    let mut down_f = 0.0;
+    let mut down_b = 0.0;
+    for (f, b) in fund.iter().zip(benchmark.iter()) {
+        if *b > 0.0 {
+            up_f += f;
+            up_b += b;
+        } else if *b < 0.0 {
+            down_f += f;
+            down_b += b;
+        }
+    }
+    let upside = if up_b.abs() > 1e-12 { Some(up_f / up_b * 100.0) } else { None };
+    let downside = if down_b.abs() > 1e-12 { Some(down_f / down_b * 100.0) } else { None };
+    (upside, downside)
+}
+
+fn relative_active_metrics(fund: &[f64], peer: &[f64]) -> (Option<f64>, Option<f64>, Option<f64>) {
+    if fund.len() < 30 || peer.len() < 30 {
+        return (None, None, None);
+    }
+    let peer_var = {
+        let mean = peer.iter().sum::<f64>() / peer.len() as f64;
+        peer.iter().map(|r| (r - mean).powi(2)).sum::<f64>() / peer.len() as f64
+    };
+    if peer_var < 1e-12 {
+        return (None, None, None);
+    }
+    let active: Vec<f64> = fund.iter().zip(peer.iter()).map(|(f, p)| f - p).collect();
+    let n = active.len() as f64;
+    let mean = active.iter().sum::<f64>() / n;
+    let te_daily = (active.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / n).sqrt();
+    let alpha = mean * 250.0 * 100.0;
+    let te = te_daily * 250.0_f64.sqrt() * 100.0;
+    let ir = if te_daily > 0.0 { mean / te_daily * 250.0_f64.sqrt() } else { 0.0 };
+    (Some(alpha), Some(te), Some(ir))
 }
 
 /// 选择超额收益对比基准指数代码。
@@ -571,6 +702,8 @@ pub struct RollingReturnStats {
     pub median: f64,
     pub p25: f64,
     pub p75: f64,
+    pub win_rate: f64,
+    pub loss_probability: f64,
 }
 
 #[derive(Debug, Serialize)]
@@ -579,6 +712,8 @@ pub struct RollingReturns {
     pub y1: Option<RollingReturnStats>,
     /// 3-year (~750 trading days) rolling window stats.
     pub y3: Option<RollingReturnStats>,
+    /// 5-year (~1250 trading days) rolling window stats.
+    pub y5: Option<RollingReturnStats>,
 }
 
 /// Compute rolling return distributions over the given NAV history.
@@ -590,7 +725,11 @@ pub fn compute_rolling_returns(history: &[NetValuePoint]) -> RollingReturns {
     let mut sorted: Vec<&NetValuePoint> = history.iter().collect();
     sorted.sort_by(|a, b| a.date.cmp(&b.date));
     let navs: Vec<f64> = sorted.iter().map(|p| p.acc_value).collect();
-    RollingReturns { y1: rolling_window_stats(&navs, 250), y3: rolling_window_stats(&navs, 750) }
+    RollingReturns {
+        y1: rolling_window_stats(&navs, 250),
+        y3: rolling_window_stats(&navs, 750),
+        y5: rolling_window_stats(&navs, 1250),
+    }
 }
 
 fn rolling_window_stats(navs: &[f64], window: usize) -> Option<RollingReturnStats> {
@@ -616,6 +755,8 @@ fn rolling_window_stats(navs: &[f64], window: usize) -> Option<RollingReturnStat
     sorted.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
     let n = sorted.len();
     let mean = returns.iter().sum::<f64>() / n as f64;
+    let wins = returns.iter().filter(|r| **r > 0.0).count();
+    let losses = returns.iter().filter(|r| **r < 0.0).count();
     Some(RollingReturnStats {
         window_days: window,
         count: n,
@@ -625,6 +766,8 @@ fn rolling_window_stats(navs: &[f64], window: usize) -> Option<RollingReturnStat
         median: percentile(&sorted, 0.5),
         p25: percentile(&sorted, 0.25),
         p75: percentile(&sorted, 0.75),
+        win_rate: wins as f64 / n as f64 * 100.0,
+        loss_probability: losses as f64 / n as f64 * 100.0,
     })
 }
 

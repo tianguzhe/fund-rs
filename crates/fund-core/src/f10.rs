@@ -602,6 +602,18 @@ pub fn detect_holding_constraints(short_name: &str, full_name: &str) -> HoldingC
     }
 }
 
+pub fn detect_holding_constraints_with_status(
+    short_name: &str,
+    full_name: &str,
+    purchase_status: &str,
+    redemption_status: &str,
+) -> HoldingConstraints {
+    let mut out = detect_holding_constraints(short_name, full_name);
+    out.purchase_status = purchase_status.trim().to_string();
+    out.redemption_status = redemption_status.trim().to_string();
+    out
+}
+
 /// Locate the first `<table>` whose class attribute contains `class_kw`.
 /// Returns the inner HTML between `<table ...>` and the matching `</table>`.
 fn extract_table_by_class<'a>(html: &'a str, class_kw: &str) -> Option<&'a str> {

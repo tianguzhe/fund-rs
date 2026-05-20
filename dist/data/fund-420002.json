@@ -13,81 +13,84 @@
     "MGREXP": "0.70%",
     "TRUSTEXP": "0.20%",
     "SALESEXP": "0.40%",
+    "BUY": "",
+    "SGZT": "",
+    "SHZT": "",
     "BENCH": "中债新综合指数",
     "INDEXCODE": "--"
   },
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": -0.69,
-      "avg": -0.33,
-      "hs300_return": -2.39,
-      "rank": 1114,
-      "total": 1603
+      "return_rate": -0.43,
+      "avg": -0.21,
+      "hs300_return": -1.92,
+      "rank": 1212,
+      "total": 1618
     },
     {
       "title": "Last Month",
-      "return_rate": -0.03,
-      "avg": 0.9,
-      "hs300_return": 2.22,
-      "rank": 1080,
-      "total": 1602
+      "return_rate": 0.1,
+      "avg": 0.73,
+      "hs300_return": 2.63,
+      "rank": 1097,
+      "total": 1615
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 0.04,
-      "avg": 0.55,
-      "hs300_return": 3.71,
-      "rank": 987,
-      "total": 1561
+      "return_rate": 0.18,
+      "avg": 0.81,
+      "hs300_return": 4.13,
+      "rank": 1030,
+      "total": 1572
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 1.87,
-      "avg": 2.6,
-      "hs300_return": 5.81,
-      "rank": 749,
-      "total": 1447
+      "return_rate": 2.0,
+      "avg": 3.13,
+      "hs300_return": 5.77,
+      "rank": 755,
+      "total": 1456
     },
     {
       "title": "Last Year",
-      "return_rate": 4.3,
-      "avg": 8.03,
-      "hs300_return": 24.28,
-      "rank": 851,
-      "total": 1284
+      "return_rate": 4.41,
+      "avg": 8.25,
+      "hs300_return": 25.17,
+      "rank": 858,
+      "total": 1293
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 7.17,
-      "avg": 12.53,
-      "hs300_return": 31.42,
-      "rank": 781,
-      "total": 1088
+      "return_rate": 7.32,
+      "avg": 12.68,
+      "hs300_return": 31.94,
+      "rank": 788,
+      "total": 1096
     },
     {
       "title": "Last 3 Years",
-      "return_rate": 9.85,
-      "avg": 13.86,
-      "hs300_return": 22.18,
-      "rank": 610,
-      "total": 900
+      "return_rate": 10.0,
+      "avg": 14.05,
+      "hs300_return": 23.03,
+      "rank": 617,
+      "total": 908
     },
     {
       "title": "Last 5 Years",
-      "return_rate": 21.71,
-      "avg": 17.72,
-      "hs300_return": -6.83,
-      "rank": 200,
-      "total": 591
+      "return_rate": 21.93,
+      "avg": 17.61,
+      "hs300_return": -6.17,
+      "rank": 206,
+      "total": 602
     },
     {
       "title": "Year to Date",
-      "return_rate": 1.59,
-      "avg": 2.51,
-      "hs300_return": 4.4,
-      "rank": 808,
-      "total": 1514
+      "return_rate": 1.72,
+      "avg": 2.77,
+      "hs300_return": 4.82,
+      "rank": 819,
+      "total": 1525
     }
   ],
   "yearly_returns": [
@@ -159,75 +162,75 @@
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": -0.69,
-      "avg": -0.33,
-      "hs300_return": -2.39,
-      "rank": 1114,
-      "total": 1603
+      "return_rate": -0.43,
+      "avg": -0.21,
+      "hs300_return": -1.92,
+      "rank": 1212,
+      "total": 1618
     },
     {
       "title": "Y",
-      "return_rate": -0.03,
-      "avg": 0.9,
-      "hs300_return": 2.22,
-      "rank": 1080,
-      "total": 1602
+      "return_rate": 0.1,
+      "avg": 0.73,
+      "hs300_return": 2.63,
+      "rank": 1097,
+      "total": 1615
     },
     {
       "title": "3Y",
-      "return_rate": 0.04,
-      "avg": 0.55,
-      "hs300_return": 3.71,
-      "rank": 987,
-      "total": 1561
+      "return_rate": 0.18,
+      "avg": 0.81,
+      "hs300_return": 4.13,
+      "rank": 1030,
+      "total": 1572
     },
     {
       "title": "6Y",
-      "return_rate": 1.87,
-      "avg": 2.6,
-      "hs300_return": 5.81,
-      "rank": 749,
-      "total": 1447
+      "return_rate": 2.0,
+      "avg": 3.13,
+      "hs300_return": 5.77,
+      "rank": 755,
+      "total": 1456
     },
     {
       "title": "1N",
-      "return_rate": 4.3,
-      "avg": 8.03,
-      "hs300_return": 24.28,
-      "rank": 851,
-      "total": 1284
+      "return_rate": 4.41,
+      "avg": 8.25,
+      "hs300_return": 25.17,
+      "rank": 858,
+      "total": 1293
     },
     {
       "title": "2N",
-      "return_rate": 7.17,
-      "avg": 12.53,
-      "hs300_return": 31.42,
-      "rank": 781,
-      "total": 1088
+      "return_rate": 7.32,
+      "avg": 12.68,
+      "hs300_return": 31.94,
+      "rank": 788,
+      "total": 1096
     },
     {
       "title": "3N",
-      "return_rate": 9.85,
-      "avg": 13.86,
-      "hs300_return": 22.18,
-      "rank": 610,
-      "total": 900
+      "return_rate": 10.0,
+      "avg": 14.05,
+      "hs300_return": 23.03,
+      "rank": 617,
+      "total": 908
     },
     {
       "title": "5N",
-      "return_rate": 21.71,
-      "avg": 17.72,
-      "hs300_return": -6.83,
-      "rank": 200,
-      "total": 591
+      "return_rate": 21.93,
+      "avg": 17.61,
+      "hs300_return": -6.17,
+      "rank": 206,
+      "total": 602
     },
     {
       "title": "JN",
-      "return_rate": 1.59,
-      "avg": 2.51,
-      "hs300_return": 4.4,
-      "rank": 808,
-      "total": 1514
+      "return_rate": 1.72,
+      "avg": 2.77,
+      "hs300_return": 4.82,
+      "rank": 819,
+      "total": 1525
     }
   ],
   "monthly_series": [
@@ -373,10 +376,16 @@
     },
     {
       "month": "2026-05",
-      "return_rate": -0.379403794037958
+      "return_rate": -0.2956393200295726
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-05-19",
+      "net_value": 1.2445,
+      "acc_value": 2.0235,
+      "growth": 0.14
+    },
     {
       "date": "2026-05-18",
       "net_value": 1.2428,
@@ -730,12 +739,6 @@
       "net_value": 1.2462,
       "acc_value": 2.0252,
       "growth": 0.05
-    },
-    {
-      "date": "2026-02-10",
-      "net_value": 1.2456,
-      "acc_value": 2.0246,
-      "growth": 0.02
     }
   ],
   "accumulated_return": [
@@ -31543,39 +31546,54 @@
       "date": "2026-05-18",
       "fund_return": 152.63,
       "index_return": 0.0,
-      "category_return": 0.0,
-      "bench_return": 40.42
+      "category_return": 151.89,
+      "bench_return": 40.46
+    },
+    {
+      "date": "2026-05-19",
+      "fund_return": 152.97,
+      "index_return": 0.0,
+      "category_return": 152.43,
+      "bench_return": 40.55
     }
   ],
   "risk_metrics": {
-    "annualized_return": 1.8356224117539233,
-    "max_drawdown": 4.187870192708769,
-    "volatility": 4.228041699938617,
-    "sharpe_ratio": -0.03887794868448511,
-    "positive_days": 241,
-    "negative_days": 240,
-    "monthly_win_rate": 77.77777777777779,
-    "excess_return": 112.21,
+    "annualized_return": 1.9052480138470829,
+    "max_drawdown": 4.163885180240307,
+    "volatility": 4.295674691586249,
+    "sharpe_ratio": -0.02205753297345903,
+    "positive_days": 251,
+    "negative_days": 244,
+    "monthly_win_rate": 88.88888888888889,
+    "excess_return": 112.42,
     "data_points": 500,
-    "calmar_ratio": 0.43831884162737594,
-    "sortino_ratio": -0.05670672893472148,
-    "current_drawdown": 0.7506788053026733,
+    "calmar_ratio": 0.4575649739066837,
+    "sortino_ratio": -0.031058861708601584,
+    "current_drawdown": 0.6149177447692094,
     "max_drawdown_recovery_days": 91,
-    "max_drawdown_start_date": "2023-05-22",
-    "max_drawdown_end_date": "2024-02-05"
+    "max_drawdown_start_date": "2023-05-19",
+    "max_drawdown_end_date": "2024-02-05",
+    "drawdown_count_ge_1pct": 6,
+    "avg_drawdown_ge_1pct": 2.7004987640243017,
+    "avg_drawdown_duration_days": 158.4
   },
   "benchmark_metrics": {
-    "beta": 0.0024568401598391186,
-    "alpha": 3.3115021889073026,
-    "tracking_error": 20.300004220043828,
-    "information_ratio": 0.07102417547607888,
-    "data_points": 4400
+    "beta": 0.0024563739024951433,
+    "alpha": 3.3179294686619545,
+    "tracking_error": 20.297728224315794,
+    "information_ratio": 0.07113360518936515,
+    "data_points": 4401,
+    "upside_capture": 16.47588335895008,
+    "downside_capture": -9.423917773364181,
+    "category_alpha": -23.93028129744515,
+    "category_tracking_error": 77.63712123777896,
+    "category_information_ratio": -0.30823246555154915
   },
   "distribution": {
-    "var_95": 0.3657182264643799,
-    "cvar_95": 0.6177739395986102,
-    "skewness": -0.013360365146752082,
-    "excess_kurtosis": 5.075599785192052,
+    "var_95": 0.3695148360001287,
+    "cvar_95": 0.6539600757894086,
+    "skewness": -0.16206094269734142,
+    "excess_kurtosis": 8.895766803312172,
     "data_points": 499
   },
   "rolling_returns": {
@@ -31584,22 +31602,61 @@
       "count": 570,
       "max": 5.611412328262366,
       "min": -1.5516066467473832,
-      "mean": 2.2522972720252885,
-      "median": 2.465094170338822,
-      "p25": 1.0387181771430387,
-      "p75": 3.226664911417176
+      "mean": 2.25555879604586,
+      "median": 2.4798435057956536,
+      "p25": 1.0989514175489268,
+      "p75": 3.226664911417176,
+      "win_rate": 90.35087719298247,
+      "loss_probability": 9.473684210526317
     },
     "y3": {
       "window_days": 750,
       "count": 70,
       "max": 7.496275803362429,
       "min": 5.450372920252433,
-      "mean": 6.4003868229236955,
-      "median": 6.340836695400897,
-      "p25": 6.089196563460198,
-      "p75": 6.699492294234138
-    }
+      "mean": 6.3757204731096415,
+      "median": 6.3312976354881645,
+      "p25": 6.070011839808586,
+      "p75": 6.674189443076689,
+      "win_rate": 100.0,
+      "loss_probability": 0.0
+    },
+    "y5": null
   },
+  "cost_analysis": {
+    "ongoing_fee_pct": 1.2999999999999998,
+    "manager_fee_pct": 0.7,
+    "custody_fee_pct": 0.2,
+    "sales_fee_pct": 0.4,
+    "net_annualized_after_fee_pct": 0.605248013847083
+  },
+  "flow_risk": {
+    "recent_quarter_net_subscribe_yi": -3.0199999999999996,
+    "recent_quarter_net_subscribe_pct_of_shares": -23.018292682926827,
+    "recent_quarter_nav_change_pct": -17.57,
+    "last_4q_large_swing_count": 2,
+    "institutional_pct_latest": 23.31,
+    "institutional_pct_change_latest": 9.379999999999999,
+    "score": 35,
+    "level": "中"
+  },
+  "data_gaps": [
+    {
+      "key": "bond_duration",
+      "label": "债券久期",
+      "reason": "当前 F10 持仓接口只提供前十大债券名称、占比和市值，未提供组合久期。"
+    },
+    {
+      "key": "bond_credit_rating",
+      "label": "信用评级分布",
+      "reason": "当前数据源未返回债券评级分布，不能从债券名称可靠推断评级。"
+    },
+    {
+      "key": "stock_industry_classification",
+      "label": "正式行业分类",
+      "reason": "当前重仓股接口未接入统一行业分类，页面只保留名称线索，不作为正式行业暴露。"
+    }
+  ],
   "fee_rules": {
     "purchase": [
       {
@@ -33546,11 +33603,11 @@
         "MGRID": "30705024",
         "MGRNAME": "张寓",
         "RESUME": "张寓先生:硕士。2010年7月至2011年8月建信基金管理有限责任公司助理研究员;2011年8月至2012年11月中信证券股份有限公司研究员;2013年1月加盟天弘基金管理有限公司,历任研究员、投资经理。历任天弘裕利灵活配置混合型证券投资基金基金经理(2020年09月至2022年04月)、天弘惠利灵活配置混合型证券投资基金基金经理(2020年09月至2022年04月)、天弘策略精选灵活配置混合型发起式证券投资基金基金经理(2021年10月至2024年06月)、天弘价值精选灵活配置混合型发起式证券投资基金基金经理(2020年09月至2024年10月)、天弘优质成长企业精选灵活配置混合型发起式证券投资基金基金经理(2021年08月至2022年09月)、天弘新活力灵活配置混合型发起式证券投资基金基金经理(2020年09月至2021年12月)、天弘通利混合型证券投资基金基金经理(2020年07月至2021年12月)、天弘益新混合型证券投资基金基金经理(2021年03月至2022年04月)、天弘招添利混合型发起式证券投资基金基金经理(2023年02月至2024年06月)。现任天弘永利债券型证券投资基金、天弘增强回报债券型证券投资基金、天弘永利优佳混合型证券投资基金、天弘永利优享债券型证券投资基金基金经理。曾任天弘增益回报债券型发起式证券投资基金基金经理。",
-        "TOTALDAYS": "2147",
+        "TOTALDAYS": "2149",
         "NETNAV": "24611527213.7",
         "FCOUNT": "14",
         "PRENAME": "天弘增强回报债券A",
-        "YIELDSE": "2.9016",
+        "YIELDSE": "2.8784",
         "JJGS": "天弘基金",
         "FMAXEARN1": "0.346",
         "FMAXRETRA1": "0.0864",
@@ -33763,140 +33820,140 @@
           "SHORTNAME": "天弘增强回报债券A",
           "FEMPDATE": "2020-07-16T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2131",
-          "PENAVGROWTH": "34.0747",
-          "TLRANK": "174",
-          "TLSC": "2192"
+          "TOTALDAYS": "2133",
+          "PENAVGROWTH": "34.022",
+          "TLRANK": "186",
+          "TLSC": "2190"
         },
         {
           "FCODE": "009735",
           "SHORTNAME": "天弘增强回报债券E",
           "FEMPDATE": "2020-07-16T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2131",
-          "PENAVGROWTH": "31.6765",
-          "TLRANK": "224",
-          "TLSC": "2192"
+          "TOTALDAYS": "2133",
+          "PENAVGROWTH": "31.6176",
+          "TLRANK": "235",
+          "TLSC": "2190"
         },
         {
           "FCODE": "007129",
           "SHORTNAME": "天弘增强回报债券C",
           "FEMPDATE": "2020-07-16T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2131",
-          "PENAVGROWTH": "30.9785",
-          "TLRANK": "240",
-          "TLSC": "2192"
+          "TOTALDAYS": "2133",
+          "PENAVGROWTH": "30.9166",
+          "TLRANK": "251",
+          "TLSC": "2190"
         },
         {
           "FCODE": "002794",
           "SHORTNAME": "天弘永利债券E",
           "FEMPDATE": "2021-03-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1878",
-          "PENAVGROWTH": "26.0607",
-          "TLRANK": "271",
-          "TLSC": "2402"
+          "TOTALDAYS": "1880",
+          "PENAVGROWTH": "25.8638",
+          "TLRANK": "284",
+          "TLSC": "2400"
         },
         {
           "FCODE": "420102",
           "SHORTNAME": "天弘永利债券B",
           "FEMPDATE": "2021-03-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1878",
-          "PENAVGROWTH": "26.0472",
-          "TLRANK": "271",
-          "TLSC": "2402"
+          "TOTALDAYS": "1880",
+          "PENAVGROWTH": "25.8556",
+          "TLRANK": "284",
+          "TLSC": "2400"
         },
         {
           "FCODE": "009610",
           "SHORTNAME": "天弘永利债券C",
           "FEMPDATE": "2021-03-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1878",
-          "PENAVGROWTH": "24.142",
-          "TLRANK": "336",
-          "TLSC": "2402"
+          "TOTALDAYS": "1880",
+          "PENAVGROWTH": "23.9428",
+          "TLRANK": "361",
+          "TLSC": "2400"
         },
         {
           "FCODE": "420002",
           "SHORTNAME": "天弘永利债券A",
           "FEMPDATE": "2021-03-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1878",
-          "PENAVGROWTH": "23.4828",
-          "TLRANK": "377",
-          "TLSC": "2402"
+          "TOTALDAYS": "1880",
+          "PENAVGROWTH": "23.2946",
+          "TLRANK": "409",
+          "TLSC": "2400"
         },
         {
           "FCODE": "016161",
           "SHORTNAME": "天弘永利优享债券A",
           "FEMPDATE": "2022-08-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1357",
-          "PENAVGROWTH": "14.27",
-          "TLRANK": "464",
-          "TLSC": "3200"
+          "TOTALDAYS": "1359",
+          "PENAVGROWTH": "14.23",
+          "TLRANK": "495",
+          "TLSC": "3197"
         },
         {
           "FCODE": "016162",
           "SHORTNAME": "天弘永利优享债券C",
           "FEMPDATE": "2022-08-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1357",
-          "PENAVGROWTH": "12.56",
-          "TLRANK": "777",
-          "TLSC": "3200"
+          "TOTALDAYS": "1359",
+          "PENAVGROWTH": "12.52",
+          "TLRANK": "831",
+          "TLSC": "3197"
         },
         {
           "FCODE": "013569",
           "SHORTNAME": "天弘永利优佳混合A",
           "FEMPDATE": "2021-09-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1692",
-          "PENAVGROWTH": "9.3",
-          "TLRANK": "2353",
-          "TLSC": "4647"
+          "TOTALDAYS": "1694",
+          "PENAVGROWTH": "9.16",
+          "TLRANK": "2382",
+          "TLSC": "4642"
         },
         {
           "FCODE": "013570",
           "SHORTNAME": "天弘永利优佳混合C",
           "FEMPDATE": "2021-09-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1692",
-          "PENAVGROWTH": "7.29",
-          "TLRANK": "2513",
-          "TLSC": "4647"
+          "TOTALDAYS": "1694",
+          "PENAVGROWTH": "7.14",
+          "TLRANK": "2554",
+          "TLSC": "4642"
         },
         {
           "FCODE": "022526",
           "SHORTNAME": "天弘永利优享债券E",
           "FEMPDATE": "2024-10-31T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "563",
-          "PENAVGROWTH": "5.7196",
-          "TLRANK": "1305",
-          "TLSC": "5069"
+          "TOTALDAYS": "565",
+          "PENAVGROWTH": "5.673",
+          "TLRANK": "1364",
+          "TLSC": "5066"
         },
         {
           "FCODE": "025092",
           "SHORTNAME": "天弘匠心回报债券A",
           "FEMPDATE": "2025-11-20T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "178",
-          "PENAVGROWTH": "0.37",
-          "TLRANK": "5669",
-          "TLSC": "5963"
+          "TOTALDAYS": "180",
+          "PENAVGROWTH": "0.23",
+          "TLRANK": "5761",
+          "TLSC": "5960"
         },
         {
           "FCODE": "025093",
           "SHORTNAME": "天弘匠心回报债券C",
           "FEMPDATE": "2025-11-20T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "178",
-          "PENAVGROWTH": "0.2",
-          "TLRANK": "5757",
-          "TLSC": "5963"
+          "TOTALDAYS": "180",
+          "PENAVGROWTH": "0.06",
+          "TLRANK": "5795",
+          "TLSC": "5960"
         }
       ]
     },
@@ -33907,11 +33964,11 @@
         "MGRID": "30686324",
         "MGRNAME": "杜广",
         "RESUME": "杜广先生:中国国籍,应用经济学博士,历任泰康资产管理有限责任公司债券研究员、中国人寿养老保险股份有限公司债券研究员。2017年7月加盟天弘基金管理有限公司历任投资经理助理、基金经理助理等。历任天弘丰利债券型证券投资基金(LOF)基金经理(2020年12月24日至2025年12月06日)、天弘永利债券型证券投资基金基金经理(2021年06月19日至2024年08月23日)、天弘惠利灵活配置混合型证券投资基金基金经理(2020年05月27日至2021年08月14日)、天弘弘新混合型发起式证券投资基金基金经理(2021年10月13日至2023年07月27日)、天弘新价值灵活配置混合型证券投资基金基金经理(2020年05月27日至2021年08月14日)、天弘新活力灵活配置混合型发起式证券投资基金基金经理(2020年05月27日至2021年08月14日)、天弘金融优选混合型发起式证券投资基金基金经理(2024年07月09日至2026年01月22日)。现任天弘价值共享混合型证券投资基金基金经理。天弘添利债券型证券投资基金(LOF)基金经理(2019年11月15日起任职)、天弘永利债券型证券投资基金基金经理(2026年01月27日起任职)、天弘弘丰增强回报债券型证券投资基金基金经理(2020年07月25日起任职)、天弘新价值灵活配置混合型证券投资基金基金经理(2022年01月21日起任职)、天弘多元收益债券型证券投资基金基金经理(2020年10月29日起任职)、天弘多元增利债券型证券投资基金基金经理(2022年09月27日起任职)、天弘广盈六个月持有期混合型证券投资基金基金经理(2023年06月29日起任职)、天弘多元锐选一年持有期混合型证券投资基金基金经理(2023年09月26日起任职)、天弘价值驱动混合型证券投资基金基金经理(2024年12月24日起任职)。",
-        "TOTALDAYS": "2376",
+        "TOTALDAYS": "2378",
         "NETNAV": "32831042927.1",
         "FCOUNT": "25",
         "PRENAME": "天弘添利债券(LOF)C",
-        "YIELDSE": "7.6868",
+        "YIELDSE": "7.6599",
         "JJGS": "天弘基金",
         "FMAXEARN1": "0.6267",
         "FMAXRETRA1": "0.3304",
@@ -34074,9 +34131,9 @@
           "SHORTNAME": "天弘添利债券(LOF)C",
           "FEMPDATE": "2019-11-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2376",
-          "PENAVGROWTH": "60.7154",
-          "TLRANK": "71",
+          "TOTALDAYS": "2378",
+          "PENAVGROWTH": "60.8897",
+          "TLRANK": "76",
           "TLSC": "1833"
         },
         {
@@ -34084,246 +34141,246 @@
           "SHORTNAME": "天弘添利债券(LOF)E",
           "FEMPDATE": "2020-05-21T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2187",
-          "PENAVGROWTH": "50.9814",
-          "TLRANK": "91",
-          "TLSC": "2110"
+          "TOTALDAYS": "2189",
+          "PENAVGROWTH": "51.1379",
+          "TLRANK": "95",
+          "TLSC": "2108"
         },
         {
           "FCODE": "010118",
           "SHORTNAME": "天弘多元收益债券A",
           "FEMPDATE": "2020-10-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2027",
-          "PENAVGROWTH": "39.18",
-          "TLRANK": "93",
-          "TLSC": "2274"
+          "TOTALDAYS": "2029",
+          "PENAVGROWTH": "38.99",
+          "TLRANK": "102",
+          "TLSC": "2272"
         },
         {
           "FCODE": "010119",
           "SHORTNAME": "天弘多元收益债券C",
           "FEMPDATE": "2020-10-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2027",
-          "PENAVGROWTH": "36.89",
-          "TLRANK": "107",
-          "TLSC": "2274"
+          "TOTALDAYS": "2029",
+          "PENAVGROWTH": "36.69",
+          "TLRANK": "113",
+          "TLSC": "2272"
         },
         {
           "FCODE": "006898",
           "SHORTNAME": "天弘弘丰增强回报债券A",
           "FEMPDATE": "2020-07-24T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2123",
-          "PENAVGROWTH": "34.6968",
-          "TLRANK": "144",
-          "TLSC": "2171"
+          "TOTALDAYS": "2125",
+          "PENAVGROWTH": "34.4658",
+          "TLRANK": "158",
+          "TLSC": "2169"
         },
         {
           "FCODE": "006899",
           "SHORTNAME": "天弘弘丰增强回报债券C",
           "FEMPDATE": "2020-07-24T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2123",
-          "PENAVGROWTH": "31.6365",
-          "TLRANK": "194",
-          "TLSC": "2171"
+          "TOTALDAYS": "2125",
+          "PENAVGROWTH": "31.4139",
+          "TLRANK": "208",
+          "TLSC": "2169"
         },
         {
           "FCODE": "021372",
           "SHORTNAME": "天弘价值驱动混合A",
           "FEMPDATE": "2024-12-23T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "510",
-          "PENAVGROWTH": "28.16",
-          "TLRANK": "4181",
-          "TLSC": "8041"
+          "TOTALDAYS": "512",
+          "PENAVGROWTH": "27.26",
+          "TLRANK": "4263",
+          "TLSC": "8027"
         },
         {
           "FCODE": "021373",
           "SHORTNAME": "天弘价值驱动混合C",
           "FEMPDATE": "2024-12-23T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "510",
-          "PENAVGROWTH": "27.02",
-          "TLRANK": "4298",
-          "TLSC": "8041"
+          "TOTALDAYS": "512",
+          "PENAVGROWTH": "26.12",
+          "TLRANK": "4369",
+          "TLSC": "8027"
         },
         {
           "FCODE": "024265",
           "SHORTNAME": "天弘价值驱动混合D",
           "FEMPDATE": "2025-05-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "368",
-          "PENAVGROWTH": "25.5609",
-          "TLRANK": "4313",
-          "TLSC": "8263"
+          "TOTALDAYS": "370",
+          "PENAVGROWTH": "24.6791",
+          "TLRANK": "4407",
+          "TLSC": "8249"
         },
         {
           "FCODE": "016246",
           "SHORTNAME": "天弘新价值混合C",
           "FEMPDATE": "2022-07-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1403",
-          "PENAVGROWTH": "24.0344",
-          "TLRANK": "2119",
-          "TLSC": "6192"
+          "TOTALDAYS": "1405",
+          "PENAVGROWTH": "23.1427",
+          "TLRANK": "2204",
+          "TLSC": "6139"
         },
         {
           "FCODE": "022527",
           "SHORTNAME": "天弘多元收益债券E",
           "FEMPDATE": "2024-11-03T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "560",
-          "PENAVGROWTH": "22.2732",
-          "TLRANK": "161",
-          "TLSC": "5045"
+          "TOTALDAYS": "562",
+          "PENAVGROWTH": "22.0966",
+          "TLRANK": "177",
+          "TLSC": "5042"
         },
         {
           "FCODE": "001484",
           "SHORTNAME": "天弘新价值混合A",
           "FEMPDATE": "2022-01-20T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1578",
-          "PENAVGROWTH": "20.0045",
-          "TLRANK": "1708",
-          "TLSC": "5568"
+          "TOTALDAYS": "1580",
+          "PENAVGROWTH": "19.1394",
+          "TLRANK": "1795",
+          "TLSC": "5519"
         },
         {
           "FCODE": "019130",
           "SHORTNAME": "天弘多元锐选一年持有混合A",
           "FEMPDATE": "2023-09-25T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "965",
-          "PENAVGROWTH": "16.75",
-          "TLRANK": "4763",
-          "TLSC": "7109"
+          "TOTALDAYS": "967",
+          "PENAVGROWTH": "16.71",
+          "TLRANK": "4756",
+          "TLSC": "7098"
         },
         {
           "FCODE": "015524",
           "SHORTNAME": "天弘多元增利债券A",
           "FEMPDATE": "2022-09-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1329",
-          "PENAVGROWTH": "16.26",
-          "TLRANK": "365",
-          "TLSC": "3246"
+          "TOTALDAYS": "1331",
+          "PENAVGROWTH": "16.13",
+          "TLRANK": "386",
+          "TLSC": "3243"
         },
         {
           "FCODE": "016682",
           "SHORTNAME": "天弘广盈六个月持有混合A",
           "FEMPDATE": "2023-06-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1054",
-          "PENAVGROWTH": "15.73",
-          "TLRANK": "4204",
-          "TLSC": "6870"
+          "TOTALDAYS": "1056",
+          "PENAVGROWTH": "15.71",
+          "TLRANK": "4203",
+          "TLSC": "6859"
         },
         {
           "FCODE": "019131",
           "SHORTNAME": "天弘多元锐选一年持有混合C",
           "FEMPDATE": "2023-09-25T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "965",
-          "PENAVGROWTH": "15.45",
-          "TLRANK": "4923",
-          "TLSC": "7109"
+          "TOTALDAYS": "967",
+          "PENAVGROWTH": "15.4",
+          "TLRANK": "4910",
+          "TLSC": "7098"
         },
         {
           "FCODE": "015525",
           "SHORTNAME": "天弘多元增利债券C",
           "FEMPDATE": "2022-09-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1329",
-          "PENAVGROWTH": "14.58",
-          "TLRANK": "473",
-          "TLSC": "3246"
+          "TOTALDAYS": "1331",
+          "PENAVGROWTH": "14.45",
+          "TLRANK": "515",
+          "TLSC": "3243"
         },
         {
           "FCODE": "016683",
           "SHORTNAME": "天弘广盈六个月持有混合C",
           "FEMPDATE": "2023-06-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1054",
-          "PENAVGROWTH": "14.08",
+          "TOTALDAYS": "1056",
+          "PENAVGROWTH": "14.06",
           "TLRANK": "4443",
-          "TLSC": "6870"
+          "TLSC": "6859"
         },
         {
           "FCODE": "022583",
           "SHORTNAME": "天弘添利债券(LOF)F",
           "FEMPDATE": "2024-11-06T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "557",
-          "PENAVGROWTH": "13.8475",
-          "TLRANK": "295",
-          "TLSC": "5059"
+          "TOTALDAYS": "559",
+          "PENAVGROWTH": "13.9642",
+          "TLRANK": "302",
+          "TLSC": "5056"
         },
         {
           "FCODE": "022579",
           "SHORTNAME": "天弘多元增利债券E",
           "FEMPDATE": "2024-11-10T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "553",
-          "PENAVGROWTH": "9.2129",
-          "TLRANK": "525",
-          "TLSC": "5074"
-        },
-        {
-          "FCODE": "002794",
-          "SHORTNAME": "天弘永利债券E",
-          "FEMPDATE": "2026-01-26T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "111",
-          "PENAVGROWTH": "0.8311",
-          "TLRANK": "2366",
-          "TLSC": "6041"
+          "TOTALDAYS": "555",
+          "PENAVGROWTH": "9.0806",
+          "TLRANK": "568",
+          "TLSC": "5071"
         },
         {
           "FCODE": "420102",
           "SHORTNAME": "天弘永利债券B",
           "FEMPDATE": "2026-01-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "111",
-          "PENAVGROWTH": "0.8308",
-          "TLRANK": "2425",
-          "TLSC": "6041"
+          "TOTALDAYS": "113",
+          "PENAVGROWTH": "0.6776",
+          "TLRANK": "3760",
+          "TLSC": "6039"
+        },
+        {
+          "FCODE": "002794",
+          "SHORTNAME": "天弘永利债券E",
+          "FEMPDATE": "2026-01-26T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "113",
+          "PENAVGROWTH": "0.6737",
+          "TLRANK": "3760",
+          "TLSC": "6039"
         },
         {
           "FCODE": "009610",
           "SHORTNAME": "天弘永利债券C",
           "FEMPDATE": "2026-01-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "111",
-          "PENAVGROWTH": "0.7364",
-          "TLRANK": "2991",
-          "TLSC": "6041"
+          "TOTALDAYS": "113",
+          "PENAVGROWTH": "0.5747",
+          "TLRANK": "4372",
+          "TLSC": "6039"
         },
         {
           "FCODE": "420002",
           "SHORTNAME": "天弘永利债券A",
           "FEMPDATE": "2026-01-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "111",
-          "PENAVGROWTH": "0.7029",
-          "TLRANK": "3146",
-          "TLSC": "6041"
+          "TOTALDAYS": "113",
+          "PENAVGROWTH": "0.5494",
+          "TLRANK": "4466",
+          "TLSC": "6039"
         },
         {
           "FCODE": "026670",
           "SHORTNAME": "天弘价值共享混合",
           "FEMPDATE": "2026-04-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "20",
+          "TOTALDAYS": "22",
           "PENAVGROWTH": "-1.65",
-          "TLRANK": "7942",
-          "TLSC": "9140"
+          "TLRANK": "8998",
+          "TLSC": "10201"
         }
       ]
     }
   ],
   "scores": {
-    "overall": 65,
+    "overall": 66,
     "items": [
       {
         "name": "收益",
@@ -34337,7 +34394,7 @@
       },
       {
         "name": "稳定",
-        "score": 72,
+        "score": 76,
         "weight": 20
       },
       {
@@ -34363,11 +34420,11 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-05-18",
+    "generated_at": "2026-05-20",
     "as_of": {
-      "nav_history": "2026-05-18",
-      "nav_trend": "2026-05-18",
-      "accumulated_return": "2026-05-18",
+      "nav_history": "2026-05-19",
+      "nav_trend": "2026-05-19",
+      "accumulated_return": "2026-05-19",
       "monthly_series": "2026-05",
       "top_stocks": "2026-03-31",
       "top_bonds": "2026-03-31",

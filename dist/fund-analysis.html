@@ -223,33 +223,46 @@ function bInvestmentSummary(d) {
       trend.push(`近 3 月与近 1 年收益节奏大体一致，短期没有明显脱离长期状态。`);
     }
   }
-  const risks = mainRiskBullets(d).slice(0, 2);
-  const bullets = [
-    `<b class="${tier.cls}">${score}/100 · ${esc(tier.label)}</b>：${esc(tier.text)}。`,
-    `<b>真实定位</b>：${esc(det.FTYPE || '--')} / R${esc(det.RISKLEVEL || '--')}，${esc(profile)}${stockPct == null ? '' : `（股票 ${fmt(stockPct)}%）`}。`,
-    trend[0],
-    risks.length ? `<b>主要风险</b>：${risks.map(x => x.replace(/^<b>|<\/b>$/g, '')).join('；')}` : null,
-    holdingHorizonText(d),
-  ].filter(Boolean).slice(0, 6);
-  const meta = [
-    { k:'评分档位', v:tier.label, cls:tier.cls },
-    { k:'最大回撤', v:r.max_drawdown != null ? `-${fmt(r.max_drawdown)}%` : '--', cls:'neg' },
-    { k:'适配持有', v:d.rolling_returns?.y3?.min > 0 ? '3 年以上' : '中长期', cls:'neu' },
-  ].map(x => `
-    <div class="summary-chip">
-      <div class="summary-chip-k">${esc(x.k)}</div>
-      <div class="summary-chip-v ${x.cls}">${esc(x.v)}</div>
+  const hc = d.holding_constraints;
+  const hs = latestHolder(d);
+  const risks = mainRiskBullets(d).slice(0, 3);
+  const fit = [];
+  if (score >= 65) fit.push('可进入候选池');
+  if (d.rolling_returns?.y3?.min > 0) fit.push('适合长持账户');
+  if (stockPct != null && stockPct < 20) fit.push('偏稳健配置');
+  if (!fit.length) fit.push('先观察，不宜重仓');
+  const avoid = [];
+  if (r.max_drawdown > 8) avoid.push('不能承受中等回撤');
+  if (hc?.min_holding_days) avoid.push('需要短期流动性');
+  if (hs?.institutional_pct > 70) avoid.push('担心机构赎回扰动');
+  if (!avoid.length) avoid.push('短期择时资金');
+  const panels = [
+    {
+      title: '核心判断',
+      body: `<b class="${tier.cls}">${score}/100 · ${esc(tier.label)}</b>。${esc(tier.text)}；真实定位为 ${esc(det.FTYPE || '--')} / R${esc(det.RISKLEVEL || '--')}，${esc(profile)}${stockPct == null ? '' : `（股票 ${fmt(stockPct)}%）`}。`,
+    },
+    {
+      title: '适合',
+      body: fit.map(x => `<span class="decision-pill">${esc(x)}</span>`).join(''),
+    },
+    {
+      title: '警惕',
+      body: risks.length ? risks.join('') : avoid.map(x => `<span class="decision-pill warn">${esc(x)}</span>`).join(''),
+    },
+    {
+      title: '操作口径',
+      body: trend[0] ? `${trend[0]} ${holdingHorizonText(d)}` : holdingHorizonText(d),
+    },
+  ].map(p => `
+    <div class="decision-panel">
+      <div class="decision-title">${esc(p.title)}</div>
+      <div class="decision-body">${p.body}</div>
     </div>`).join('');
 
   return `
   <section class="card insight-card mb24 fade">
-    ${sl('投资解读摘要', '规则化判断')}
-    <div class="insight-layout">
-      <div>
-        <ol class="insight-list">${bullets.map(x => `<li>${x}</li>`).join('')}</ol>
-      </div>
-      <div class="summary-chips">${meta}</div>
-    </div>
+    ${sl('配置结论', '精简决策')}
+    <div class="decision-grid">${panels}</div>
   </section>`;
 }
 
@@ -259,16 +272,16 @@ function bInvestmentSummary(d) {
  * chapter (I PROFILE / II PERFORMANCE / ...). Resets the in-chapter
  * section counter so sl() emits §02.01, §02.02, ... after II fires. */
 const CHAPTERS = [
-  { roman: 'I',   tag: 'PROFILE',           name: '基金画像',
-    desc: '这只基金是谁、由谁管、费率怎么收。' },
-  { roman: 'II',  tag: 'PERFORMANCE',       name: '业绩表现',
-    desc: '过去赚了多少：阶段、年度、月度、累计走势与基准对照。' },
-  { roman: 'III', tag: 'RISK',              name: '风险评估',
+  { roman: 'I',   tag: 'RETURN',            name: '收益与比较',
+    desc: '先看真实收益、同类排名、累计走势和基准差距。' },
+  { roman: 'II',  tag: 'RISK',              name: '风险与持有体验',
     desc: '波动、回撤、尾部、滚动样本与金额化的盈亏区间。' },
-  { roman: 'IV',  tag: 'STEWARDSHIP',       name: '管理与评分',
-    desc: '综合评分明细、基金经理画像与任职履历。' },
-  { roman: 'V',   tag: 'PORTFOLIO & FLOW',  name: '持仓与资金',
-    desc: '资产配置、重仓股债、规模变动、持有人结构与分红。' },
+  { roman: 'III', tag: 'STYLE',             name: '风格与持仓',
+    desc: '资产配置、重仓股债与经理风格是否一致。' },
+  { roman: 'IV',  tag: 'FLOW & COST',       name: '资金与成本',
+    desc: '规模变动、持有人结构、费率和申赎限制。' },
+  { roman: 'V',   tag: 'APPENDIX',          name: '档案与附录',
+    desc: '基础档案、评分拆解、经理履历、月度和分红明细。' },
 ];
 
 function bChapterBreak(chapterIndex, sectionCount) {
@@ -479,29 +492,64 @@ function bInfo(d) {
   </div>`;
 }
 
-function bFee(d) {
-  if (!d.fee_rules?.redemption?.length) return '';
+function bTradingCost(d) {
+  const hasPurchase = Array.isArray(d.fee_rules?.purchase) && d.fee_rules.purchase.length;
+  const hasRedemption = Array.isArray(d.fee_rules?.redemption) && d.fee_rules.redemption.length;
+  const hc = d.holding_constraints || {};
+  if (!hasPurchase && !hasRedemption && !hc.min_holding_days && !hc.purchase_status && !hc.redemption_status) return '';
   const rc = r => { const v = parseFloat(r); return v>=1?'fri':v>=0.2?'frmid':v>0?'frlo':'frfree'; };
-  const rows = d.fee_rules.redemption.map(r =>
-    `<tr><td>${esc(r.scope)}</td><td class="${rc(r.rate)}">${esc(r.rate)}</td></tr>`
+  const feeRows = (title, rows) => rows.map((r, i) =>
+    `<tr><td>${i === 0 ? esc(title) : ''}</td><td>${esc(r.scope)}</td><td class="${rc(r.rate)}">${esc(r.rate)}</td></tr>`
   ).join('');
+  const rows = [
+    hasPurchase ? feeRows('申购', d.fee_rules.purchase) : '',
+    hasRedemption ? feeRows('赎回', d.fee_rules.redemption) : '',
+  ].join('');
+  const minHold = hc.min_holding_days
+    ? (hc.min_holding_days >= 365 ? `${Math.round(hc.min_holding_days / 365)} 年` : `${hc.min_holding_days} 天`)
+    : '无明确锁定';
+  const summary = [
+    { k:'申购状态', v:hc.purchase_status || '--', cls:'neu' },
+    { k:'赎回状态', v:hc.redemption_status || '--', cls:'neu' },
+    { k:'最短持有', v:minHold, cls:hc.min_holding_days ? 'warn' : 'pos' },
+  ].map(x => `
+    <div class="mcell">
+      <div class="mkey">${esc(x.k)}</div>
+      <div class="mnum ${x.cls}">${esc(x.v)}</div>
+    </div>`).join('');
   return `
-  <div class="mb24 fade">
-    <details class="fee">
-      <summary class="feesumm">
-        <div class="feeleft">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          赎回费率规则
-        </div>
-        <svg class="feechev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 9l-7 7-7-7"/></svg>
-      </summary>
-      <div class="feebody">
-        <table class="ftbl">
-          <thead><tr><th>持有期限</th><th>赎回费率</th></tr></thead>
+  <div class="card mb24 fade">
+    ${sl('交易成本与申赎限制')}
+    <div class="mgrid mgrid-3 summary-grid">${summary}</div>
+    ${rows ? `
+      <div class="tscroll">
+        <table class="mtbl">
+          <thead><tr><th>类型</th><th>区间</th><th>费率</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
-      </div>
-    </details>
+      </div>` : ''}
+    ${hc.features ? `<div class="sub-label sub-label-muted">${esc(hc.features)}</div>` : ''}
+  </div>`;
+}
+
+function bCostDrag(d) {
+  const c = d.cost_analysis;
+  if (!c) return '';
+  const items = [
+    { k:'持续费率拖累', v:fmt(c.ongoing_fee_pct)+'%', cls:c.ongoing_fee_pct <= 0.6 ? 'pos' : c.ongoing_fee_pct > 1 ? 'warn' : 'neu' },
+    { k:'扣费后年化', v:pct(c.net_annualized_after_fee_pct,2,true), cls:cc(c.net_annualized_after_fee_pct) },
+    { k:'管理费', v:fmt(c.manager_fee_pct)+'%', cls:'neu' },
+    { k:'托管费', v:fmt(c.custody_fee_pct)+'%', cls:'neu' },
+    { k:'销售服务费', v:fmt(c.sales_fee_pct)+'%', cls:c.sales_fee_pct > 0 ? 'warn' : 'pos' },
+  ].map(x => `
+    <div class="mcell">
+      <div class="mkey">${esc(x.k)}</div>
+      <div class="mnum ${x.cls}">${esc(x.v)}</div>
+    </div>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('费率拖累')}
+    <div class="mgrid">${items}</div>
   </div>`;
 }
 
@@ -647,6 +695,32 @@ function bAccChart() {
   </div>`;
 }
 
+function bNavHistory(d) {
+  const nav = d.nav_history;
+  if (!Array.isArray(nav) || nav.length < 2) return '';
+  const points = [...nav].sort((a, b) => a.date.localeCompare(b.date));
+  const first = points[0], last = points[points.length - 1];
+  const ret = first.acc_value > 0 ? (last.acc_value / first.acc_value - 1) * 100 : 0;
+  const rows = [...points].reverse().slice(0, 12).map(p => `
+    <tr>
+      <td>${esc(p.date)}</td>
+      <td>${fmt(p.net_value, 4)}</td>
+      <td>${fmt(p.acc_value, 4)}</td>
+      <td class="${cc(p.growth)}">${pct(p.growth,2,true)}</td>
+    </tr>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('近 60 日净值', `${points.length} 个交易日`, d.meta?.as_of?.nav_history)}
+    <div class="sub-label">最近样本累计收益 <span class="${cc(ret)}"><b>${pct(ret,2,true)}</b></span>，用于观察短期修复和水位。</div>
+    <div class="tscroll">
+      <table class="mtbl">
+        <thead><tr><th>日期</th><th>单位净值</th><th>累计净值</th><th>日涨跌</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
 function bRisk(d) {
   const r = d.risk_metrics;
   const tot = r.positive_days + r.negative_days;
@@ -657,9 +731,12 @@ function bRisk(d) {
   const recoveryCls = r.max_drawdown_recovery_days == null ? 'neg' : 'neu';
   const items = [
     { k:'年化收益率', v: pct(r.annualized_return, 2, true), cls: cc(r.annualized_return), bar: Math.min(100, Math.abs(r.annualized_return)*8), bc:'var(--pos)' },
+    { k:'超额收益',   v: pct(r.excess_return, 2, true),      cls: cc(r.excess_return), bar: Math.min(100, Math.abs(r.excess_return)*8), bc:'var(--acc)', hint:'累计 vs 业绩基准' },
     { k:'最大回撤',   v: '-'+fmt(r.max_drawdown)+'%',       cls:'neg', bar: Math.min(100, r.max_drawdown*28), bc:'var(--neg)' },
     { k:'当前回撤',   v: '-'+fmt(r.current_drawdown)+'%',   cls: r.current_drawdown<0.5?'neu':'neg', bar: Math.min(100, r.current_drawdown*28), bc:'var(--warn)', hint:'距历史最高净值' },
     { k:'回撤恢复',   v: recoveryText,                       cls: recoveryCls, bar: 0, bc:'var(--neu)', hint:'最大回撤后恢复天数' },
+    { k:'回撤次数',   v: (r.drawdown_count_ge_1pct ?? 0)+' 次', cls:'neu', bar: Math.min(100, (r.drawdown_count_ge_1pct || 0)*12), bc:'var(--warn)', hint:'≥ 1% 回撤 episode' },
+    { k:'平均回撤',   v: r.avg_drawdown_ge_1pct != null ? '-'+fmt(r.avg_drawdown_ge_1pct)+'%' : '--', cls:'neg', bar: Math.min(100, (r.avg_drawdown_ge_1pct || 0)*28), bc:'var(--neg)', hint:'≥ 1% 回撤均值' },
     { k:'年化波动率', v: fmt(r.volatility)+'%',              cls:'neu', bar: Math.min(100, r.volatility*14), bc:'var(--warn)' },
     { k:'夏普比率',   v: fmt(r.sharpe_ratio),                cls: r.sharpe_ratio>1?'pos':r.sharpe_ratio>0?'neu':'neg', bar: Math.min(100, Math.max(0,r.sharpe_ratio)/3*100), bc:'var(--acc)' },
     { k:'索提诺比率', v: fmt(r.sortino_ratio),               cls: r.sortino_ratio>1?'pos':r.sortino_ratio>0?'neu':'neg', bar: Math.min(100, Math.max(0,r.sortino_ratio)/3*100), bc:'var(--acc)', hint:'仅下行波动调整' },
@@ -715,6 +792,9 @@ function riskCommentary(d) {
   } else if (r.max_drawdown_recovery_days > 90) {
     bullets.push(`最大回撤修复耗时 <b>${r.max_drawdown_recovery_days} 天</b>，需要有跨季度持有的心理准备。`);
   }
+  if ((r.drawdown_count_ge_1pct || 0) > 0 && r.avg_drawdown_ge_1pct != null) {
+    bullets.push(`样本内出现 ${r.drawdown_count_ge_1pct} 次 ≥ 1% 回撤，平均深度 <b class="neg">-${fmt(r.avg_drawdown_ge_1pct)}%</b>${r.avg_drawdown_duration_days != null ? `，已修复回撤平均持续 ${fmt(r.avg_drawdown_duration_days,0)} 天` : ''}。`);
+  }
   return commentaryBox('风险解读', bullets);
 }
 
@@ -726,6 +806,10 @@ function bBenchmark(d) {
     { k:'Beta',           v: b.beta     != null ? fmt(b.beta)                  : '--', cls:'neu',        hint:'1.0 = 与基准同步' },
     { k:'信息比率 IR',    v: b.information_ratio != null ? fmt(b.information_ratio)  : '--', cls: cc(b.information_ratio), hint:'主动管理稳定性' },
     { k:'跟踪误差 (年化)',v: b.tracking_error    != null ? fmt(b.tracking_error)+'%' : '--', cls:'neu',    hint:'偏离基准的波动' },
+    { k:'上行捕获',       v: b.upside_capture != null ? fmt(b.upside_capture)+'%' : '--', cls: b.upside_capture >= 100 ? 'pos' : 'neu', hint:'基准上涨日收益捕获' },
+    { k:'下行捕获',       v: b.downside_capture != null ? fmt(b.downside_capture)+'%' : '--', cls: b.downside_capture <= 80 ? 'pos' : b.downside_capture > 100 ? 'neg' : 'neu', hint:'基准下跌日损失捕获' },
+    { k:'同类 Alpha',     v: b.category_alpha != null ? pct(b.category_alpha,2,true) : '--', cls: cc(b.category_alpha), hint:'vs 同类均值，年化' },
+    { k:'同类 TE',        v: b.category_tracking_error != null ? fmt(b.category_tracking_error)+'%' : '--', cls:'neu', hint:'相对同类波动' },
   ];
   const cells = items.map(it => `
     <div class="mcell">
@@ -736,7 +820,7 @@ function bBenchmark(d) {
   return `
   <div class="card mb24 fade">
     ${sl('相对基准表现', `${b.data_points} 日`)}
-    <div class="mgrid mgrid-4">${cells}</div>
+    <div class="mgrid">${cells}</div>
     ${benchmarkCommentary(d)}
   </div>`;
 }
@@ -761,6 +845,14 @@ function benchmarkCommentary(d) {
       bullets.push(`信息比率 ${fmt(b.information_ratio)} 偏低，偏离基准并没有稳定转化为超额收益。`);
     }
   }
+  if (nval(b.upside_capture) != null && nval(b.downside_capture) != null) {
+    bullets.push(`上行捕获 ${fmt(b.upside_capture)}%、下行捕获 ${fmt(b.downside_capture)}%，${b.upside_capture > b.downside_capture ? '上涨参与度相对优于下跌承受度' : '下跌承受度不低，需留意回撤控制'}。`);
+  }
+  if (nval(b.category_alpha) != null) {
+    bullets.push(b.category_alpha > 0
+      ? `相对同类均值 Alpha 为 <b class="pos">${pct(b.category_alpha,2,true)}</b>，同类比较也有正超额。`
+      : `相对同类均值 Alpha 为 <b class="neg">${pct(b.category_alpha,2,true)}</b>，同类里并不占优。`);
+  }
   return commentaryBox('基准解读', bullets);
 }
 
@@ -770,8 +862,6 @@ function bDistribution(d) {
   const items = [
     { k:'VaR 95%',       v: dist.var_95  != null ? '-'+fmt(dist.var_95)+'%'  : '--', cls:'neg', hint:'5% 概率单日跌幅' },
     { k:'CVaR 95%',      v: dist.cvar_95 != null ? '-'+fmt(dist.cvar_95)+'%' : '--', cls:'neg', hint:'尾部 5% 平均跌幅' },
-    { k:'偏度 Skewness', v: dist.skewness != null ? fmt(dist.skewness)        : '--', cls: dist.skewness != null && dist.skewness < 0 ? 'neg' : 'neu', hint: dist.skewness != null && dist.skewness < 0 ? '左偏，偶有大跌' : '右偏 / 对称' },
-    { k:'超额峰度',      v: dist.excess_kurtosis != null ? fmt(dist.excess_kurtosis) : '--', cls: dist.excess_kurtosis != null && dist.excess_kurtosis > 3 ? 'warn' : 'neu', hint: dist.excess_kurtosis != null && dist.excess_kurtosis > 3 ? '厚尾分布' : '接近正态' },
   ];
   const cells = items.map(it => `
     <div class="mcell">
@@ -781,8 +871,15 @@ function bDistribution(d) {
     </div>`).join('');
   return `
   <div class="card mb24 fade">
-    ${sl('日收益分布', `${dist.data_points} 日`)}
+    ${sl('日收益尾部风险', `${dist.data_points} 日`)}
     <div class="mgrid mgrid-4">${cells}</div>
+    <details class="compact-details">
+      <summary>展开分布形态</summary>
+      <div class="mgrid mgrid-4">
+        <div class="mcell"><div class="mkey">偏度 Skewness</div><div class="mnum ${dist.skewness != null && dist.skewness < 0 ? 'neg' : 'neu'}">${dist.skewness != null ? fmt(dist.skewness) : '--'}</div><div class="mhint">${dist.skewness != null && dist.skewness < 0 ? '左偏，偶有大跌' : '右偏 / 对称'}</div></div>
+        <div class="mcell"><div class="mkey">超额峰度</div><div class="mnum ${dist.excess_kurtosis != null && dist.excess_kurtosis > 3 ? 'warn' : 'neu'}">${dist.excess_kurtosis != null ? fmt(dist.excess_kurtosis) : '--'}</div><div class="mhint">${dist.excess_kurtosis != null && dist.excess_kurtosis > 3 ? '厚尾分布' : '接近正态'}</div></div>
+      </div>
+    </details>
     ${distributionCommentary(d)}
   </div>`;
 }
@@ -803,21 +900,14 @@ function distributionCommentary(d) {
   if (cvar95 != null && var95 != null) {
     bullets.push(`CVaR 95% 为 <b class="neg">-${fmt(cvar95)}%</b>，意味着最差 5% 交易日的平均跌幅比 VaR 更深。`);
   }
-  if (nval(dist.skewness) != null) {
-    if (dist.skewness <= -0.5) bullets.push(`偏度 ${fmt(dist.skewness)}，左尾更重，偶发大跌需要重点关注。`);
-    else if (dist.skewness >= 0.5) bullets.push(`偏度 ${fmt(dist.skewness)}，右尾更明显，偶发大涨对收益贡献较大。`);
-  }
-  if (nval(dist.excess_kurtosis) != null && dist.excess_kurtosis > 3) {
-    bullets.push(`超额峰度 <b class="warn">${fmt(dist.excess_kurtosis)}</b>，厚尾特征明显，正态分布假设会低估极端波动。`);
-  }
   return commentaryBox('尾部风险解读', bullets);
 }
 
 function bRolling(d) {
   const r = d.rolling_returns;
-  if (!r || (!r.y1 && !r.y3)) return '';
+  if (!r || (!r.y1 && !r.y3 && !r.y5)) return '';
   // Combined range covers both 1Y and 3Y; pad ±5% so labels don't clip.
-  const stats = [r.y1, r.y3].filter(x => x);
+  const stats = [r.y1, r.y3, r.y5].filter(x => x);
   if (!stats.length) return '';
   const lo = Math.min(...stats.map(s => s.min)) - 5;
   const hi = Math.max(...stats.map(s => s.max)) + 5;
@@ -837,23 +927,24 @@ function bRolling(d) {
         <div class="rolling-mark"  style="left:${mp.toFixed(2)}%"></div>
       </div>
       <div class="val">${pct(s.median,1,true)}</div>
-      <div class="val neu">${s.count} 窗口</div>
+      <div class="val neu">${s.count} 窗口 · 亏损 ${fmt(s.loss_probability,1)}%</div>
     </div>`;
   };
   return `
   <div class="card mb24 fade">
-    ${sl('滚动收益分布', '1Y / 3Y')}
+    ${sl('滚动收益分布', '1Y / 3Y / 5Y')}
     <div class="sub-label">中位线 + IQR 阴影 + 最大最小范围</div>
     ${row(r.y1, '近 1 年')}
     ${row(r.y3, '近 3 年')}
+    ${row(r.y5, '近 5 年')}
     <div class="axis-note">
       取值轴 ${fmt(lo,1)}% &nbsp;→&nbsp; ${fmt(hi,1)}%
     </div>
-    ${rollingCommentary(r.y1, r.y3)}
+    ${rollingCommentary(r.y1, r.y3, r.y5)}
   </div>`;
 }
 
-function rollingCommentary(y1, y3) {
+function rollingCommentary(y1, y3, y5) {
   const bullets = [];
   const ref = y1 || y3;
   if (!ref) return '';
@@ -895,6 +986,14 @@ function rollingCommentary(y1, y3) {
         `<li>1Y 中位较 3Y 低 <b class="neg">${fmt(diff,2)}pp</b>，近一年收益弱于长期均值，留意是否进入估值消化。</li>`
       );
     }
+  }
+  const lossParts = [
+    y1 ? `1Y ${fmt(y1.loss_probability,1)}%` : null,
+    y3 ? `3Y ${fmt(y3.loss_probability,1)}%` : null,
+    y5 ? `5Y ${fmt(y5.loss_probability,1)}%` : null,
+  ].filter(Boolean);
+  if (lossParts.length) {
+    bullets.push(`<li>滚动窗口亏损概率：${lossParts.join(' / ')}，这是比单点历史收益更接近持有体验的口径。</li>`);
   }
 
   return `
@@ -985,6 +1084,66 @@ function bManager(d) {
     ${sl(title)}
     <div class="mgrg mgr-cols-${cols}">${cellHtml}</div>
     ${resumeHtml}
+  </div>`;
+}
+
+function bManagerRoster(d) {
+  const all = d.managers || [];
+  if (all.length <= 1) return '';
+  const rows = all.map((m, i) => {
+    const info = m.info || {};
+    const evals = m.eval || {};
+    const years = info.TOTALDAYS ? (parseFloat(info.TOTALDAYS) / 365).toFixed(1) + ' 年' : '--';
+    return `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${esc(m.manager_name || info.MGRNAME || '')}</td>
+        <td>${esc(years)}</td>
+        <td>${esc(info.FCOUNT || '--')}</td>
+        <td class="${cc(evals.SHARP_1)}">${evals.SHARP_1 ? fmt(evals.SHARP_1) : '--'}</td>
+        <td class="neg">${evals.MAXRETRA_1 ? '-'+fmt(parseFloat(evals.MAXRETRA_1)*100)+'%' : '--'}</td>
+      </tr>`;
+  }).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('共管经理简表', `${all.length} 人`)}
+    <div class="tscroll">
+      <table class="mtbl">
+        <thead><tr><th>#</th><th>经理</th><th>从业</th><th>在管基金</th><th>近1年夏普</th><th>近1年回撤</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function bManagerStyle(d) {
+  const rows = (d.managers || [])
+    .filter(m => m.holding_char)
+    .map(m => {
+      const ch = m.holding_char;
+      const vals = [
+        { k:'股票仓位', v:ch.GPCW, avg:ch.GPCWAVG },
+        { k:'前十大集中度', v:ch.SDJZD, avg:ch.SDJZDAVG },
+        { k:'第一行业占比', v:ch.DYHYZB },
+        { k:'行业集中度', v:ch.HYJZD },
+        { k:'月度超额胜率', v:ch.YCESL_3M },
+      ].map(x => `
+        <div class="mcell">
+          <div class="mkey">${esc(x.k)}</div>
+          <div class="mnum">${esc(x.v || '--')}${x.v && String(x.v).indexOf('%') < 0 ? '%' : ''}</div>
+          ${x.avg ? `<div class="mhint">同类均值 ${esc(x.avg)}</div>` : ''}
+        </div>`).join('');
+      return `
+        <div class="manager-style-block">
+          <div class="sub-label">${esc(m.manager_name || '基金经理')} · 持仓风格</div>
+          <div class="mgrid">${vals}</div>
+        </div>`;
+    }).join('');
+  if (!rows) return '';
+  return `
+  <div class="card mb24 fade">
+    ${sl('经理持仓风格', '已接入但原页面未突出')}
+    ${rows}
   </div>`;
 }
 
@@ -1116,6 +1275,29 @@ function bScaleChanges(d) {
   </div>`;
 }
 
+function bFlowRisk(d) {
+  const f = d.flow_risk;
+  if (!f) return '';
+  const cls = f.score >= 60 ? 'neg' : f.score >= 30 ? 'warn' : 'pos';
+  const items = [
+    { k:'资金风险', v:`${f.level || '--'} · ${f.score ?? 0}/100`, cls },
+    { k:'单季净申赎', v:f.recent_quarter_net_subscribe_yi != null ? fmt(f.recent_quarter_net_subscribe_yi)+' 亿份' : '--', cls: cc(f.recent_quarter_net_subscribe_yi) },
+    { k:'净申赎/份额', v:f.recent_quarter_net_subscribe_pct_of_shares != null ? pct(f.recent_quarter_net_subscribe_pct_of_shares,2,true) : '--', cls: cc(f.recent_quarter_net_subscribe_pct_of_shares) },
+    { k:'机构占比', v:f.institutional_pct_latest != null ? fmt(f.institutional_pct_latest)+'%' : '--', cls: f.institutional_pct_latest >= 80 ? 'warn' : 'neu' },
+    { k:'机构变化', v:f.institutional_pct_change_latest != null ? pct(f.institutional_pct_change_latest,2,true) : '--', cls: cc(f.institutional_pct_change_latest) },
+    { k:'大波动季度', v:`${f.last_4q_large_swing_count || 0} / 4`, cls:f.last_4q_large_swing_count >= 2 ? 'warn' : 'neu' },
+  ].map(x => `
+    <div class="mcell">
+      <div class="mkey">${esc(x.k)}</div>
+      <div class="mnum ${x.cls}">${esc(x.v)}</div>
+    </div>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('资金稳定性评分', '规模 + 持有人')}
+    <div class="mgrid">${items}</div>
+  </div>`;
+}
+
 function scaleCommentary(d) {
   const sc = d.scale_changes;
   if (!Array.isArray(sc) || !sc.length) return '';
@@ -1240,23 +1422,6 @@ function bDividends(d) {
  * trends, top stocks, rolling-return amounts, benchmark cumulative gap.
  */
 
-const MACRO_EVENTS = [
-  // Date is the END (trough) of the max-drawdown episode. Match by year-month
-  // string prefix; fall through to generic note if no match.
-  { match: /^2018-1[0-2]|^2019-0[1-3]/, note: '对应 A 股贸易战熊市底（2018Q4–2019Q1）' },
-  { match: /^2020-0[2-4]/,              note: '对应新冠疫情流行性暴跌（2020 年 2–4 月）' },
-  { match: /^2022-(0[3-9]|1[0-2])/,     note: '对应稳增长摇摆 + 美联储加息周期，债股双杀（2022Q1–Q4）' },
-  { match: /^2023-(0[8-9]|1[0-2])/,     note: '对应人民币贬值压力 + 高息环境，二级债基普遍承压（2023Q3–Q4）' },
-  { match: /^2024-(09|10)/,             note: '对应"924"政策博弈快涨快跌（2024 年 9–10 月）' },
-  { match: /^2025-0[1-3]/,              note: '对应 DeepSeek 行情后快速回吐（2025Q1）' },
-];
-
-function macroNote(endDate) {
-  if (!endDate) return '';
-  const hit = MACRO_EVENTS.find(e => e.match.test(endDate));
-  return hit ? hit.note : '';
-}
-
 function bMaxDrawdownEvent(d) {
   const r = d.risk_metrics;
   if (!r || !r.max_drawdown_start_date || !r.max_drawdown_end_date) return '';
@@ -1264,7 +1429,6 @@ function bMaxDrawdownEvent(d) {
     ? '仍在水下'
     : `${r.max_drawdown_recovery_days} 天`;
   const recoveryCls = r.max_drawdown_recovery_days == null ? 'neg' : 'neu';
-  const note = macroNote(r.max_drawdown_end_date);
   const items = [
     { k:'起点日期', v: r.max_drawdown_start_date,        cls:'neu', hint:'前期净值高点' },
     { k:'谷底日期', v: r.max_drawdown_end_date,          cls:'neg', hint:'回撤最深时点' },
@@ -1277,14 +1441,10 @@ function bMaxDrawdownEvent(d) {
       <div class="mnum ${it.cls}">${esc(it.v)}</div>
       <div class="mhint">${esc(it.hint)}</div>
     </div>`).join('');
-  const noteHtml = note
-    ? `<div class="sub-label sub-label-callout">日期映射推断：${esc(note)}</div>`
-    : '';
   return `
   <div class="card mb24 fade">
     ${sl('最大回撤事件溯源', '近 '+r.data_points+' 交易日')}
     <div class="mgrid mgrid-4">${cells}</div>
-    ${noteHtml}
   </div>`;
 }
 
@@ -1360,7 +1520,7 @@ function benchAccCommentary(rows) {
 
 function bRollingMoney(d) {
   const r = d.rolling_returns;
-  if (!r || (!r.y1 && !r.y3)) return '';
+  if (!r || (!r.y1 && !r.y3 && !r.y5)) return '';
   // Amount comes from `?amount=NNN` query param; default 100k for an easy
   // mental anchor and to scale via simple multiplication for any holding size.
   const params = new URLSearchParams(location.search);
@@ -1402,7 +1562,7 @@ function bRollingMoney(d) {
           <th>最差情形</th><th>中位情形</th><th>最好情形</th>
           <th>样本</th>
         </tr></thead>
-        <tbody>${row(r.y1, '1 年')}${row(r.y3, '3 年')}</tbody>
+        <tbody>${row(r.y1, '1 年')}${row(r.y3, '3 年')}${row(r.y5, '5 年')}</tbody>
       </table>
     </div>
     ${hintLine ? `<div class="sub-label sub-label-callout">${hintLine}</div>` : ''}
@@ -1594,6 +1754,26 @@ function bFooter(d) {
         <div class="as-of-grid">${cells}</div>
       </details>` : ''}
   </footer>`;
+}
+
+function bDataGaps(d) {
+  const gaps = d.data_gaps;
+  if (!Array.isArray(gaps) || !gaps.length) return '';
+  const rows = gaps.map(g => `
+    <tr>
+      <td>${esc(g.label)}</td>
+      <td>${esc(g.reason)}</td>
+    </tr>`).join('');
+  return `
+  <div class="card mb24 fade">
+    ${sl('未接入的重要数据源', `${gaps.length} 项`)}
+    <div class="tscroll">
+      <table class="mtbl">
+        <thead><tr><th>指标</th><th>当前缺口</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
 }
 
 /* ─── animations / charts ─── */
@@ -2286,41 +2466,47 @@ async function init() {
       bHeroStats(data),
       bInvestmentSummary(data),
 
-      // I. PROFILE
-      bChapterBreak(1, 2),
-      bInfo(data),
-      bFee(data),
-
-      // II. PERFORMANCE
-      bChapterBreak(2, 5),
+      // I. RETURN
+      bChapterBreak(1, 4),
       bPeriods(data),
-      bYearly(data),
-      bMonthlySeries(data),
       bAccChart(),
       bBenchAccCompare(data),
+      bBenchmark(data),
 
-      // III. RISK
-      bChapterBreak(3, 6),
+      // II. RISK
+      bChapterBreak(2, 6),
       bRisk(data),
       bMaxDrawdownEvent(data),
-      bBenchmark(data),
       bDistribution(data),
       bRolling(data),
       bRollingMoney(data),
+      bNavHistory(data),
 
-      // IV. STEWARDSHIP
-      bChapterBreak(4, 3),
+      // III. STYLE
+      bChapterBreak(3, 6),
+      bAssetAllocation(data),
+      bDataGaps(data),
+      bManagerRoster(data),
+      bManagerStyle(data),
+      bTopStocks(data),
+      bTopBonds(data),
+
+      // IV. FLOW & COST
+      bChapterBreak(4, 5),
+      bFlowRisk(data),
+      bScaleChanges(data),
+      bHolderStructure(data),
+      bTradingCost(data),
+      bCostDrag(data),
+
+      // V. APPENDIX
+      bChapterBreak(5, 6),
+      bInfo(data),
       bScores(data),
       bManager(data),
       bManagerHistory(data),
-
-      // V. PORTFOLIO & FLOW
-      bChapterBreak(5, 6),
-      bAssetAllocation(data),
-      bTopStocks(data),
-      bTopBonds(data),
-      bScaleChanges(data),
-      bHolderStructure(data),
+      bYearly(data),
+      bMonthlySeries(data),
       bDividends(data),
 
       bFooter(data),

@@ -694,6 +694,54 @@ body {
   white-space: nowrap;
 }
 
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.decision-panel {
+  background: var(--page);
+  padding: 16px 18px;
+  min-height: 118px;
+}
+.decision-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 10px;
+}
+.decision-body {
+  font-family: var(--body);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink2);
+}
+.decision-body b { color: var(--ink); font-weight: 700; }
+.decision-body b.pos { color: var(--pos); }
+.decision-body b.neg { color: var(--neg); }
+.decision-body b.warn { color: var(--warn); }
+.decision-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin: 0 7px 7px 0;
+  padding: 4px 9px;
+  border: 1px solid var(--rule-mid);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.25;
+  color: var(--acc);
+  background: var(--cardhi);
+}
+.decision-pill.warn {
+  color: var(--warn);
+  border-color: rgba(164,118,29,0.35);
+}
+
 /* ── section label (display serif) ── */
 .slabel {
   display: flex;
@@ -988,6 +1036,9 @@ body {
 }
 .mgrid-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.mgrid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .mcell {
   background: var(--card);
@@ -1312,6 +1363,12 @@ body {
   transition: opacity 0.2s;
 }
 .resume-btn:hover { opacity: 0.65; }
+
+.manager-style-block + .manager-style-block {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+}
 
 /* ── holder structure ── */
 .holder-row {

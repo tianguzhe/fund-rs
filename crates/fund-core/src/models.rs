@@ -85,6 +85,12 @@ pub struct FundDetail {
     pub trust_fee: String,
     #[serde(rename = "SALESEXP", default)]
     pub sales_fee: String,
+    #[serde(rename = "BUY", default)]
+    pub can_buy: String,
+    #[serde(rename = "SGZT", default)]
+    pub purchase_status: String,
+    #[serde(rename = "SHZT", default)]
+    pub redemption_status: String,
     /// 业绩比较基准描述（主动基金）
     #[serde(rename = "BENCH", default)]
     pub bench: String,

@@ -22,6 +22,35 @@ pub struct ScoreBreakdown {
     pub items: Vec<ScoreItem>,
 }
 
+#[derive(Serialize)]
+pub struct CostAnalysis {
+    /// Ongoing annual fee drag from management + custody + sales service fees.
+    pub ongoing_fee_pct: f64,
+    pub manager_fee_pct: f64,
+    pub custody_fee_pct: f64,
+    pub sales_fee_pct: f64,
+    pub net_annualized_after_fee_pct: f64,
+}
+
+#[derive(Serialize)]
+pub struct FlowRisk {
+    pub recent_quarter_net_subscribe_yi: Option<f64>,
+    pub recent_quarter_net_subscribe_pct_of_shares: Option<f64>,
+    pub recent_quarter_nav_change_pct: Option<f64>,
+    pub last_4q_large_swing_count: usize,
+    pub institutional_pct_latest: Option<f64>,
+    pub institutional_pct_change_latest: Option<f64>,
+    pub score: u32,
+    pub level: String,
+}
+
+#[derive(Serialize)]
+pub struct DataGap {
+    pub key: String,
+    pub label: String,
+    pub reason: String,
+}
+
 /// Per-section data freshness for downstream UIs to surface "as of" labels.
 /// Each field reports the latest date observed in that section's payload, or
 /// None when the section is empty / failed to fetch.
@@ -63,6 +92,9 @@ pub struct FundAnalysis {
     pub distribution: DistributionStats,
     /// Rolling 1Y / 3Y return distribution stats.
     pub rolling_returns: RollingReturns,
+    pub cost_analysis: CostAnalysis,
+    pub flow_risk: FlowRisk,
+    pub data_gaps: Vec<DataGap>,
     pub fee_rules: Option<FeeRules>,
     /// Bond holdings (zqcc). Only populated for bond-type funds.
     pub top_bonds: Option<TopBondsReport>,
@@ -157,8 +189,12 @@ pub fn run(
     let dividends = dividends_r.unwrap_or_default();
     let asset_allocation = asset_allocation_r.unwrap_or_default();
     // Pure parser over fund name — cheap, deterministic, no network.
-    let holding_constraints =
-        Some(fund_core::f10::detect_holding_constraints(&detail.name, &detail.full_name));
+    let holding_constraints = Some(fund_core::f10::detect_holding_constraints_with_status(
+        &detail.name,
+        &detail.full_name,
+        &detail.purchase_status,
+        &detail.redemption_status,
+    ));
     let fee_rules = fund_core::f10::get_fee_rules(code).ok();
 
     // Bond holdings only make sense for bond-type funds; skip the F10 round-trip otherwise.
@@ -189,6 +225,9 @@ pub fn run(
     let benchmark_metrics = scoring::compute_benchmark_metrics(&accumulated_return);
     let distribution = scoring::compute_distribution_stats(&nav_trend);
     let rolling_returns = scoring::compute_rolling_returns(&nav_full);
+    let cost_analysis = compute_cost_analysis(&detail, &risk_metrics);
+    let flow_risk = compute_flow_risk(&scale_changes, &holder_structure);
+    let data_gaps = data_gaps(&detail);
 
     // Batch 2: per-manager details. Upstream `fundmsmanger` collapses multi-manager
     // funds into a single record with comma-joined MGRID/MGRNAME (e.g. "ID_A,ID_B").
@@ -304,6 +343,9 @@ pub fn run(
         benchmark_metrics,
         distribution,
         rolling_returns,
+        cost_analysis,
+        flow_risk,
+        data_gaps,
         fee_rules,
         top_bonds,
         top_stocks,
@@ -471,6 +513,107 @@ fn display_analysis(a: &FundAnalysis) {
 
     println!();
     println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".bright_black());
+}
+
+fn parse_pct_text(s: &str) -> f64 {
+    s.trim().trim_end_matches('%').parse().unwrap_or(0.0)
+}
+
+fn compute_cost_analysis(detail: &FundDetail, risk: &RiskMetrics) -> CostAnalysis {
+    let manager_fee_pct = parse_pct_text(&detail.mgr_fee);
+    let custody_fee_pct = parse_pct_text(&detail.trust_fee);
+    let sales_fee_pct = parse_pct_text(&detail.sales_fee);
+    let ongoing_fee_pct = manager_fee_pct + custody_fee_pct + sales_fee_pct;
+    CostAnalysis {
+        ongoing_fee_pct,
+        manager_fee_pct,
+        custody_fee_pct,
+        sales_fee_pct,
+        net_annualized_after_fee_pct: risk.annualized_return - ongoing_fee_pct,
+    }
+}
+
+fn compute_flow_risk(scales: &[ScaleChangePoint], holders: &[HolderStructurePoint]) -> FlowRisk {
+    let latest_scale = scales.first();
+    let recent_quarter_net_subscribe_yi = latest_scale.map(|s| s.purchase_yi - s.redemption_yi);
+    let recent_quarter_net_subscribe_pct_of_shares = latest_scale.and_then(|s| {
+        if s.end_shares_yi > 0.0 {
+            Some((s.purchase_yi - s.redemption_yi) / s.end_shares_yi * 100.0)
+        } else {
+            None
+        }
+    });
+    let recent_quarter_nav_change_pct = latest_scale.map(|s| s.change_pct);
+    let last_4q_large_swing_count =
+        scales.iter().take(4).filter(|s| s.change_pct.abs() >= 10.0).count();
+    let institutional_pct_latest = holders.first().map(|h| h.institutional_pct);
+    let institutional_pct_change_latest = if holders.len() >= 2 {
+        Some(holders[0].institutional_pct - holders[1].institutional_pct)
+    } else {
+        None
+    };
+
+    let mut risk = 0u32;
+    if last_4q_large_swing_count >= 2 {
+        risk += 25;
+    }
+    if recent_quarter_nav_change_pct.is_some_and(|v| v.abs() >= 20.0) {
+        risk += 25;
+    }
+    if institutional_pct_latest.is_some_and(|v| v >= 80.0) {
+        risk += 25;
+    } else if institutional_pct_latest.is_some_and(|v| v >= 70.0) {
+        risk += 15;
+    }
+    if institutional_pct_change_latest.is_some_and(|v| v.abs() >= 10.0) {
+        risk += 15;
+    }
+    if recent_quarter_net_subscribe_pct_of_shares.is_some_and(|v| v <= -10.0) {
+        risk += 10;
+    }
+    let score = risk.min(100);
+    let level = if score >= 60 {
+        "高".to_string()
+    } else if score >= 30 {
+        "中".to_string()
+    } else {
+        "低".to_string()
+    };
+
+    FlowRisk {
+        recent_quarter_net_subscribe_yi,
+        recent_quarter_net_subscribe_pct_of_shares,
+        recent_quarter_nav_change_pct,
+        last_4q_large_swing_count,
+        institutional_pct_latest,
+        institutional_pct_change_latest,
+        score,
+        level,
+    }
+}
+
+fn data_gaps(detail: &FundDetail) -> Vec<DataGap> {
+    let mut gaps = Vec::new();
+    if detail.fund_type.contains('债') {
+        gaps.push(DataGap {
+            key: "bond_duration".to_string(),
+            label: "债券久期".to_string(),
+            reason: "当前 F10 持仓接口只提供前十大债券名称、占比和市值，未提供组合久期。"
+                .to_string(),
+        });
+        gaps.push(DataGap {
+            key: "bond_credit_rating".to_string(),
+            label: "信用评级分布".to_string(),
+            reason: "当前数据源未返回债券评级分布，不能从债券名称可靠推断评级。".to_string(),
+        });
+    }
+    gaps.push(DataGap {
+        key: "stock_industry_classification".to_string(),
+        label: "正式行业分类".to_string(),
+        reason: "当前重仓股接口未接入统一行业分类，页面只保留名称线索，不作为正式行业暴露。"
+            .to_string(),
+    });
+    gaps
 }
 
 fn print_redemption_fee_rules(rules: &FeeRules) {
