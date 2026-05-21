@@ -78,6 +78,8 @@ struct Returns {
     today: f64,
     week: f64,
     month: f64,
+    nav: f64,
+    acc_nav: f64,
 }
 
 fn calc(points: &[NetValuePoint]) -> Option<Returns> {
@@ -89,6 +91,8 @@ fn calc(points: &[NetValuePoint]) -> Option<Returns> {
         today: latest.growth,
         week: period_return(points, nav, d0, WEEK_DAYS),
         month: period_return(points, nav, d0, MONTH_DAYS),
+        nav,
+        acc_nav: latest.acc_value,
     })
 }
 
@@ -204,13 +208,12 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
                 date: r.date.clone(),
                 fund_code: h.code.clone(),
                 fund_name: h.name.clone(),
+                fund_type: if row.fund_type.is_empty() { None } else { Some(row.fund_type.clone()) },
                 holding: h.amount,
-                day_pct: r.today,
-                day_amount: p_today,
-                week_pct: r.week,
-                week_amount: p_week,
-                month_pct: r.month,
-                month_amount: p_month,
+                nav: Some(r.nav),
+                acc_nav: Some(r.acc_nav),
+                daily_pct: r.today,
+                daily_pnl: p_today,
             });
         }
 

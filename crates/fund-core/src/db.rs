@@ -10,13 +10,12 @@ pub struct DailyRecord {
     pub date: String,
     pub fund_code: String,
     pub fund_name: String,
+    pub fund_type: Option<String>,
     pub holding: f64,
-    pub day_pct: f64,
-    pub day_amount: f64,
-    pub week_pct: f64,
-    pub week_amount: f64,
-    pub month_pct: f64,
-    pub month_amount: f64,
+    pub nav: Option<f64>,
+    pub acc_nav: Option<f64>,
+    pub daily_pct: f64,
+    pub daily_pnl: f64,
 }
 
 fn db_path() -> PathBuf {
@@ -30,44 +29,99 @@ fn open() -> Result<Connection> {
     let path = db_path();
     let conn =
         Connection::open(&path).with_context(|| format!("打开数据库失败: {}", path.display()))?;
+
     conn.execute_batch(
-        "CREATE TABLE IF NOT EXISTS daily_returns (
-            date         TEXT NOT NULL,
-            fund_code    TEXT NOT NULL,
-            fund_name    TEXT NOT NULL,
-            holding      REAL NOT NULL,
-            day_pct      REAL NOT NULL,
-            day_amount   REAL NOT NULL,
-            week_pct     REAL NOT NULL,
-            week_amount  REAL NOT NULL,
-            month_pct    REAL NOT NULL,
-            month_amount REAL NOT NULL,
-            PRIMARY KEY (date, fund_code)
+        "PRAGMA foreign_keys = ON;
+
+        CREATE TABLE IF NOT EXISTS funds (
+            code       TEXT PRIMARY KEY,
+            name       TEXT NOT NULL,
+            fund_type  TEXT,
+            updated_at TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS portfolio_daily (
+            date      TEXT NOT NULL,
+            code      TEXT NOT NULL REFERENCES funds(code),
+            holding   REAL NOT NULL,
+            nav       REAL,
+            acc_nav   REAL,
+            daily_pct REAL NOT NULL,
+            daily_pnl REAL NOT NULL,
+            PRIMARY KEY (date, code)
         );",
     )?;
+
+    maybe_migrate(&conn)?;
+
     Ok(conn)
+}
+
+/// One-time migration from legacy `daily_returns` table to the new schema.
+/// Renames old table to `daily_returns_legacy` after successful migration.
+fn maybe_migrate(conn: &Connection) -> Result<()> {
+    let legacy_exists: bool = conn
+        .query_row(
+            "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='daily_returns'",
+            [],
+            |row| row.get::<_, i64>(0),
+        )
+        .unwrap_or(0)
+        > 0;
+
+    if !legacy_exists {
+        return Ok(());
+    }
+
+    // Migrate data in a transaction, then rename the old table outside it.
+    conn.execute_batch(
+        "BEGIN;
+        INSERT OR IGNORE INTO funds (code, name, updated_at)
+            SELECT fund_code, fund_name, MAX(date)
+            FROM daily_returns
+            GROUP BY fund_code;
+        INSERT OR IGNORE INTO portfolio_daily (date, code, holding, daily_pct, daily_pnl)
+            SELECT date, fund_code, holding, day_pct, day_amount
+            FROM daily_returns;
+        COMMIT;",
+    )
+    .context("迁移旧数据失败")?;
+
+    // Rename outside transaction — DDL in SQLite is safe but cleaner this way.
+    conn.execute_batch("ALTER TABLE daily_returns RENAME TO daily_returns_legacy;")
+        .context("重命名旧表失败")?;
+
+    eprintln!("✓ 已迁移旧数据到新表，原表保留为 daily_returns_legacy");
+    Ok(())
 }
 
 pub fn save_records(records: &[DailyRecord]) -> Result<()> {
     let mut conn = open()?;
     let tx = conn.transaction()?;
+
     for r in records {
         tx.execute(
-            "INSERT OR REPLACE INTO daily_returns VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)",
+            "INSERT OR REPLACE INTO funds (code, name, fund_type, updated_at)
+             VALUES (?1, ?2, ?3, date('now'))",
+            params![r.fund_code, r.fund_name, r.fund_type],
+        )?;
+
+        tx.execute(
+            "INSERT OR REPLACE INTO portfolio_daily
+                (date, code, holding, nav, acc_nav, daily_pct, daily_pnl)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
             params![
                 r.date,
                 r.fund_code,
-                r.fund_name,
                 r.holding,
-                r.day_pct,
-                r.day_amount,
-                r.week_pct,
-                r.week_amount,
-                r.month_pct,
-                r.month_amount
+                r.nav,
+                r.acc_nav,
+                r.daily_pct,
+                r.daily_pnl
             ],
         )?;
     }
+
     tx.commit()?;
     eprintln!("✓ 已保存 {} 条记录到 {}", records.len(), db_path().display());
     Ok(())
@@ -87,14 +141,11 @@ struct ExportData {
 struct FundExport {
     code: String,
     name: String,
+    fund_type: Option<String>,
     holding: f64,
     weight: f64,
     day_pcts: Vec<Option<String>>,
     day_amounts: Vec<Option<String>>,
-    week_pcts: Vec<Option<String>>,
-    week_amounts: Vec<Option<String>>,
-    month_pcts: Vec<Option<String>>,
-    month_amounts: Vec<Option<String>>,
     cumulative_amounts: Vec<f64>,
 }
 
@@ -105,30 +156,38 @@ struct TotalExport {
     cumulative_amounts: Vec<String>,
 }
 
-/// Single-query export: fetches all data in one SQL pass, builds in memory.
+/// Single-query export: fetches all portfolio data, builds timeline in memory.
 pub fn export_json() -> Result<serde_json::Value> {
     let conn = open()?;
 
+    #[derive(Debug)]
+    struct ExportRow {
+        date: String,
+        fund_code: String,
+        fund_name: String,
+        fund_type: Option<String>,
+        holding: f64,
+        daily_pct: f64,
+        daily_pnl: f64,
+    }
+
     let mut stmt = conn.prepare(
-        "SELECT date, fund_code, fund_name, holding,
-                day_pct, day_amount, week_pct, week_amount, month_pct, month_amount
-         FROM daily_returns
-         ORDER BY fund_code, date ASC",
+        "SELECT p.date, p.code, f.name, f.fund_type, p.holding, p.daily_pct, p.daily_pnl
+         FROM portfolio_daily p
+         JOIN funds f ON f.code = p.code
+         ORDER BY p.code, p.date ASC",
     )?;
 
-    let rows: Vec<DailyRecord> = stmt
+    let rows: Vec<ExportRow> = stmt
         .query_map([], |row| {
-            Ok(DailyRecord {
+            Ok(ExportRow {
                 date: row.get(0)?,
                 fund_code: row.get(1)?,
                 fund_name: row.get(2)?,
-                holding: row.get(3)?,
-                day_pct: row.get(4)?,
-                day_amount: row.get(5)?,
-                week_pct: row.get(6)?,
-                week_amount: row.get(7)?,
-                month_pct: row.get(8)?,
-                month_amount: row.get(9)?,
+                fund_type: row.get(3)?,
+                holding: row.get(4)?,
+                daily_pct: row.get(5)?,
+                daily_pnl: row.get(6)?,
             })
         })?
         .filter_map(|r| r.ok())
@@ -138,14 +197,12 @@ pub fn export_json() -> Result<serde_json::Value> {
         return Ok(serde_json::json!({}));
     }
 
-    // Extract sorted dates
     let mut dates: Vec<String> = rows.iter().map(|r| r.date.clone()).collect();
     dates.sort_unstable();
     dates.dedup();
 
-    // Group records by fund_code (single-lookup per row)
     let mut fund_codes: Vec<String> = Vec::new();
-    let mut fund_map: HashMap<String, Vec<&DailyRecord>> = HashMap::new();
+    let mut fund_map: HashMap<String, Vec<&ExportRow>> = HashMap::new();
     for row in &rows {
         match fund_map.entry(row.fund_code.clone()) {
             Entry::Vacant(e) => {
@@ -160,7 +217,6 @@ pub fn export_json() -> Result<serde_json::Value> {
 
     let total_holding: f64 = fund_map.values().map(|recs| recs[0].holding).sum();
 
-    // Build fund exports
     let date_index: HashMap<&str, usize> =
         dates.iter().enumerate().map(|(i, d)| (d.as_str(), i)).collect();
 
@@ -173,22 +229,14 @@ pub fn export_json() -> Result<serde_json::Value> {
 
         let mut day_pcts: Vec<Option<String>> = vec![None; n];
         let mut day_amounts: Vec<Option<String>> = vec![None; n];
-        let mut week_pcts: Vec<Option<String>> = vec![None; n];
-        let mut week_amounts: Vec<Option<String>> = vec![None; n];
-        let mut month_pcts: Vec<Option<String>> = vec![None; n];
-        let mut month_amounts: Vec<Option<String>> = vec![None; n];
         let mut cumulative_amounts = vec![0.0f64; n];
         let mut cum_amt = 0.0f64;
 
         for r in records {
             if let Some(&idx) = date_index.get(r.date.as_str()) {
-                day_pcts[idx] = Some(format!("{:.4}", r.day_pct));
-                day_amounts[idx] = Some(format!("{:.2}", r.day_amount));
-                week_pcts[idx] = Some(format!("{:.4}", r.week_pct));
-                week_amounts[idx] = Some(format!("{:.2}", r.week_amount));
-                month_pcts[idx] = Some(format!("{:.4}", r.month_pct));
-                month_amounts[idx] = Some(format!("{:.2}", r.month_amount));
-                cum_amt += r.day_amount;
+                day_pcts[idx] = Some(format!("{:.4}", r.daily_pct));
+                day_amounts[idx] = Some(format!("{:.2}", r.daily_pnl));
+                cum_amt += r.daily_pnl;
                 cumulative_amounts[idx] = cum_amt;
             }
         }
@@ -202,23 +250,19 @@ pub fn export_json() -> Result<serde_json::Value> {
         funds.push(FundExport {
             code: code.clone(),
             name: records[0].fund_name.clone(),
+            fund_type: records[0].fund_type.clone(),
             holding,
             weight,
             day_pcts,
             day_amounts,
-            week_pcts,
-            week_amounts,
-            month_pcts,
-            month_amounts,
             cumulative_amounts,
         });
     }
 
-    // Build per-date aggregates in one pass
     let mut date_aggregates: HashMap<&str, (f64, f64)> = HashMap::new();
     for row in &rows {
         let entry = date_aggregates.entry(row.date.as_str()).or_insert((0.0, 0.0));
-        entry.0 += row.day_amount;
+        entry.0 += row.daily_pnl;
         entry.1 += row.holding;
     }
 

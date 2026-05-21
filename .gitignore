@@ -28,6 +28,9 @@ crates/fund-tauri/gen/
 # Generated data outputs (fund export / fund compare)
 *_data.json
 
+# Portfolio export data (contains real holding amounts)
+dist/data/portfolio.json
+
 # Cached fund API data
 funds_data/
 

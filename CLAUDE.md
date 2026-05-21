@@ -87,7 +87,9 @@
 
 ### 持仓数据存储（SQLite）
 - DB 路径: `~/.fund-rs/portfolio.db`
-- 表名: `daily_returns`，主键 `(date, fund_code)`
+- 表：`funds`（基金元数据）+ `portfolio_daily`（每日快照），主键 `(date, code)`
+  - 旧数据已自动迁移；原 `daily_returns` 保留为 `daily_returns_legacy`
+  - `nav` / `acc_nav`：2026-05-21 前迁移的历史行为 NULL，之后 `--save` 写入有值
 - 模块: `crates/fund-core/src/db.rs`，提供 `save_records()` / `export_json()`
 
 ### F10 底层接口（基金本身持仓与行业配置）

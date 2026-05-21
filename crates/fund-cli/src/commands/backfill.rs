@@ -1,9 +1,7 @@
 use anyhow::{bail, Result};
 use fund_core::api::Client;
 use fund_core::db::{self, DailyRecord};
-use fund_core::holdings::{
-    date_days, fetch_all_histories, holdings, period_return, profit_amount, MONTH_DAYS, WEEK_DAYS,
-};
+use fund_core::holdings::{date_days, fetch_all_histories, holdings, profit_amount};
 
 /// 将 API 历史数据中 [from, to] 范围内的交易日批量写入 SQLite
 pub fn run(client: &Client, from: &str, to: &str) -> Result<()> {
@@ -27,7 +25,7 @@ pub fn run(client: &Client, from: &str, to: &str) -> Result<()> {
             }
         };
 
-        for (i, point) in points.iter().enumerate() {
+        for point in points.iter() {
             let d = match date_days(&point.date) {
                 Some(d) => d,
                 None => continue,
@@ -36,26 +34,16 @@ pub fn run(client: &Client, from: &str, to: &str) -> Result<()> {
                 continue;
             }
 
-            let nav = point.net_value;
-            let slice = &points[i..];
-            let week_pct = period_return(slice, nav, d, WEEK_DAYS);
-            let month_pct = period_return(slice, nav, d, MONTH_DAYS);
-
-            let day_amount = profit_amount(h.amount, point.growth);
-            let week_amount = profit_amount(h.amount, week_pct);
-            let month_amount = profit_amount(h.amount, month_pct);
-
             records.push(DailyRecord {
                 date: point.date.clone(),
                 fund_code: h.code.to_string(),
                 fund_name: h.name.to_string(),
+                fund_type: None,
                 holding: h.amount,
-                day_pct: point.growth,
-                day_amount,
-                week_pct,
-                week_amount,
-                month_pct,
-                month_amount,
+                nav: Some(point.net_value),
+                acc_nav: Some(point.acc_value),
+                daily_pct: point.growth,
+                daily_pnl: profit_amount(h.amount, point.growth),
             });
         }
     }
