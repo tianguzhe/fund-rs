@@ -553,24 +553,186 @@ function bCostDrag(d) {
   </div>`;
 }
 
+const PERIOD_GROUPS = [
+  { id:'I',   name:'短期', titles:['Last Week','Last Month','Last 3 Months'] },
+  { id:'II',  name:'中期', titles:['Last 6 Months','Year to Date','Last Year'] },
+  { id:'III', name:'长期', titles:['Last 2 Years','Last 3 Years','Last 5 Years','Since Inception'] },
+];
+
 function bPeriods(d) {
-  const rows = d.periods.map(p => `
-    <tr>
-      <td>${esc(PMAP[p.title] || p.title)}</td>
-      <td>${cpct(p.return_rate)}</td>
-      <td class="neu">${fmt(p.avg)}%</td>
-      <td class="neu">${fmt(p.hs300_return)}%</td>
-      <td>${chip(p.rank, p.total)}</td>
-    </tr>`).join('');
+  const periods = d.periods || [];
+  if (!periods.length) return '';
+
+  // bar normalization: scale by max |return| so short periods don't disappear
+  const maxAbs = Math.max(...periods.map(p => Math.abs(nval(p.return_rate, 0))), 1);
+
+  // headline metrics: win-rates and extremes
+  let wP = 0, lP = 0, wH = 0, lH = 0;
+  let best = null, worst = null;
+  periods.forEach(p => {
+    const r = nval(p.return_rate), av = nval(p.avg), hs = nval(p.hs300_return);
+    if (r != null && av != null) { if (r > av) wP++; else if (r < av) lP++; }
+    if (r != null && hs != null) { if (r > hs) wH++; else if (r < hs) lH++; }
+    if (p.total && p.rank != null) {
+      const q = rankpct(p.rank, p.total);
+      if (!best  || q < best.q)  best  = { p, q };
+      if (!worst || q > worst.q) worst = { p, q };
+    }
+  });
+  const peerN = wP + lP, hsN = wH + lH;
+  const peerRate = peerN ? Math.round(wP / peerN * 100) : null;
+  const hsRate   = hsN   ? Math.round(wH / hsN   * 100) : null;
+  const rateCls = r => r == null ? 'neu' : r >= 60 ? 'pos' : r <= 40 ? 'neg' : 'warn';
+
+  const summaryCells = [
+    {
+      label:'对同类均值',
+      num: peerN ? `${wP}<span class="ps-vs">胜</span><span class="ps-sep">/</span>${lP}<span class="ps-vs">负</span>` : '--',
+      sub: peerRate == null ? '' : `胜率 ${peerRate}%`,
+      cls: rateCls(peerRate),
+    },
+    {
+      label:'对沪深 300',
+      num: hsN ? `${wH}<span class="ps-vs">胜</span><span class="ps-sep">/</span>${lH}<span class="ps-vs">负</span>` : '--',
+      sub: hsRate == null ? '' : `胜率 ${hsRate}%`,
+      cls: rateCls(hsRate),
+    },
+    {
+      label:'最强区间',
+      num: best ? esc(PMAP[best.p.title] || best.p.title) : '--',
+      sub: best  ? `前 ${best.q.toFixed(1)}% · ${pct(best.p.return_rate,2,true)}` : '',
+      cls:'pos',
+    },
+    {
+      label:'最弱区间',
+      num: worst ? esc(PMAP[worst.p.title] || worst.p.title) : '--',
+      sub: worst ? `前 ${worst.q.toFixed(1)}% · ${pct(worst.p.return_rate,2,true)}` : '',
+      cls: worst && worst.q >= 50 ? 'neg' : 'warn',
+    },
+  ];
+  const summary = `
+    <div class="period-summary">
+      ${summaryCells.map(c => `
+        <div class="ps-cell">
+          <div class="ps-label">${esc(c.label)}</div>
+          <div class="ps-num ${c.cls}">${c.num}</div>
+          <div class="ps-sub">${esc(c.sub)}</div>
+        </div>`).join('')}
+    </div>`;
+
+  // per-row renderer
+  const renderRow = p => {
+    const r  = nval(p.return_rate);
+    const av = nval(p.avg);
+    const hs = nval(p.hs300_return);
+    const aP = (r != null && av != null) ? (r - av) : null;
+    const aH = (r != null && hs != null) ? (r - hs) : null;
+
+    // bipolar bar: width up to 46% from centre
+    const w  = r != null ? Math.min(46, Math.abs(r) / maxAbs * 46) : 0;
+    const lf = r != null && r < 0 ? `${50 - w}%` : '50%';
+    const bg = r == null ? 'transparent' : r >= 0 ? 'var(--pos)' : 'var(--neg)';
+
+    // peer-average tick on the same axis (reference dot)
+    let avTickLeft = null;
+    if (av != null) avTickLeft = 50 + Math.max(-46, Math.min(46, av / maxAbs * 46));
+
+    // percentile / rank
+    const q   = p.total ? rankpct(p.rank, p.total) : null;
+    const qCls = q == null ? 'neu'
+              : q <= 25 ? 'pos'
+              : q <= 50 ? 'neu'
+              : q <= 75 ? 'warn'
+              : 'neg';
+    const qLabel = q == null ? '--'
+                : q <= 25 ? `前 ${q.toFixed(1)}%`
+                : q <= 50 ? `前 ${q.toFixed(1)}%`
+                : `后 ${(100 - q).toFixed(1)}%`;
+
+    return `
+      <div class="period-row">
+        <div class="pr-name">${esc(PMAP[p.title] || p.title)}</div>
+        <div class="pr-bar-cell">
+          <div class="pr-bar">
+            <div class="pr-bar-zero"></div>
+            ${avTickLeft != null ? `<div class="pr-bar-tick" style="left:${avTickLeft.toFixed(2)}%" title="同类均值"></div>` : ''}
+            <div class="pr-bar-fill" data-w="${w}%" data-left="${lf}" style="background:${bg}"></div>
+          </div>
+          <div class="pr-val ${cc(r)}">${r != null ? pct(r,2,true) : '--'}</div>
+        </div>
+        <div class="pr-alpha-cell">
+          <div class="pr-alpha-line">
+            <span class="pr-alpha-tag">α 同类</span>
+            <span class="pr-alpha-val ${cc(aP)}">${aP != null ? pct(aP,2,true) : '--'}</span>
+          </div>
+          <div class="pr-alpha-line">
+            <span class="pr-alpha-tag">α 沪深</span>
+            <span class="pr-alpha-val ${cc(aH)}">${aH != null ? pct(aH,2,true) : '--'}</span>
+          </div>
+        </div>
+        <div class="pr-rank-cell">
+          <div class="pr-rank-head">
+            <span class="pr-rank-num">${p.total ? `${p.rank} / ${p.total.toLocaleString()}` : '--'}</span>
+            <span class="pr-rank-pct ${qCls}">${esc(qLabel)}</span>
+          </div>
+          <div class="pr-rank-track">
+            <span class="pr-rank-quartile" style="left:25%"></span>
+            <span class="pr-rank-quartile" style="left:50%"></span>
+            <span class="pr-rank-quartile" style="left:75%"></span>
+            ${q != null ? `<span class="pr-rank-dot ${qCls}" data-left="${q.toFixed(2)}%"></span>` : ''}
+          </div>
+        </div>
+      </div>`;
+  };
+
+  // group buckets
+  const usedTitles = new Set();
+  const groupsHtml = PERIOD_GROUPS.map(g => {
+    const items = g.titles
+      .map(t => periods.find(p => p.title === t))
+      .filter(Boolean);
+    if (!items.length) return '';
+    items.forEach(it => usedTitles.add(it.title));
+    return `
+      <div class="period-group">
+        <div class="period-group-head">
+          <span class="pg-num">${g.id}</span>
+          <span class="pg-name">${esc(g.name)}</span>
+          <span class="pg-rule"></span>
+          <span class="pg-meta">${items.map(it => esc(PMAP[it.title] || it.title)).join(' · ')}</span>
+        </div>
+        <div class="period-rows">${items.map(renderRow).join('')}</div>
+      </div>`;
+  }).join('');
+
+  const misc = periods.filter(p => !usedTitles.has(p.title));
+  const miscHtml = misc.length ? `
+      <div class="period-group">
+        <div class="period-group-head">
+          <span class="pg-num">·</span>
+          <span class="pg-name">其他</span>
+          <span class="pg-rule"></span>
+        </div>
+        <div class="period-rows">${misc.map(renderRow).join('')}</div>
+      </div>` : '';
+
+  const legend = `
+    <div class="period-legend">
+      <span class="pl-item"><span class="pl-swatch pl-pos"></span>正收益</span>
+      <span class="pl-item"><span class="pl-swatch pl-neg"></span>负收益</span>
+      <span class="pl-item"><span class="pl-swatch pl-tick"></span>同类均值锚点</span>
+      <span class="pl-sep">·</span>
+      <span class="pl-note">α = 本基金收益 − 对比基准</span>
+      <span class="pl-sep">·</span>
+      <span class="pl-note">分位条：左端代表排名靠前</span>
+    </div>`;
+
   return `
   <div class="card mb24 fade">
     ${sl('阶段收益对比')}
-    <div class="tscroll">
-      <table class="dtbl">
-        <thead><tr><th>时间段</th><th>本基金</th><th>同类均值</th><th>沪深300</th><th>同类排名</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
+    ${summary}
+    ${legend}
+    <div class="period-stack">${groupsHtml}${miscHtml}</div>
     ${periodCommentary(d)}
   </div>`;
 }

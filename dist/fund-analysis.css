@@ -1591,6 +1591,346 @@ body {
 .dtbl tbody tr:hover { background: var(--tint); }
 .dtbl tbody tr:last-child td { border-bottom: 0; }
 
+/* ──────────────────────────────────────────────────────────────
+   阶段收益对比 · period comparison
+   editorial 节奏：分组 → 行卡 → 双极条 + α + 分位轨
+   ────────────────────────────────────────────────────────────── */
+
+.period-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 18px 0 4px;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+}
+.ps-cell {
+  padding: 16px 20px 18px;
+  border-right: 1px solid var(--rule);
+  position: relative;
+}
+.ps-cell:last-child { border-right: 0; }
+.ps-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 10px;
+}
+.ps-num {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink);
+  line-height: 1.2;
+  font-feature-settings: 'tnum' 1;
+}
+.ps-num.pos  { color: var(--pos); }
+.ps-num.neg  { color: var(--neg); }
+.ps-num.warn { color: var(--warn); }
+.ps-num.neu  { color: var(--ink); }
+.ps-vs {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--ink3);
+  letter-spacing: 0.08em;
+  margin: 0 2px 0 3px;
+  vertical-align: 2px;
+}
+.ps-sep {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--ink4);
+  margin: 0 3px;
+  font-weight: 300;
+}
+.ps-sub {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink2);
+  letter-spacing: 0.04em;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* legend strip */
+.period-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0 18px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink3);
+  letter-spacing: 0.06em;
+  border-bottom: 1px dashed var(--rule);
+  margin-bottom: 8px;
+}
+.pl-item { display: inline-flex; align-items: center; gap: 6px; }
+.pl-swatch {
+  display: inline-block;
+  width: 14px; height: 3px;
+  background: var(--rule);
+}
+.pl-pos { background: var(--pos); }
+.pl-neg { background: var(--neg); }
+.pl-tick {
+  width: 2px; height: 11px;
+  background: var(--ink2);
+  position: relative;
+  top: 0;
+}
+.pl-sep { color: var(--ink4); }
+.pl-note { color: var(--ink2); }
+
+/* group head */
+.period-stack { padding-top: 4px; }
+.period-group + .period-group { margin-top: 22px; }
+.period-group-head {
+  display: grid;
+  grid-template-columns: 22px auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 12px;
+  margin-bottom: 4px;
+}
+.pg-num {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--bg);
+  background: var(--ink);
+  text-align: center;
+  line-height: 22px;
+  height: 22px;
+  border-radius: var(--rs-soft);
+}
+.pg-name {
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+.pg-rule {
+  height: 1px;
+  background: var(--rule);
+  margin: 0 6px;
+}
+.pg-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* per-row */
+.period-row {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1.35fr) 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.period-rows > .period-row:last-child { border-bottom: 0; }
+.period-rows > .period-row:hover { background: var(--cardhi); }
+
+.pr-name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+/* bipolar bar + value */
+.pr-bar-cell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px;
+  align-items: center;
+  gap: 14px;
+}
+.pr-bar {
+  position: relative;
+  height: 6px;
+  background: linear-gradient(
+    to right,
+    transparent calc(50% - 0.5px),
+    var(--rule) calc(50% - 0.5px),
+    var(--rule) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+.pr-bar-zero {
+  position: absolute;
+  left: 50%; top: -4px; bottom: -4px;
+  width: 1px;
+  background: var(--rule-strong);
+  transform: translateX(-0.5px);
+}
+.pr-bar-tick {
+  position: absolute;
+  top: -3px; bottom: -3px;
+  width: 2px;
+  background: var(--ink2);
+  opacity: 0.7;
+  transform: translateX(-1px);
+}
+.pr-bar-fill {
+  position: absolute;
+  top: 0; left: 50%;
+  height: 100%;
+  width: 0;
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+              left  1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pr-val {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: right;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+}
+.pr-val.pos { color: var(--pos); }
+.pr-val.neg { color: var(--neg); }
+.pr-val.neu { color: var(--ink2); }
+
+/* alpha cell */
+.pr-alpha-cell {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  border-left: 1px solid var(--rule);
+  padding-left: 18px;
+}
+.pr-alpha-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.pr-alpha-tag {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+.pr-alpha-val {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
+}
+.pr-alpha-val.pos { color: var(--pos); }
+.pr-alpha-val.neg { color: var(--neg); }
+.pr-alpha-val.neu { color: var(--ink3); }
+
+/* rank cell with percentile dot track */
+.pr-rank-cell {
+  display: grid;
+  gap: 8px;
+  border-left: 1px solid var(--rule);
+  padding-left: 18px;
+}
+.pr-rank-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.pr-rank-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink2);
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: 0;
+}
+.pr-rank-pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.pr-rank-pct.pos  { color: var(--pos); }
+.pr-rank-pct.warn { color: var(--warn); }
+.pr-rank-pct.neg  { color: var(--neg); }
+.pr-rank-pct.neu  { color: var(--ink2); }
+.pr-rank-track {
+  position: relative;
+  height: 14px;
+  background: linear-gradient(
+    to right,
+    transparent calc(50% - 0.5px),
+    transparent calc(50% - 0.5px)
+  );
+}
+.pr-rank-track::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--rule);
+  transform: translateY(-0.5px);
+}
+.pr-rank-quartile {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 6px;
+  background: var(--rule-mid);
+  transform: translate(-0.5px, -50%);
+}
+.pr-rank-dot {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 1.5px solid var(--page);
+  box-shadow: 0 0 0 1px var(--ink);
+  transform: translate(-50%, -50%);
+  left: 0;
+  transition: left 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pr-rank-dot.pos  { background: var(--pos);  box-shadow: 0 0 0 1px var(--pos); }
+.pr-rank-dot.warn { background: var(--warn); box-shadow: 0 0 0 1px var(--warn); }
+.pr-rank-dot.neg  { background: var(--neg);  box-shadow: 0 0 0 1px var(--neg); }
+.pr-rank-dot.neu  { background: var(--ink2); box-shadow: 0 0 0 1px var(--ink2); }
+
+/* responsive collapse for narrow screens */
+@media (max-width: 880px) {
+  .period-summary { grid-template-columns: repeat(2, 1fr); }
+  .ps-cell:nth-child(2) { border-right: 0; }
+  .ps-cell:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  .period-row {
+    grid-template-columns: 78px 1fr;
+    row-gap: 8px;
+  }
+  .pr-alpha-cell,
+  .pr-rank-cell {
+    grid-column: 1 / -1;
+    border-left: 0;
+    padding-left: 0;
+  }
+  .pr-alpha-cell {
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
 /* ── fee accordion (details/summary version) ── */
 details.fee {
   margin: 0;
