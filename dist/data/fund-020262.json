@@ -13,65 +13,68 @@
     "MGREXP": "0.30%",
     "TRUSTEXP": "0.05%",
     "SALESEXP": "0.00%",
+    "BUY": "",
+    "SGZT": "",
+    "SHZT": "",
     "BENCH": "中债综合全价指数收益率*90%+一年期定期存款基准利率(税后)*10%",
     "INDEXCODE": "--"
   },
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": -0.12,
-      "avg": -0.19,
-      "hs300_return": -0.25,
-      "rank": 535,
-      "total": 923
+      "return_rate": 0.08,
+      "avg": 0.14,
+      "hs300_return": 2.74,
+      "rank": 509,
+      "total": 841
     },
     {
       "title": "Last Month",
-      "return_rate": 0.13,
-      "avg": 0.3,
-      "hs300_return": 3.72,
-      "rank": 703,
-      "total": 917
+      "return_rate": 0.05,
+      "avg": 0.33,
+      "hs300_return": 3.28,
+      "rank": 692,
+      "total": 846
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 0.48,
-      "avg": 0.38,
-      "hs300_return": 4.27,
-      "rank": 484,
-      "total": 917
+      "return_rate": 0.56,
+      "avg": 0.6,
+      "hs300_return": 4.32,
+      "rank": 536,
+      "total": 846
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 1.37,
-      "avg": 1.51,
-      "hs300_return": 5.0,
-      "rank": 370,
-      "total": 899
+      "return_rate": 1.58,
+      "avg": 2.04,
+      "hs300_return": 8.56,
+      "rank": 415,
+      "total": 832
     },
     {
       "title": "Last Year",
-      "return_rate": 3.05,
-      "avg": 3.53,
-      "hs300_return": 24.38,
-      "rank": 323,
-      "total": 837
+      "return_rate": 3.08,
+      "avg": 3.79,
+      "hs300_return": 28.1,
+      "rank": 314,
+      "total": 772
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 6.66,
-      "avg": 7.23,
-      "hs300_return": 34.02,
-      "rank": 290,
-      "total": 721
+      "return_rate": 6.64,
+      "avg": 7.37,
+      "hs300_return": 36.16,
+      "rank": 281,
+      "total": 668
     },
     {
       "title": "Year to Date",
-      "return_rate": 1.17,
-      "avg": 1.55,
-      "hs300_return": 4.96,
-      "rank": 525,
-      "total": 911
+      "return_rate": 1.23,
+      "avg": 1.77,
+      "hs300_return": 6.14,
+      "rank": 545,
+      "total": 842
     }
   ],
   "yearly_returns": [
@@ -87,59 +90,59 @@
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": -0.12,
-      "avg": -0.19,
-      "hs300_return": -0.25,
-      "rank": 535,
-      "total": 923
+      "return_rate": 0.08,
+      "avg": 0.14,
+      "hs300_return": 2.74,
+      "rank": 509,
+      "total": 841
     },
     {
       "title": "Y",
-      "return_rate": 0.13,
-      "avg": 0.3,
-      "hs300_return": 3.72,
-      "rank": 703,
-      "total": 917
+      "return_rate": 0.05,
+      "avg": 0.33,
+      "hs300_return": 3.28,
+      "rank": 692,
+      "total": 846
     },
     {
       "title": "3Y",
-      "return_rate": 0.48,
-      "avg": 0.38,
-      "hs300_return": 4.27,
-      "rank": 484,
-      "total": 917
+      "return_rate": 0.56,
+      "avg": 0.6,
+      "hs300_return": 4.32,
+      "rank": 536,
+      "total": 846
     },
     {
       "title": "6Y",
-      "return_rate": 1.37,
-      "avg": 1.51,
-      "hs300_return": 5.0,
-      "rank": 370,
-      "total": 899
+      "return_rate": 1.58,
+      "avg": 2.04,
+      "hs300_return": 8.56,
+      "rank": 415,
+      "total": 832
     },
     {
       "title": "1N",
-      "return_rate": 3.05,
-      "avg": 3.53,
-      "hs300_return": 24.38,
-      "rank": 323,
-      "total": 837
+      "return_rate": 3.08,
+      "avg": 3.79,
+      "hs300_return": 28.1,
+      "rank": 314,
+      "total": 772
     },
     {
       "title": "2N",
-      "return_rate": 6.66,
-      "avg": 7.23,
-      "hs300_return": 34.02,
-      "rank": 290,
-      "total": 721
+      "return_rate": 6.64,
+      "avg": 7.37,
+      "hs300_return": 36.16,
+      "rank": 281,
+      "total": 668
     },
     {
       "title": "JN",
-      "return_rate": 1.17,
-      "avg": 1.55,
-      "hs300_return": 4.96,
-      "rank": 525,
-      "total": 911
+      "return_rate": 1.23,
+      "avg": 1.77,
+      "hs300_return": 6.14,
+      "rank": 545,
+      "total": 842
     }
   ],
   "monthly_series": [
@@ -253,10 +256,64 @@
     },
     {
       "month": "2026-05",
-      "return_rate": -0.09279020135474214
+      "return_rate": -0.027837060406443737
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-05-28",
+      "net_value": 1.0774,
+      "acc_value": 1.0774,
+      "growth": 0.06
+    },
+    {
+      "date": "2026-05-27",
+      "net_value": 1.0768,
+      "acc_value": 1.0768,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-05-26",
+      "net_value": 1.0767,
+      "acc_value": 1.0767,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-05-25",
+      "net_value": 1.0768,
+      "acc_value": 1.0768,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-05-22",
+      "net_value": 1.0765,
+      "acc_value": 1.0765,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-05-21",
+      "net_value": 1.0765,
+      "acc_value": 1.0765,
+      "growth": -0.1
+    },
+    {
+      "date": "2026-05-20",
+      "net_value": 1.0776,
+      "acc_value": 1.0776,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-05-19",
+      "net_value": 1.078,
+      "acc_value": 1.078,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-05-18",
+      "net_value": 1.0769,
+      "acc_value": 1.0769,
+      "growth": 0.02
+    },
     {
       "date": "2026-05-15",
       "net_value": 1.0767,
@@ -562,60 +619,6 @@
       "net_value": 1.0718,
       "acc_value": 1.0718,
       "growth": 0.04
-    },
-    {
-      "date": "2026-02-27",
-      "net_value": 1.0714,
-      "acc_value": 1.0714,
-      "growth": 0.03
-    },
-    {
-      "date": "2026-02-26",
-      "net_value": 1.0711,
-      "acc_value": 1.0711,
-      "growth": -0.08
-    },
-    {
-      "date": "2026-02-25",
-      "net_value": 1.072,
-      "acc_value": 1.072,
-      "growth": -0.04
-    },
-    {
-      "date": "2026-02-24",
-      "net_value": 1.0724,
-      "acc_value": 1.0724,
-      "growth": 0.07
-    },
-    {
-      "date": "2026-02-13",
-      "net_value": 1.0716,
-      "acc_value": 1.0716,
-      "growth": -0.01
-    },
-    {
-      "date": "2026-02-12",
-      "net_value": 1.0717,
-      "acc_value": 1.0717,
-      "growth": 0.02
-    },
-    {
-      "date": "2026-02-11",
-      "net_value": 1.0715,
-      "acc_value": 1.0715,
-      "growth": 0.04
-    },
-    {
-      "date": "2026-02-10",
-      "net_value": 1.0711,
-      "acc_value": 1.0711,
-      "growth": 0.01
-    },
-    {
-      "date": "2026-02-09",
-      "net_value": 1.071,
-      "acc_value": 1.071,
-      "growth": 0.08
     }
   ],
   "accumulated_return": [
@@ -4454,50 +4457,160 @@
       "index_return": 0.0,
       "category_return": 12.86,
       "bench_return": 3.97
+    },
+    {
+      "date": "2026-05-18",
+      "fund_return": 7.69,
+      "index_return": 0.0,
+      "category_return": 12.84,
+      "bench_return": 4.0
+    },
+    {
+      "date": "2026-05-19",
+      "fund_return": 7.8,
+      "index_return": 0.0,
+      "category_return": 13.08,
+      "bench_return": 4.06
+    },
+    {
+      "date": "2026-05-20",
+      "fund_return": 7.76,
+      "index_return": 0.0,
+      "category_return": 13.11,
+      "bench_return": 4.06
+    },
+    {
+      "date": "2026-05-21",
+      "fund_return": 7.65,
+      "index_return": 0.0,
+      "category_return": 12.77,
+      "bench_return": 4.06
+    },
+    {
+      "date": "2026-05-22",
+      "fund_return": 7.65,
+      "index_return": 0.0,
+      "category_return": 12.98,
+      "bench_return": 4.05
+    },
+    {
+      "date": "2026-05-25",
+      "fund_return": 7.68,
+      "index_return": 0.0,
+      "category_return": 13.15,
+      "bench_return": 4.04
+    },
+    {
+      "date": "2026-05-26",
+      "fund_return": 7.67,
+      "index_return": 0.0,
+      "category_return": 13.13,
+      "bench_return": 4.08
+    },
+    {
+      "date": "2026-05-27",
+      "fund_return": 7.68,
+      "index_return": 0.0,
+      "category_return": 12.96,
+      "bench_return": 4.13
+    },
+    {
+      "date": "2026-05-28",
+      "fund_return": 7.74,
+      "index_return": 0.0,
+      "category_return": 13.1,
+      "bench_return": 4.18
     }
   ],
   "risk_metrics": {
-    "annualized_return": 3.764155660806101,
-    "max_drawdown": 0.7149152874351056,
-    "volatility": 0.7864096524298665,
-    "sharpe_ratio": 2.243303671763403,
-    "positive_days": 308,
-    "negative_days": 151,
-    "monthly_win_rate": 85.71428571428571,
-    "excess_return": 3.6999999999999997,
+    "annualized_return": 3.797880517860275,
+    "max_drawdown": 0.9009891293702749,
+    "volatility": 0.8453464190936198,
+    "sharpe_ratio": 2.1267973427839935,
+    "positive_days": 314,
+    "negative_days": 140,
+    "monthly_win_rate": 100.0,
+    "excess_return": 3.5600000000000005,
     "data_points": 500,
-    "calmar_ratio": 5.265177185272852,
-    "sortino_ratio": 3.765424290954901,
-    "current_drawdown": 0.17615427405896653,
-    "max_drawdown_recovery_days": 52
+    "calmar_ratio": 4.215234561725194,
+    "sortino_ratio": 3.223318327007508,
+    "current_drawdown": 0.111255330984618,
+    "max_drawdown_recovery_days": 51,
+    "max_drawdown_start_date": "2024-09-26",
+    "max_drawdown_end_date": "2024-10-09",
+    "drawdown_count_ge_1pct": 0,
+    "avg_drawdown_ge_1pct": null,
+    "avg_drawdown_duration_days": null
   },
   "benchmark_metrics": {
-    "beta": 0.0644277714158658,
-    "alpha": 1.3932403332612877,
-    "tracking_error": 2.2808797525693665,
-    "information_ratio": 0.6904516302612002,
-    "data_points": 547
+    "beta": 0.0649546481744555,
+    "alpha": 1.3639055968148952,
+    "tracking_error": 2.264452562856975,
+    "information_ratio": 0.6570583243587622,
+    "data_points": 556,
+    "upside_capture": 47.69996395670178,
+    "downside_capture": 7.540043647642644,
+    "category_alpha": -2.2470597435056265,
+    "category_tracking_error": 3.556364693099549,
+    "category_information_ratio": -0.6318417646721157
   },
   "distribution": {
-    "var_95": 0.05659424344759745,
-    "cvar_95": 0.10012802893842965,
-    "skewness": -0.6929387213170708,
-    "excess_kurtosis": 7.7351641404043185,
+    "var_95": 0.0574524475363536,
+    "cvar_95": 0.10797247336122595,
+    "skewness": -2.298831787151241,
+    "excess_kurtosis": 26.597381305271075,
     "data_points": 499
   },
   "rolling_returns": {
     "y1": {
       "window_days": 250,
-      "count": 294,
+      "count": 303,
       "max": 4.585433343215728,
       "min": 2.7650229586744013,
-      "mean": 3.721312980317531,
-      "median": 3.693010200887592,
-      "p25": 3.581036914465307,
-      "p75": 3.9190211833615427
+      "mean": 3.703427779584648,
+      "median": 3.6809815950920477,
+      "p25": 3.5760141069379303,
+      "p75": 3.9137642796070127,
+      "win_rate": 100.0,
+      "loss_probability": 0.0
     },
-    "y3": null
+    "y3": null,
+    "y5": null
   },
+  "cost_analysis": {
+    "ongoing_fee_pct": 0.35,
+    "manager_fee_pct": 0.3,
+    "custody_fee_pct": 0.05,
+    "sales_fee_pct": 0.0,
+    "net_annualized_after_fee_pct": 3.4478805178602747
+  },
+  "flow_risk": {
+    "recent_quarter_net_subscribe_yi": 9.1,
+    "recent_quarter_net_subscribe_pct_of_shares": 51.12359550561797,
+    "recent_quarter_nav_change_pct": 105.64,
+    "last_4q_large_swing_count": 4,
+    "institutional_pct_latest": 0.0,
+    "institutional_pct_change_latest": 0.0,
+    "score": 50,
+    "level": "中"
+  },
+  "data_gaps": [
+    {
+      "key": "bond_duration",
+      "label": "债券久期",
+      "reason": "当前 F10 持仓接口只提供前十大债券名称、占比和市值，未提供组合久期。"
+    },
+    {
+      "key": "bond_credit_rating",
+      "label": "信用评级分布",
+      "reason": "当前数据源未返回债券评级分布，不能从债券名称可靠推断评级。"
+    },
+    {
+      "key": "stock_industry_classification",
+      "label": "正式行业分类",
+      "reason": "当前重仓股接口未接入统一行业分类，页面只保留名称线索，不作为正式行业暴露。"
+    }
+  ],
   "fee_rules": {
     "purchase": [
       {
@@ -4555,16 +4668,16 @@
         "market_value_wan": 5115.18
       },
       {
-        "bond_code": "110098",
-        "bond_name": "南药转债",
-        "ratio": 0.43,
-        "market_value_wan": 1012.27
-      },
-      {
         "bond_code": "113066",
         "bond_name": "平煤转债",
         "ratio": 0.43,
         "market_value_wan": 999.92
+      },
+      {
+        "bond_code": "110098",
+        "bond_name": "南药转债",
+        "ratio": 0.43,
+        "market_value_wan": 1012.27
       },
       {
         "bond_code": "127110",
@@ -4597,16 +4710,16 @@
         "market_value_wan": 630.27
       },
       {
-        "bond_code": "113042",
-        "bond_name": "上银转债",
-        "ratio": 0.21,
-        "market_value_wan": 494.72
-      },
-      {
         "bond_code": "113046",
         "bond_name": "金田转债",
         "ratio": 0.21,
         "market_value_wan": 483.82
+      },
+      {
+        "bond_code": "113042",
+        "bond_name": "上银转债",
+        "ratio": 0.21,
+        "market_value_wan": 494.72
       },
       {
         "bond_code": "113070",
@@ -4645,16 +4758,16 @@
         "market_value_wan": 359.86
       },
       {
-        "bond_code": "113052",
-        "bond_name": "兴业转债",
-        "ratio": 0.15,
-        "market_value_wan": 350.84
-      },
-      {
         "bond_code": "127038",
         "bond_name": "国微转债",
         "ratio": 0.15,
         "market_value_wan": 362.0
+      },
+      {
+        "bond_code": "113052",
+        "bond_name": "兴业转债",
+        "ratio": 0.15,
+        "market_value_wan": 350.84
       },
       {
         "bond_code": "123254",
@@ -4693,16 +4806,16 @@
         "market_value_wan": 245.05
       },
       {
-        "bond_code": "127089",
-        "bond_name": "晶澳转债",
-        "ratio": 0.09,
-        "market_value_wan": 218.32
-      },
-      {
         "bond_code": "127064",
         "bond_name": "杭氧转债",
         "ratio": 0.09,
         "market_value_wan": 212.93
+      },
+      {
+        "bond_code": "127089",
+        "bond_name": "晶澳转债",
+        "ratio": 0.09,
+        "market_value_wan": 218.32
       },
       {
         "bond_code": "127018",
@@ -4742,6 +4855,76 @@
       }
     ]
   },
+  "top_stocks": {
+    "period": "",
+    "end_date": "",
+    "stocks": []
+  },
+  "asset_allocation": [
+    {
+      "date": "2026-03-31",
+      "stock_pct": 0.0,
+      "bond_pct": 113.88,
+      "cash_pct": 1.02,
+      "total_assets_yi": 23.42
+    },
+    {
+      "date": "2025-12-31",
+      "stock_pct": 0.0,
+      "bond_pct": 119.66,
+      "cash_pct": 0.98,
+      "total_assets_yi": 12.32
+    },
+    {
+      "date": "2025-09-30",
+      "stock_pct": 0.16,
+      "bond_pct": 99.91,
+      "cash_pct": 1.03,
+      "total_assets_yi": 8.22
+    },
+    {
+      "date": "2025-06-30",
+      "stock_pct": 0.0,
+      "bond_pct": 104.82,
+      "cash_pct": 1.81,
+      "total_assets_yi": 2.01
+    },
+    {
+      "date": "2025-03-31",
+      "stock_pct": 0.0,
+      "bond_pct": 133.03,
+      "cash_pct": 3.31,
+      "total_assets_yi": 0.73
+    },
+    {
+      "date": "2024-12-31",
+      "stock_pct": 0.0,
+      "bond_pct": 102.25,
+      "cash_pct": 5.67,
+      "total_assets_yi": 1.08
+    },
+    {
+      "date": "2024-09-30",
+      "stock_pct": 0.0,
+      "bond_pct": 111.94,
+      "cash_pct": 5.9,
+      "total_assets_yi": 1.94
+    },
+    {
+      "date": "2024-06-30",
+      "stock_pct": 0.0,
+      "bond_pct": 107.47,
+      "cash_pct": 2.65,
+      "total_assets_yi": 3.7
+    },
+    {
+      "date": "2024-03-31",
+      "stock_pct": 0.0,
+      "bond_pct": 105.98,
+      "cash_pct": 1.23,
+      "total_assets_yi": 30.15
+    }
+  ],
   "scale_changes": [
     {
       "date": "2026-03-31",
@@ -4861,501 +5044,507 @@
     "min_holding_days": 90,
     "features": "平安鑫惠90天持有期债券型证券投资基金"
   },
-  "manager_eval": {
-    "MAXRETRA_1": "0.014",
-    "MAXRETRA_3": "0.023",
-    "SHARP_1": "0.5488",
-    "SHARP_3": "1.2216",
-    "STDDEV_1": "0.8985",
-    "STDDEV_3": "1.3773",
-    "WIN_1": "29.63",
-    "WIN_3": "52.59"
-  },
-  "manager_char": null,
-  "manager_info": {
-    "MGRID": "30634032",
-    "MGRNAME": "田元强",
-    "RESUME": "田元强先生:中国国籍,西安交通大学工商管理硕士,曾先后担任鹏元资信评估有限公司信用评级部分析师、生命保险资产管理有限公司信用评估部分析师、中国中投证券有限责任公司研究总部分析员。2016年11月加入平安基金管理有限公司,曾任固定收益投资中心固定收益高级研究员。现任固定收益投资中心研究部负责人。现担任平安合信3个月定期开放债券型发起式证券投资基金(2019-12-16至今)、平安惠金定期开放债券型证券投资基金(2020-08-25至今)、平安惠利纯债债券型证券投资基金(2021-06-07至今)、平安合瑞定期开放债券型发起式证券投资基金(2021-06-07至2025年11月18日)、平安合进1年定期开放债券型发起式证券投资基金(2021-06-23至2025-05-07)、平安惠信3个月定期开放债券型证券投资基金(2021-07-15至2025-05-07)、平安鑫惠90天持有期债券型证券投资基金(2024-01-18至今)基金经理。曾管理的基金名称及管理时间:平安合颖定期开放纯债债券型发起式证券投资基金(2018-11-26至2020-01-17)、平安鑫利灵活配置混合型证券投资基金(2018-11-26至2020-01-17)、平安鑫安混合型证券投资基金(2019-04-10至2020-05-25)、平安如意中短债债券型证券投资基金(2019-04-19至2021-04-08)、平安惠铭纯债债券型证券投资基金(2020-09-07至2021-09-09)、平安3-5年期政策性金融债债券型证券投资基金(2019-02-22至2022-01-20)、平安交易型货币市场基金(2018-11-26至2022-06-13)、平安日增利货币市场基金(2019-03-21至2022-06-13)、平安合锦定期开放债券型发起式证券投资基金(2020-08-25至2023-02-08)、平安惠融纯债债券型证券投资基金(2022-01-20至2023-04-24)。曾任平安元和90天滚动持有短债债券型证券投资基金基金经理。2024年08月20日至2025年12月2日任平安惠聚纯债债券型证券投资基金基金经理。2024年12月09日担任平安中证同业存单AAA指数7天持有期证券投资基金基金经理。2025年2月20日至2026年3月18日担任平安惠兴纯债债券型证券投资基金基金经理。2025年05月07日起担任平安惠嘉纯债债券型证券投资基金基金经理。曾任平安惠合纯债债券型证券投资基金基金经理。2025年11月18日任平安增利六个月定期开放债券型证券投资基金、平安惠享纯债债券型证券投资基金基金经理。2025年12月4日起任平安合顺1年定期开放债券型发起式证券投资基金基金经理。",
-    "TOTALDAYS": "2728",
-    "NETNAV": "18164661024.02",
-    "FCOUNT": "18",
-    "PRENAME": "平安合信定开债",
-    "YIELDSE": "3.4281",
-    "JJGS": "平安基金",
-    "FMAXEARN1": "0.2536",
-    "FMAXRETRA1": "0.0475",
-    "MGOLD": "8.3635"
-  },
-  "manager_history": [
+  "managers": [
     {
-      "FCODE": "005766",
-      "SHORTNAME": "平安合瑞定开债",
-      "FEMPDATE": "2021-06-06T16:00:00Z",
-      "LEMPDATE": "2025-11-17T16:00:00Z",
-      "TOTALDAYS": "1625",
-      "PENAVGROWTH": "17.9003",
-      "TLRANK": "85",
-      "TLSC": "432"
-    },
-    {
-      "FCODE": "012418",
-      "SHORTNAME": "平安合进1年定开债发起式",
-      "FEMPDATE": "2021-06-22T16:00:00Z",
-      "LEMPDATE": "2025-05-06T16:00:00Z",
-      "TOTALDAYS": "1414",
-      "PENAVGROWTH": "17.3148",
-      "TLRANK": "69",
-      "TLSC": "443"
-    },
-    {
-      "FCODE": "006934",
-      "SHORTNAME": "平安3-5年期政策性金融债债券A",
-      "FEMPDATE": "2019-02-21T16:00:00Z",
-      "LEMPDATE": "2022-01-19T16:00:00Z",
-      "TOTALDAYS": "1063",
-      "PENAVGROWTH": "15.43",
-      "TLRANK": "480",
-      "TLSC": "1502"
-    },
-    {
-      "FCODE": "006935",
-      "SHORTNAME": "平安3-5年期政策性金融债债券C",
-      "FEMPDATE": "2019-02-21T16:00:00Z",
-      "LEMPDATE": "2022-01-19T16:00:00Z",
-      "TOTALDAYS": "1063",
-      "PENAVGROWTH": "15.1462",
-      "TLRANK": "489",
-      "TLSC": "1502"
-    },
-    {
-      "FCODE": "012440",
-      "SHORTNAME": "平安惠信3个月定开债A",
-      "FEMPDATE": "2021-07-14T16:00:00Z",
-      "LEMPDATE": "2025-05-06T16:00:00Z",
-      "TOTALDAYS": "1392",
-      "PENAVGROWTH": "14.4866",
-      "TLRANK": "171",
-      "TLSC": "450"
-    },
-    {
-      "FCODE": "012441",
-      "SHORTNAME": "平安惠信3个月定开债C",
-      "FEMPDATE": "2021-07-14T16:00:00Z",
-      "LEMPDATE": "2025-05-06T16:00:00Z",
-      "TOTALDAYS": "1392",
-      "PENAVGROWTH": "11.9592",
-      "TLRANK": "342",
-      "TLSC": "450"
-    },
-    {
-      "FCODE": "003034",
-      "SHORTNAME": "平安日鑫A",
-      "FEMPDATE": "2018-11-25T16:00:00Z",
-      "LEMPDATE": "2022-06-12T16:00:00Z",
-      "TOTALDAYS": "1295",
-      "PENAVGROWTH": "9.4991",
-      "TLRANK": "35",
-      "TLSC": "631"
-    },
-    {
-      "FCODE": "511700",
-      "SHORTNAME": "货币ETF平安",
-      "FEMPDATE": "2018-11-25T16:00:00Z",
-      "LEMPDATE": "2022-06-12T16:00:00Z",
-      "TOTALDAYS": "1295",
-      "PENAVGROWTH": "9.4989",
-      "TLRANK": "35",
-      "TLSC": "631"
-    },
-    {
-      "FCODE": "007017",
-      "SHORTNAME": "平安如意中短债A",
-      "FEMPDATE": "2019-04-18T16:00:00Z",
-      "LEMPDATE": "2021-04-07T16:00:00Z",
-      "TOTALDAYS": "720",
-      "PENAVGROWTH": "7.3252",
-      "TLRANK": "762",
-      "TLSC": "1639"
-    },
-    {
-      "FCODE": "014468",
-      "SHORTNAME": "平安元和90天滚动持有短债A",
-      "FEMPDATE": "2022-08-03T16:00:00Z",
-      "LEMPDATE": "2024-07-24T16:00:00Z",
-      "TOTALDAYS": "721",
-      "PENAVGROWTH": "7.253",
-      "TLRANK": "509",
-      "TLSC": "3292"
-    },
-    {
-      "FCODE": "000379",
-      "SHORTNAME": "平安日增利货币A",
-      "FEMPDATE": "2019-03-20T16:00:00Z",
-      "LEMPDATE": "2022-06-12T16:00:00Z",
-      "TOTALDAYS": "1180",
-      "PENAVGROWTH": "7.122",
-      "TLRANK": "398",
-      "TLSC": "632"
-    },
-    {
-      "FCODE": "007018",
-      "SHORTNAME": "平安如意中短债C",
-      "FEMPDATE": "2019-04-18T16:00:00Z",
-      "LEMPDATE": "2021-04-07T16:00:00Z",
-      "TOTALDAYS": "720",
-      "PENAVGROWTH": "7.1048",
-      "TLRANK": "819",
-      "TLSC": "1639"
-    },
-    {
-      "FCODE": "014469",
-      "SHORTNAME": "平安元和90天滚动持有短债C",
-      "FEMPDATE": "2022-08-03T16:00:00Z",
-      "LEMPDATE": "2024-07-24T16:00:00Z",
-      "TOTALDAYS": "721",
-      "PENAVGROWTH": "6.8286",
-      "TLRANK": "699",
-      "TLSC": "3292"
-    },
-    {
-      "FCODE": "007019",
-      "SHORTNAME": "平安如意中短债E",
-      "FEMPDATE": "2019-04-18T16:00:00Z",
-      "LEMPDATE": "2021-04-07T16:00:00Z",
-      "TOTALDAYS": "720",
-      "PENAVGROWTH": "6.5919",
-      "TLRANK": "959",
-      "TLSC": "1639"
-    },
-    {
-      "FCODE": "006412",
-      "SHORTNAME": "平安合锦定开债",
-      "FEMPDATE": "2020-08-24T16:00:00Z",
-      "LEMPDATE": "2023-02-07T16:00:00Z",
-      "TOTALDAYS": "897",
-      "PENAVGROWTH": "6.253",
-      "TLRANK": "307",
-      "TLSC": "357"
-    },
-    {
-      "FCODE": "005897",
-      "SHORTNAME": "平安合颖定开债",
-      "FEMPDATE": "2018-11-25T16:00:00Z",
-      "LEMPDATE": "2020-01-16T16:00:00Z",
-      "TOTALDAYS": "417",
-      "PENAVGROWTH": "5.513",
-      "TLRANK": "109",
-      "TLSC": "215"
-    },
-    {
-      "FCODE": "003487",
-      "SHORTNAME": "平安惠融纯债",
-      "FEMPDATE": "2022-01-19T16:00:00Z",
-      "LEMPDATE": "2023-04-23T16:00:00Z",
-      "TOTALDAYS": "459",
-      "PENAVGROWTH": "5.2382",
-      "TLRANK": "83",
-      "TLSC": "3015"
-    },
-    {
-      "FCODE": "001664",
-      "SHORTNAME": "平安鑫安混合A",
-      "FEMPDATE": "2019-04-09T16:00:00Z",
-      "LEMPDATE": "2020-05-24T16:00:00Z",
-      "TOTALDAYS": "411",
-      "PENAVGROWTH": "5.0401",
-      "TLRANK": "2200",
-      "TLSC": "2850"
-    },
-    {
-      "FCODE": "009306",
-      "SHORTNAME": "平安惠铭纯债",
-      "FEMPDATE": "2020-09-06T16:00:00Z",
-      "LEMPDATE": "2021-09-08T16:00:00Z",
-      "TOTALDAYS": "367",
-      "PENAVGROWTH": "5",
-      "TLRANK": "836",
-      "TLSC": "2367"
-    },
-    {
-      "FCODE": "007049",
-      "SHORTNAME": "平安鑫安混合E",
-      "FEMPDATE": "2019-04-09T16:00:00Z",
-      "LEMPDATE": "2020-05-24T16:00:00Z",
-      "TOTALDAYS": "411",
-      "PENAVGROWTH": "4.9028",
-      "TLRANK": "2210",
-      "TLSC": "2850"
-    },
-    {
-      "FCODE": "003626",
-      "SHORTNAME": "平安鑫利混合A",
-      "FEMPDATE": "2018-11-25T16:00:00Z",
-      "LEMPDATE": "2020-01-16T16:00:00Z",
-      "TOTALDAYS": "417",
-      "PENAVGROWTH": "4.5868",
-      "TLRANK": "2634",
-      "TLSC": "2706"
-    },
-    {
-      "FCODE": "001665",
-      "SHORTNAME": "平安鑫安混合C",
-      "FEMPDATE": "2019-04-09T16:00:00Z",
-      "LEMPDATE": "2020-05-24T16:00:00Z",
-      "TOTALDAYS": "411",
-      "PENAVGROWTH": "4.5615",
-      "TLRANK": "2246",
-      "TLSC": "2850"
-    },
-    {
-      "FCODE": "006433",
-      "SHORTNAME": "平安鑫利混合C",
-      "FEMPDATE": "2018-11-25T16:00:00Z",
-      "LEMPDATE": "2020-01-16T16:00:00Z",
-      "TOTALDAYS": "417",
-      "PENAVGROWTH": "4.3398",
-      "TLRANK": "2642",
-      "TLSC": "2706"
-    },
-    {
-      "FCODE": "010208",
-      "SHORTNAME": "平安日增利货币B",
-      "FEMPDATE": "2020-09-13T16:00:00Z",
-      "LEMPDATE": "2022-06-12T16:00:00Z",
-      "TOTALDAYS": "637",
-      "PENAVGROWTH": "4.0938",
-      "TLRANK": "159",
-      "TLSC": "653"
-    },
-    {
-      "FCODE": "006544",
-      "SHORTNAME": "平安惠聚纯债债券",
-      "FEMPDATE": "2024-08-19T16:00:00Z",
-      "LEMPDATE": "2025-12-01T16:00:00Z",
-      "TOTALDAYS": "469",
-      "PENAVGROWTH": "2.8974",
-      "TLRANK": "2189",
-      "TLSC": "4843"
-    },
-    {
-      "FCODE": "007196",
-      "SHORTNAME": "平安惠合纯债",
-      "FEMPDATE": "2024-08-19T16:00:00Z",
-      "LEMPDATE": "2025-11-17T16:00:00Z",
-      "TOTALDAYS": "455",
-      "PENAVGROWTH": "2.8411",
-      "TLRANK": "2458",
-      "TLSC": "4858"
-    },
-    {
-      "FCODE": "006222",
-      "SHORTNAME": "平安惠兴债券",
-      "FEMPDATE": "2025-02-19T16:00:00Z",
-      "LEMPDATE": "2026-03-17T16:00:00Z",
-      "TOTALDAYS": "391",
-      "PENAVGROWTH": "1.4119",
-      "TLRANK": "3905",
-      "TLSC": "5285"
-    },
-    {
-      "FCODE": "004960",
-      "SHORTNAME": "平安合泰定开债",
-      "FEMPDATE": "2022-07-31T16:00:00Z",
-      "LEMPDATE": "2023-02-26T16:00:00Z",
-      "TOTALDAYS": "210",
-      "PENAVGROWTH": "1.1194",
-      "TLRANK": "83",
-      "TLSC": "616"
-    },
-    {
-      "FCODE": "015021",
-      "SHORTNAME": "平安日鑫C",
-      "FEMPDATE": "2022-02-07T16:00:00Z",
-      "LEMPDATE": "2022-06-12T16:00:00Z",
-      "TOTALDAYS": "125",
-      "PENAVGROWTH": "0.6866",
-      "TLRANK": "245",
-      "TLSC": "689"
-    },
-    {
-      "FCODE": "004630",
-      "SHORTNAME": "平安合信定开债",
-      "FEMPDATE": "2019-12-15T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "2343",
-      "PENAVGROWTH": "25.3477",
-      "TLRANK": "86",
-      "TLSC": "268"
-    },
-    {
-      "FCODE": "003024",
-      "SHORTNAME": "平安惠金定开债A",
-      "FEMPDATE": "2020-08-24T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "2090",
-      "PENAVGROWTH": "21.2571",
-      "TLRANK": "130",
-      "TLSC": "371"
-    },
-    {
-      "FCODE": "006717",
-      "SHORTNAME": "平安惠金定开债C",
-      "FEMPDATE": "2020-08-24T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "2090",
-      "PENAVGROWTH": "20.5665",
-      "TLRANK": "158",
-      "TLSC": "371"
-    },
-    {
-      "FCODE": "003568",
-      "SHORTNAME": "平安惠利纯债A",
-      "FEMPDATE": "2021-06-06T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "1804",
-      "PENAVGROWTH": "16.8826",
-      "TLRANK": "970",
-      "TLSC": "2480"
-    },
-    {
-      "FCODE": "020262",
-      "SHORTNAME": "平安鑫惠90天持有债券A",
-      "FEMPDATE": "2024-01-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "849",
-      "PENAVGROWTH": "7.67",
-      "TLRANK": "1666",
-      "TLSC": "4208"
-    },
-    {
-      "FCODE": "020263",
-      "SHORTNAME": "平安鑫惠90天持有债券C",
-      "FEMPDATE": "2024-01-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "849",
-      "PENAVGROWTH": "7.17",
-      "TLRANK": "1950",
-      "TLSC": "4208"
-    },
-    {
-      "FCODE": "021001",
-      "SHORTNAME": "平安惠利纯债C",
-      "FEMPDATE": "2024-03-20T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "786",
-      "PENAVGROWTH": "4.6937",
-      "TLRANK": "3231",
-      "TLSC": "4357"
-    },
-    {
-      "FCODE": "021003",
-      "SHORTNAME": "平安惠利纯债E",
-      "FEMPDATE": "2024-03-20T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "786",
-      "PENAVGROWTH": "4.3634",
-      "TLRANK": "3560",
-      "TLSC": "4357"
-    },
-    {
-      "FCODE": "017776",
-      "SHORTNAME": "平安合顺1年定开债发起式",
-      "FEMPDATE": "2025-12-03T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "163",
-      "PENAVGROWTH": "2.4817",
-      "TLRANK": "32",
-      "TLSC": "988"
-    },
-    {
-      "FCODE": "015645",
-      "SHORTNAME": "平安中证同业存单AAA指数7天持有",
-      "FEMPDATE": "2024-12-08T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "523",
-      "PENAVGROWTH": "1.9968",
-      "TLRANK": "7445",
-      "TLSC": "8008"
-    },
-    {
-      "FCODE": "003286",
-      "SHORTNAME": "平安惠享纯债A",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "1.9178",
-      "TLRANK": "898",
-      "TLSC": "5894"
-    },
-    {
-      "FCODE": "022021",
-      "SHORTNAME": "平安惠享纯债D",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "1.9176",
-      "TLRANK": "898",
-      "TLSC": "5894"
-    },
-    {
-      "FCODE": "009404",
-      "SHORTNAME": "平安惠享纯债C",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "1.7374",
-      "TLRANK": "1031",
-      "TLSC": "5894"
-    },
-    {
-      "FCODE": "020301",
-      "SHORTNAME": "平安惠嘉纯债A",
-      "FEMPDATE": "2025-05-06T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "374",
-      "PENAVGROWTH": "1.3043",
-      "TLRANK": "4452",
-      "TLSC": "5445"
-    },
-    {
-      "FCODE": "008690",
-      "SHORTNAME": "平安增利六个月定开债A",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "1.1155",
-      "TLRANK": "445",
-      "TLSC": "989"
-    },
-    {
-      "FCODE": "020302",
-      "SHORTNAME": "平安惠嘉纯债C",
-      "FEMPDATE": "2025-05-06T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "374",
-      "PENAVGROWTH": "0.9711",
-      "TLRANK": "4840",
-      "TLSC": "5445"
-    },
-    {
-      "FCODE": "008692",
-      "SHORTNAME": "平安增利六个月定开债E",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "0.9209",
-      "TLRANK": "656",
-      "TLSC": "989"
-    },
-    {
-      "FCODE": "008691",
-      "SHORTNAME": "平安增利六个月定开债C",
-      "FEMPDATE": "2025-11-17T16:00:00Z",
-      "LEMPDATE": "--",
-      "TOTALDAYS": "179",
-      "PENAVGROWTH": "0.9209",
-      "TLRANK": "656",
-      "TLSC": "989"
+      "manager_id": "30634032",
+      "manager_name": "田元强",
+      "info": {
+        "MGRID": "30634032",
+        "MGRNAME": "田元强",
+        "RESUME": "田元强先生:中国国籍,西安交通大学工商管理硕士,曾先后担任鹏元资信评估有限公司信用评级部分析师、生命保险资产管理有限公司信用评估部分析师、中国中投证券有限责任公司研究总部分析员。2016年11月加入平安基金管理有限公司,曾任固定收益投资中心固定收益高级研究员。现任固定收益投资中心研究部负责人。现担任平安合信3个月定期开放债券型发起式证券投资基金(2019-12-16至今)、平安惠金定期开放债券型证券投资基金(2020-08-25至今)、平安惠利纯债债券型证券投资基金(2021-06-07至今)、平安合瑞定期开放债券型发起式证券投资基金(2021-06-07至2025年11月18日)、平安合进1年定期开放债券型发起式证券投资基金(2021-06-23至2025-05-07)、平安惠信3个月定期开放债券型证券投资基金(2021-07-15至2025-05-07)、平安鑫惠90天持有期债券型证券投资基金(2024-01-18至今)基金经理。曾管理的基金名称及管理时间:平安合颖定期开放纯债债券型发起式证券投资基金(2018-11-26至2020-01-17)、平安鑫利灵活配置混合型证券投资基金(2018-11-26至2020-01-17)、平安鑫安混合型证券投资基金(2019-04-10至2020-05-25)、平安如意中短债债券型证券投资基金(2019-04-19至2021-04-08)、平安惠铭纯债债券型证券投资基金(2020-09-07至2021-09-09)、平安3-5年期政策性金融债债券型证券投资基金(2019-02-22至2022-01-20)、平安交易型货币市场基金(2018-11-26至2022-06-13)、平安日增利货币市场基金(2019-03-21至2022-06-13)、平安合锦定期开放债券型发起式证券投资基金(2020-08-25至2023-02-08)、平安惠融纯债债券型证券投资基金(2022-01-20至2023-04-24)。曾任平安元和90天滚动持有短债债券型证券投资基金基金经理。2024年08月20日至2025年12月2日任平安惠聚纯债债券型证券投资基金基金经理。2024年12月09日担任平安中证同业存单AAA指数7天持有期证券投资基金基金经理。2025年2月20日至2026年3月18日担任平安惠兴纯债债券型证券投资基金基金经理。2025年05月07日起担任平安惠嘉纯债债券型证券投资基金基金经理。曾任平安惠合纯债债券型证券投资基金基金经理。2025年11月18日任平安增利六个月定期开放债券型证券投资基金、平安惠享纯债债券型证券投资基金基金经理。2025年12月4日起任平安合顺1年定期开放债券型发起式证券投资基金基金经理。",
+        "TOTALDAYS": "2741",
+        "NETNAV": "18164661024.02",
+        "FCOUNT": "18",
+        "PRENAME": "平安合信定开债",
+        "YIELDSE": "3.4479",
+        "JJGS": "平安基金",
+        "FMAXEARN1": "0.2566",
+        "FMAXRETRA1": "0.0475",
+        "MGOLD": "8.3635"
+      },
+      "eval": {
+        "MAXRETRA_1": "0.014",
+        "MAXRETRA_3": "0.023",
+        "SHARP_1": "0.6367",
+        "SHARP_3": "1.2439",
+        "STDDEV_1": "0.9021",
+        "STDDEV_3": "1.3802",
+        "WIN_1": "29.63",
+        "WIN_3": "52.59"
+      },
+      "holding_char": null,
+      "history": [
+        {
+          "FCODE": "005766",
+          "SHORTNAME": "平安合瑞定开债",
+          "FEMPDATE": "2021-06-06T16:00:00Z",
+          "LEMPDATE": "2025-11-17T16:00:00Z",
+          "TOTALDAYS": "1625",
+          "PENAVGROWTH": "17.9003",
+          "TLRANK": "85",
+          "TLSC": "432"
+        },
+        {
+          "FCODE": "012418",
+          "SHORTNAME": "平安合进1年定开债发起式",
+          "FEMPDATE": "2021-06-22T16:00:00Z",
+          "LEMPDATE": "2025-05-06T16:00:00Z",
+          "TOTALDAYS": "1414",
+          "PENAVGROWTH": "17.3148",
+          "TLRANK": "69",
+          "TLSC": "443"
+        },
+        {
+          "FCODE": "006934",
+          "SHORTNAME": "平安3-5年期政策性金融债债券A",
+          "FEMPDATE": "2019-02-21T16:00:00Z",
+          "LEMPDATE": "2022-01-19T16:00:00Z",
+          "TOTALDAYS": "1063",
+          "PENAVGROWTH": "15.43",
+          "TLRANK": "480",
+          "TLSC": "1502"
+        },
+        {
+          "FCODE": "006935",
+          "SHORTNAME": "平安3-5年期政策性金融债债券C",
+          "FEMPDATE": "2019-02-21T16:00:00Z",
+          "LEMPDATE": "2022-01-19T16:00:00Z",
+          "TOTALDAYS": "1063",
+          "PENAVGROWTH": "15.1462",
+          "TLRANK": "489",
+          "TLSC": "1502"
+        },
+        {
+          "FCODE": "012440",
+          "SHORTNAME": "平安惠信3个月定开债A",
+          "FEMPDATE": "2021-07-14T16:00:00Z",
+          "LEMPDATE": "2025-05-06T16:00:00Z",
+          "TOTALDAYS": "1392",
+          "PENAVGROWTH": "14.4866",
+          "TLRANK": "171",
+          "TLSC": "450"
+        },
+        {
+          "FCODE": "012441",
+          "SHORTNAME": "平安惠信3个月定开债C",
+          "FEMPDATE": "2021-07-14T16:00:00Z",
+          "LEMPDATE": "2025-05-06T16:00:00Z",
+          "TOTALDAYS": "1392",
+          "PENAVGROWTH": "11.9592",
+          "TLRANK": "342",
+          "TLSC": "450"
+        },
+        {
+          "FCODE": "003034",
+          "SHORTNAME": "平安日鑫A",
+          "FEMPDATE": "2018-11-25T16:00:00Z",
+          "LEMPDATE": "2022-06-12T16:00:00Z",
+          "TOTALDAYS": "1295",
+          "PENAVGROWTH": "9.4991",
+          "TLRANK": "35",
+          "TLSC": "631"
+        },
+        {
+          "FCODE": "511700",
+          "SHORTNAME": "货币ETF平安",
+          "FEMPDATE": "2018-11-25T16:00:00Z",
+          "LEMPDATE": "2022-06-12T16:00:00Z",
+          "TOTALDAYS": "1295",
+          "PENAVGROWTH": "9.4989",
+          "TLRANK": "35",
+          "TLSC": "631"
+        },
+        {
+          "FCODE": "007017",
+          "SHORTNAME": "平安如意中短债A",
+          "FEMPDATE": "2019-04-18T16:00:00Z",
+          "LEMPDATE": "2021-04-07T16:00:00Z",
+          "TOTALDAYS": "720",
+          "PENAVGROWTH": "7.3252",
+          "TLRANK": "762",
+          "TLSC": "1639"
+        },
+        {
+          "FCODE": "014468",
+          "SHORTNAME": "平安元和90天滚动持有短债A",
+          "FEMPDATE": "2022-08-03T16:00:00Z",
+          "LEMPDATE": "2024-07-24T16:00:00Z",
+          "TOTALDAYS": "721",
+          "PENAVGROWTH": "7.253",
+          "TLRANK": "509",
+          "TLSC": "3292"
+        },
+        {
+          "FCODE": "000379",
+          "SHORTNAME": "平安日增利货币A",
+          "FEMPDATE": "2019-03-20T16:00:00Z",
+          "LEMPDATE": "2022-06-12T16:00:00Z",
+          "TOTALDAYS": "1180",
+          "PENAVGROWTH": "7.122",
+          "TLRANK": "398",
+          "TLSC": "632"
+        },
+        {
+          "FCODE": "007018",
+          "SHORTNAME": "平安如意中短债C",
+          "FEMPDATE": "2019-04-18T16:00:00Z",
+          "LEMPDATE": "2021-04-07T16:00:00Z",
+          "TOTALDAYS": "720",
+          "PENAVGROWTH": "7.1048",
+          "TLRANK": "819",
+          "TLSC": "1639"
+        },
+        {
+          "FCODE": "014469",
+          "SHORTNAME": "平安元和90天滚动持有短债C",
+          "FEMPDATE": "2022-08-03T16:00:00Z",
+          "LEMPDATE": "2024-07-24T16:00:00Z",
+          "TOTALDAYS": "721",
+          "PENAVGROWTH": "6.8286",
+          "TLRANK": "699",
+          "TLSC": "3292"
+        },
+        {
+          "FCODE": "007019",
+          "SHORTNAME": "平安如意中短债E",
+          "FEMPDATE": "2019-04-18T16:00:00Z",
+          "LEMPDATE": "2021-04-07T16:00:00Z",
+          "TOTALDAYS": "720",
+          "PENAVGROWTH": "6.5919",
+          "TLRANK": "959",
+          "TLSC": "1639"
+        },
+        {
+          "FCODE": "006412",
+          "SHORTNAME": "平安合锦定开债",
+          "FEMPDATE": "2020-08-24T16:00:00Z",
+          "LEMPDATE": "2023-02-07T16:00:00Z",
+          "TOTALDAYS": "897",
+          "PENAVGROWTH": "6.253",
+          "TLRANK": "307",
+          "TLSC": "357"
+        },
+        {
+          "FCODE": "005897",
+          "SHORTNAME": "平安合颖定开债",
+          "FEMPDATE": "2018-11-25T16:00:00Z",
+          "LEMPDATE": "2020-01-16T16:00:00Z",
+          "TOTALDAYS": "417",
+          "PENAVGROWTH": "5.513",
+          "TLRANK": "109",
+          "TLSC": "215"
+        },
+        {
+          "FCODE": "003487",
+          "SHORTNAME": "平安惠融纯债",
+          "FEMPDATE": "2022-01-19T16:00:00Z",
+          "LEMPDATE": "2023-04-23T16:00:00Z",
+          "TOTALDAYS": "459",
+          "PENAVGROWTH": "5.2382",
+          "TLRANK": "83",
+          "TLSC": "3015"
+        },
+        {
+          "FCODE": "001664",
+          "SHORTNAME": "平安鑫安混合A",
+          "FEMPDATE": "2019-04-09T16:00:00Z",
+          "LEMPDATE": "2020-05-24T16:00:00Z",
+          "TOTALDAYS": "411",
+          "PENAVGROWTH": "5.0401",
+          "TLRANK": "2200",
+          "TLSC": "2850"
+        },
+        {
+          "FCODE": "009306",
+          "SHORTNAME": "平安惠铭纯债",
+          "FEMPDATE": "2020-09-06T16:00:00Z",
+          "LEMPDATE": "2021-09-08T16:00:00Z",
+          "TOTALDAYS": "367",
+          "PENAVGROWTH": "5",
+          "TLRANK": "836",
+          "TLSC": "2367"
+        },
+        {
+          "FCODE": "007049",
+          "SHORTNAME": "平安鑫安混合E",
+          "FEMPDATE": "2019-04-09T16:00:00Z",
+          "LEMPDATE": "2020-05-24T16:00:00Z",
+          "TOTALDAYS": "411",
+          "PENAVGROWTH": "4.9028",
+          "TLRANK": "2210",
+          "TLSC": "2850"
+        },
+        {
+          "FCODE": "003626",
+          "SHORTNAME": "平安鑫利混合A",
+          "FEMPDATE": "2018-11-25T16:00:00Z",
+          "LEMPDATE": "2020-01-16T16:00:00Z",
+          "TOTALDAYS": "417",
+          "PENAVGROWTH": "4.5868",
+          "TLRANK": "2634",
+          "TLSC": "2706"
+        },
+        {
+          "FCODE": "001665",
+          "SHORTNAME": "平安鑫安混合C",
+          "FEMPDATE": "2019-04-09T16:00:00Z",
+          "LEMPDATE": "2020-05-24T16:00:00Z",
+          "TOTALDAYS": "411",
+          "PENAVGROWTH": "4.5615",
+          "TLRANK": "2246",
+          "TLSC": "2850"
+        },
+        {
+          "FCODE": "006433",
+          "SHORTNAME": "平安鑫利混合C",
+          "FEMPDATE": "2018-11-25T16:00:00Z",
+          "LEMPDATE": "2020-01-16T16:00:00Z",
+          "TOTALDAYS": "417",
+          "PENAVGROWTH": "4.3398",
+          "TLRANK": "2642",
+          "TLSC": "2706"
+        },
+        {
+          "FCODE": "010208",
+          "SHORTNAME": "平安日增利货币B",
+          "FEMPDATE": "2020-09-13T16:00:00Z",
+          "LEMPDATE": "2022-06-12T16:00:00Z",
+          "TOTALDAYS": "637",
+          "PENAVGROWTH": "4.0938",
+          "TLRANK": "159",
+          "TLSC": "653"
+        },
+        {
+          "FCODE": "006544",
+          "SHORTNAME": "平安惠聚纯债债券",
+          "FEMPDATE": "2024-08-19T16:00:00Z",
+          "LEMPDATE": "2025-12-01T16:00:00Z",
+          "TOTALDAYS": "469",
+          "PENAVGROWTH": "2.8974",
+          "TLRANK": "2189",
+          "TLSC": "4843"
+        },
+        {
+          "FCODE": "007196",
+          "SHORTNAME": "平安惠合纯债",
+          "FEMPDATE": "2024-08-19T16:00:00Z",
+          "LEMPDATE": "2025-11-17T16:00:00Z",
+          "TOTALDAYS": "455",
+          "PENAVGROWTH": "2.8411",
+          "TLRANK": "2458",
+          "TLSC": "4858"
+        },
+        {
+          "FCODE": "006222",
+          "SHORTNAME": "平安惠兴债券",
+          "FEMPDATE": "2025-02-19T16:00:00Z",
+          "LEMPDATE": "2026-03-17T16:00:00Z",
+          "TOTALDAYS": "391",
+          "PENAVGROWTH": "1.4119",
+          "TLRANK": "3905",
+          "TLSC": "5285"
+        },
+        {
+          "FCODE": "004960",
+          "SHORTNAME": "平安合泰定开债",
+          "FEMPDATE": "2022-07-31T16:00:00Z",
+          "LEMPDATE": "2023-02-26T16:00:00Z",
+          "TOTALDAYS": "210",
+          "PENAVGROWTH": "1.1194",
+          "TLRANK": "83",
+          "TLSC": "616"
+        },
+        {
+          "FCODE": "015021",
+          "SHORTNAME": "平安日鑫C",
+          "FEMPDATE": "2022-02-07T16:00:00Z",
+          "LEMPDATE": "2022-06-12T16:00:00Z",
+          "TOTALDAYS": "125",
+          "PENAVGROWTH": "0.6866",
+          "TLRANK": "245",
+          "TLSC": "689"
+        },
+        {
+          "FCODE": "004630",
+          "SHORTNAME": "平安合信定开债",
+          "FEMPDATE": "2019-12-15T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2356",
+          "PENAVGROWTH": "25.6618",
+          "TLRANK": "73",
+          "TLSC": "249"
+        },
+        {
+          "FCODE": "003024",
+          "SHORTNAME": "平安惠金定开债A",
+          "FEMPDATE": "2020-08-24T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2103",
+          "PENAVGROWTH": "21.9639",
+          "TLRANK": "108",
+          "TLSC": "349"
+        },
+        {
+          "FCODE": "006717",
+          "SHORTNAME": "平安惠金定开债C",
+          "FEMPDATE": "2020-08-24T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2103",
+          "PENAVGROWTH": "21.2567",
+          "TLRANK": "130",
+          "TLSC": "349"
+        },
+        {
+          "FCODE": "003568",
+          "SHORTNAME": "平安惠利纯债A",
+          "FEMPDATE": "2021-06-06T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1817",
+          "PENAVGROWTH": "17.1797",
+          "TLRANK": "966",
+          "TLSC": "2478"
+        },
+        {
+          "FCODE": "020262",
+          "SHORTNAME": "平安鑫惠90天持有债券A",
+          "FEMPDATE": "2024-01-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "862",
+          "PENAVGROWTH": "7.74",
+          "TLRANK": "1768",
+          "TLSC": "4206"
+        },
+        {
+          "FCODE": "020263",
+          "SHORTNAME": "平安鑫惠90天持有债券C",
+          "FEMPDATE": "2024-01-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "862",
+          "PENAVGROWTH": "7.23",
+          "TLRANK": "2070",
+          "TLSC": "4206"
+        },
+        {
+          "FCODE": "021001",
+          "SHORTNAME": "平安惠利纯债C",
+          "FEMPDATE": "2024-03-20T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "799",
+          "PENAVGROWTH": "4.9507",
+          "TLRANK": "3159",
+          "TLSC": "4355"
+        },
+        {
+          "FCODE": "021003",
+          "SHORTNAME": "平安惠利纯债E",
+          "FEMPDATE": "2024-03-20T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "799",
+          "PENAVGROWTH": "4.6109",
+          "TLRANK": "3465",
+          "TLSC": "4355"
+        },
+        {
+          "FCODE": "017776",
+          "SHORTNAME": "平安合顺1年定开债发起式",
+          "FEMPDATE": "2025-12-03T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "176",
+          "PENAVGROWTH": "2.8969",
+          "TLRANK": "28",
+          "TLSC": "957"
+        },
+        {
+          "FCODE": "003286",
+          "SHORTNAME": "平安惠享纯债A",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "2.3716",
+          "TLRANK": "786",
+          "TLSC": "5892"
+        },
+        {
+          "FCODE": "022021",
+          "SHORTNAME": "平安惠享纯债D",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "2.3628",
+          "TLRANK": "793",
+          "TLSC": "5892"
+        },
+        {
+          "FCODE": "009404",
+          "SHORTNAME": "平安惠享纯债C",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "2.1826",
+          "TLRANK": "873",
+          "TLSC": "5892"
+        },
+        {
+          "FCODE": "015645",
+          "SHORTNAME": "平安中证同业存单AAA指数7天持有",
+          "FEMPDATE": "2024-12-08T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "536",
+          "PENAVGROWTH": "2.0443",
+          "TLRANK": "7261",
+          "TLSC": "7989"
+        },
+        {
+          "FCODE": "008690",
+          "SHORTNAME": "平安增利六个月定开债A",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "1.5463",
+          "TLRANK": "257",
+          "TLSC": "957"
+        },
+        {
+          "FCODE": "008692",
+          "SHORTNAME": "平安增利六个月定开债E",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "1.3381",
+          "TLRANK": "468",
+          "TLSC": "957"
+        },
+        {
+          "FCODE": "008691",
+          "SHORTNAME": "平安增利六个月定开债C",
+          "FEMPDATE": "2025-11-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "192",
+          "PENAVGROWTH": "1.3381",
+          "TLRANK": "468",
+          "TLSC": "957"
+        },
+        {
+          "FCODE": "020301",
+          "SHORTNAME": "平安惠嘉纯债A",
+          "FEMPDATE": "2025-05-06T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "387",
+          "PENAVGROWTH": "1.0101",
+          "TLRANK": "4978",
+          "TLSC": "5443"
+        },
+        {
+          "FCODE": "020302",
+          "SHORTNAME": "平安惠嘉纯债C",
+          "FEMPDATE": "2025-05-06T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "387",
+          "PENAVGROWTH": "0.6768",
+          "TLRANK": "5135",
+          "TLSC": "5443"
+        }
+      ]
     }
   ],
   "scores": {
@@ -5399,13 +5588,15 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-05-16",
+    "generated_at": "2026-05-29",
     "as_of": {
-      "nav_history": "2026-05-15",
-      "nav_trend": "2026-05-15",
-      "accumulated_return": "2026-05-15",
+      "nav_history": "2026-05-28",
+      "nav_trend": "2026-05-28",
+      "accumulated_return": "2026-05-28",
       "monthly_series": "2026-05",
+      "top_stocks": "",
       "top_bonds": "2026-03-31",
+      "asset_allocation": "2026-03-31",
       "scale_changes": "2026-03-31",
       "holder_structure": "2025-12-31"
     }

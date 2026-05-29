@@ -13,81 +13,84 @@
     "MGREXP": "0.40%",
     "TRUSTEXP": "0.10%",
     "SALESEXP": "0.00%",
+    "BUY": "",
+    "SGZT": "",
+    "SHZT": "",
     "BENCH": "三年期银行定期存款利率(税后)+1.5%",
     "INDEXCODE": "--"
   },
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": -0.47,
-      "avg": -0.33,
-      "hs300_return": -2.39,
-      "rank": 851,
-      "total": 1603
+      "return_rate": 0.58,
+      "avg": 0.42,
+      "hs300_return": 2.74,
+      "rank": 420,
+      "total": 1627
     },
     {
       "title": "Last Month",
-      "return_rate": 0.26,
-      "avg": 0.9,
-      "hs300_return": 2.22,
-      "rank": 726,
-      "total": 1602
+      "return_rate": 0.69,
+      "avg": 0.74,
+      "hs300_return": 3.28,
+      "rank": 602,
+      "total": 1631
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 0.21,
-      "avg": 0.55,
-      "hs300_return": 3.71,
-      "rank": 897,
-      "total": 1561
+      "return_rate": 0.58,
+      "avg": 0.5,
+      "hs300_return": 4.32,
+      "rank": 693,
+      "total": 1573
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 2.71,
-      "avg": 2.6,
-      "hs300_return": 5.81,
-      "rank": 547,
-      "total": 1447
+      "return_rate": 3.93,
+      "avg": 3.54,
+      "hs300_return": 8.56,
+      "rank": 455,
+      "total": 1470
     },
     {
       "title": "Last Year",
-      "return_rate": 9.79,
-      "avg": 8.03,
-      "hs300_return": 24.28,
-      "rank": 336,
-      "total": 1284
+      "return_rate": 10.49,
+      "avg": 8.47,
+      "hs300_return": 28.1,
+      "rank": 339,
+      "total": 1298
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 14.36,
-      "avg": 12.53,
-      "hs300_return": 31.42,
-      "rank": 283,
-      "total": 1088
+      "return_rate": 14.75,
+      "avg": 12.92,
+      "hs300_return": 36.16,
+      "rank": 298,
+      "total": 1099
     },
     {
       "title": "Last 3 Years",
-      "return_rate": 19.41,
-      "avg": 13.86,
-      "hs300_return": 22.18,
-      "rank": 194,
-      "total": 900
+      "return_rate": 21.25,
+      "avg": 14.33,
+      "hs300_return": 27.61,
+      "rank": 178,
+      "total": 909
     },
     {
       "title": "Last 5 Years",
-      "return_rate": 27.38,
-      "avg": 17.72,
-      "hs300_return": -6.83,
-      "rank": 109,
-      "total": 591
+      "return_rate": 27.25,
+      "avg": 16.62,
+      "hs300_return": -7.65,
+      "rank": 108,
+      "total": 606
     },
     {
       "title": "Year to Date",
-      "return_rate": 2.38,
-      "avg": 2.51,
-      "hs300_return": 4.4,
-      "rank": 552,
-      "total": 1514
+      "return_rate": 2.97,
+      "avg": 2.79,
+      "hs300_return": 6.14,
+      "rank": 483,
+      "total": 1525
     }
   ],
   "yearly_returns": [
@@ -159,75 +162,75 @@
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": -0.47,
-      "avg": -0.33,
-      "hs300_return": -2.39,
-      "rank": 851,
-      "total": 1603
+      "return_rate": 0.58,
+      "avg": 0.42,
+      "hs300_return": 2.74,
+      "rank": 420,
+      "total": 1627
     },
     {
       "title": "Y",
-      "return_rate": 0.26,
-      "avg": 0.9,
-      "hs300_return": 2.22,
-      "rank": 726,
-      "total": 1602
+      "return_rate": 0.69,
+      "avg": 0.74,
+      "hs300_return": 3.28,
+      "rank": 602,
+      "total": 1631
     },
     {
       "title": "3Y",
-      "return_rate": 0.21,
-      "avg": 0.55,
-      "hs300_return": 3.71,
-      "rank": 897,
-      "total": 1561
+      "return_rate": 0.58,
+      "avg": 0.5,
+      "hs300_return": 4.32,
+      "rank": 693,
+      "total": 1573
     },
     {
       "title": "6Y",
-      "return_rate": 2.71,
-      "avg": 2.6,
-      "hs300_return": 5.81,
-      "rank": 547,
-      "total": 1447
+      "return_rate": 3.93,
+      "avg": 3.54,
+      "hs300_return": 8.56,
+      "rank": 455,
+      "total": 1470
     },
     {
       "title": "1N",
-      "return_rate": 9.79,
-      "avg": 8.03,
-      "hs300_return": 24.28,
-      "rank": 336,
-      "total": 1284
+      "return_rate": 10.49,
+      "avg": 8.47,
+      "hs300_return": 28.1,
+      "rank": 339,
+      "total": 1298
     },
     {
       "title": "2N",
-      "return_rate": 14.36,
-      "avg": 12.53,
-      "hs300_return": 31.42,
-      "rank": 283,
-      "total": 1088
+      "return_rate": 14.75,
+      "avg": 12.92,
+      "hs300_return": 36.16,
+      "rank": 298,
+      "total": 1099
     },
     {
       "title": "3N",
-      "return_rate": 19.41,
-      "avg": 13.86,
-      "hs300_return": 22.18,
-      "rank": 194,
-      "total": 900
+      "return_rate": 21.25,
+      "avg": 14.33,
+      "hs300_return": 27.61,
+      "rank": 178,
+      "total": 909
     },
     {
       "title": "5N",
-      "return_rate": 27.38,
-      "avg": 17.72,
-      "hs300_return": -6.83,
-      "rank": 109,
-      "total": 591
+      "return_rate": 27.25,
+      "avg": 16.62,
+      "hs300_return": -7.65,
+      "rank": 108,
+      "total": 606
     },
     {
       "title": "JN",
-      "return_rate": 2.38,
-      "avg": 2.51,
-      "hs300_return": 4.4,
-      "rank": 552,
-      "total": 1514
+      "return_rate": 2.97,
+      "avg": 2.79,
+      "hs300_return": 6.14,
+      "rank": 483,
+      "total": 1525
     }
   ],
   "monthly_series": [
@@ -373,10 +376,58 @@
     },
     {
       "month": "2026-05",
-      "return_rate": -0.09165902841429263
+      "return_rate": 0.4124656278643446
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-05-28",
+      "net_value": 1.906,
+      "acc_value": 2.191,
+      "growth": 0.21
+    },
+    {
+      "date": "2026-05-27",
+      "net_value": 1.902,
+      "acc_value": 2.187,
+      "growth": -0.21
+    },
+    {
+      "date": "2026-05-26",
+      "net_value": 1.906,
+      "acc_value": 2.191,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-05-25",
+      "net_value": 1.906,
+      "acc_value": 2.191,
+      "growth": 0.42
+    },
+    {
+      "date": "2026-05-22",
+      "net_value": 1.898,
+      "acc_value": 2.183,
+      "growth": 0.16
+    },
+    {
+      "date": "2026-05-21",
+      "net_value": 1.895,
+      "acc_value": 2.18,
+      "growth": -0.42
+    },
+    {
+      "date": "2026-05-20",
+      "net_value": 1.903,
+      "acc_value": 2.188,
+      "growth": 0.11
+    },
+    {
+      "date": "2026-05-19",
+      "net_value": 1.901,
+      "acc_value": 2.186,
+      "growth": 0.32
+    },
     {
       "date": "2026-05-18",
       "net_value": 1.895,
@@ -688,54 +739,6 @@
       "net_value": 1.901,
       "acc_value": 2.186,
       "growth": 0.32
-    },
-    {
-      "date": "2026-02-27",
-      "net_value": 1.895,
-      "acc_value": 2.18,
-      "growth": 0.0
-    },
-    {
-      "date": "2026-02-26",
-      "net_value": 1.895,
-      "acc_value": 2.18,
-      "growth": -0.11
-    },
-    {
-      "date": "2026-02-25",
-      "net_value": 1.897,
-      "acc_value": 2.182,
-      "growth": 0.11
-    },
-    {
-      "date": "2026-02-24",
-      "net_value": 1.895,
-      "acc_value": 2.18,
-      "growth": 0.21
-    },
-    {
-      "date": "2026-02-13",
-      "net_value": 1.891,
-      "acc_value": 2.176,
-      "growth": -0.21
-    },
-    {
-      "date": "2026-02-12",
-      "net_value": 1.895,
-      "acc_value": 2.18,
-      "growth": 0.16
-    },
-    {
-      "date": "2026-02-11",
-      "net_value": 1.892,
-      "acc_value": 2.177,
-      "growth": -0.05
-    },
-    {
-      "date": "2026-02-10",
-      "net_value": 1.893,
-      "acc_value": 2.178,
-      "growth": 0.05
     }
   ],
   "accumulated_return": [
@@ -22051,39 +22054,103 @@
       "date": "2026-05-18",
       "fund_return": 127.36,
       "index_return": 0.0,
-      "category_return": 0.0,
+      "category_return": 92.54,
       "bench_return": 35.95
+    },
+    {
+      "date": "2026-05-19",
+      "fund_return": 128.08,
+      "index_return": 0.0,
+      "category_return": 92.95,
+      "bench_return": 35.96
+    },
+    {
+      "date": "2026-05-20",
+      "fund_return": 128.32,
+      "index_return": 0.0,
+      "category_return": 93.01,
+      "bench_return": 35.98
+    },
+    {
+      "date": "2026-05-21",
+      "fund_return": 127.36,
+      "index_return": 0.0,
+      "category_return": 92.42,
+      "bench_return": 35.99
+    },
+    {
+      "date": "2026-05-22",
+      "fund_return": 127.72,
+      "index_return": 0.0,
+      "category_return": 92.78,
+      "bench_return": 36.01
+    },
+    {
+      "date": "2026-05-25",
+      "fund_return": 128.68,
+      "index_return": 0.0,
+      "category_return": 93.07,
+      "bench_return": 36.03
+    },
+    {
+      "date": "2026-05-26",
+      "fund_return": 128.68,
+      "index_return": 0.0,
+      "category_return": 93.04,
+      "bench_return": 36.04
+    },
+    {
+      "date": "2026-05-27",
+      "fund_return": 128.2,
+      "index_return": 0.0,
+      "category_return": 92.75,
+      "bench_return": 36.06
+    },
+    {
+      "date": "2026-05-28",
+      "fund_return": 128.68,
+      "index_return": 0.0,
+      "category_return": 92.99,
+      "bench_return": 36.07
     }
   ],
   "risk_metrics": {
-    "annualized_return": 9.273824615329328,
+    "annualized_return": 10.042154334703103,
     "max_drawdown": 3.7815126050420136,
-    "volatility": 5.085509033121879,
-    "sharpe_ratio": 1.4303041382789743,
-    "positive_days": 238,
-    "negative_days": 214,
-    "monthly_win_rate": 88.88888888888889,
-    "excess_return": 91.41,
+    "volatility": 5.389434972781367,
+    "sharpe_ratio": 1.4922073232758064,
+    "positive_days": 251,
+    "negative_days": 205,
+    "monthly_win_rate": 100.0,
+    "excess_return": 92.61000000000001,
     "data_points": 500,
-    "calmar_ratio": 2.45241139827598,
-    "sortino_ratio": 2.4019683071579148,
-    "current_drawdown": 0.5771248688352518,
+    "calmar_ratio": 2.655591924065934,
+    "sortino_ratio": 2.413789097081581,
+    "current_drawdown": 0.0,
     "max_drawdown_recovery_days": 15,
     "max_drawdown_start_date": "2024-05-20",
-    "max_drawdown_end_date": "2024-09-12"
+    "max_drawdown_end_date": "2024-09-12",
+    "drawdown_count_ge_1pct": 8,
+    "avg_drawdown_ge_1pct": 2.1086889288432795,
+    "avg_drawdown_duration_days": 81.75
   },
   "benchmark_metrics": {
-    "beta": 0.0048224947018248076,
-    "alpha": 4.815026731792783,
-    "tracking_error": 19.22145236681655,
-    "information_ratio": 0.13322084272764936,
-    "data_points": 3044
+    "beta": 0.004822303429949205,
+    "alpha": 4.844810540275326,
+    "tracking_error": 19.197428953553473,
+    "information_ratio": 0.13514388030204125,
+    "data_points": 3052,
+    "upside_capture": 36.90192091399415,
+    "downside_capture": -0.18548727190774988,
+    "category_alpha": -10.657559976875561,
+    "category_tracking_error": 51.86733518420946,
+    "category_information_ratio": -0.20547729971136358
   },
   "distribution": {
-    "var_95": 0.3892201101942671,
-    "cvar_95": 0.6342717689491204,
-    "skewness": 1.0313201792455875,
-    "excess_kurtosis": 8.078896171110463,
+    "var_95": 0.40883672213039,
+    "cvar_95": 0.6866165968795901,
+    "skewness": 0.9628203307128035,
+    "excess_kurtosis": 17.19102997986476,
     "data_points": 499
   },
   "rolling_returns": {
@@ -22092,22 +22159,61 @@
       "count": 570,
       "max": 12.61213720316623,
       "min": -1.394101876675602,
-      "mean": 5.679028887159633,
-      "median": 6.11189667180213,
-      "p25": 3.7315959549689026,
-      "p75": 7.681188959303397
+      "mean": 5.784014813076286,
+      "median": 6.213460353849321,
+      "p25": 3.7982616198866666,
+      "p75": 7.764897890860389,
+      "win_rate": 98.0701754385965,
+      "loss_probability": 1.7543859649122806
     },
     "y3": {
       "window_days": 750,
       "count": 70,
-      "max": 18.593238822246438,
+      "max": 18.048780487804873,
       "min": 15.454545454545432,
-      "mean": 17.078084259589183,
-      "median": 17.15437254640816,
-      "p25": 16.64423386596223,
-      "p75": 17.627257466712813
-    }
+      "mean": 16.92177719337984,
+      "median": 16.99732392163356,
+      "p25": 16.541653335466314,
+      "p75": 17.407710607637455,
+      "win_rate": 100.0,
+      "loss_probability": 0.0
+    },
+    "y5": null
   },
+  "cost_analysis": {
+    "ongoing_fee_pct": 0.5,
+    "manager_fee_pct": 0.4,
+    "custody_fee_pct": 0.1,
+    "sales_fee_pct": 0.0,
+    "net_annualized_after_fee_pct": 9.542154334703103
+  },
+  "flow_risk": {
+    "recent_quarter_net_subscribe_yi": 79.28,
+    "recent_quarter_net_subscribe_pct_of_shares": 32.11536903508061,
+    "recent_quarter_nav_change_pct": 48.86,
+    "last_4q_large_swing_count": 3,
+    "institutional_pct_latest": 91.54,
+    "institutional_pct_change_latest": 1.730000000000004,
+    "score": 75,
+    "level": "高"
+  },
+  "data_gaps": [
+    {
+      "key": "bond_duration",
+      "label": "债券久期",
+      "reason": "当前 F10 持仓接口只提供前十大债券名称、占比和市值，未提供组合久期。"
+    },
+    {
+      "key": "bond_credit_rating",
+      "label": "信用评级分布",
+      "reason": "当前数据源未返回债券评级分布，不能从债券名称可靠推断评级。"
+    },
+    {
+      "key": "stock_industry_classification",
+      "label": "正式行业分类",
+      "reason": "当前重仓股接口未接入统一行业分类，页面只保留名称线索，不作为正式行业暴露。"
+    }
+  ],
   "fee_rules": {
     "purchase": [
       {
@@ -22191,16 +22297,16 @@
         "market_value_wan": 15872.9
       },
       {
-        "bond_code": "127085",
-        "bond_name": "韵达转债",
-        "ratio": 0.17,
-        "market_value_wan": 10540.37
-      },
-      {
         "bond_code": "127056",
         "bond_name": "中特转债",
         "ratio": 0.17,
         "market_value_wan": 10297.17
+      },
+      {
+        "bond_code": "127085",
+        "bond_name": "韵达转债",
+        "ratio": 0.17,
+        "market_value_wan": 10540.37
       },
       {
         "bond_code": "113059",
@@ -22227,6 +22333,12 @@
         "market_value_wan": 5333.21
       },
       {
+        "bond_code": "113636",
+        "bond_name": "甬金转债",
+        "ratio": 0.08,
+        "market_value_wan": 5159.46
+      },
+      {
         "bond_code": "123179",
         "bond_name": "立高转债",
         "ratio": 0.08,
@@ -22237,12 +22349,6 @@
         "bond_name": "本钢转债",
         "ratio": 0.08,
         "market_value_wan": 4616.65
-      },
-      {
-        "bond_code": "113636",
-        "bond_name": "甬金转债",
-        "ratio": 0.08,
-        "market_value_wan": 5159.46
       },
       {
         "bond_code": "113037",
@@ -22323,16 +22429,16 @@
         "market_value_wan": 1982.85
       },
       {
-        "bond_code": "118032",
-        "bond_name": "建龙转债",
-        "ratio": 0.03,
-        "market_value_wan": 2074.52
-      },
-      {
         "bond_code": "123216",
         "bond_name": "科顺转债",
         "ratio": 0.03,
         "market_value_wan": 1719.94
+      },
+      {
+        "bond_code": "118032",
+        "bond_name": "建龙转债",
+        "ratio": 0.03,
+        "market_value_wan": 2074.52
       },
       {
         "bond_code": "113693",
@@ -22347,16 +22453,16 @@
         "market_value_wan": 726.83
       },
       {
-        "bond_code": "127027",
-        "bond_name": "能化转债",
-        "ratio": 0.01,
-        "market_value_wan": 530.96
-      },
-      {
         "bond_code": "123154",
         "bond_name": "火星转债",
         "ratio": 0.01,
         "market_value_wan": 353.45
+      },
+      {
+        "bond_code": "127027",
+        "bond_name": "能化转债",
+        "ratio": 0.01,
+        "market_value_wan": 530.96
       },
       {
         "bond_code": "123151",
@@ -22371,10 +22477,10 @@
         "market_value_wan": 119.04
       },
       {
-        "bond_code": "113627",
-        "bond_name": "太平转债",
+        "bond_code": "123122",
+        "bond_name": "富瀚转债",
         "ratio": 0.0,
-        "market_value_wan": 142.88
+        "market_value_wan": 15.93
       },
       {
         "bond_code": "123117",
@@ -22383,10 +22489,10 @@
         "market_value_wan": 66.23
       },
       {
-        "bond_code": "123122",
-        "bond_name": "富瀚转债",
+        "bond_code": "113627",
+        "bond_name": "太平转债",
         "ratio": 0.0,
-        "market_value_wan": 15.93
+        "market_value_wan": 142.88
       }
     ]
   },
@@ -23461,11 +23567,11 @@
         "MGRID": "30074226",
         "MGRNAME": "董晗",
         "RESUME": "董晗先生:中国国籍,硕士研究生,曾任易方达基金管理有限公司金属、非金属行业研究员,2007年9月加入国投瑞银基金管理有限公司研究部。2014年7月24日起任国投瑞银景气行业证券投资基金基金经理,2014年11月22日至2020年7月18日任国投瑞银美丽中国灵活配置混合型证券投资基金基金经理,2015年3月14日起兼任国投瑞银创新动力混合型证券投资基金(原国投瑞银创新动力股票型证券投资基金)基金经理,2015年6月19日起兼任国投瑞银成长优选混合型证券投资基金(原国投瑞银成长优选股票型证券投资基金)基金经理,2016年1月19日起兼任国投瑞银瑞源保本混合型证券投资基金基金经理。曾于2011年7月21日至2014年7月23日期间担任国投瑞银中证上游资源产业指数证券投资基金(LOF)基金经理。2016年1月19日至2019年12月28日期间担任国投瑞银境煊灵活配置混合型证券投资基金基金经理。2017年5月20日至2020年7月18日担任国投瑞银优化增强债券型证券投资基金基金经理。2016年1月19日至2020年7月18日担任国投瑞银瑞源灵活配置混合型证券投资基金基金经理。2018年11月3日至2020年7月18日国投瑞银锐意改革灵活配置混合型证券投资基金基金经理。2020年10月30日起担任景顺长城景颐招利6个月持有期债券型证券投资基金、景顺长城景颐双利债券型证券投资基金、景顺长城景颐嘉利6个月持有期债券型证券投资基金基金经理。曾任景顺长城安景一年持有期混合型证券投资基金、景顺长城安鼎一年持有期混合型证券投资基金基金经理。2026年3月31日任景顺长城核心中景一年持有期混合型证券投资基金基金经理。",
-        "TOTALDAYS": "5311",
+        "TOTALDAYS": "5322",
         "NETNAV": "101535465425.66",
         "FCOUNT": "17",
         "PRENAME": "景顺长城景颐双利债券A",
-        "YIELDSE": "11.9199",
+        "YIELDSE": "12.3629",
         "JJGS": "景顺长城基金",
         "FMAXEARN1": "2.6574",
         "FMAXRETRA1": "0.4999",
@@ -23474,10 +23580,10 @@
       "eval": {
         "MAXRETRA_1": "0.1916",
         "MAXRETRA_3": "0.3838",
-        "SHARP_1": "2.6263",
-        "SHARP_3": "0.9245",
-        "STDDEV_1": "24.7334",
-        "STDDEV_3": "24.7225",
+        "SHARP_1": "2.8217",
+        "SHARP_3": "0.9475",
+        "STDDEV_1": "24.8783",
+        "STDDEV_3": "24.804",
         "WIN_1": "60.64",
         "WIN_3": "62.21"
       },
@@ -23658,170 +23764,170 @@
           "SHORTNAME": "景顺长城景颐双利债券A",
           "FEMPDATE": "2020-10-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "34.9281",
-          "TLRANK": "129",
-          "TLSC": "2299"
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "35.6398",
+          "TLRANK": "128",
+          "TLSC": "2297"
         },
         {
           "FCODE": "017639",
           "SHORTNAME": "景顺长城景气优选一年持有期混合A",
           "FEMPDATE": "2023-02-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1175",
-          "PENAVGROWTH": "106.59",
-          "TLRANK": "369",
-          "TLSC": "6558"
+          "TOTALDAYS": "1186",
+          "PENAVGROWTH": "125.32",
+          "TLRANK": "324",
+          "TLSC": "6551"
         },
         {
           "FCODE": "017640",
           "SHORTNAME": "景顺长城景气优选一年持有期混合C",
           "FEMPDATE": "2023-02-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1175",
-          "PENAVGROWTH": "102.64",
-          "TLRANK": "392",
-          "TLSC": "6558"
+          "TOTALDAYS": "1186",
+          "PENAVGROWTH": "120.96",
+          "TLRANK": "349",
+          "TLSC": "6551"
         },
         {
           "FCODE": "011167",
           "SHORTNAME": "景顺长城景气成长混合A",
           "FEMPDATE": "2021-06-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1798",
-          "PENAVGROWTH": "71.17",
-          "TLRANK": "395",
-          "TLSC": "4173"
+          "TOTALDAYS": "1809",
+          "PENAVGROWTH": "85.29",
+          "TLRANK": "366",
+          "TLSC": "4160"
         },
         {
           "FCODE": "015756",
           "SHORTNAME": "景顺长城景气成长混合C",
           "FEMPDATE": "2022-05-19T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1459",
-          "PENAVGROWTH": "68.6137",
-          "TLRANK": "794",
-          "TLSC": "6031"
-        },
-        {
-          "FCODE": "010011",
-          "SHORTNAME": "景顺景颐招利6个月持有期债券A",
-          "FEMPDATE": "2020-10-29T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "44.1026",
-          "TLRANK": "75",
-          "TLSC": "2299"
-        },
-        {
-          "FCODE": "011803",
-          "SHORTNAME": "景顺长城宁景6个月持有混合A",
-          "FEMPDATE": "2021-11-30T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "1629",
-          "PENAVGROWTH": "42.67",
-          "TLRANK": "557",
-          "TLSC": "4942"
+          "TOTALDAYS": "1470",
+          "PENAVGROWTH": "82.4965",
+          "TLRANK": "686",
+          "TLSC": "5977"
         },
         {
           "FCODE": "012130",
           "SHORTNAME": "景顺长城先进智造混合A",
           "FEMPDATE": "2021-08-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1729",
-          "PENAVGROWTH": "42.62",
-          "TLRANK": "596",
-          "TLSC": "4458"
-        },
-        {
-          "FCODE": "010012",
-          "SHORTNAME": "景顺景颐招利6个月持有期债券C",
-          "FEMPDATE": "2020-10-29T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "40.9383",
-          "TLRANK": "90",
-          "TLSC": "2299"
-        },
-        {
-          "FCODE": "011804",
-          "SHORTNAME": "景顺长城宁景6个月持有混合C",
-          "FEMPDATE": "2021-11-30T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "1629",
-          "PENAVGROWTH": "40.16",
-          "TLRANK": "602",
-          "TLSC": "4942"
+          "TOTALDAYS": "1740",
+          "PENAVGROWTH": "54.13",
+          "TLRANK": "499",
+          "TLSC": "4450"
         },
         {
           "FCODE": "012131",
           "SHORTNAME": "景顺长城先进智造混合C",
           "FEMPDATE": "2021-08-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1729",
-          "PENAVGROWTH": "39.91",
-          "TLRANK": "648",
-          "TLSC": "4458"
+          "TOTALDAYS": "1740",
+          "PENAVGROWTH": "51.19",
+          "TLRANK": "553",
+          "TLSC": "4450"
+        },
+        {
+          "FCODE": "011803",
+          "SHORTNAME": "景顺长城宁景6个月持有混合A",
+          "FEMPDATE": "2021-11-30T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1640",
+          "PENAVGROWTH": "45.61",
+          "TLRANK": "613",
+          "TLSC": "4935"
+        },
+        {
+          "FCODE": "010011",
+          "SHORTNAME": "景顺景颐招利6个月持有期债券A",
+          "FEMPDATE": "2020-10-29T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "43.7656",
+          "TLRANK": "81",
+          "TLSC": "2297"
+        },
+        {
+          "FCODE": "011804",
+          "SHORTNAME": "景顺长城宁景6个月持有混合C",
+          "FEMPDATE": "2021-11-30T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1640",
+          "PENAVGROWTH": "43.03",
+          "TLRANK": "665",
+          "TLSC": "4935"
+        },
+        {
+          "FCODE": "010012",
+          "SHORTNAME": "景顺景颐招利6个月持有期债券C",
+          "FEMPDATE": "2020-10-29T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "40.5903",
+          "TLRANK": "99",
+          "TLSC": "2297"
         },
         {
           "FCODE": "008999",
           "SHORTNAME": "景顺景颐嘉利6个月持有期债券A",
           "FEMPDATE": "2020-10-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "33.8978",
-          "TLRANK": "141",
-          "TLSC": "2299"
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "35.0235",
+          "TLRANK": "132",
+          "TLSC": "2297"
         },
         {
           "FCODE": "000386",
           "SHORTNAME": "景顺长城景颐双利债券C",
           "FEMPDATE": "2020-10-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "31.939",
-          "TLRANK": "158",
-          "TLSC": "2299"
-        },
-        {
-          "FCODE": "025069",
-          "SHORTNAME": "景顺长城高端装备股票",
-          "FEMPDATE": "2025-09-22T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "237",
-          "PENAVGROWTH": "31.14",
-          "TLRANK": "591",
-          "TLSC": "5380"
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "32.6703",
+          "TLRANK": "154",
+          "TLSC": "2297"
         },
         {
           "FCODE": "009000",
           "SHORTNAME": "景顺景颐嘉利6个月持有期债券C",
           "FEMPDATE": "2020-10-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2026",
-          "PENAVGROWTH": "30.9638",
-          "TLRANK": "174",
-          "TLSC": "2299"
+          "TOTALDAYS": "2037",
+          "PENAVGROWTH": "32.0424",
+          "TLRANK": "170",
+          "TLSC": "2297"
+        },
+        {
+          "FCODE": "025069",
+          "SHORTNAME": "景顺长城高端装备股票",
+          "FEMPDATE": "2025-09-22T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "248",
+          "PENAVGROWTH": "24.83",
+          "TLRANK": "1346",
+          "TLSC": "5376"
         },
         {
           "FCODE": "010027",
           "SHORTNAME": "景顺长城核心中景一年持有混合",
           "FEMPDATE": "2026-03-30T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "48",
-          "PENAVGROWTH": "12.2652",
-          "TLRANK": "3003",
-          "TLSC": "9049"
+          "TOTALDAYS": "59",
+          "PENAVGROWTH": "18.334",
+          "TLRANK": "2483",
+          "TLSC": "9029"
         },
         {
           "FCODE": "026425",
           "SHORTNAME": "景顺长城景气驱动混合",
           "FEMPDATE": "2026-02-09T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "97",
-          "PENAVGROWTH": "4.94",
-          "TLRANK": "3037",
-          "TLSC": "8972"
+          "TOTALDAYS": "108",
+          "PENAVGROWTH": "11.66",
+          "TLRANK": "2419",
+          "TLSC": "8954"
         }
       ]
     },
@@ -23832,23 +23938,23 @@
         "MGRID": "30061865",
         "MGRNAME": "李怡文",
         "RESUME": "李怡文女士:中国国籍,硕士研究生,曾任Froley Revy Investment Company分析师、中国建设银行(香港)资产组合经理。2008年6月加入国投瑞银基金管理有限公司基金投资部任高级研究员。2010年9月8日起任国投瑞银优化增强债券型证券投资基金基金经理,2011年12月20日起兼任国投瑞银瑞源保本混合型证券投资基金基金经理,2012年12月11日起兼任国投瑞银纯债债券型证券投资基金基金经理,2014年3月11日起兼任国投瑞银新机遇灵活配置混合型证券投资基金基金经理,2014年9月26日起兼任国投瑞银岁增利一年期定期开放债券型证券投资基金基金经理,2015年6月3日起兼任国投瑞银招财保本混合型证券投资基金基金经理,2015年10月28日起兼任国投瑞银境煊保本混合型证券投资基金基金经理,2016年4月30日起兼任国投瑞银和安债券型证券投资基金基金经理。2020年4月加入景顺长城基金管理有限公司,担任固定收益部稳定收益业务投资负责人。2021年4月30日起任景顺长城景颐双利债券型证券投资基金基金经理。2021年4月30日起任景顺长城景颐招利6个月持有期债券型证券投资基金基金经理。2021年4月30日起任景顺长城安泽回报一年持有期混合型证券投资基金基金经理。2021年6月16日起担任景顺长城景颐嘉利6个月持有期债券型证券投资基金基金经理。2021年7月28日起担任景顺长城安益回报一年持有期混合型证券投资基金基金经理。2022年1月29日任景顺长城景盛双息收益债券型证券投资基金的基金经理。2024年6月18日起担任景顺长城景颐丰利债券型证券投资基金基金经理。曾任景顺长城安鼎一年持有期混合型证券投资基金,景顺长城安景一年持有期混合型证券投资基金的基金经理。",
-        "TOTALDAYS": "4913",
+        "TOTALDAYS": "4924",
         "NETNAV": "176157977167.04",
         "FCOUNT": "19",
         "PRENAME": "景顺长城景颐双利债券A",
-        "YIELDSE": "5.4217",
+        "YIELDSE": "5.4213",
         "JJGS": "景顺长城基金",
         "FMAXEARN1": "0.9685",
         "FMAXRETRA1": "0.0872",
         "MGOLD": "8.293"
       },
       "eval": {
-        "MAXRETRA_1": "0.0337",
+        "MAXRETRA_1": "0.0379",
         "MAXRETRA_3": "0.086",
-        "SHARP_1": "2.3667",
-        "SHARP_3": "1.0269",
-        "STDDEV_1": "4.419",
-        "STDDEV_3": "5.422",
+        "SHARP_1": "2.2809",
+        "SHARP_3": "0.9973",
+        "STDDEV_1": "4.4456",
+        "STDDEV_3": "5.4285",
         "WIN_1": "42.11",
         "WIN_3": "59.13"
       },
@@ -24039,196 +24145,196 @@
           "SHORTNAME": "景顺长城景颐双利债券A",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "28.3297",
-          "TLRANK": "188",
-          "TLSC": "2462"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "29.0066",
+          "TLRANK": "185",
+          "TLSC": "2460"
         },
         {
           "FCODE": "003504",
           "SHORTNAME": "景顺长城景颐丰利债券A",
           "FEMPDATE": "2024-06-17T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "699",
-          "PENAVGROWTH": "53.2609",
-          "TLRANK": "14",
-          "TLSC": "4616"
+          "TOTALDAYS": "710",
+          "PENAVGROWTH": "57.0652",
+          "TLRANK": "13",
+          "TLSC": "4614"
         },
         {
           "FCODE": "003505",
           "SHORTNAME": "景顺长城景颐丰利债券C",
           "FEMPDATE": "2024-06-17T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "699",
-          "PENAVGROWTH": "52.1606",
-          "TLRANK": "16",
-          "TLSC": "4616"
+          "TOTALDAYS": "710",
+          "PENAVGROWTH": "55.9096",
+          "TLRANK": "18",
+          "TLSC": "4614"
         },
         {
           "FCODE": "011018",
           "SHORTNAME": "景顺长城安泽回报一年持有混合A",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "44.7973",
-          "TLRANK": "823",
-          "TLSC": "4346"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "43.569",
+          "TLRANK": "937",
+          "TLSC": "4299"
         },
         {
           "FCODE": "011019",
           "SHORTNAME": "景顺长城安泽回报一年持有混合C",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "41.854",
-          "TLRANK": "889",
-          "TLSC": "4346"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "40.6453",
+          "TLRANK": "994",
+          "TLSC": "4299"
         },
         {
           "FCODE": "010011",
           "SHORTNAME": "景顺景颐招利6个月持有期债券A",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "38.6438",
-          "TLRANK": "78",
-          "TLSC": "2462"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "38.3196",
+          "TLRANK": "89",
+          "TLSC": "2460"
         },
         {
           "FCODE": "010012",
           "SHORTNAME": "景顺景颐招利6个月持有期债券C",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "35.899",
-          "TLRANK": "94",
-          "TLSC": "2462"
-        },
-        {
-          "FCODE": "012137",
-          "SHORTNAME": "景顺长城安瑞混合A",
-          "FEMPDATE": "2022-09-22T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "1333",
-          "PENAVGROWTH": "32.6933",
-          "TLRANK": "2152",
-          "TLSC": "6407"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "35.5634",
+          "TLRANK": "103",
+          "TLSC": "2460"
         },
         {
           "FCODE": "023512",
           "SHORTNAME": "景顺长城景颐丰利债券F",
           "FEMPDATE": "2025-02-20T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "451",
-          "PENAVGROWTH": "31.5633",
-          "TLRANK": "26",
-          "TLSC": "5322"
+          "TOTALDAYS": "462",
+          "PENAVGROWTH": "34.8218",
+          "TLRANK": "23",
+          "TLSC": "5320"
+        },
+        {
+          "FCODE": "012137",
+          "SHORTNAME": "景顺长城安瑞混合A",
+          "FEMPDATE": "2022-09-22T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1344",
+          "PENAVGROWTH": "31.6432",
+          "TLRANK": "2309",
+          "TLSC": "6353"
         },
         {
           "FCODE": "014926",
           "SHORTNAME": "景顺长城安瑞混合C",
           "FEMPDATE": "2022-09-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1333",
-          "PENAVGROWTH": "30.7031",
-          "TLRANK": "2292",
-          "TLSC": "6407"
+          "TOTALDAYS": "1344",
+          "PENAVGROWTH": "29.653",
+          "TLRANK": "2434",
+          "TLSC": "6353"
         },
         {
           "FCODE": "008999",
           "SHORTNAME": "景顺景颐嘉利6个月持有期债券A",
           "FEMPDATE": "2021-06-15T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1797",
-          "PENAVGROWTH": "26.3182",
-          "TLRANK": "213",
-          "TLSC": "2492"
-        },
-        {
-          "FCODE": "002065",
-          "SHORTNAME": "景顺长城景盛双息收益债券A",
-          "FEMPDATE": "2022-01-28T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "1570",
-          "PENAVGROWTH": "26.2833",
-          "TLRANK": "77",
-          "TLSC": "2884"
+          "TOTALDAYS": "1808",
+          "PENAVGROWTH": "27.3802",
+          "TLRANK": "189",
+          "TLSC": "2490"
         },
         {
           "FCODE": "000386",
           "SHORTNAME": "景顺长城景颐双利债券C",
           "FEMPDATE": "2021-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1844",
-          "PENAVGROWTH": "25.7211",
-          "TLRANK": "264",
-          "TLSC": "2462"
+          "TOTALDAYS": "1855",
+          "PENAVGROWTH": "26.418",
+          "TLRANK": "247",
+          "TLSC": "2460"
         },
         {
-          "FCODE": "002066",
-          "SHORTNAME": "景顺长城景盛双息收益债券C",
+          "FCODE": "002065",
+          "SHORTNAME": "景顺长城景盛双息收益债券A",
           "FEMPDATE": "2022-01-28T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1570",
-          "PENAVGROWTH": "24.2602",
-          "TLRANK": "98",
-          "TLSC": "2884"
+          "TOTALDAYS": "1581",
+          "PENAVGROWTH": "25.8853",
+          "TLRANK": "96",
+          "TLSC": "2882"
         },
         {
           "FCODE": "009000",
           "SHORTNAME": "景顺景颐嘉利6个月持有期债券C",
           "FEMPDATE": "2021-06-15T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1797",
-          "PENAVGROWTH": "23.8594",
-          "TLRANK": "285",
-          "TLSC": "2492"
+          "TOTALDAYS": "1808",
+          "PENAVGROWTH": "24.8795",
+          "TLRANK": "258",
+          "TLSC": "2490"
+        },
+        {
+          "FCODE": "002066",
+          "SHORTNAME": "景顺长城景盛双息收益债券C",
+          "FEMPDATE": "2022-01-28T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1581",
+          "PENAVGROWTH": "23.7514",
+          "TLRANK": "127",
+          "TLSC": "2882"
         },
         {
           "FCODE": "012138",
           "SHORTNAME": "景顺长城安益回报一年持有混合A",
           "FEMPDATE": "2021-07-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1755",
-          "PENAVGROWTH": "23.2558",
-          "TLRANK": "1258",
-          "TLSC": "4720"
+          "TOTALDAYS": "1766",
+          "PENAVGROWTH": "22.1779",
+          "TLRANK": "1410",
+          "TLSC": "4673"
         },
         {
           "FCODE": "012139",
           "SHORTNAME": "景顺长城安益回报一年持有混合C",
           "FEMPDATE": "2021-07-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1755",
-          "PENAVGROWTH": "20.9386",
-          "TLRANK": "1395",
-          "TLSC": "4720"
+          "TOTALDAYS": "1766",
+          "PENAVGROWTH": "19.8702",
+          "TLRANK": "1537",
+          "TLSC": "4673"
         },
         {
           "FCODE": "015805",
           "SHORTNAME": "景顺长城景颐尊利债券A",
           "FEMPDATE": "2022-07-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1391",
-          "PENAVGROWTH": "17.4448",
-          "TLRANK": "266",
-          "TLSC": "3159"
+          "TOTALDAYS": "1402",
+          "PENAVGROWTH": "17.2479",
+          "TLRANK": "286",
+          "TLSC": "3157"
         },
         {
           "FCODE": "015806",
           "SHORTNAME": "景顺长城景颐尊利债券C",
           "FEMPDATE": "2022-07-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1391",
-          "PENAVGROWTH": "15.6182",
-          "TLRANK": "362",
-          "TLSC": "3159"
+          "TOTALDAYS": "1402",
+          "PENAVGROWTH": "15.411",
+          "TLRANK": "398",
+          "TLSC": "3157"
         }
       ]
     }
   ],
   "scores": {
-    "overall": 64,
+    "overall": 65,
     "items": [
       {
         "name": "收益",
@@ -24242,7 +24348,7 @@
       },
       {
         "name": "稳定",
-        "score": 76,
+        "score": 79,
         "weight": 20
       },
       {
@@ -24268,11 +24374,11 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-05-18",
+    "generated_at": "2026-05-29",
     "as_of": {
-      "nav_history": "2026-05-18",
-      "nav_trend": "2026-05-18",
-      "accumulated_return": "2026-05-18",
+      "nav_history": "2026-05-28",
+      "nav_trend": "2026-05-28",
+      "accumulated_return": "2026-05-28",
       "monthly_series": "2026-05",
       "top_stocks": "2026-03-31",
       "top_bonds": "2026-03-31",

@@ -488,6 +488,7 @@ function bInfo(d) {
       <div class="icell"><div class="ikey">基金公司</div><div class="ival">${esc(det.JJGS)}</div></div>
       <div class="icell"><div class="ikey">基金经理</div><div class="ival">${esc(det.JJJL)}</div></div>
       <div class="icell"><div class="ikey">综合费率</div><div class="ival">${tot}% <small>管${esc(det.MGREXP)} 托${esc(det.TRUSTEXP)} 销${esc(det.SALESEXP)}</small></div></div>
+      ${det.BENCH && det.BENCH !== '--' ? `<div class="icell icell-bench"><div class="ikey">业绩比较基准</div><div class="ival ival-bench">${esc(det.BENCH)}</div></div>` : ''}
     </div>
   </div>`;
 }
@@ -972,6 +973,7 @@ function bBenchmark(d) {
     { k:'下行捕获',       v: b.downside_capture != null ? fmt(b.downside_capture)+'%' : '--', cls: b.downside_capture <= 80 ? 'pos' : b.downside_capture > 100 ? 'neg' : 'neu', hint:'基准下跌日损失捕获' },
     { k:'同类 Alpha',     v: b.category_alpha != null ? pct(b.category_alpha,2,true) : '--', cls: cc(b.category_alpha), hint:'vs 同类均值，年化' },
     { k:'同类 TE',        v: b.category_tracking_error != null ? fmt(b.category_tracking_error)+'%' : '--', cls:'neu', hint:'相对同类波动' },
+    { k:'同类 IR',        v: b.category_information_ratio != null ? fmt(b.category_information_ratio) : '--', cls: cc(b.category_information_ratio), hint:'同类主动收益稳定性' },
   ];
   const cells = items.map(it => `
     <div class="mcell">
@@ -982,6 +984,7 @@ function bBenchmark(d) {
   return `
   <div class="card mb24 fade">
     ${sl('相对基准表现', `${b.data_points} 日`)}
+    ${d.detail && d.detail.BENCH && d.detail.BENCH !== '--' ? `<div class="sub-label sub-label-muted">对标基准 · ${esc(d.detail.BENCH)}</div>` : ''}
     <div class="mgrid">${cells}</div>
     ${benchmarkCommentary(d)}
   </div>`;
@@ -1198,11 +1201,13 @@ function bManager(d) {
   const navB  = (parseFloat(mi.NETNAV||'0') / 1e8).toFixed(0);
   const earn1 = (parseFloat(mi.FMAXEARN1||'0') * 100).toFixed(2);
   const dd1m  = (parseFloat(mi.FMAXRETRA1||'0') * 100).toFixed(2);
+  const yld   = parseFloat(mi.YIELDSE||'0');
 
   const stats = [
     { k:'从业年限',     v: years+' 年',     cls:'' },
     { k:'在管规模',     v: navB+' 亿',      cls:'' },
     { k:'在管基金',     v: (mi.FCOUNT||'--')+' 只', cls:'' },
+    { k:'任职年化',     v: (yld>=0?'+':'')+yld.toFixed(2)+'%', cls: yld>0?'pos':'neu' },
     { k:'历史最佳年化', v: '+'+earn1+'%',   cls:'pos' },
     { k:'历史最大回撤', v: '-'+dd1m+'%',    cls:'neg' },
   ];
@@ -1211,11 +1216,14 @@ function bManager(d) {
     const mdd1 = (parseFloat(me.MAXRETRA_1||'0')*100).toFixed(2);
     const mdd3 = (parseFloat(me.MAXRETRA_3||'0')*100).toFixed(2);
     const w1 = parseFloat(me.WIN_1||'0'), w3 = parseFloat(me.WIN_3||'0');
+    const sd1 = parseFloat(me.STDDEV_1||'0'), sd3 = parseFloat(me.STDDEV_3||'0');
     stats.push(
       { k:'近1年夏普', v: fmt(s1),         cls: s1>1?'pos':s1>0?'neu':'neg' },
       { k:'近3年夏普', v: fmt(s3),         cls: s3>1?'pos':s3>0?'neu':'neg' },
       { k:'近1年回撤', v: '-'+mdd1+'%',    cls:'neg' },
       { k:'近3年回撤', v: '-'+mdd3+'%',    cls:'neg' },
+      { k:'近1年波动', v: sd1>0?sd1.toFixed(2)+'%':'--', cls:'neu' },
+      { k:'近3年波动', v: sd3>0?sd3.toFixed(2)+'%':'--', cls:'neu' },
       { k:'近1年胜率', v: w1.toFixed(1)+'%', cls: w1>=55?'pos':'neu' },
       { k:'近3年胜率', v: w3.toFixed(1)+'%', cls: w3>=55?'pos':'neu' },
     );
@@ -1233,6 +1241,8 @@ function bManager(d) {
       <div class="resume" id="resume">${esc(resume)}</div>
       <button class="resume-btn" type="button" onclick="toggleResume()">展开全文 ▾</button>
     </div>` : '';
+  const repName = mi.PRENAME || '';
+  const repHtml = repName ? `<div class="sub-label sub-label-callout">代表作 · <b>${esc(repName)}</b></div>` : '';
 
   // Title: primary manager + comma-joined co-managers when len > 1.
   // Card body shows primary's full profile only; co-managers' info objects are
@@ -1245,6 +1255,7 @@ function bManager(d) {
   <div class="card mb24 fade">
     ${sl(title)}
     <div class="mgrg mgr-cols-${cols}">${cellHtml}</div>
+    ${repHtml}
     ${resumeHtml}
   </div>`;
 }

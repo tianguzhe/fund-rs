@@ -983,6 +983,18 @@ body {
 }
 .ival small { font-size: 11px; color: var(--ink3); font-weight: 400; margin-left: 6px; overflow-wrap: anywhere; }
 
+/* Full-width benchmark row inside .igrid — the performance benchmark string is
+ * long prose (e.g. "中债综合*90%+沪深300*10%") and must span all 3 columns. */
+.icell-bench { grid-column: 1 / -1; }
+.ival-bench {
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink2);
+  letter-spacing: 0;
+}
+
 /* ── fee accordion ── */
 .feerow {
   display: flex; align-items: center; justify-content: space-between;
