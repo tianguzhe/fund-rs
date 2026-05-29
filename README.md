@@ -29,7 +29,6 @@ fund-rs/
 | `fund rank-history -c <代码>` | 排名历史走势 |
 | `fund theme` | 主题基金列表 |
 | `fund bigdata` | 大数据选基 |
-| `fund compare --a <代码> --b <代码>` | 对比两只基金，输出 JSON 供网页展示 |
 
 ## 安装
 

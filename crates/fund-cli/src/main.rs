@@ -104,15 +104,6 @@ enum Commands {
         #[arg(short = 'o', long)]
         output: Option<std::path::PathBuf>,
     },
-    /// 对比两只基金，输出 JSON 供网页展示
-    Compare {
-        #[arg(long)]
-        a: String,
-        #[arg(long)]
-        b: String,
-        #[arg(short, long, default_value = "dist/data/compare.json")]
-        output: std::path::PathBuf,
-    },
     /// 组合穿透分析（资产配置 + 底层股票 + 行业暴露）
     Holdings {
         /// 生成持仓配置模板（~/.fund-rs/holdings.json）后退出
@@ -189,7 +180,6 @@ fn run() -> Result<()> {
         Commands::RankHistory { code, range } => {
             commands::rank_history::run(&client, &code, &range)
         }
-        Commands::Compare { a, b, output } => commands::compare::run(&a, &b, &output),
         Commands::Analyze { code, json, output } => {
             commands::analyze::run(&client, &code, json, output.as_deref())
         }

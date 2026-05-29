@@ -1,6 +1,6 @@
 ---
 name: fund-deep-analyzer
-description: 显式触发"单基金深度分析"工作流。当用户输入 `/fund-deep-analyzer <6位代码>` 时使用本技能。它会启动同名项目级 subagent，按 10 节模板对该基金做 23 字段研究级中文报告。**与自动触发 agent 的区别**：本 skill 是手动入口，确保用户意图明确（避免主 Claude 把"提个代码闲聊"误判成深度分析）。
+description: 显式触发"单基金深度分析"工作流。当用户输入 `/fund-deep-analyzer <6位代码>` 时使用本技能。它会启动同名项目级 subagent，按 10 节模板对该基金做 28 字段研究级中文报告。**与自动触发 agent 的区别**：本 skill 是手动入口，确保用户意图明确（避免主 Claude 把"提个代码闲聊"误判成深度分析）。
 ---
 
 # fund-deep-analyzer（手动触发版）
@@ -18,13 +18,12 @@ description: 显式触发"单基金深度分析"工作流。当用户输入 `/fu
 
 ```
 /fund-deep-analyzer 020262 重点看费率和分红
-/fund-deep-analyzer 110011 帮我对比 000171
 ```
 
 ## 实际行为
 
-1. **参数为 6 位基金代码** → spawn `fund-deep-analyzer` agent，把代码 + 任何附加要求一起传给 agent。
-2. **参数为多个代码（用空格/逗号分隔）** → 不走本 skill，改 spawn `fund-comparator` agent。
+1. **参数为单个 6 位基金代码** → spawn `fund-deep-analyzer` agent，把代码 + 任何附加要求一起传给 agent。
+2. **参数为多个代码（空格/逗号分隔）** → 多基金对比暂不支持。礼貌告知用户挑一只单独跑，**不要拼凑半成品对比表**。
 3. **参数不是 6 位代码** → 礼貌拒绝，提示正确用法。
 4. **没参数** → 引导用户给代码。
 

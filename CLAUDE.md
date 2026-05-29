@@ -114,9 +114,8 @@ fund holdings --top 30      # 显示 TOP 30 股票
 fund holdings --json        # 输出 JSON
 fund holdings --init        # 生成 holdings.json 模板
 
-# 导出 / 对比
+# 导出
 fund export                 # 导出 portfolio JSON
-fund compare --a 020602 --b 020156 [-o out.json]  # 对比两只基金并输出 JSON
 
 # 搜索 / 详情 / 分析
 fund search -k 天弘
@@ -168,31 +167,6 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
   - `Bond: 739,673 CNY, 81.76%`
   - `Mixed: 165,000 CNY, 18.24%`
 - **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要三段输出
-
-### 基金对比风险收益散点图（ASCII）
-多基金对比时，在数据表之后追加 ASCII 散点图，X 轴为最大回撤%，Y 轴为年化收益%，直观展示风险收益分布：
-
-```
-年化收益%
-    ↑
- 18% │                                          ● fund_code (label)
-     │
- 12% │
-     │
-  8% │      ★ current_holding (label)
-     │  ● candidate_a ←── annotation
-  7% │  ● current_holding (label)
-  6% │          ● candidate_b ←── annotation
-  5% │      ● candidate_c ←── annotation
-  4% │
-     └──────────────────────────────────→ 最大回撤%
-         2%    5%    7%    9%    11%   17%
-```
-
-- **★** 标记用户当前持仓，**●** 标记候选基金
-- 每个点右侧用 `←──` 追加一句话定位（如"收益最高"、"卡玛最优"）
-- X/Y 轴刻度按实际数据范围调整，保持等距
-- 优先放在对比报告的"综合对比"或"结论"章节之前
 
 ## Claude 协作经验
 
