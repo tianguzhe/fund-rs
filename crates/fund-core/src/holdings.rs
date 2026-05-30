@@ -5,27 +5,62 @@ use anyhow::Result;
 
 /// In-memory holding record. Fields are owned `String` because data comes
 /// from a user-editable JSON file at runtime — `&'static str` no longer fits.
+/// Market value is derived (`shares * nav`), never stored on the lot.
 pub struct Holding {
     pub code: String,
     pub name: String,
-    pub amount: f64,
+    pub shares: f64,
+    pub cost_nav: f64,
+    pub buy_date: Option<String>,
     pub channel: Option<String>,
 }
 
 impl From<holdings_config::HoldingEntry> for Holding {
     fn from(e: holdings_config::HoldingEntry) -> Self {
-        Self { code: e.code, name: e.name, amount: e.amount, channel: e.channel }
+        Self {
+            code: e.code,
+            name: e.name,
+            shares: e.shares,
+            cost_nav: e.cost_nav,
+            buy_date: e.buy_date,
+            channel: e.channel,
+        }
     }
 }
 
 /// Load holdings from the user's JSON config (see `holdings_config::config_path`).
 pub fn holdings() -> Result<Vec<Holding>> {
-    Ok(holdings_config::load()?.into_iter().map(Holding::from).collect())
+    Ok(holdings_config::load()?.holdings.into_iter().map(Holding::from).collect())
 }
 
-/// Profit amount for a single fund: holding * pct / 100
-pub fn profit_amount(holding: f64, pct: f64) -> f64 {
-    holding * pct / 100.0
+/// Load both positions and the cash ledger in one read. `portfolio` needs the
+/// cash flows to compute total assets; `holdings()` stays for callers that only
+/// need positions (e.g. backfill).
+pub fn portfolio_config() -> Result<(Vec<Holding>, Vec<holdings_config::CashFlow>)> {
+    let data = holdings_config::load()?;
+    let holds = data.holdings.into_iter().map(Holding::from).collect();
+    Ok((holds, data.cash_flows))
+}
+
+/// Market value of a lot: shares * current NAV.
+pub fn market_value(shares: f64, nav: f64) -> f64 {
+    shares * nav
+}
+
+/// Holding-period cumulative return %: `(nav / cost_nav - 1) * 100`.
+/// Returns `None` when `cost_nav` is non-positive — guards against div-by-zero
+/// and lots whose cost was left unfilled.
+pub fn hold_return_pct(nav: f64, cost_nav: f64) -> Option<f64> {
+    if cost_nav > 0.0 {
+        Some((nav / cost_nav - 1.0) * 100.0)
+    } else {
+        None
+    }
+}
+
+/// Profit amount for a single fund: market_value * pct / 100
+pub fn profit_amount(market_value: f64, pct: f64) -> f64 {
+    market_value * pct / 100.0
 }
 
 /// Map a fund's FTYPE (e.g. "债券型-混合二级", "混合型-偏债") to a 6-char asset

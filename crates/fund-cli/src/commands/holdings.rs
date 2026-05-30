@@ -63,7 +63,10 @@ fn fetch_snapshots(client: &Client, hold: &[Holding], year: u32, month: u32) -> 
                     FundSnapshot {
                         code: h.code.clone(),
                         name: h.name.clone(),
-                        amount: h.amount,
+                        // Cost-basis amount (shares × cost_nav). Pass-through
+                        // analysis only needs relative weights, and cost ≈
+                        // market value here — avoids an extra NAV fetch.
+                        amount: h.shares * h.cost_nav,
                         fund_type,
                         asset_class,
                         top_stocks,

@@ -3,20 +3,59 @@ use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
 /// Holding entry loaded from external config (JSON).
-/// Keep field set minimal — runtime augments with API-fetched data.
+///
+/// The user supplies `shares` (units held) and `cost_nav` (purchase NAV per
+/// unit); market value and P&L are derived at runtime as `shares * nav`. This
+/// keeps the config the single source of truth for *positions* while the DB
+/// stores only daily snapshots. `redeemable_date` / `redeem_status` are lot
+/// attributes used for display only — they never enter the DB.
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct HoldingEntry {
     pub code: String,
     pub name: String,
-    pub amount: f64,
+    /// Units held for this lot. Market value = `shares * nav`.
+    pub shares: f64,
+    /// Purchase NAV per unit. Holding-period return = `(nav - cost_nav) * shares`.
+    pub cost_nav: f64,
+    /// Purchase date (YYYY-MM-DD). Distinguishes lots of the *same* fund +
+    /// channel bought at different times/prices (e.g. dollar-cost averaging),
+    /// and is part of the `position_daily` lot key. Optional for back-compat;
+    /// missing dates collapse to '' in the DB, so same-channel split lots
+    /// should each carry one.
+    pub buy_date: Option<String>,
     pub channel: Option<String>,
     pub redeemable_date: Option<String>,
     pub redeem_status: Option<String>,
 }
 
+/// A single cash movement. `amount` is signed: positive = money in
+/// (redemption / dividend / deposit), negative = money out (subscription /
+/// withdraw). Cash balance as of a date is the running sum of these.
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct CashFlow {
+    pub date: String,
+    pub amount: f64,
+    /// Free-form category, e.g. "redeem" / "subscribe" / "dividend" /
+    /// "deposit" / "withdraw". Not validated — used as a label only.
+    pub flow_type: String,
+    /// Optional related fund code (e.g. the fund a redemption came from).
+    pub code: Option<String>,
+    pub note: Option<String>,
+}
+
+/// Parsed config: positions plus the cash ledger. `cash_flows` defaults to
+/// empty so configs without a cash section still load.
+#[derive(Debug, Clone)]
+pub struct HoldingsData {
+    pub holdings: Vec<HoldingEntry>,
+    pub cash_flows: Vec<CashFlow>,
+}
+
 #[derive(Debug, Deserialize, Serialize)]
 struct HoldingsFile {
     holdings: Vec<HoldingEntry>,
+    #[serde(default)]
+    cash_flows: Vec<CashFlow>,
 }
 
 /// Resolve config path with priority:
@@ -35,10 +74,13 @@ pub fn config_path() -> PathBuf {
     PathBuf::from(home).join(".fund-rs").join("holdings.json")
 }
 
-/// Load holdings from the resolved config path. Returns a helpful error
-/// pointing at the missing file rather than silently falling back to defaults
-/// — silent fallback would mask a misplaced config and surprise the user.
-pub fn load() -> Result<Vec<HoldingEntry>> {
+/// Load holdings + cash ledger from the resolved config path. Returns a helpful
+/// error pointing at the missing file rather than silently falling back to
+/// defaults — silent fallback would mask a misplaced config and surprise the
+/// user. The old `amount`-based format is intentionally incompatible: serde
+/// will fail on the missing `shares` field rather than silently misvalue the
+/// portfolio.
+pub fn load() -> Result<HoldingsData> {
     let path = config_path();
     if !path.exists() {
         anyhow::bail!(
@@ -48,12 +90,17 @@ pub fn load() -> Result<Vec<HoldingEntry>> {
     }
     let raw = std::fs::read_to_string(&path)
         .with_context(|| format!("读取持仓配置失败: {}", path.display()))?;
-    let parsed: HoldingsFile = serde_json::from_str(&raw)
-        .with_context(|| format!("解析持仓配置失败 (JSON 格式错误): {}", path.display()))?;
+    let parsed: HoldingsFile = serde_json::from_str(&raw).with_context(|| {
+        format!(
+            "解析持仓配置失败 (JSON 格式错误，或仍是旧 amount 格式): {}\n\
+             新格式每笔需 shares + cost_nav 字段",
+            path.display()
+        )
+    })?;
     if parsed.holdings.is_empty() {
         anyhow::bail!("持仓配置为空: {}", path.display());
     }
-    Ok(parsed.holdings)
+    Ok(HoldingsData { holdings: parsed.holdings, cash_flows: parsed.cash_flows })
 }
 
 /// Write a starter template to `~/.fund-rs/holdings.json` with example entries.
@@ -69,31 +116,46 @@ pub fn init_template(target: Option<&Path>) -> Result<PathBuf> {
     }
     let sample = HoldingsFile {
         holdings: vec![
+            // Two lots of the same fund + channel bought on different dates —
+            // distinct buy_date keeps them separate (split-lot support).
             HoldingEntry {
-                code: "420002".into(),
-                name: "天弘永利债A".into(),
-                amount: 270000.0,
+                code: "000171".into(),
+                name: "易方达裕丰A".into(),
+                shares: 60000.0,
+                cost_nav: 1.4850,
+                buy_date: Some("2026-05-08".into()),
                 channel: Some("招商".into()),
-                redeemable_date: Some("2026-02-11".into()),
-                redeem_status: Some("redeemable".into()),
-            },
-            HoldingEntry {
-                code: "420002".into(),
-                name: "天弘永利债A".into(),
-                amount: 92119.0,
-                channel: Some("支付宝".into()),
-                redeemable_date: Some("2026-05-15".into()),
+                redeemable_date: Some("2026-05-08".into()),
                 redeem_status: Some("redeemable".into()),
             },
             HoldingEntry {
                 code: "000171".into(),
                 name: "易方达裕丰A".into(),
-                amount: 150000.0,
-                channel: Some("工商".into()),
-                redeemable_date: Some("2026-05-08".into()),
+                shares: 60000.0,
+                cost_nav: 1.4960,
+                buy_date: Some("2026-05-15".into()),
+                channel: Some("招商".into()),
+                redeemable_date: Some("2026-05-15".into()),
                 redeem_status: Some("redeemable".into()),
             },
+            HoldingEntry {
+                code: "020359".into(),
+                name: "东方红慧鑫C".into(),
+                shares: 160000.0,
+                cost_nav: 1.0310,
+                buy_date: Some("2026-03-04".into()),
+                channel: Some("招商".into()),
+                redeemable_date: None,
+                redeem_status: None,
+            },
         ],
+        cash_flows: vec![CashFlow {
+            date: "2026-05-27".into(),
+            amount: 89571.0,
+            flow_type: "redeem".into(),
+            code: Some("420002".into()),
+            note: Some("420002 全部赎回".into()),
+        }],
     };
     let body = serde_json::to_string_pretty(&sample).context("序列化模板失败")?;
     std::fs::write(&path, body).with_context(|| format!("写入失败: {}", path.display()))?;

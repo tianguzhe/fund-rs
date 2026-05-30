@@ -57,40 +57,54 @@
   2. 当前目录 `./holdings.json`
   3. `~/.fund-rs/holdings.json`（默认）
 - 模块：`crates/fund-core/src/holdings_config.rs`
-- 格式：
+- 格式（真实账本：份额 + 买入净值）：
   ```json
   {
     "holdings": [
       {
-        "code": "420002",
-        "name": "天弘永利债A",
-        "amount": 270000.0,
+        "code": "000171",
+        "name": "易方达裕丰A",
+        "shares": 4868.43,
+        "cost_nav": 2.052,
+        "buy_date": "2026-05-08",
         "channel": "招商",
-        "redeemable_date": "2026-02-11",
-        "redeem_status": "redeemable"
-      },
-      {
-        "code": "420002",
-        "name": "天弘永利债A",
-        "amount": 92119.0,
-        "channel": "支付宝",
-        "redeemable_date": "2026-05-15",
+        "redeemable_date": "2026-05-08",
         "redeem_status": "redeemable"
       }
+    ],
+    "cash_flows": [
+      { "date": "2026-05-27", "amount": 89571.0, "flow_type": "redeem",
+        "code": "420002", "note": "420002 全部赎回" }
     ]
   }
   ```
-- 支持同基金多条记录表达分笔持仓；当前 CLI 仍按每条记录的 `code` / `name` / `amount` 参与计算
-- `channel`、`redeemable_date`、`redeem_status` 为可选字段，未提供时保持旧格式兼容
+- 每笔填 `shares`（份额）+ `cost_nav`（买入净值）；市值由 `shares × nav` 运行时推导，
+  持有期收益 = `(nav - cost_nav) × shares`
+- **同基金同渠道分批买入（DCA）**：用不同 `buy_date` 区分，各批独立保留成本/到期；
+  `buy_date` 是 `position_daily` 的 lot 键，同渠道分批务必各填一个
+- `buy_date` / `channel` / `redeemable_date` / `redeem_status` 可选
+- `cash_flows`（顶层可选数组）：现金流水，`amount` 带符号（正=进账/赎回/分红，负=出账/申购）
+- ⚠️ 旧 `amount` 格式不再兼容：缺 `shares` 直接报错（不静默回退，避免误算）
 - 生成模板：`fund holdings --init`
-- 加载入口：`fund_core::holdings::holdings() -> Result<Vec<Holding>>`
+- 加载入口：`fund_core::holdings::holdings()` /
+  `portfolio_config() -> (Vec<Holding>, Vec<CashFlow>)`
 
-### 持仓数据存储（SQLite）
+### 持仓数据存储（SQLite，真实账本 5 表）
 - DB 路径: `~/.fund-rs/portfolio.db`
-- 表：`funds`（基金元数据）+ `portfolio_daily`（每日快照），主键 `(date, code)`
-  - 旧数据已自动迁移；原 `daily_returns` 保留为 `daily_returns_legacy`
-  - `nav` / `acc_nav`：2026-05-21 前迁移的历史行为 NULL，之后 `--save` 写入有值
-- 模块: `crates/fund-core/src/db.rs`，提供 `save_records()` / `export_json()`
+- 规范化 schema（可连表查询）：
+  - `funds` — 基金元数据（code / name / fund_type）
+  - `nav_daily` — 基金每日净值，主键 `(date, code)`；与持仓无关，可 `backfill`
+  - `position_daily` — 每日持仓明细快照，主键 `(date, code, channel, buy_date)`，
+    按渠道 + 批次分笔，含 `shares` / `cost_nav` / `market_value`
+  - `portfolio_daily` — 每日总览，主键 `date`：
+    `total_market_value` / `total_cash` / `total_assets` / `total_cost` / `total_pnl`
+  - `cash_flows` — 现金流水，UNIQUE 防重复入库（NULL code/note 存 '' 以便去重）
+- 总资产 = 持仓市值 + 现金余额（`SUM(cash_flows.amount)` 截至该日），闭环
+- 首次运行检测到旧 schema（旧 `portfolio_daily.holding` 或 `daily_returns*`）会
+  备份为 `portfolio.db.legacy-<date>` 再重建，不裸删
+- 模块: `crates/fund-core/src/db.rs`，提供 `save_snapshot()`（持仓+现金）/
+  `save_nav()`（仅净值，backfill 用）/ `export_json()`（连表导出）
+- `backfill` **只回填 `nav_daily`**（历史份额未知，不再用今天金额污染历史）
 
 ### F10 底层接口（基金本身持仓与行业配置）
 - 模块: `crates/fund-core/src/f10.rs`
@@ -159,7 +173,6 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - **同代码合并**：同一基金代码的多笔持仓（如不同渠道）合并为一行，金额求和，收益率取加权平均
 - **默认输出**：使用英文表格，列为 `Code | Fund | Holding | Today | Today P&L | Week | Week P&L | Month | Month P&L`
 - **列名约定**：基金名称列固定写作 `Fund`，不要使用 `基金` 或其他中文列名
-- **基金名约定**：英文表格中基金名称也要统一翻成英文，不保留中文基金名
 - **英文输出范围**：资产类型与区块标题也统一使用英文，如 `Bond / Mixed / Equity / Asset Allocation / Total`
 - **英文表格口径**：`Holding` 直接显示真实持仓金额（不缩放、不除以 10），并按持仓降序排列
 - **汇总表**：英输出后追加 `Total` 区块，列为 `Total (CNY) | Today | Today P&L | Week | Week P&L | Month | Month P&L`

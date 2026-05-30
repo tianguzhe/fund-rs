@@ -1,9 +1,9 @@
 use anyhow::Result;
 use fund_core::api::Client;
-use fund_core::db::{self, DailyRecord};
+use fund_core::db::{self, CashFlowInput, PositionSnapshot};
 use fund_core::holdings::{
-    self, classify, date_days, period_return, profit_amount, Holding, HISTORY_DAYS, MONTH_DAYS,
-    WEEK_DAYS,
+    self, classify, date_days, hold_return_pct, market_value, period_return, profit_amount,
+    Holding, HISTORY_DAYS, MONTH_DAYS, WEEK_DAYS,
 };
 use fund_core::models::NetValuePoint;
 use owo_colors::OwoColorize;
@@ -141,13 +141,35 @@ fn fetch_rows(client: &Client, hold: &[Holding]) -> Vec<Row> {
 // ── 主函数 ────────────────────────────────────────────────────────────
 
 pub fn run(client: &Client, save: bool) -> Result<()> {
-    let hold = holdings::holdings()?;
-    let total: f64 = hold.iter().map(|h| h.amount).sum();
+    let (hold, cash_flows) = holdings::portfolio_config()?;
 
     let data = fetch_rows(client, &hold);
 
-    let line_w = 1 + W_CODE + 2 + W_NAME + 2 + W_CHANNEL + 2 + W_TYPE + 2 + W_AMT
-        + 3 * (2 + W_PCT) + 3 + W_BAR + 7;
+    // Market value per lot needs NAV, so totals are computed after fetch.
+    // Cash balance = sum of all configured flows (already-happened movements).
+    let market_values: Vec<f64> = hold
+        .iter()
+        .zip(data.iter())
+        .map(|(h, row)| row.returns.as_ref().map_or(0.0, |r| market_value(h.shares, r.nav)))
+        .collect();
+    let total_mv: f64 = market_values.iter().sum();
+    let cash: f64 = cash_flows.iter().map(|c| c.amount).sum();
+    let total_assets = total_mv + cash;
+
+    let line_w = 1
+        + W_CODE
+        + 2
+        + W_NAME
+        + 2
+        + W_CHANNEL
+        + 2
+        + W_TYPE
+        + 2
+        + W_AMT
+        + 3 * (2 + W_PCT)
+        + 3
+        + W_BAR
+        + 7;
     let indent = 1 + W_CODE + 2 + W_NAME + 2 + W_CHANNEL + 2 + W_TYPE + 2 + W_AMT + 3;
     let thick = "━".repeat(line_w);
     let thin = "─".repeat(line_w);
@@ -157,7 +179,7 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     println!(
         " {}  总资产: {}",
         "持仓概览".bright_cyan().bold(),
-        format!("{:.0} 元", total).yellow().bold()
+        format!("{:.0} 元", total_assets).yellow().bold()
     );
     println!("{}", thick.bright_cyan());
     println!(
@@ -166,7 +188,7 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
         rpad("基金名称", W_NAME).bright_black(),
         rpad("渠道", W_CHANNEL).bright_black(),
         rpad("类型", W_TYPE).bright_black(),
-        lpad("持仓(元)", W_AMT).bright_black(),
+        lpad("市值(元)", W_AMT).bright_black(),
         lpad("当日", W_PCT).bright_black(),
         lpad("当周", W_PCT).bright_black(),
         lpad("当月", W_PCT).bright_black(),
@@ -175,16 +197,17 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     println!("{}", thin.bright_black());
 
     let (mut s_today, mut s_week, mut s_month) = (0.0f64, 0.0f64, 0.0f64);
-    let mut save_records: Vec<DailyRecord> = Vec::new();
+    let mut save_records: Vec<PositionSnapshot> = Vec::new();
 
-    // 资产配置聚合：类型 → 金额
+    // 资产配置聚合：类型 → 市值
     let mut allocation: BTreeMap<&'static str, f64> = BTreeMap::new();
     // 估值/申购状态辅助行
     let mut footnotes: Vec<String> = Vec::new();
 
-    for (h, row) in hold.iter().zip(data.iter()) {
+    for (i, (h, row)) in hold.iter().zip(data.iter()).enumerate() {
         let asset_class = classify(&row.fund_type);
-        *allocation.entry(asset_class).or_insert(0.0) += h.amount;
+        let mv = market_values[i];
+        *allocation.entry(asset_class).or_insert(0.0) += mv;
 
         let r = match &row.returns {
             Some(r) => r,
@@ -194,26 +217,36 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
             }
         };
 
-        let weight = h.amount / total * 100.0;
-        let p_today = profit_amount(h.amount, r.today);
-        let p_week = profit_amount(h.amount, r.week);
-        let p_month = profit_amount(h.amount, r.month);
+        let weight = if total_assets > 0.0 { mv / total_assets * 100.0 } else { 0.0 };
+        let p_today = profit_amount(mv, r.today);
+        let p_week = profit_amount(mv, r.week);
+        let p_month = profit_amount(mv, r.month);
 
         s_today += p_today;
         s_week += p_week;
         s_month += p_month;
 
+        // Holding-period P&L since purchase: market value minus cost basis.
+        let hold_pnl = mv - h.shares * h.cost_nav;
+        let hold_pct = hold_return_pct(r.nav, h.cost_nav);
+
         if save {
-            save_records.push(DailyRecord {
+            save_records.push(PositionSnapshot {
                 date: r.date.clone(),
-                fund_code: h.code.clone(),
-                fund_name: h.name.clone(),
-                fund_type: if row.fund_type.is_empty() { None } else { Some(row.fund_type.clone()) },
-                holding: h.amount,
-                nav: Some(r.nav),
+                code: h.code.clone(),
+                name: h.name.clone(),
+                fund_type: if row.fund_type.is_empty() {
+                    None
+                } else {
+                    Some(row.fund_type.clone())
+                },
+                channel: h.channel.clone().unwrap_or_default(),
+                buy_date: h.buy_date.clone().unwrap_or_default(),
+                shares: h.shares,
+                cost_nav: h.cost_nav,
+                nav: r.nav,
                 acc_nav: Some(r.acc_nav),
-                daily_pct: r.today,
-                daily_pnl: p_today,
+                growth: r.today,
             });
         }
 
@@ -223,7 +256,7 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
             rpad(&h.name, W_NAME),
             rpad(h.channel.as_deref().unwrap_or("-"), W_CHANNEL).bright_black(),
             rpad(asset_class, W_TYPE).bright_blue(),
-            lpad(&format!("{:.0}", h.amount), W_AMT),
+            lpad(&format!("{:.0}", mv), W_AMT),
             fmt_pct(r.today),
             fmt_pct(r.week),
             fmt_pct(r.month),
@@ -237,6 +270,16 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
             progress_bar(weight, W_BAR),
             weight,
         );
+        // 持有期累计收益（自买入以来），仅在有买入成本时展示
+        if let Some(hp) = hold_pct {
+            println!(
+                "{}{}  {}  {}",
+                " ".repeat(indent),
+                "持有".bright_black(),
+                fmt_value(hp, W_PCT, 2, "%"),
+                fmt_yuan(hold_pnl),
+            );
+        }
         println!();
 
         // 收集盘中估值/申购状态辅助信息（避免主表过宽）
@@ -260,9 +303,10 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
 
     println!("{}", thin.bright_black());
 
-    let r_today = s_today / total * 100.0;
-    let r_week = s_week / total * 100.0;
-    let r_month = s_month / total * 100.0;
+    // 合计行口径为持仓市值（现金不产生当日盈亏）
+    let r_today = if total_mv > 0.0 { s_today / total_mv * 100.0 } else { 0.0 };
+    let r_week = if total_mv > 0.0 { s_week / total_mv * 100.0 } else { 0.0 };
+    let r_month = if total_mv > 0.0 { s_month / total_mv * 100.0 } else { 0.0 };
 
     println!(
         " {}  {}  {}  {}  {}   {}  {}  {}",
@@ -270,7 +314,7 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
         rpad("", W_NAME),
         rpad("", W_CHANNEL),
         rpad("", W_TYPE),
-        lpad(&format!("{:.0}", total), W_AMT),
+        lpad(&format!("{:.0}", total_mv), W_AMT),
         fmt_pct(r_today),
         fmt_pct(r_week),
         fmt_pct(r_month),
@@ -283,13 +327,25 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
         fmt_yuan(s_month),
     );
 
-    // 资产配置摘要：按金额降序
+    // 现金 + 总资产
+    println!();
+    println!(" {}  {}", rpad("现金", W_CODE).bright_black(), format!("{:.0} 元", cash).yellow());
+    println!(
+        " {}  {}",
+        rpad("总资产", W_CODE).bold(),
+        format!("{:.0} 元", total_assets).yellow().bold()
+    );
+
+    // 资产配置摘要（含现金），按金额降序，占比基于总资产
+    if cash > 0.0 {
+        *allocation.entry("现金").or_insert(0.0) += cash;
+    }
     println!();
     println!(" {}", "资产配置".bright_cyan().bold());
     let mut alloc_sorted: Vec<(&&str, &f64)> = allocation.iter().collect();
     alloc_sorted.sort_by(|a, b| b.1.partial_cmp(a.1).unwrap_or(std::cmp::Ordering::Equal));
     for (klass, amount) in alloc_sorted {
-        let pct = amount / total * 100.0;
+        let pct = if total_assets > 0.0 { amount / total_assets * 100.0 } else { 0.0 };
         println!(
             "   {} {} {:>10}  {:>6.2}%",
             rpad(klass, W_TYPE).bright_blue(),
@@ -312,7 +368,17 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     println!();
 
     if save {
-        db::save_records(&save_records)?;
+        let flows: Vec<CashFlowInput> = cash_flows
+            .iter()
+            .map(|c| CashFlowInput {
+                date: c.date.clone(),
+                amount: c.amount,
+                flow_type: c.flow_type.clone(),
+                code: c.code.clone(),
+                note: c.note.clone(),
+            })
+            .collect();
+        db::save_snapshot(&save_records, &flows)?;
     }
 
     Ok(())
