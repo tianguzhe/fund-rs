@@ -17,10 +17,11 @@ fund-rs/
 
 | 命令 | 说明 |
 |------|------|
-| `fund portfolio` | 显示持仓当日/当周/当月收益 |
-| `fund portfolio --save` | 同上，并将数据保存到 SQLite |
-| `fund backfill --from <date> --to <date>` | 补录历史日期范围数据 |
-| `fund export [-o <file>]` | 导出历史数据为 JSON |
+| `fund portfolio` | 显示持仓收益（市值/现金/持有期收益 + 资产配置） |
+| `fund portfolio --save` | 同上，并保存每日快照到 SQLite |
+| `fund backfill --from <date> --to <date>` | 仅补录历史净值（nav_daily） |
+| `fund export [-o <file>]` | 导出 portfolio JSON（连表：组合时间线 + 净值序列 + 现金流水） |
+| `fund holdings --init` | 生成持仓配置模板 holdings.json |
 | `fund search -k <关键词>` | 搜索基金 |
 | `fund info -c <代码>` | 基金详情 + 阶段收益 |
 | `fund trend -c <代码>` | 基金详情 |
@@ -58,9 +59,12 @@ Debug 信息输出到 stderr，不影响 stdout 重定向。
 
 ## 数据存储
 
-- SQLite: `~/.fund-rs/portfolio.db`
-- 表: `daily_returns(date, fund_code, fund_name, holding, day_pct, day_amount, week_pct, week_amount, month_pct, month_amount)`
-- 持仓硬编码在 `crates/fund-core/src/holdings.rs`，更新持仓需修改此处
+- SQLite: `~/.fund-rs/portfolio.db`，真实账本 5 表：
+  - `funds` 基金元数据 · `nav_daily` 每日净值 · `position_daily` 持仓明细（按渠道 + `buy_date` 批次分笔）
+  - `portfolio_daily` 每日总览（总市值 + 现金 + 总资产 + 盈亏） · `cash_flows` 现金流水
+- 持仓配置: JSON 文件 `~/.fund-rs/holdings.json`，每笔填 `shares` + `cost_nav`，市值由 `shares × nav` 推导
+  - 生成模板: `fund holdings --init`；优先级 `$FUND_HOLDINGS` > `./holdings.json` > `~/.fund-rs/holdings.json`
+  - 首次运行检测到旧库会自动备份为 `portfolio.db.legacy-<date>` 再重建
 
 ## 技术栈
 
@@ -72,5 +76,6 @@ Debug 信息输出到 stderr，不影响 stdout 重定向。
 
 ## 注意事项
 
-- 持仓变动需修改 `crates/fund-core/src/holdings.rs` 的 `holdings()` 函数
+- 持仓变动: 编辑 `~/.fund-rs/holdings.json`（不再硬编码），`fund holdings --init` 可生成模板
+- 同基金同渠道分批买入: 用不同 `buy_date` 区分，各批独立保留份额/成本
 - API 基础 URL: `https://tiantian-fund-api.vercel.app/api/action`
