@@ -118,9 +118,9 @@
 
 ```bash
 # 持仓
-fund portfolio              # 查看持仓收益（含类型列 + 资产配置摘要）
-fund portfolio --save       # 查看并保存到 SQLite
-fund backfill --from <date> --to <date>  # 补录历史
+fund portfolio              # 查看持仓收益（市值/现金/持有期收益 + 资产配置）
+fund portfolio --save       # 同上并保存快照（nav_daily/position_daily/portfolio_daily/cash_flows）
+fund backfill --from <date> --to <date>  # 仅补录历史净值（nav_daily），不碰持仓/总览
 
 # 穿透分析
 fund holdings               # 默认 TOP 15 股票
@@ -129,7 +129,7 @@ fund holdings --json        # 输出 JSON
 fund holdings --init        # 生成 holdings.json 模板
 
 # 导出
-fund export                 # 导出 portfolio JSON
+fund export                 # 导出 portfolio JSON（连表：组合时间线 + 各基金净值序列 + 持有期收益 + 现金流水）
 
 # 搜索 / 详情 / 分析
 fund search -k 天弘
@@ -167,19 +167,22 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - 批量更新：循环跑 `fund analyze -c <CODE> --json -o dist/data/fund-<CODE>.json` 即可给每只基金更新数据
 
 ### 持仓收益输出规范（Claude 整理格式）
-当用户要求查看"今日收益"、"持仓收益"时，运行 `fund portfolio` 后按以下格式整理输出：
+当用户要求查看"今日收益"、"持仓收益"时，运行 `fund portfolio`（当天未入库则用 `--save`）后按以下格式整理输出：
 
-- **不显示渠道列**：`channel` 字段仅 JSON 配置内部使用，输出时省略
-- **同代码合并**：同一基金代码的多笔持仓（如不同渠道）合并为一行，金额求和，收益率取加权平均
-- **默认输出**：使用英文表格，列为 `Code | Fund | Holding | Today | Today P&L | Week | Week P&L | Month | Month P&L`
+- **不显示渠道列**：`channel` 仅 JSON 配置内部使用，输出时省略
+- **同代码合并**：同一基金代码的多笔持仓（不同渠道 / 不同 `buy_date` 批次）合并为一行，**市值求和**；当日/当周/当月 % 同 code 相同，P&L 各笔求和
+- **默认输出**：英文表格，列为 `Code | Fund | Holding | Today | Today P&L | Week | Week P&L | Month | Month P&L`
 - **列名约定**：基金名称列固定写作 `Fund`，不要使用 `基金` 或其他中文列名
-- **英文输出范围**：资产类型与区块标题也统一使用英文，如 `Bond / Mixed / Equity / Asset Allocation / Total`
-- **英文表格口径**：`Holding` 直接显示真实持仓金额（不缩放、不除以 10），并按持仓降序排列
-- **汇总表**：英输出后追加 `Total` 区块，列为 `Total (CNY) | Today | Today P&L | Week | Week P&L | Month | Month P&L`
-- **资产配置摘要**：在底部追加英文摘要，使用 `Asset Allocation` 标题，并以 `Bond / Mixed / Equity` 等英文类型名输出金额与占比，示例：
-  - `Bond: 739,673 CNY, 81.76%`
-  - `Mixed: 165,000 CNY, 18.24%`
-- **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要三段输出
+- **英文输出范围**：资产类型与区块标题统一英文，如 `Bond / Mixed / Equity / Cash / Asset Allocation / Total`
+- **Holding 口径**：显示**当前市值**（`shares × 最新净值`，不缩放、不除以 10），按市值降序排列
+- **汇总表**：追加 `Total` 区块，列为 `Total (CNY) | Today | Today P&L | Week | Week P&L | Month | Month P&L`（口径为持仓市值，现金不计当日盈亏）
+- **资产配置摘要**：底部追加 `Asset Allocation`，英文类型名 + 金额 + 占比（基于总资产），**含现金行**，示例：
+  - `Bond: 647,618 CNY, 71.50%`
+  - `Mixed: 168,512 CNY, 18.61%`
+  - `Cash: 89,571 CNY, 9.89%`
+  - `Total assets: 905,701 CNY`（= 持仓市值 + 现金）
+- **持有期收益（按需）**：用户问"赚了多少 / 真实盈亏 / 持有收益"时另出 `Holding-Period Return` 表，列为 `Market Value | Cost Basis | Hold P&L | Return%`，成本 = `shares × cost_nav`，收益 = 市值 − 成本
+- **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要（+ 按需持有期表）
 
 ## Claude 协作经验
 
