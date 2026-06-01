@@ -4,4 +4,5 @@ pub mod f10;
 pub mod holdings;
 pub mod holdings_config;
 pub mod models;
+pub mod realtime;
 pub mod scoring;

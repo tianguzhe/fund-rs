@@ -116,6 +116,15 @@ enum Commands {
         #[arg(long)]
         json: bool,
     },
+    /// 基金实时估值（盘中估算净值/涨跌幅；省略 -c 则读 holdings.json 估算今日盈亏）
+    Estimate {
+        /// 基金代码，逗号分隔多只；省略则批量估值全部持仓
+        #[arg(short, long)]
+        code: Option<String>,
+        /// 输出 JSON 格式
+        #[arg(long)]
+        json: bool,
+    },
 }
 
 fn main() {
@@ -190,5 +199,6 @@ fn run() -> Result<()> {
                 commands::holdings::run(&client, top, json)
             }
         }
+        Commands::Estimate { code, json } => commands::estimate::run(code.as_deref(), json),
     }
 }

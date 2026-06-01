@@ -1,6 +1,7 @@
 pub mod analyze;
 pub mod backfill;
 pub mod bigdata;
+pub mod estimate;
 pub mod export;
 pub mod history;
 pub mod holdings;

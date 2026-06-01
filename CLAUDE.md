@@ -114,6 +114,12 @@
 - `get_active_industries(code)` — 行业配置（已过滤中证 GICS 双套分类）
 - `latest_quarter_end(year, month)` — 推算最近已披露季度
 
+### 实时估值接口（fundgz）
+- 模块: `crates/fund-core/src/realtime.rs`
+- 直连 `https://fundgz.1234567.com.cn/js/<code>.js`，返回 `jsonpgz({...});` JSONP 包裹，已剥壳解析
+- `get_realtime_estimate(code)` → `RealtimeEstimate`（含 `prev_nav` / `est_nav` / `est_change_pct` / `est_time`），债基/股基/指数全类型覆盖
+- ⚠️ **不要**用统一 API 的 `fundVarietieValuationDetail`(`get_fund_estimation`) 做单点估值：债基返回 `null`、股基返回盘中分时序列 `Datas`，与 `FundEstimation{Expansion.GZ}` 模型不匹配（`portfolio::fetch_rows` 内该调用实际一直被 `Err(_)` 吞掉，估值 footnote 行长期为空）
+
 ### 命令列表
 
 ```bash
@@ -137,6 +143,12 @@ fund info -c 420002
 fund history -c 420002 -d 30 -l 10
 fund analyze -c 020262 [--json] [-o dist/data/fund-020262.json]
 #   --json 输出 JSON；-o 写文件而非 stdout（用于喂 dist/fund-analysis.html）
+
+# 实时估值
+fund estimate -c 161725            # 单只盘中估值（估算净值/涨跌幅/估值时间）
+fund estimate -c 000171,161725     # 多只逗号分隔
+fund estimate                      # 省略 -c：读 holdings.json，按份额估算今日盈亏 + Total
+fund estimate --json               # 输出 JSON（estimates[] + failed[]）
 
 # 排行 / 主题 / 大数据
 fund rank [-t hh|zq|gp|zs|qdii|hb|all] [-n 20] [--sort-column SYL_1N|SYL_3N|DWJZ]

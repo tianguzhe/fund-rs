@@ -26,6 +26,7 @@ fund-rs/
 | `fund info -c <代码>` | 基金详情 + 阶段收益 |
 | `fund trend -c <代码>` | 基金详情 |
 | `fund history -c <代码>` | 历史净值列表 |
+| `fund estimate -c <代码>` | 盘中实时估值（估算净值/涨跌幅）；省略 -c 读 holdings 估算今日盈亏 |
 | `fund rank` | 基金排行榜 |
 | `fund rank-history -c <代码>` | 排名历史走势 |
 | `fund theme` | 主题基金列表 |

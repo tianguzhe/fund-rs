@@ -3,6 +3,7 @@ use owo_colors::OwoColorize;
 
 use fund_core::f10::FeeRules;
 use fund_core::models::*;
+use fund_core::realtime::RealtimeEstimate;
 
 const SCALE_DIVISOR: f64 = 100_000_000.0;
 
@@ -403,4 +404,97 @@ pub fn display_rank_history(points: &[RankHistoryPoint], range: &str) {
     println!("{}", "Note:".bright_black());
     println!("  {}", "Lower percentage = Better ranking (e.g., 10% means top 10%)".bright_black());
     println!("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+}
+
+/// 金额带符号格式（正数加 `+`，便于盈亏一眼区分）。
+fn fmt_signed(v: f64) -> String {
+    if v > 0.0 {
+        format!("+{:.0}", v)
+    } else {
+        format!("{:.0}", v)
+    }
+}
+
+/// 基金盘中实时估值表。
+///
+/// `holding_mode` 为真（省略 `-c`，按持仓批量）时展示份额 / 估算市值 / 今日估算盈亏 +
+/// `Total` 行；为假（按代码查询）时展示上一日净值与估值时间。拉取失败的基金以
+/// footnote 列出而非伪造数据。
+pub fn display_realtime_estimates(
+    rows: &[(RealtimeEstimate, Option<f64>)],
+    failed: &[(String, String)],
+    holding_mode: bool,
+) {
+    if rows.is_empty() && failed.is_empty() {
+        println!("No estimate data available");
+        return;
+    }
+
+    println!("\nRealtime Estimate:");
+    let mut table = create_styled_table();
+
+    if holding_mode {
+        table.set_header(vec![
+            "Code",
+            "Fund",
+            "Shares",
+            "Est NAV",
+            "Est Change%",
+            "Est Value",
+            "Est P&L",
+        ]);
+
+        let mut total_value = 0.0;
+        let mut total_pnl = 0.0;
+        for (est, shares) in rows {
+            let s = shares.unwrap_or(0.0);
+            // 估算市值 = 份额 × 估算净值；今日估算盈亏 = 份额 ×（估算净值 − 上一日净值）。
+            let value = s * est.est_nav;
+            let pnl = s * (est.est_nav - est.prev_nav);
+            total_value += value;
+            total_pnl += pnl;
+
+            table.add_row(vec![
+                est.code.clone(),
+                est.name.clone(),
+                format!("{:.2}", s),
+                format!("{:.4}", est.est_nav),
+                format_percentage(est.est_change_pct),
+                format!("{:.0}", value),
+                colorize_growth(pnl, &fmt_signed(pnl)),
+            ]);
+        }
+
+        table.add_row(vec![
+            "Total".to_string(),
+            String::new(),
+            String::new(),
+            String::new(),
+            String::new(),
+            format!("{:.0}", total_value),
+            colorize_growth(total_pnl, &fmt_signed(total_pnl)),
+        ]);
+    } else {
+        table.set_header(vec!["Code", "Fund", "Prev NAV", "Est NAV", "Est Change%", "Est Time"]);
+
+        for (est, _) in rows {
+            table.add_row(vec![
+                est.code.clone(),
+                est.name.clone(),
+                format!("{:.4} ({})", est.prev_nav, est.prev_nav_date),
+                format!("{:.4}", est.est_nav),
+                format_percentage(est.est_change_pct),
+                est.est_time.clone(),
+            ]);
+        }
+    }
+
+    println!("{}", table);
+
+    if !failed.is_empty() {
+        println!();
+        for (code, err) in failed {
+            println!("  {} {}: {}", "⚠".yellow(), code, err);
+        }
+    }
 }
