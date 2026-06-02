@@ -84,11 +84,11 @@
 - `holdings` 是 **`{渠道 -> 持仓数组}` 的 map**：渠道为 key，加载时注入到每笔的
   `channel`（`#[serde(skip)]` 运行时字段，**不要写在每笔 entry 内**）
 - 每笔填 `shares`（份额）+ `cost_nav`（买入净值）；市值由 `shares × nav` 运行时推导，
-  持有期收益 = `(nav - cost_nav) × shares`
+  持有期收益 = `shares × 最新nav - (shares × cost_nav + fee)`
 - **同基金同渠道分批买入（DCA）**：同一渠道数组内用不同 `buy_date` 区分多笔，各批独立
   保留成本/到期；`buy_date` 是 `position_daily` 的 lot 键，同渠道分批务必各填一个
 - `fee`（申购手续费，元）/ `buy_date` / `redeemable_date` / `redeem_status` 可选；
-  `fee` 仅记录展示，不参与市值/收益计算
+  `fee` 计入成本基础（cost basis），**持有期收益会扣除手续费**
 - `cash_flows`（顶层可选数组）：现金流水，`amount` 带符号（正=进账/赎回/分红，负=出账/申购）
 - ⚠️ 旧扁平数组格式（`holdings: [...]` + 每笔写 `channel`）不再兼容：serde 解析直接报错
   （不静默回退，避免误算）
@@ -185,22 +185,29 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - 代码白名单：仅 6 位数字才接受，防止路径穿越
 - 批量更新：循环跑 `fund analyze -c <CODE> --json -o dist/data/fund-<CODE>.json` 即可给每只基金更新数据
 
-### 持仓收益输出规范（Claude 整理格式）
-当用户要求查看"今日收益"、"持仓收益"时，运行 `fund portfolio`（当天未入库则用 `--save`）后按以下格式整理输出：
+### 持仓收益输出规范（2026-06-02 更新）
+`fund portfolio` 命令现已按以下格式输出（CLI 原生输出，无需 Claude 二次整理）：
 
-- **不显示渠道列**：`channel` 仅 JSON 配置内部使用，输出时省略
-- **同代码合并**：同一基金代码的多笔持仓（不同渠道 / 不同 `buy_date` 批次）合并为一行，**市值求和**；当日/当周/当月 % 同 code 相同，P&L 各笔求和
-- **默认输出**：英文表格，列为 `Code | Fund | Holding | Today | Today P&L | Week | Week P&L | Month | Month P&L`
-- **列名约定**：基金名称列固定写作 `Fund`，不要使用 `基金` 或其他中文列名
-- **英文输出范围**：资产类型与区块标题统一英文，如 `Bond / Mixed / Equity / Cash / Asset Allocation / Total`
-- **Holding 口径**：显示**当前市值**（`shares × 最新净值`，不缩放、不除以 10），按市值降序排列
-- **汇总表**：追加 `Total` 区块，列为 `Total (CNY) | Today | Today P&L | Week | Week P&L | Month | Month P&L`（口径为持仓市值，现金不计当日盈亏）
-- **资产配置摘要**：底部追加 `Asset Allocation`，英文类型名 + 金额 + 占比（基于总资产），**含现金行**，示例：
-  - `Bond: 647,618 CNY, 71.50%`
+**输出结构**：
+1. **顶部**：总资产 + 现金（显示扣除的总手续费）
+2. **按类型分组表格**（债券型/混合型/股票型等各自独立）
+   - 列：代码 | 基金名称 | 市值(元) | 1日 | 1日盈亏 | 7日 | 7日盈亏 | 30日 | 30日盈亏 | 持有期收益
+   - 同一基金代码的多笔持仓（不同渠道/不同 `buy_date` 批次）自动合并为一行
+   - 按市值降序排列
+3. **底部收益汇总表**：1日/7日/30日/持有期，含说明列
+
+**收益口径**：
+- **1日/7日/30日**：最近 N 天的滚动收益率（非自然日历周期）
+- **持有期收益**：从买入日到今天的累计收益，已扣除手续费，公式 = `市值 - (份额 × 买入净值 + 手续费)`
+
+**Claude 协作规范**：
+- 用户问"今日收益/持仓收益"时，直接运行 `fund portfolio`（当天未入库则加 `--save`）
+- CLI 输出已是最终格式，**无需二次整理**，直接展示原始输出即可
+- 如需解读，可在输出后追加分析（如"000171 今日领涨"等）
   - `Mixed: 168,512 CNY, 18.61%`
   - `Cash: 89,571 CNY, 9.89%`
   - `Total assets: 905,701 CNY`（= 持仓市值 + 现金）
-- **持有期收益（按需）**：用户问"赚了多少 / 真实盈亏 / 持有收益"时另出 `Holding-Period Return` 表，列为 `Market Value | Cost Basis | Hold P&L | Return%`，成本 = `shares × cost_nav`，收益 = 市值 − 成本
+- **持有期收益（按需）**：用户问"赚了多少 / 真实盈亏 / 持有收益"时另出 `Holding-Period Return` 表，列为 `Market Value | Cost Basis | Hold P&L | Return%`，成本 = `shares × cost_nav + fee`，收益 = 市值 − 成本
 - **格式示意**：主表 + `Total` 汇总表 + `Asset Allocation` 摘要（+ 按需持有期表）
 
 ## Claude 协作经验

@@ -2,22 +2,12 @@ use anyhow::Result;
 use fund_core::api::Client;
 use fund_core::db::{self, CashFlowInput, PositionSnapshot};
 use fund_core::holdings::{
-    self, classify, date_days, hold_return_pct, market_value, period_return, profit_amount,
+    self, classify, date_days, market_value, period_return, profit_amount,
     Holding, HISTORY_DAYS, MONTH_DAYS, WEEK_DAYS,
 };
 use fund_core::models::NetValuePoint;
-use owo_colors::OwoColorize;
 use std::collections::BTreeMap;
 use unicode_width::UnicodeWidthStr;
-
-const W_CODE: usize = 8;
-const W_NAME: usize = 14;
-const W_CHANNEL: usize = 6;
-const W_TYPE: usize = 6;
-const W_AMT: usize = 10;
-const W_PCT: usize = 8;
-const W_YUAN: usize = 8;
-const W_BAR: usize = 16;
 
 // ── 显示工具 ──────────────────────────────────────────────────────────
 
@@ -30,48 +20,24 @@ fn rpad(s: &str, width: usize) -> String {
     }
 }
 
-fn lpad(s: &str, width: usize) -> String {
-    let w = UnicodeWidthStr::width(s);
-    if w >= width {
-        s.to_string()
-    } else {
-        format!("{}{}", " ".repeat(width - w), s)
-    }
-}
-
-fn colorize(v: f64, s: &str) -> String {
-    if v > 0.0 {
-        s.green().to_string()
-    } else if v < 0.0 {
-        s.red().to_string()
-    } else {
-        s.bright_black().to_string()
-    }
-}
-
-fn fmt_value(v: f64, w: usize, decimals: usize, suffix: &str) -> String {
-    let s = if v >= 0.0 {
-        format!("+{:.prec$}{}", v, suffix, prec = decimals)
-    } else {
-        format!("{:.prec$}{}", v, suffix, prec = decimals)
-    };
-    colorize(v, &lpad(&s, w))
-}
-
-fn fmt_pct(v: f64) -> String {
-    fmt_value(v, W_PCT, 2, "%")
-}
-fn fmt_yuan(v: f64) -> String {
-    fmt_value(v, W_YUAN, 0, "元")
-}
-
-fn progress_bar(pct: f64, w: usize) -> String {
-    let filled = ((pct / 100.0) * w as f64).round() as usize;
-    let filled = filled.min(w);
-    format!("{}{}", "█".repeat(filled), "░".repeat(w - filled))
-}
-
 // ── 收益计算 ───────────────────────────────────────────────────────────
+
+/// 重试辅助函数：指数退避策略 (100ms, 200ms, 400ms)
+fn retry_with_backoff<T, F>(mut f: F, max_retries: usize) -> Option<T>
+where
+    F: FnMut() -> Option<T>,
+{
+    for attempt in 0..=max_retries {
+        if let Some(result) = f() {
+            return Some(result);
+        }
+        if attempt < max_retries {
+            let delay_ms = 100 * (1 << attempt); // 100, 200, 400
+            std::thread::sleep(std::time::Duration::from_millis(delay_ms));
+        }
+    }
+    None
+}
 
 struct Returns {
     date: String,
@@ -99,38 +65,30 @@ fn calc(points: &[NetValuePoint]) -> Option<Returns> {
 struct Row {
     returns: Option<Returns>,
     fund_type: String,
-    /// 盘中估值涨跌 (%) 与时间。债基/货基常为 None。
-    estimation: Option<(f64, String)>,
-    /// 申购状态文案（如 "开放申购"/"暂停申购"），为空表示接口未返回。
-    buy_status: Option<String>,
 }
 
-/// 并发拉取每只持仓的：历史净值（用于近 1d/1w/1m）+ 详情（用于类型）+ 盘中估值（可选）。
+/// 并发拉取每只持仓的：历史净值（用于近 1d/1w/1m）+ 详情（用于类型）
 fn fetch_rows(client: &Client, hold: &[Holding]) -> Vec<Row> {
     std::thread::scope(|s| {
         let handles: Vec<_> = hold
             .iter()
             .map(|h| {
                 s.spawn(|| {
-                    let returns = client
-                        .get_net_value_history(&h.code, HISTORY_DAYS)
-                        .ok()
-                        .and_then(|pts| calc(&pts));
+                    // 重试最多 3 次，指数退避
+                    let returns = retry_with_backoff(
+                        || {
+                            client
+                                .get_net_value_history(&h.code, HISTORY_DAYS)
+                                .ok()
+                                .and_then(|pts| calc(&pts))
+                        },
+                        3,
+                    );
 
                     let fund_type =
                         client.get_fund_estimate(&h.code).map(|d| d.fund_type).unwrap_or_default();
 
-                    let (estimation, buy_status) = match client.get_fund_estimation(&h.code) {
-                        Ok(e) => {
-                            let pct = e.change_pct.parse::<f64>().ok().map(|p| (p, e.time));
-                            let buy =
-                                if e.buy_status.is_empty() { None } else { Some(e.buy_status) };
-                            (pct, buy)
-                        }
-                        Err(_) => (None, None),
-                    };
-
-                    Row { returns, fund_type, estimation, buy_status }
+                    Row { returns, fund_type }
                 })
             })
             .collect();
@@ -156,53 +114,31 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     let cash: f64 = cash_flows.iter().map(|c| c.amount).sum();
     let total_assets = total_mv + cash;
 
-    let line_w = 1
-        + W_CODE
-        + 2
-        + W_NAME
-        + 2
-        + W_CHANNEL
-        + 2
-        + W_TYPE
-        + 2
-        + W_AMT
-        + 3 * (2 + W_PCT)
-        + 3
-        + W_BAR
-        + 7;
-    let indent = 1 + W_CODE + 2 + W_NAME + 2 + W_CHANNEL + 2 + W_TYPE + 2 + W_AMT + 3;
-    let thick = "━".repeat(line_w);
-    let thin = "─".repeat(line_w);
-
-    println!();
-    println!("{}", thick.bright_cyan());
-    println!(
-        " {}  总资产: {}",
-        "持仓概览".bright_cyan().bold(),
-        format!("{:.0} 元", total_assets).yellow().bold()
-    );
-    println!("{}", thick.bright_cyan());
-    println!(
-        " {}  {}  {}  {}  {}   {}  {}  {}  {}",
-        rpad("代码", W_CODE).bright_black(),
-        rpad("基金名称", W_NAME).bright_black(),
-        rpad("渠道", W_CHANNEL).bright_black(),
-        rpad("类型", W_TYPE).bright_black(),
-        lpad("市值(元)", W_AMT).bright_black(),
-        lpad("当日", W_PCT).bright_black(),
-        lpad("当周", W_PCT).bright_black(),
-        lpad("当月", W_PCT).bright_black(),
-        "仓位".bright_black(),
-    );
-    println!("{}", thin.bright_black());
+    // 计算总手续费
+    let total_fee: f64 = hold.iter().map(|h| h.fee.unwrap_or(0.0)).sum();
 
     let (mut s_today, mut s_week, mut s_month) = (0.0f64, 0.0f64, 0.0f64);
     let mut save_records: Vec<PositionSnapshot> = Vec::new();
 
     // 资产配置聚合：类型 → 市值
     let mut allocation: BTreeMap<&'static str, f64> = BTreeMap::new();
-    // 估值/申购状态辅助行
-    let mut footnotes: Vec<String> = Vec::new();
+    // 按基金代码分组，用于合并显示与计算持有期收益
+    let mut code_groups: BTreeMap<String, Vec<usize>> = BTreeMap::new();
+    for (i, h) in hold.iter().enumerate() {
+        code_groups.entry(h.code.clone()).or_insert_with(Vec::new).push(i);
+    }
+
+    // 预计算每个基金代码的合并数据（市值、收益、持有期）
+    struct CodeAgg {
+        name: String,
+        asset_class: &'static str,
+        total_mv: f64,
+        total_cost: f64,
+        p_today: f64,
+        p_week: f64,
+        p_month: f64,
+    }
+    let mut code_agg_map: BTreeMap<String, CodeAgg> = BTreeMap::new();
 
     for (i, (h, row)) in hold.iter().zip(data.iter()).enumerate() {
         let asset_class = classify(&row.fund_type);
@@ -217,18 +153,34 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
             }
         };
 
-        let weight = if total_assets > 0.0 { mv / total_assets * 100.0 } else { 0.0 };
         let p_today = profit_amount(mv, r.today);
         let p_week = profit_amount(mv, r.week);
         let p_month = profit_amount(mv, r.month);
+        let cost = h.shares * h.cost_nav + h.fee.unwrap_or(0.0);
 
         s_today += p_today;
         s_week += p_week;
         s_month += p_month;
 
-        // Holding-period P&L since purchase: market value minus cost basis.
-        let hold_pnl = mv - h.shares * h.cost_nav;
-        let hold_pct = hold_return_pct(r.nav, h.cost_nav);
+        // 聚合同代码的数据
+        code_agg_map
+            .entry(h.code.clone())
+            .and_modify(|agg| {
+                agg.total_mv += mv;
+                agg.total_cost += cost;
+                agg.p_today += p_today;
+                agg.p_week += p_week;
+                agg.p_month += p_month;
+            })
+            .or_insert(CodeAgg {
+                name: h.name.clone(),
+                asset_class,
+                total_mv: mv,
+                total_cost: cost,
+                p_today,
+                p_week,
+                p_month,
+            });
 
         if save {
             save_records.push(PositionSnapshot {
@@ -249,122 +201,127 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
                 growth: r.today,
             });
         }
-
-        println!(
-            " {}  {}  {}  {}  {}   {}  {}  {}",
-            rpad(&h.code, W_CODE).bright_white(),
-            rpad(&h.name, W_NAME),
-            rpad(h.channel.as_deref().unwrap_or("-"), W_CHANNEL).bright_black(),
-            rpad(asset_class, W_TYPE).bright_blue(),
-            lpad(&format!("{:.0}", mv), W_AMT),
-            fmt_pct(r.today),
-            fmt_pct(r.week),
-            fmt_pct(r.month),
-        );
-        println!(
-            "{}{}  {}  {}   {} {:.1}%",
-            " ".repeat(indent),
-            fmt_yuan(p_today),
-            fmt_yuan(p_week),
-            fmt_yuan(p_month),
-            progress_bar(weight, W_BAR),
-            weight,
-        );
-        // 持有期累计收益（自买入以来），仅在有买入成本时展示
-        if let Some(hp) = hold_pct {
-            println!(
-                "{}{}  {}  {}",
-                " ".repeat(indent),
-                "持有".bright_black(),
-                fmt_value(hp, W_PCT, 2, "%"),
-                fmt_yuan(hold_pnl),
-            );
-        }
-        println!();
-
-        // 收集盘中估值/申购状态辅助信息（避免主表过宽）
-        if let Some((pct, time)) = &row.estimation {
-            let buy = row.buy_status.as_deref().unwrap_or("");
-            let suffix = if buy.is_empty() { String::new() } else { format!("  · {}", buy) };
-            footnotes.push(format!(
-                "  {} {}  估值 {} @ {}{}",
-                h.code,
-                h.name,
-                fmt_value(*pct, 7, 2, "%"),
-                time,
-                suffix
-            ));
-        } else if let Some(buy) = &row.buy_status {
-            if !buy.is_empty() {
-                footnotes.push(format!("  {} {}  {}", h.code, h.name, buy));
-            }
-        }
     }
 
-    println!("{}", thin.bright_black());
+    // ── 输出：顶部总资产 + 现金 + 手续费 ──
+    println!();
+    if total_fee > 0.0 {
+        println!("2026-06-02 持仓总览（已扣 {:.2} 元手续费）", total_fee);
+    } else {
+        println!("2026-06-02 持仓总览");
+    }
+    println!();
+    println!("  总资产：{:.0} 元", total_assets);
+    // 避免显示 -0
+    let cash_display = if cash.abs() < 0.01 { 0.0 } else { cash };
+    println!("  现金：{:.0} 元", cash_display);
+    println!();
 
-    // 合计行口径为持仓市值（现金不产生当日盈亏）
+    // ── 按类型分组输出表格 ──
+    let mut type_order = vec!["债券", "混合", "股票", "指数", "QDII", "货币"];
+    type_order.retain(|t| allocation.contains_key(t));
+
+    for asset_type in type_order {
+        let type_mv = allocation.get(asset_type).copied().unwrap_or(0.0);
+        let type_pct = if total_assets > 0.0 { type_mv / total_assets * 100.0 } else { 0.0 };
+        println!("  ---");
+        println!("  {}型基金（{:.2}%，{:.0} 元）", asset_type, type_pct, type_mv);
+        println!();
+
+        // 表头
+        println!(
+            "  ┌────────┬─────────────────────┬──────────┬────────┬──────────┬────────┬─────────┬────────┬───────────┬───────────────────┐"
+        );
+        println!(
+            "  │  代码  │     基金名称        │ 市值(元) │  1日   │ 1日盈亏  │  7日   │ 7日盈亏 │  30日  │ 30日盈亏  │    持有期收益     │"
+        );
+        println!(
+            "  ├────────┼─────────────────────┼──────────┼────────┼──────────┼────────┼─────────┼────────┼───────────┼───────────────────┤"
+        );
+
+        // 筛选该类型的基金代码，按市值降序
+        let mut codes_in_type: Vec<(&String, &CodeAgg)> = code_agg_map
+            .iter()
+            .filter(|(_, agg)| agg.asset_class == asset_type)
+            .collect();
+        codes_in_type.sort_by(|a, b| b.1.total_mv.partial_cmp(&a.1.total_mv).unwrap());
+
+        for (code, agg) in codes_in_type {
+            let r_today = if agg.total_mv > 0.0 {
+                agg.p_today / agg.total_mv * 100.0
+            } else {
+                0.0
+            };
+            let r_week = if agg.total_mv > 0.0 {
+                agg.p_week / agg.total_mv * 100.0
+            } else {
+                0.0
+            };
+            let r_month = if agg.total_mv > 0.0 {
+                agg.p_month / agg.total_mv * 100.0
+            } else {
+                0.0
+            };
+            let hold_pnl = agg.total_mv - agg.total_cost;
+            let hold_pct = if agg.total_cost > 0.0 {
+                (agg.total_mv / agg.total_cost - 1.0) * 100.0
+            } else {
+                0.0
+            };
+
+            println!(
+                "  │ {} │ {} │ {:>8.0} │ {:>6.2}% │ {:>8.0}元 │ {:>6.2}% │ {:>7.0}元 │ {:>6.2}% │ {:>9.0}元 │ {:>6.2}% ({:>7.0}元) │",
+                rpad(code, 6),
+                rpad(&agg.name, 19),
+                agg.total_mv,
+                r_today, agg.p_today,
+                r_week, agg.p_week,
+                r_month, agg.p_month,
+                hold_pct, hold_pnl
+            );
+        }
+
+        println!(
+            "  └────────┴─────────────────────┴──────────┴────────┴──────────┴────────┴─────────┴────────┴───────────┴───────────────────┘"
+        );
+        println!();
+    }
+
+    // ── 收益汇总表 ──
     let r_today = if total_mv > 0.0 { s_today / total_mv * 100.0 } else { 0.0 };
     let r_week = if total_mv > 0.0 { s_week / total_mv * 100.0 } else { 0.0 };
     let r_month = if total_mv > 0.0 { s_month / total_mv * 100.0 } else { 0.0 };
 
-    println!(
-        " {}  {}  {}  {}  {}   {}  {}  {}",
-        rpad("合计", W_CODE).bold(),
-        rpad("", W_NAME),
-        rpad("", W_CHANNEL),
-        rpad("", W_TYPE),
-        lpad(&format!("{:.0}", total_mv), W_AMT),
-        fmt_pct(r_today),
-        fmt_pct(r_week),
-        fmt_pct(r_month),
-    );
-    println!(
-        "{}{}  {}  {}",
-        " ".repeat(indent),
-        fmt_yuan(s_today),
-        fmt_yuan(s_week),
-        fmt_yuan(s_month),
-    );
+    let total_cost: f64 = hold
+        .iter()
+        .map(|h| h.shares * h.cost_nav + h.fee.unwrap_or(0.0))
+        .sum();
+    let hold_pnl = total_mv - total_cost;
+    let hold_pct = if total_cost > 0.0 { (total_mv / total_cost - 1.0) * 100.0 } else { 0.0 };
 
-    // 现金 + 总资产
+    println!("  ---");
+    println!("  💰 收益汇总");
     println!();
-    println!(" {}  {}", rpad("现金", W_CODE).bright_black(), format!("{:.0} 元", cash).yellow());
+    println!("  ┌────────┬────────┬────────────┬──────────────┐");
+    println!("  │  周期  │ 收益率 │  盈亏金额  │     说明     │");
+    println!("  ├────────┼────────┼────────────┼──────────────┤");
     println!(
-        " {}  {}",
-        rpad("总资产", W_CODE).bold(),
-        format!("{:.0} 元", total_assets).yellow().bold()
+        "  │ 1日    │ {:>6.2}% │ {:>10.0} 元  │ 今天         │",
+        r_today, s_today
     );
-
-    // 资产配置摘要（含现金），按金额降序，占比基于总资产
-    if cash > 0.0 {
-        *allocation.entry("现金").or_insert(0.0) += cash;
-    }
-    println!();
-    println!(" {}", "资产配置".bright_cyan().bold());
-    let mut alloc_sorted: Vec<(&&str, &f64)> = allocation.iter().collect();
-    alloc_sorted.sort_by(|a, b| b.1.partial_cmp(a.1).unwrap_or(std::cmp::Ordering::Equal));
-    for (klass, amount) in alloc_sorted {
-        let pct = if total_assets > 0.0 { amount / total_assets * 100.0 } else { 0.0 };
-        println!(
-            "   {} {} {:>10}  {:>6.2}%",
-            rpad(klass, W_TYPE).bright_blue(),
-            progress_bar(pct, W_BAR),
-            format!("{:.0} 元", amount),
-            pct,
-        );
-    }
-
-    // 盘中估值/申购状态（仅在有数据时展示，避免对债基/货基输出大片空白）
-    if !footnotes.is_empty() {
-        println!();
-        println!(" {}", "盘中估值 / 申购状态".bright_cyan().bold());
-        for line in footnotes {
-            println!("{}", line);
-        }
-    }
-
-    println!("{}", thick.bright_cyan());
+    println!(
+        "  │ 7日    │ {:>6.2}% │ {:>10.0} 元  │ 最近7天      │",
+        r_week, s_week
+    );
+    println!(
+        "  │ 30日   │ {:>6.2}% │ {:>10.0} 元 │ 最近30天     │",
+        r_month, s_month
+    );
+    println!(
+        "  │ 持有期 │ {:>6.2}% │ {:>10.0} 元  │ 扣费后净收益 │",
+        hold_pct, hold_pnl
+    );
+    println!("  └────────┴────────┴────────────┴──────────────┘");
     println!();
 
     if save {

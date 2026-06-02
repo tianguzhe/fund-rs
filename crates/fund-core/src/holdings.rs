@@ -11,6 +11,7 @@ pub struct Holding {
     pub name: String,
     pub shares: f64,
     pub cost_nav: f64,
+    pub fee: Option<f64>,
     pub buy_date: Option<String>,
     pub channel: Option<String>,
 }
@@ -22,6 +23,7 @@ impl From<holdings_config::HoldingEntry> for Holding {
             name: e.name,
             shares: e.shares,
             cost_nav: e.cost_nav,
+            fee: e.fee,
             buy_date: e.buy_date,
             channel: e.channel,
         }
