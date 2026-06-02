@@ -1,0 +1,312 @@
+{
+  "meta": {
+    "from": "2026-04-10",
+    "to": "2026-06-02",
+    "basis": "simulated_current_shares",
+    "generated": "2026-06-02 16:11",
+    "funds": [
+      {
+        "code": "000171",
+        "name": "易方达裕丰A",
+        "shares": 171123.44
+      },
+      {
+        "code": "020359",
+        "name": "东方红慧鑫C",
+        "shares": 148822.95
+      },
+      {
+        "code": "020262",
+        "name": "平安鑫惠90天持有债券A",
+        "shares": 97991.51
+      },
+      {
+        "code": "000385",
+        "name": "景顺长城景颐双利债A",
+        "shares": 48263.58
+      },
+      {
+        "code": "021282",
+        "name": "上银慧元A",
+        "shares": 48888.0
+      }
+    ],
+    "disclaimer": "模拟回溯：基于当前持仓份额 × 历史净值，未还原历史调仓（016816 清仓 / 420002 赎回 / 000171 分批 DCA），≠ 真实账户每日盈亏。收益按累计净值(acc_nav)口径计算，规避债基分红日假摔。"
+  },
+  "series": [
+    {
+      "date": "2026-04-10",
+      "market_value": 753505.28,
+      "daily_return_pct": 0.0,
+      "cum_return_pct": 0.0
+    },
+    {
+      "date": "2026-04-13",
+      "market_value": 752877.93,
+      "daily_return_pct": -0.0741,
+      "cum_return_pct": -0.0741
+    },
+    {
+      "date": "2026-04-14",
+      "market_value": 754994.41,
+      "daily_return_pct": 0.25,
+      "cum_return_pct": 0.1758
+    },
+    {
+      "date": "2026-04-15",
+      "market_value": 754035.52,
+      "daily_return_pct": -0.113,
+      "cum_return_pct": 0.0626
+    },
+    {
+      "date": "2026-04-16",
+      "market_value": 757004.0,
+      "daily_return_pct": 0.3502,
+      "cum_return_pct": 0.413
+    },
+    {
+      "date": "2026-04-17",
+      "market_value": 757619.88,
+      "daily_return_pct": 0.0724,
+      "cum_return_pct": 0.4857
+    },
+    {
+      "date": "2026-04-20",
+      "market_value": 758423.23,
+      "daily_return_pct": 0.0944,
+      "cum_return_pct": 0.5805
+    },
+    {
+      "date": "2026-04-21",
+      "market_value": 758772.19,
+      "daily_return_pct": 0.041,
+      "cum_return_pct": 0.6217
+    },
+    {
+      "date": "2026-04-22",
+      "market_value": 761508.0,
+      "daily_return_pct": 0.3209,
+      "cum_return_pct": 0.9446
+    },
+    {
+      "date": "2026-04-23",
+      "market_value": 760829.64,
+      "daily_return_pct": -0.0793,
+      "cum_return_pct": 0.8646
+    },
+    {
+      "date": "2026-04-24",
+      "market_value": 759672.25,
+      "daily_return_pct": -0.1354,
+      "cum_return_pct": 0.7279
+    },
+    {
+      "date": "2026-04-27",
+      "market_value": 760199.21,
+      "daily_return_pct": 0.0618,
+      "cum_return_pct": 0.7901
+    },
+    {
+      "date": "2026-04-28",
+      "market_value": 759752.6,
+      "daily_return_pct": -0.0523,
+      "cum_return_pct": 0.7374
+    },
+    {
+      "date": "2026-04-29",
+      "market_value": 762036.39,
+      "daily_return_pct": 0.2676,
+      "cum_return_pct": 1.007
+    },
+    {
+      "date": "2026-04-30",
+      "market_value": 764252.47,
+      "daily_return_pct": 0.259,
+      "cum_return_pct": 1.2686
+    },
+    {
+      "date": "2026-05-06",
+      "market_value": 766913.72,
+      "daily_return_pct": 0.3102,
+      "cum_return_pct": 1.5827
+    },
+    {
+      "date": "2026-05-07",
+      "market_value": 768478.01,
+      "daily_return_pct": 0.1818,
+      "cum_return_pct": 1.7674
+    },
+    {
+      "date": "2026-05-08",
+      "market_value": 767253.99,
+      "daily_return_pct": -0.142,
+      "cum_return_pct": 1.6229
+    },
+    {
+      "date": "2026-05-11",
+      "market_value": 770543.63,
+      "daily_return_pct": 0.3821,
+      "cum_return_pct": 2.0112
+    },
+    {
+      "date": "2026-05-12",
+      "market_value": 771396.72,
+      "daily_return_pct": 0.0987,
+      "cum_return_pct": 2.1119
+    },
+    {
+      "date": "2026-05-13",
+      "market_value": 774935.9,
+      "daily_return_pct": 0.4091,
+      "cum_return_pct": 2.5297
+    },
+    {
+      "date": "2026-05-14",
+      "market_value": 770858.29,
+      "daily_return_pct": -0.4694,
+      "cum_return_pct": 2.0483
+    },
+    {
+      "date": "2026-05-15",
+      "market_value": 769403.07,
+      "daily_return_pct": -0.1683,
+      "cum_return_pct": 1.8766
+    },
+    {
+      "date": "2026-05-18",
+      "market_value": 770004.26,
+      "daily_return_pct": 0.0697,
+      "cum_return_pct": 1.9475
+    },
+    {
+      "date": "2026-05-19",
+      "market_value": 773558.62,
+      "daily_return_pct": 0.4115,
+      "cum_return_pct": 2.3671
+    },
+    {
+      "date": "2026-05-20",
+      "market_value": 774513.69,
+      "daily_return_pct": 0.1101,
+      "cum_return_pct": 2.4798
+    },
+    {
+      "date": "2026-05-21",
+      "market_value": 770455.87,
+      "daily_return_pct": -0.4674,
+      "cum_return_pct": 2.0008
+    },
+    {
+      "date": "2026-05-22",
+      "market_value": 773953.7,
+      "daily_return_pct": 0.4048,
+      "cum_return_pct": 2.4137
+    },
+    {
+      "date": "2026-05-25",
+      "market_value": 777853.6,
+      "daily_return_pct": 0.4495,
+      "cum_return_pct": 2.8741
+    },
+    {
+      "date": "2026-05-26",
+      "market_value": 777856.16,
+      "daily_return_pct": 0.0003,
+      "cum_return_pct": 2.8744
+    },
+    {
+      "date": "2026-05-27",
+      "market_value": 776427.82,
+      "daily_return_pct": -0.1639,
+      "cum_return_pct": 2.7058
+    },
+    {
+      "date": "2026-05-28",
+      "market_value": 779028.22,
+      "daily_return_pct": 0.2989,
+      "cum_return_pct": 3.0127
+    },
+    {
+      "date": "2026-05-29",
+      "market_value": 775807.18,
+      "daily_return_pct": -0.3691,
+      "cum_return_pct": 2.6325
+    },
+    {
+      "date": "2026-06-01",
+      "market_value": 773942.4,
+      "daily_return_pct": -0.2145,
+      "cum_return_pct": 2.4124
+    },
+    {
+      "date": "2026-06-02",
+      "market_value": 777543.12,
+      "daily_return_pct": 0.415,
+      "cum_return_pct": 2.8374
+    }
+  ],
+  "stats": {
+    "trading_days": 35,
+    "cum_return_pct": 2.8374,
+    "best_day": {
+      "date": "2026-05-25",
+      "pct": 0.4495
+    },
+    "worst_day": {
+      "date": "2026-05-14",
+      "pct": -0.4694
+    },
+    "up_days": 22,
+    "down_days": 12,
+    "win_rate_pct": 64.7,
+    "ann_volatility_pct": 4.12,
+    "current_market_value": 777543.12
+  },
+  "funds": [
+    {
+      "code": "000171",
+      "name": "易方达裕丰A",
+      "shares": 171123.44,
+      "latest_nav": 2.099,
+      "period_pct": 4.61,
+      "market_value": 359188.1,
+      "contribution_pct": 2.2825
+    },
+    {
+      "code": "020359",
+      "name": "东方红慧鑫C",
+      "shares": 148822.95,
+      "latest_nav": 1.1343,
+      "period_pct": 2.07,
+      "market_value": 168809.87,
+      "contribution_pct": 0.404
+    },
+    {
+      "code": "020262",
+      "name": "平安鑫惠90天持有债券A",
+      "shares": 97991.51,
+      "latest_nav": 1.0786,
+      "period_pct": 0.41,
+      "market_value": 105693.64,
+      "contribution_pct": 0.0509
+    },
+    {
+      "code": "000385",
+      "name": "景顺长城景颐双利债A",
+      "shares": 48263.58,
+      "latest_nav": 1.897,
+      "period_pct": 0.65,
+      "market_value": 91556.01,
+      "contribution_pct": 0.0798
+    },
+    {
+      "code": "021282",
+      "name": "上银慧元A",
+      "shares": 48888.0,
+      "latest_nav": 1.0697,
+      "period_pct": 0.33,
+      "market_value": 52295.49,
+      "contribution_pct": 0.0202
+    }
+  ]
+}
