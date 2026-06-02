@@ -1,5 +1,6 @@
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 /// Holding entry loaded from external config (JSON).
@@ -17,12 +18,20 @@ pub struct HoldingEntry {
     pub shares: f64,
     /// Purchase NAV per unit. Holding-period return = `(nav - cost_nav) * shares`.
     pub cost_nav: f64,
+    /// Subscription fee paid for this lot, in CNY. Record-only: it is never
+    /// folded into market value or holding-period return. Optional; absent =
+    /// not recorded.
+    pub fee: Option<f64>,
     /// Purchase date (YYYY-MM-DD). Distinguishes lots of the *same* fund +
     /// channel bought at different times/prices (e.g. dollar-cost averaging),
     /// and is part of the `position_daily` lot key. Optional for back-compat;
     /// missing dates collapse to '' in the DB, so same-channel split lots
     /// should each carry one.
     pub buy_date: Option<String>,
+    /// Sales channel. NOT read from JSON — injected at load time from the
+    /// grouping map key (see `load`). Part of the `position_daily` lot key, so
+    /// it must reach the DB via `Holding`.
+    #[serde(skip)]
     pub channel: Option<String>,
     pub redeemable_date: Option<String>,
     pub redeem_status: Option<String>,
@@ -51,9 +60,13 @@ pub struct HoldingsData {
     pub cash_flows: Vec<CashFlow>,
 }
 
+/// On-disk shape: holdings grouped by sales channel (the map key), plus the
+/// cash ledger. `BTreeMap` keeps channel order deterministic across load and
+/// template writes — display order is irrelevant downstream (portfolio sorts
+/// by market value), but determinism avoids churn in generated templates.
 #[derive(Debug, Deserialize, Serialize)]
 struct HoldingsFile {
-    holdings: Vec<HoldingEntry>,
+    holdings: BTreeMap<String, Vec<HoldingEntry>>,
     #[serde(default)]
     cash_flows: Vec<CashFlow>,
 }
@@ -92,15 +105,25 @@ pub fn load() -> Result<HoldingsData> {
         .with_context(|| format!("读取持仓配置失败: {}", path.display()))?;
     let parsed: HoldingsFile = serde_json::from_str(&raw).with_context(|| {
         format!(
-            "解析持仓配置失败 (JSON 格式错误，或仍是旧 amount 格式): {}\n\
-             新格式每笔需 shares + cost_nav 字段",
+            "解析持仓配置失败 (JSON 格式错误，或仍是旧扁平数组格式): {}\n\
+             新格式 holdings 为「渠道 -> 持仓数组」的 map，每笔需 shares + cost_nav 字段",
             path.display()
         )
     })?;
-    if parsed.holdings.is_empty() {
+    // Flatten the channel-keyed map into a single Vec, injecting each lot's
+    // channel from its map key. Downstream `Holding` reads `entry.channel`, so
+    // it must be populated here.
+    let mut holdings = Vec::new();
+    for (channel, entries) in parsed.holdings {
+        for mut entry in entries {
+            entry.channel = Some(channel.clone());
+            holdings.push(entry);
+        }
+    }
+    if holdings.is_empty() {
         anyhow::bail!("持仓配置为空: {}", path.display());
     }
-    Ok(HoldingsData { holdings: parsed.holdings, cash_flows: parsed.cash_flows })
+    Ok(HoldingsData { holdings, cash_flows: parsed.cash_flows })
 }
 
 /// Write a starter template to `~/.fund-rs/holdings.json` with example entries.
@@ -114,41 +137,50 @@ pub fn init_template(target: Option<&Path>) -> Result<PathBuf> {
         std::fs::create_dir_all(parent)
             .with_context(|| format!("创建目录失败: {}", parent.display()))?;
     }
+    // `channel` is the map key, never written on the entry itself
+    // (`#[serde(skip)]`); set it to None in these in-memory samples.
+    let zhaoshang = vec![
+        // Two lots of the same fund + channel bought on different dates —
+        // distinct buy_date keeps them separate (split-lot support).
+        HoldingEntry {
+            code: "000171".into(),
+            name: "易方达裕丰A".into(),
+            shares: 60000.0,
+            cost_nav: 1.4850,
+            fee: Some(50.0),
+            buy_date: Some("2026-05-08".into()),
+            channel: None,
+            redeemable_date: Some("2026-05-08".into()),
+            redeem_status: Some("redeemable".into()),
+        },
+        HoldingEntry {
+            code: "000171".into(),
+            name: "易方达裕丰A".into(),
+            shares: 60000.0,
+            cost_nav: 1.4960,
+            fee: None,
+            buy_date: Some("2026-05-15".into()),
+            channel: None,
+            redeemable_date: Some("2026-05-15".into()),
+            redeem_status: Some("redeemable".into()),
+        },
+    ];
+    let zhifubao = vec![HoldingEntry {
+        code: "020359".into(),
+        name: "东方红慧鑫C".into(),
+        shares: 160000.0,
+        cost_nav: 1.0310,
+        fee: None,
+        buy_date: Some("2026-03-04".into()),
+        channel: None,
+        redeemable_date: None,
+        redeem_status: None,
+    }];
+    let mut holdings = BTreeMap::new();
+    holdings.insert("招商".to_string(), zhaoshang);
+    holdings.insert("支付宝".to_string(), zhifubao);
     let sample = HoldingsFile {
-        holdings: vec![
-            // Two lots of the same fund + channel bought on different dates —
-            // distinct buy_date keeps them separate (split-lot support).
-            HoldingEntry {
-                code: "000171".into(),
-                name: "易方达裕丰A".into(),
-                shares: 60000.0,
-                cost_nav: 1.4850,
-                buy_date: Some("2026-05-08".into()),
-                channel: Some("招商".into()),
-                redeemable_date: Some("2026-05-08".into()),
-                redeem_status: Some("redeemable".into()),
-            },
-            HoldingEntry {
-                code: "000171".into(),
-                name: "易方达裕丰A".into(),
-                shares: 60000.0,
-                cost_nav: 1.4960,
-                buy_date: Some("2026-05-15".into()),
-                channel: Some("招商".into()),
-                redeemable_date: Some("2026-05-15".into()),
-                redeem_status: Some("redeemable".into()),
-            },
-            HoldingEntry {
-                code: "020359".into(),
-                name: "东方红慧鑫C".into(),
-                shares: 160000.0,
-                cost_nav: 1.0310,
-                buy_date: Some("2026-03-04".into()),
-                channel: Some("招商".into()),
-                redeemable_date: None,
-                redeem_status: None,
-            },
-        ],
+        holdings,
         cash_flows: vec![CashFlow {
             date: "2026-05-27".into(),
             amount: 89571.0,

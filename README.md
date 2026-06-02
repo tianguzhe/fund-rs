@@ -63,7 +63,7 @@ Debug 信息输出到 stderr，不影响 stdout 重定向。
 - SQLite: `~/.fund-rs/portfolio.db`，真实账本 5 表：
   - `funds` 基金元数据 · `nav_daily` 每日净值 · `position_daily` 持仓明细（按渠道 + `buy_date` 批次分笔）
   - `portfolio_daily` 每日总览（总市值 + 现金 + 总资产 + 盈亏） · `cash_flows` 现金流水
-- 持仓配置: JSON 文件 `~/.fund-rs/holdings.json`，每笔填 `shares` + `cost_nav`，市值由 `shares × nav` 推导
+- 持仓配置: JSON 文件 `~/.fund-rs/holdings.json`，`holdings` 为 `{渠道 -> 持仓数组}` map，每笔填 `shares` + `cost_nav`，市值由 `shares × nav` 推导
   - 生成模板: `fund holdings --init`；优先级 `$FUND_HOLDINGS` > `./holdings.json` > `~/.fund-rs/holdings.json`
   - 首次运行检测到旧库会自动备份为 `portfolio.db.legacy-<date>` 再重建
 
@@ -78,5 +78,6 @@ Debug 信息输出到 stderr，不影响 stdout 重定向。
 ## 注意事项
 
 - 持仓变动: 编辑 `~/.fund-rs/holdings.json`（不再硬编码），`fund holdings --init` 可生成模板
-- 同基金同渠道分批买入: 用不同 `buy_date` 区分，各批独立保留份额/成本
+- 渠道是 `holdings` map 的 key，不写在每笔 entry 内（加载时注入）
+- 同基金同渠道分批买入: 同一渠道数组内用不同 `buy_date` 区分，各批独立保留份额/成本
 - API 基础 URL: `https://tiantian-fund-api.vercel.app/api/action`

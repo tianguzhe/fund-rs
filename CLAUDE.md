@@ -60,31 +60,38 @@
 - 格式（真实账本：份额 + 买入净值）：
   ```json
   {
-    "holdings": [
-      {
-        "code": "000171",
-        "name": "易方达裕丰A",
-        "shares": 4868.43,
-        "cost_nav": 2.052,
-        "buy_date": "2026-05-08",
-        "channel": "招商",
-        "redeemable_date": "2026-05-08",
-        "redeem_status": "redeemable"
-      }
-    ],
+    "holdings": {
+      "招商": [
+        {
+          "code": "000171",
+          "name": "易方达裕丰A",
+          "shares": 4868.43,
+          "cost_nav": 2.052,
+          "fee": 50.0,
+          "buy_date": "2026-05-08",
+          "redeemable_date": "2026-05-08",
+          "redeem_status": "redeemable"
+        }
+      ],
+      "支付宝": []
+    },
     "cash_flows": [
       { "date": "2026-05-27", "amount": 89571.0, "flow_type": "redeem",
         "code": "420002", "note": "420002 全部赎回" }
     ]
   }
   ```
+- `holdings` 是 **`{渠道 -> 持仓数组}` 的 map**：渠道为 key，加载时注入到每笔的
+  `channel`（`#[serde(skip)]` 运行时字段，**不要写在每笔 entry 内**）
 - 每笔填 `shares`（份额）+ `cost_nav`（买入净值）；市值由 `shares × nav` 运行时推导，
   持有期收益 = `(nav - cost_nav) × shares`
-- **同基金同渠道分批买入（DCA）**：用不同 `buy_date` 区分，各批独立保留成本/到期；
-  `buy_date` 是 `position_daily` 的 lot 键，同渠道分批务必各填一个
-- `buy_date` / `channel` / `redeemable_date` / `redeem_status` 可选
+- **同基金同渠道分批买入（DCA）**：同一渠道数组内用不同 `buy_date` 区分多笔，各批独立
+  保留成本/到期；`buy_date` 是 `position_daily` 的 lot 键，同渠道分批务必各填一个
+- `fee`（申购手续费，元）/ `buy_date` / `redeemable_date` / `redeem_status` 可选；
+  `fee` 仅记录展示，不参与市值/收益计算
 - `cash_flows`（顶层可选数组）：现金流水，`amount` 带符号（正=进账/赎回/分红，负=出账/申购）
-- ⚠️ 旧 `amount` 格式不再兼容：缺 `shares` 直接报错（不静默回退，避免误算）
+- ⚠️ 旧扁平数组格式（`holdings: [...]` + 每笔写 `channel`）不再兼容：serde 解析直接报错
+  （不静默回退，避免误算）
 - 生成模板：`fund holdings --init`
 - 加载入口：`fund_core::holdings::holdings()` /
   `portfolio_config() -> (Vec<Holding>, Vec<CashFlow>)`
@@ -203,6 +210,13 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - `fundMNRank` `pageSize` 上游硬 cap **30 行/页**，需循环 pageIndex 翻页
 - BFUNDTYPE 数字代码：`001`=股票 / `002`=混合 / `003`=债券 / `004`=指数 / `006`=QDII / `007`=货币
 - 多经理基金的 `fundMSNMangerInfo / PerEval / PosChar / ProContr` 常返回 null（**不是 bug**，是 API 限制）
+
+### 收益口径（重要，2026-06-01 翻车教训）
+- ⚠️ **禁止用 `risk_metrics.annualized_return` 当"年收益"报给用户或填收益对比表**：它是近 2 年（~500 交易日）日收益的**波动年化**，债基这种低波动品种上**虚高近 2 倍**（实证：016816 `annualized_return`=4.28% vs 真实近 1 年 1.93%；485119=5.86% vs 2.98%）
+- 收益对比/汇报**一律用** `periods[].return_rate`（Last Year / Last 2 Years / Last 3 Months）+ `yearly_returns[].return_rate`，并带 `avg` 同类均值对照——这是用户 App 实际看到、实际拿到的
+- `annualized_return` **只可**配 Sharpe/Calmar 做风险收益比参考，**绝不**单独当年收益展示
+- 填任何含"年化/年收益"列的表前自检：这个数和 `periods` 近 1 年对得上吗？对不上就用 periods
+- 教训：曾用虚高口径差点推荐用户把优质短债换成"看着收益更高"的 485119（真实收益其实不及现有持仓，却多扛久期风险），是赔本错误决策
 
 ### fund-deep-analyzer agent 调用注意
 - 若 Agent 调用报"1m 上下文已经全量可用"错误，**直接 fallback 到主 Claude 自己执行**（`./target/release/fund analyze -c <code> --json > /tmp/fund_<code>.json` + jq 提取）
