@@ -204,11 +204,12 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     }
 
     // ── 输出：顶部总资产 + 现金 + 手续费 ──
+    let nav_date = data.iter().find_map(|r| r.returns.as_ref().map(|r| r.date.as_str())).unwrap_or("--");
     println!();
     if total_fee > 0.0 {
-        println!("2026-06-02 持仓总览（已扣 {:.2} 元手续费）", total_fee);
+        println!("{} 持仓总览（已扣 {:.2} 元手续费）", nav_date, total_fee);
     } else {
-        println!("2026-06-02 持仓总览");
+        println!("{} 持仓总览", nav_date);
     }
     println!();
     println!("  总资产：{:.0} 元", total_assets);
