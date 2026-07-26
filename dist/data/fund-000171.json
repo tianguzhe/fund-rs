@@ -8,7 +8,7 @@
     "JJGS": "易方达基金",
     "JJJL": "张清华",
     "TGYH": "浦发银行",
-    "ENDNAV": "18702188449.43",
+    "ENDNAV": "29266359432.48",
     "RISKLEVEL": "3",
     "MGREXP": "0.40%",
     "TRUSTEXP": "0.10%",
@@ -22,75 +22,75 @@
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": 1.89,
-      "avg": 0.42,
-      "hs300_return": 2.74,
-      "rank": 78,
-      "total": 1627
+      "return_rate": -1.36,
+      "avg": -0.47,
+      "hs300_return": -1.19,
+      "rank": 1439,
+      "total": 1692
     },
     {
       "title": "Last Month",
-      "return_rate": 4.67,
-      "avg": 0.74,
-      "hs300_return": 3.28,
-      "rank": 76,
-      "total": 1631
+      "return_rate": -2.37,
+      "avg": -1.17,
+      "hs300_return": -4.1,
+      "rank": 1372,
+      "total": 1697
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 6.96,
-      "avg": 0.5,
-      "hs300_return": 4.32,
-      "rank": 33,
-      "total": 1573
+      "return_rate": 4.94,
+      "avg": -0.44,
+      "hs300_return": -0.6,
+      "rank": 38,
+      "total": 1637
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 11.72,
-      "avg": 3.54,
-      "hs300_return": 8.56,
-      "rank": 88,
-      "total": 1470
+      "return_rate": 8.34,
+      "avg": -0.17,
+      "hs300_return": 0.34,
+      "rank": 27,
+      "total": 1532
     },
     {
       "title": "Last Year",
-      "return_rate": 14.58,
-      "avg": 8.47,
-      "hs300_return": 28.1,
-      "rank": 220,
-      "total": 1298
+      "return_rate": 12.88,
+      "avg": 4.84,
+      "hs300_return": 16.0,
+      "rank": 124,
+      "total": 1333
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 20.41,
-      "avg": 12.92,
-      "hs300_return": 36.16,
-      "rank": 190,
-      "total": 1099
+      "return_rate": 20.99,
+      "avg": 12.68,
+      "hs300_return": 33.91,
+      "rank": 183,
+      "total": 1123
     },
     {
       "title": "Last 3 Years",
-      "return_rate": 25.73,
-      "avg": 14.33,
-      "hs300_return": 27.61,
-      "rank": 122,
-      "total": 909
+      "return_rate": 24.5,
+      "avg": 12.57,
+      "hs300_return": 24.0,
+      "rank": 104,
+      "total": 933
     },
     {
       "title": "Last 5 Years",
-      "return_rate": 25.79,
-      "avg": 16.62,
-      "hs300_return": -7.65,
-      "rank": 127,
-      "total": 606
+      "return_rate": 21.84,
+      "avg": 13.17,
+      "hs300_return": -7.87,
+      "rank": 124,
+      "total": 625
     },
     {
       "title": "Year to Date",
-      "return_rate": 10.67,
-      "avg": 2.79,
-      "hs300_return": 6.14,
-      "rank": 71,
-      "total": 1525
+      "return_rate": 10.56,
+      "avg": 1.7,
+      "hs300_return": 2.36,
+      "rank": 35,
+      "total": 1521
     }
   ],
   "yearly_returns": [
@@ -100,7 +100,7 @@
       "avg": 6.7522,
       "hs300_return": 17.6631,
       "rank": 683,
-      "total": 1555
+      "total": 1553
     },
     {
       "title": "2024年度",
@@ -108,7 +108,7 @@
       "avg": 5.0532,
       "hs300_return": 14.6833,
       "rank": 89,
-      "total": 1300
+      "total": 1298
     },
     {
       "title": "2023年度",
@@ -155,93 +155,85 @@
       "return_rate": 4.3229,
       "avg": 0.0335,
       "hs300_return": -25.3098,
-      "rank": 90,
-      "total": 500
+      "rank": 91,
+      "total": 501
     }
   ],
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": 1.89,
-      "avg": 0.42,
-      "hs300_return": 2.74,
-      "rank": 78,
-      "total": 1627
+      "return_rate": -1.36,
+      "avg": -0.47,
+      "hs300_return": -1.19,
+      "rank": 1439,
+      "total": 1692
     },
     {
       "title": "Y",
-      "return_rate": 4.67,
-      "avg": 0.74,
-      "hs300_return": 3.28,
-      "rank": 76,
-      "total": 1631
+      "return_rate": -2.37,
+      "avg": -1.17,
+      "hs300_return": -4.1,
+      "rank": 1372,
+      "total": 1697
     },
     {
       "title": "3Y",
-      "return_rate": 6.96,
-      "avg": 0.5,
-      "hs300_return": 4.32,
-      "rank": 33,
-      "total": 1573
+      "return_rate": 4.94,
+      "avg": -0.44,
+      "hs300_return": -0.6,
+      "rank": 38,
+      "total": 1637
     },
     {
       "title": "6Y",
-      "return_rate": 11.72,
-      "avg": 3.54,
-      "hs300_return": 8.56,
-      "rank": 88,
-      "total": 1470
+      "return_rate": 8.34,
+      "avg": -0.17,
+      "hs300_return": 0.34,
+      "rank": 27,
+      "total": 1532
     },
     {
       "title": "1N",
-      "return_rate": 14.58,
-      "avg": 8.47,
-      "hs300_return": 28.1,
-      "rank": 220,
-      "total": 1298
+      "return_rate": 12.88,
+      "avg": 4.84,
+      "hs300_return": 16.0,
+      "rank": 124,
+      "total": 1333
     },
     {
       "title": "2N",
-      "return_rate": 20.41,
-      "avg": 12.92,
-      "hs300_return": 36.16,
-      "rank": 190,
-      "total": 1099
+      "return_rate": 20.99,
+      "avg": 12.68,
+      "hs300_return": 33.91,
+      "rank": 183,
+      "total": 1123
     },
     {
       "title": "3N",
-      "return_rate": 25.73,
-      "avg": 14.33,
-      "hs300_return": 27.61,
-      "rank": 122,
-      "total": 909
+      "return_rate": 24.5,
+      "avg": 12.57,
+      "hs300_return": 24.0,
+      "rank": 104,
+      "total": 933
     },
     {
       "title": "5N",
-      "return_rate": 25.79,
-      "avg": 16.62,
-      "hs300_return": -7.65,
-      "rank": 127,
-      "total": 606
+      "return_rate": 21.84,
+      "avg": 13.17,
+      "hs300_return": -7.87,
+      "rank": 124,
+      "total": 625
     },
     {
       "title": "JN",
-      "return_rate": 10.67,
-      "avg": 2.79,
-      "hs300_return": 6.14,
-      "rank": 71,
-      "total": 1525
+      "return_rate": 10.56,
+      "avg": 1.7,
+      "hs300_return": 2.36,
+      "rank": 35,
+      "total": 1521
     }
   ],
   "monthly_series": [
-    {
-      "month": "2023-06",
-      "return_rate": 0.2812939521800173
-    },
-    {
-      "month": "2023-07",
-      "return_rate": 1.449275362318847
-    },
     {
       "month": "2023-08",
       "return_rate": -0.41474654377879894
@@ -376,10 +368,240 @@
     },
     {
       "month": "2026-05",
-      "return_rate": 2.9199999999999893
+      "return_rate": 2.3199999999999887
+    },
+    {
+      "month": "2026-06",
+      "return_rate": 3.8702111024237817
+    },
+    {
+      "month": "2026-07",
+      "return_rate": -3.2367331576966474
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-07-21",
+      "net_value": 2.104,
+      "acc_value": 2.571,
+      "growth": 1.4
+    },
+    {
+      "date": "2026-07-20",
+      "net_value": 2.075,
+      "acc_value": 2.542,
+      "growth": -0.29
+    },
+    {
+      "date": "2026-07-17",
+      "net_value": 2.081,
+      "acc_value": 2.548,
+      "growth": -1.09
+    },
+    {
+      "date": "2026-07-16",
+      "net_value": 2.104,
+      "acc_value": 2.571,
+      "growth": -0.75
+    },
+    {
+      "date": "2026-07-15",
+      "net_value": 2.12,
+      "acc_value": 2.587,
+      "growth": -0.61
+    },
+    {
+      "date": "2026-07-14",
+      "net_value": 2.133,
+      "acc_value": 2.6,
+      "growth": 0.57
+    },
+    {
+      "date": "2026-07-13",
+      "net_value": 2.121,
+      "acc_value": 2.588,
+      "growth": -0.66
+    },
+    {
+      "date": "2026-07-10",
+      "net_value": 2.135,
+      "acc_value": 2.602,
+      "growth": -1.02
+    },
+    {
+      "date": "2026-07-09",
+      "net_value": 2.157,
+      "acc_value": 2.624,
+      "growth": 0.94
+    },
+    {
+      "date": "2026-07-08",
+      "net_value": 2.137,
+      "acc_value": 2.604,
+      "growth": -0.37
+    },
+    {
+      "date": "2026-07-07",
+      "net_value": 2.145,
+      "acc_value": 2.612,
+      "growth": -0.09
+    },
+    {
+      "date": "2026-07-06",
+      "net_value": 2.147,
+      "acc_value": 2.614,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-07-03",
+      "net_value": 2.146,
+      "acc_value": 2.613,
+      "growth": -0.05
+    },
+    {
+      "date": "2026-07-02",
+      "net_value": 2.147,
+      "acc_value": 2.614,
+      "growth": -1.65
+    },
+    {
+      "date": "2026-07-01",
+      "net_value": 2.183,
+      "acc_value": 2.65,
+      "growth": -0.32
+    },
+    {
+      "date": "2026-06-30",
+      "net_value": 2.19,
+      "acc_value": 2.657,
+      "growth": 0.6
+    },
+    {
+      "date": "2026-06-29",
+      "net_value": 2.177,
+      "acc_value": 2.644,
+      "growth": 0.28
+    },
+    {
+      "date": "2026-06-26",
+      "net_value": 2.171,
+      "acc_value": 2.638,
+      "growth": -0.6
+    },
+    {
+      "date": "2026-06-25",
+      "net_value": 2.184,
+      "acc_value": 2.651,
+      "growth": 1.16
+    },
+    {
+      "date": "2026-06-24",
+      "net_value": 2.159,
+      "acc_value": 2.626,
+      "growth": 0.51
+    },
+    {
+      "date": "2026-06-23",
+      "net_value": 2.148,
+      "acc_value": 2.615,
+      "growth": -0.74
+    },
+    {
+      "date": "2026-06-22",
+      "net_value": 2.164,
+      "acc_value": 2.631,
+      "growth": 0.42
+    },
+    {
+      "date": "2026-06-18",
+      "net_value": 2.155,
+      "acc_value": 2.622,
+      "growth": 0.84
+    },
+    {
+      "date": "2026-06-17",
+      "net_value": 2.137,
+      "acc_value": 2.604,
+      "growth": 0.71
+    },
+    {
+      "date": "2026-06-16",
+      "net_value": 2.122,
+      "acc_value": 2.589,
+      "growth": 0.47
+    },
+    {
+      "date": "2026-06-15",
+      "net_value": 2.112,
+      "acc_value": 2.579,
+      "growth": 1.39
+    },
+    {
+      "date": "2026-06-12",
+      "net_value": 2.083,
+      "acc_value": 2.55,
+      "growth": -0.14
+    },
+    {
+      "date": "2026-06-11",
+      "net_value": 2.086,
+      "acc_value": 2.553,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-06-10",
+      "net_value": 2.086,
+      "acc_value": 2.553,
+      "growth": -0.62
+    },
+    {
+      "date": "2026-06-09",
+      "net_value": 2.099,
+      "acc_value": 2.566,
+      "growth": 0.91
+    },
+    {
+      "date": "2026-06-08",
+      "net_value": 2.08,
+      "acc_value": 2.547,
+      "growth": -0.81
+    },
+    {
+      "date": "2026-06-05",
+      "net_value": 2.097,
+      "acc_value": 2.564,
+      "growth": -0.94
+    },
+    {
+      "date": "2026-06-04",
+      "net_value": 2.117,
+      "acc_value": 2.584,
+      "growth": 0.38
+    },
+    {
+      "date": "2026-06-03",
+      "net_value": 2.109,
+      "acc_value": 2.576,
+      "growth": 0.48
+    },
+    {
+      "date": "2026-06-02",
+      "net_value": 2.099,
+      "acc_value": 2.566,
+      "growth": 0.82
+    },
+    {
+      "date": "2026-06-01",
+      "net_value": 2.082,
+      "acc_value": 2.549,
+      "growth": -0.43
+    },
+    {
+      "date": "2026-05-29",
+      "net_value": 2.091,
+      "acc_value": 2.558,
+      "growth": -0.71
+    },
     {
       "date": "2026-05-28",
       "net_value": 2.106,
@@ -517,228 +739,6 @@
       "net_value": 2.016,
       "acc_value": 2.483,
       "growth": -0.1
-    },
-    {
-      "date": "2026-04-22",
-      "net_value": 2.018,
-      "acc_value": 2.485,
-      "growth": 0.65
-    },
-    {
-      "date": "2026-04-21",
-      "net_value": 2.005,
-      "acc_value": 2.472,
-      "growth": 0.0
-    },
-    {
-      "date": "2026-04-20",
-      "net_value": 2.005,
-      "acc_value": 2.472,
-      "growth": 0.15
-    },
-    {
-      "date": "2026-04-17",
-      "net_value": 2.002,
-      "acc_value": 2.469,
-      "growth": 0.15
-    },
-    {
-      "date": "2026-04-16",
-      "net_value": 1.999,
-      "acc_value": 2.466,
-      "growth": 0.65
-    },
-    {
-      "date": "2026-04-15",
-      "net_value": 1.986,
-      "acc_value": 2.453,
-      "growth": -0.25
-    },
-    {
-      "date": "2026-04-14",
-      "net_value": 1.991,
-      "acc_value": 2.458,
-      "growth": 0.45
-    },
-    {
-      "date": "2026-04-13",
-      "net_value": 1.982,
-      "acc_value": 2.449,
-      "growth": -0.2
-    },
-    {
-      "date": "2026-04-10",
-      "net_value": 1.986,
-      "acc_value": 2.453,
-      "growth": 0.4
-    },
-    {
-      "date": "2026-04-09",
-      "net_value": 1.978,
-      "acc_value": 2.445,
-      "growth": 0.2
-    },
-    {
-      "date": "2026-04-08",
-      "net_value": 1.974,
-      "acc_value": 2.441,
-      "growth": 1.39
-    },
-    {
-      "date": "2026-04-07",
-      "net_value": 1.947,
-      "acc_value": 2.414,
-      "growth": 0.46
-    },
-    {
-      "date": "2026-04-03",
-      "net_value": 1.938,
-      "acc_value": 2.405,
-      "growth": 0.26
-    },
-    {
-      "date": "2026-04-02",
-      "net_value": 1.933,
-      "acc_value": 2.4,
-      "growth": -0.41
-    },
-    {
-      "date": "2026-04-01",
-      "net_value": 1.941,
-      "acc_value": 2.408,
-      "growth": 0.67
-    },
-    {
-      "date": "2026-03-31",
-      "net_value": 1.928,
-      "acc_value": 2.395,
-      "growth": -0.67
-    },
-    {
-      "date": "2026-03-30",
-      "net_value": 1.941,
-      "acc_value": 2.408,
-      "growth": 0.05
-    },
-    {
-      "date": "2026-03-27",
-      "net_value": 1.94,
-      "acc_value": 2.407,
-      "growth": 0.1
-    },
-    {
-      "date": "2026-03-26",
-      "net_value": 1.938,
-      "acc_value": 2.405,
-      "growth": -0.51
-    },
-    {
-      "date": "2026-03-25",
-      "net_value": 1.948,
-      "acc_value": 2.415,
-      "growth": 0.67
-    },
-    {
-      "date": "2026-03-24",
-      "net_value": 1.935,
-      "acc_value": 2.402,
-      "growth": 0.68
-    },
-    {
-      "date": "2026-03-23",
-      "net_value": 1.922,
-      "acc_value": 2.389,
-      "growth": -0.77
-    },
-    {
-      "date": "2026-03-20",
-      "net_value": 1.937,
-      "acc_value": 2.404,
-      "growth": -0.1
-    },
-    {
-      "date": "2026-03-19",
-      "net_value": 1.939,
-      "acc_value": 2.406,
-      "growth": -0.51
-    },
-    {
-      "date": "2026-03-18",
-      "net_value": 1.949,
-      "acc_value": 2.416,
-      "growth": 0.57
-    },
-    {
-      "date": "2026-03-17",
-      "net_value": 1.938,
-      "acc_value": 2.405,
-      "growth": -0.72
-    },
-    {
-      "date": "2026-03-16",
-      "net_value": 1.952,
-      "acc_value": 2.419,
-      "growth": -0.15
-    },
-    {
-      "date": "2026-03-13",
-      "net_value": 1.955,
-      "acc_value": 2.422,
-      "growth": -0.26
-    },
-    {
-      "date": "2026-03-12",
-      "net_value": 1.96,
-      "acc_value": 2.427,
-      "growth": -0.25
-    },
-    {
-      "date": "2026-03-11",
-      "net_value": 1.965,
-      "acc_value": 2.432,
-      "growth": -0.1
-    },
-    {
-      "date": "2026-03-10",
-      "net_value": 1.967,
-      "acc_value": 2.434,
-      "growth": 0.67
-    },
-    {
-      "date": "2026-03-09",
-      "net_value": 1.954,
-      "acc_value": 2.421,
-      "growth": -0.56
-    },
-    {
-      "date": "2026-03-06",
-      "net_value": 1.965,
-      "acc_value": 2.432,
-      "growth": 0.05
-    },
-    {
-      "date": "2026-03-05",
-      "net_value": 1.964,
-      "acc_value": 2.431,
-      "growth": 0.41
-    },
-    {
-      "date": "2026-03-04",
-      "net_value": 1.956,
-      "acc_value": 2.423,
-      "growth": -0.15
-    },
-    {
-      "date": "2026-03-03",
-      "net_value": 1.959,
-      "acc_value": 2.426,
-      "growth": -0.86
-    },
-    {
-      "date": "2026-03-02",
-      "net_value": 1.976,
-      "acc_value": 2.443,
-      "growth": 0.36
     }
   ],
   "accumulated_return": [
@@ -22406,69 +22406,328 @@
       "index_return": 0.0,
       "category_return": 91.92,
       "bench_return": 51.98
+    },
+    {
+      "date": "2026-05-29",
+      "fund_return": 166.27,
+      "index_return": 0.0,
+      "category_return": 91.53,
+      "bench_return": 51.96
+    },
+    {
+      "date": "2026-06-01",
+      "fund_return": 165.13,
+      "index_return": 0.0,
+      "category_return": 91.5,
+      "bench_return": 51.91
+    },
+    {
+      "date": "2026-06-02",
+      "fund_return": 167.29,
+      "index_return": 0.0,
+      "category_return": 91.77,
+      "bench_return": 52.16
+    },
+    {
+      "date": "2026-06-03",
+      "fund_return": 168.56,
+      "index_return": 0.0,
+      "category_return": 91.76,
+      "bench_return": 52.22
+    },
+    {
+      "date": "2026-06-04",
+      "fund_return": 169.58,
+      "index_return": 0.0,
+      "category_return": 91.65,
+      "bench_return": 52.15
+    },
+    {
+      "date": "2026-06-05",
+      "fund_return": 167.04,
+      "index_return": 0.0,
+      "category_return": 91.24,
+      "bench_return": 51.86
+    },
+    {
+      "date": "2026-06-08",
+      "fund_return": 164.87,
+      "index_return": 0.0,
+      "category_return": 90.62,
+      "bench_return": 51.5
+    },
+    {
+      "date": "2026-06-09",
+      "fund_return": 167.29,
+      "index_return": 0.0,
+      "category_return": 91.07,
+      "bench_return": 51.72
+    },
+    {
+      "date": "2026-06-10",
+      "fund_return": 165.63,
+      "index_return": 0.0,
+      "category_return": 90.66,
+      "bench_return": 51.47
+    },
+    {
+      "date": "2026-06-11",
+      "fund_return": 165.63,
+      "index_return": 0.0,
+      "category_return": 90.59,
+      "bench_return": 51.3
+    },
+    {
+      "date": "2026-06-12",
+      "fund_return": 165.25,
+      "index_return": 0.0,
+      "category_return": 90.89,
+      "bench_return": 51.48
+    },
+    {
+      "date": "2026-06-15",
+      "fund_return": 168.95,
+      "index_return": 0.0,
+      "category_return": 91.63,
+      "bench_return": 51.88
+    },
+    {
+      "date": "2026-06-16",
+      "fund_return": 170.22,
+      "index_return": 0.0,
+      "category_return": 91.78,
+      "bench_return": 51.91
+    },
+    {
+      "date": "2026-06-17",
+      "fund_return": 172.13,
+      "index_return": 0.0,
+      "category_return": 92.0,
+      "bench_return": 52.12
+    },
+    {
+      "date": "2026-06-18",
+      "fund_return": 174.42,
+      "index_return": 0.0,
+      "category_return": 92.01,
+      "bench_return": 52.19
+    },
+    {
+      "date": "2026-06-22",
+      "fund_return": 175.57,
+      "index_return": 0.0,
+      "category_return": 92.34,
+      "bench_return": 52.59
+    },
+    {
+      "date": "2026-06-23",
+      "fund_return": 173.53,
+      "index_return": 0.0,
+      "category_return": 91.73,
+      "bench_return": 52.14
+    },
+    {
+      "date": "2026-06-24",
+      "fund_return": 174.93,
+      "index_return": 0.0,
+      "category_return": 92.01,
+      "bench_return": 52.2
+    },
+    {
+      "date": "2026-06-25",
+      "fund_return": 178.11,
+      "index_return": 0.0,
+      "category_return": 92.18,
+      "bench_return": 52.51
+    },
+    {
+      "date": "2026-06-26",
+      "fund_return": 176.46,
+      "index_return": 0.0,
+      "category_return": 91.64,
+      "bench_return": 52.08
+    },
+    {
+      "date": "2026-06-29",
+      "fund_return": 177.22,
+      "index_return": 0.0,
+      "category_return": 91.9,
+      "bench_return": 52.35
+    },
+    {
+      "date": "2026-06-30",
+      "fund_return": 178.88,
+      "index_return": 0.0,
+      "category_return": 92.29,
+      "bench_return": 52.48
+    },
+    {
+      "date": "2026-07-01",
+      "fund_return": 177.99,
+      "index_return": 0.0,
+      "category_return": 92.21,
+      "bench_return": 52.32
+    },
+    {
+      "date": "2026-07-02",
+      "fund_return": 173.4,
+      "index_return": 0.0,
+      "category_return": 91.6,
+      "bench_return": 51.88
+    },
+    {
+      "date": "2026-07-03",
+      "fund_return": 173.27,
+      "index_return": 0.0,
+      "category_return": 91.76,
+      "bench_return": 51.97
+    },
+    {
+      "date": "2026-07-06",
+      "fund_return": 173.4,
+      "index_return": 0.0,
+      "category_return": 91.77,
+      "bench_return": 52.05
+    },
+    {
+      "date": "2026-07-07",
+      "fund_return": 173.15,
+      "index_return": 0.0,
+      "category_return": 91.41,
+      "bench_return": 51.91
+    },
+    {
+      "date": "2026-07-08",
+      "fund_return": 172.13,
+      "index_return": 0.0,
+      "category_return": 91.21,
+      "bench_return": 51.84
+    },
+    {
+      "date": "2026-07-09",
+      "fund_return": 174.68,
+      "index_return": 0.0,
+      "category_return": 91.68,
+      "bench_return": 52.26
+    },
+    {
+      "date": "2026-07-10",
+      "fund_return": 171.87,
+      "index_return": 0.0,
+      "category_return": 91.26,
+      "bench_return": 51.98
+    },
+    {
+      "date": "2026-07-13",
+      "fund_return": 170.09,
+      "index_return": 0.0,
+      "category_return": 90.61,
+      "bench_return": 51.72
+    },
+    {
+      "date": "2026-07-14",
+      "fund_return": 171.62,
+      "index_return": 0.0,
+      "category_return": 91.15,
+      "bench_return": 52.06
+    },
+    {
+      "date": "2026-07-15",
+      "fund_return": 169.96,
+      "index_return": 0.0,
+      "category_return": 91.02,
+      "bench_return": 52.06
+    },
+    {
+      "date": "2026-07-16",
+      "fund_return": 167.93,
+      "index_return": 0.0,
+      "category_return": 90.62,
+      "bench_return": 51.78
+    },
+    {
+      "date": "2026-07-17",
+      "fund_return": 165.0,
+      "index_return": 0.0,
+      "category_return": 89.77,
+      "bench_return": 51.26
+    },
+    {
+      "date": "2026-07-20",
+      "fund_return": 164.23,
+      "index_return": 0.0,
+      "category_return": 89.79,
+      "bench_return": 51.49
+    },
+    {
+      "date": "2026-07-21",
+      "fund_return": 167.93,
+      "index_return": 0.0,
+      "category_return": 90.59,
+      "bench_return": 51.49
     }
   ],
   "risk_metrics": {
-    "annualized_return": 12.129988532765879,
-    "max_drawdown": 2.9308323563892174,
-    "volatility": 5.2999386018636825,
-    "sharpe_ratio": 1.911340733117879,
-    "positive_days": 263,
-    "negative_days": 187,
-    "monthly_win_rate": 100.0,
-    "excess_return": 116.20000000000002,
+    "annualized_return": 11.578242242884595,
+    "max_drawdown": 5.251141552511405,
+    "volatility": 5.683347324049656,
+    "sharpe_ratio": 1.685317066995589,
+    "positive_days": 243,
+    "negative_days": 199,
+    "monthly_win_rate": 77.77777777777779,
+    "excess_return": 116.44,
     "data_points": 500,
-    "calmar_ratio": 4.1387520873797135,
-    "sortino_ratio": 3.1985517362271634,
-    "current_drawdown": 0.0,
-    "max_drawdown_recovery_days": 65,
-    "max_drawdown_start_date": "2023-08-04",
-    "max_drawdown_end_date": "2023-12-20",
-    "drawdown_count_ge_1pct": 6,
-    "avg_drawdown_ge_1pct": 2.2249938065780372,
-    "avg_drawdown_duration_days": 91.66666666666667
+    "calmar_ratio": 2.2049000445145492,
+    "sortino_ratio": 2.7466939221536446,
+    "current_drawdown": 3.9269406392693993,
+    "max_drawdown_recovery_days": null,
+    "max_drawdown_start_date": "2026-06-30",
+    "max_drawdown_end_date": "2026-07-20",
+    "drawdown_count_ge_1pct": 9,
+    "avg_drawdown_ge_1pct": 2.4802958421444523,
+    "avg_drawdown_duration_days": 71.375
   },
   "benchmark_metrics": {
-    "beta": 0.014702228537704342,
-    "alpha": 6.019328837685643,
-    "tracking_error": 22.637579892991305,
-    "information_ratio": 0.09964616195281284,
-    "data_points": 3094,
-    "upside_capture": 90.37600751987361,
-    "downside_capture": 88.36221859118302,
-    "category_alpha": -8.850671902205194,
-    "category_tracking_error": 50.86580012650178,
-    "category_information_ratio": -0.1740004458829671
+    "beta": 0.015312278159522828,
+    "alpha": 5.9238796461256085,
+    "tracking_error": 22.52878714236989,
+    "information_ratio": 0.10010807703314152,
+    "data_points": 3131,
+    "upside_capture": 92.85809599673468,
+    "downside_capture": 91.8688255014812,
+    "category_alpha": -8.690361637548781,
+    "category_tracking_error": 50.57399779707609,
+    "category_information_ratio": -0.17183457935079852
   },
   "distribution": {
-    "var_95": 0.4487576171961116,
-    "cvar_95": 0.6779208856234726,
-    "skewness": 0.7716775768077802,
-    "excess_kurtosis": 7.781719800012839,
+    "var_95": 0.46738636613443796,
+    "cvar_95": 0.7563264767264339,
+    "skewness": 0.288721704924298,
+    "excess_kurtosis": 4.768074000602437,
     "data_points": 499
   },
   "rolling_returns": {
     "y1": {
       "window_days": 250,
       "count": 570,
-      "max": 11.578490893321769,
-      "min": -1.0682768230376283,
-      "mean": 4.699638647178737,
-      "median": 4.837198119780584,
-      "p25": 3.0950387572637297,
-      "p75": 6.145449739807201,
-      "win_rate": 97.19298245614036,
-      "loss_probability": 2.807017543859649
+      "max": 14.87246000864677,
+      "min": 0.6460544531610601,
+      "mean": 5.46782502249453,
+      "median": 5.097589246960776,
+      "p25": 3.8136063495167685,
+      "p75": 6.87284905273734,
+      "win_rate": 100.0,
+      "loss_probability": 0.0
     },
     "y3": {
       "window_days": 750,
       "count": 70,
-      "max": 19.84163949697253,
-      "min": 11.013011152416329,
-      "mean": 14.343866506554235,
-      "median": 13.494695426883075,
-      "p25": 12.300033237707698,
-      "p75": 16.172136925667207,
+      "max": 24.042950513538752,
+      "min": 13.773848301535585,
+      "mean": 18.83141337438709,
+      "median": 18.755824790307564,
+      "p25": 16.856229928659182,
+      "p75": 21.12725816349996,
       "win_rate": 100.0,
       "loss_probability": 0.0
     },
@@ -22479,12 +22738,12 @@
     "manager_fee_pct": 0.4,
     "custody_fee_pct": 0.1,
     "sales_fee_pct": 0.0,
-    "net_annualized_after_fee_pct": 11.629988532765879
+    "net_annualized_after_fee_pct": 11.078242242884595
   },
   "flow_risk": {
-    "recent_quarter_net_subscribe_yi": 16.779999999999998,
-    "recent_quarter_net_subscribe_pct_of_shares": 17.300752654912877,
-    "recent_quarter_nav_change_pct": 22.52,
+    "recent_quarter_net_subscribe_yi": 36.63,
+    "recent_quarter_net_subscribe_pct_of_shares": 27.413560844185003,
+    "recent_quarter_nav_change_pct": 56.49,
     "last_4q_large_swing_count": 4,
     "institutional_pct_latest": 73.49,
     "institutional_pct_change_latest": -0.730000000000004,
@@ -22555,318 +22814,355 @@
     ]
   },
   "top_bonds": {
-    "period": "2026年1季度债券投资明细",
-    "end_date": "2026-03-31",
+    "period": "2026年2季度债券投资明细",
+    "end_date": "2026-06-30",
     "bonds": [
+      {
+        "bond_code": "272400007",
+        "bond_name": "24中国人寿资本补充债01BC",
+        "ratio": 3.13,
+        "market_value_wan": 107068.03
+      },
       {
         "bond_code": "242580015",
         "bond_name": "25招商银行永续债02BC",
-        "ratio": 3.18,
-        "market_value_wan": 62152.53
-      },
-      {
-        "bond_code": "242480002",
-        "bond_name": "24兴业银行永续债01",
-        "ratio": 3.03,
-        "market_value_wan": 59178.27
+        "ratio": 2.01,
+        "market_value_wan": 68746.83
       },
       {
         "bond_code": "242580007",
         "bond_name": "25兴业银行永续债01BC",
-        "ratio": 2.51,
-        "market_value_wan": 49111.99
+        "ratio": 1.87,
+        "market_value_wan": 63920.74
       },
       {
-        "bond_code": "250206",
-        "bond_name": "25国开06",
-        "ratio": 2.5,
-        "market_value_wan": 48737.17
+        "bond_code": "242680011",
+        "bond_name": "26北京银行永续债01",
+        "ratio": 1.85,
+        "market_value_wan": 63132.96
       },
       {
-        "bond_code": "272400007",
-        "bond_name": "24中国人寿资本补充债01BC",
-        "ratio": 2.09,
-        "market_value_wan": 40772.48
+        "bond_code": "242680017",
+        "bond_name": "26建行永续债01BC",
+        "ratio": 1.76,
+        "market_value_wan": 60140.82
       },
       {
-        "bond_code": "123254",
-        "bond_name": "亿纬转债",
-        "ratio": 0.59,
-        "market_value_wan": 11439.74
-      },
-      {
-        "bond_code": "123247",
-        "bond_name": "万凯转债",
-        "ratio": 0.53,
-        "market_value_wan": 10309.9
-      },
-      {
-        "bond_code": "110081",
-        "bond_name": "闻泰转债",
-        "ratio": 0.43,
-        "market_value_wan": 8362.29
+        "bond_code": "118030",
+        "bond_name": "睿创转债",
+        "ratio": 0.25,
+        "market_value_wan": 8501.88
       },
       {
         "bond_code": "113691",
         "bond_name": "和邦转债",
-        "ratio": 0.42,
-        "market_value_wan": 8247.01
-      },
-      {
-        "bond_code": "127045",
-        "bond_name": "牧原转债",
-        "ratio": 0.34,
-        "market_value_wan": 6573.88
-      },
-      {
-        "bond_code": "127089",
-        "bond_name": "晶澳转债",
-        "ratio": 0.34,
-        "market_value_wan": 6627.69
-      },
-      {
-        "bond_code": "113051",
-        "bond_name": "节能转债",
-        "ratio": 0.28,
-        "market_value_wan": 5446.58
-      },
-      {
-        "bond_code": "113052",
-        "bond_name": "兴业转债",
-        "ratio": 0.26,
-        "market_value_wan": 5138.79
-      },
-      {
-        "bond_code": "118058",
-        "bond_name": "微导转债",
-        "ratio": 0.24,
-        "market_value_wan": 4756.85
-      },
-      {
-        "bond_code": "118031",
-        "bond_name": "天23转债",
-        "ratio": 0.23,
-        "market_value_wan": 4506.97
-      },
-      {
-        "bond_code": "110085",
-        "bond_name": "通22转债",
-        "ratio": 0.22,
-        "market_value_wan": 4244.69
-      },
-      {
-        "bond_code": "127070",
-        "bond_name": "大中转债",
-        "ratio": 0.2,
-        "market_value_wan": 3842.49
-      },
-      {
-        "bond_code": "127067",
-        "bond_name": "恒逸转2",
-        "ratio": 0.19,
-        "market_value_wan": 3762.78
-      },
-      {
-        "bond_code": "113666",
-        "bond_name": "爱玛转债",
-        "ratio": 0.19,
-        "market_value_wan": 3619.56
+        "ratio": 0.21,
+        "market_value_wan": 7195.89
       },
       {
         "bond_code": "123158",
         "bond_name": "宙邦转债",
+        "ratio": 0.2,
+        "market_value_wan": 6739.52
+      },
+      {
+        "bond_code": "123247",
+        "bond_name": "万凯转债",
+        "ratio": 0.2,
+        "market_value_wan": 6824.07
+      },
+      {
+        "bond_code": "127089",
+        "bond_name": "晶澳转债",
+        "ratio": 0.19,
+        "market_value_wan": 6467.59
+      },
+      {
+        "bond_code": "118034",
+        "bond_name": "晶能转债",
+        "ratio": 0.19,
+        "market_value_wan": 6510.5
+      },
+      {
+        "bond_code": "127045",
+        "bond_name": "牧原转债",
         "ratio": 0.18,
-        "market_value_wan": 3558.37
-      },
-      {
-        "bond_code": "127084",
-        "bond_name": "柳工转2",
-        "ratio": 0.17,
-        "market_value_wan": 3359.72
-      },
-      {
-        "bond_code": "113632",
-        "bond_name": "鹤21转债",
-        "ratio": 0.16,
-        "market_value_wan": 3033.77
-      },
-      {
-        "bond_code": "113616",
-        "bond_name": "韦尔转债",
-        "ratio": 0.16,
-        "market_value_wan": 3147.44
-      },
-      {
-        "bond_code": "110087",
-        "bond_name": "天业转债",
-        "ratio": 0.13,
-        "market_value_wan": 2519.39
+        "market_value_wan": 6074.84
       },
       {
         "bond_code": "123176",
         "bond_name": "精测转2",
+        "ratio": 0.16,
+        "market_value_wan": 5620.46
+      },
+      {
+        "bond_code": "113051",
+        "bond_name": "节能转债",
+        "ratio": 0.14,
+        "market_value_wan": 4766.11
+      },
+      {
+        "bond_code": "113052",
+        "bond_name": "兴业转债",
+        "ratio": 0.14,
+        "market_value_wan": 4940.83
+      },
+      {
+        "bond_code": "118031",
+        "bond_name": "天23转债",
         "ratio": 0.13,
-        "market_value_wan": 2500.16
+        "market_value_wan": 4324.45
+      },
+      {
+        "bond_code": "127103",
+        "bond_name": "东南转债",
+        "ratio": 0.12,
+        "market_value_wan": 4225.78
+      },
+      {
+        "bond_code": "110085",
+        "bond_name": "通22转债",
+        "ratio": 0.11,
+        "market_value_wan": 3913.92
+      },
+      {
+        "bond_code": "127067",
+        "bond_name": "恒逸转2",
+        "ratio": 0.11,
+        "market_value_wan": 3863.79
+      },
+      {
+        "bond_code": "113666",
+        "bond_name": "爱玛转债",
+        "ratio": 0.1,
+        "market_value_wan": 3410.4
+      },
+      {
+        "bond_code": "113616",
+        "bond_name": "韦尔转债",
+        "ratio": 0.09,
+        "market_value_wan": 3102.37
+      },
+      {
+        "bond_code": "127084",
+        "bond_name": "柳工转2",
+        "ratio": 0.08,
+        "market_value_wan": 2599.41
       },
       {
         "bond_code": "128134",
         "bond_name": "鸿路转债",
-        "ratio": 0.13,
-        "market_value_wan": 2490.51
-      },
-      {
-        "bond_code": "113056",
-        "bond_name": "重银转债",
-        "ratio": 0.09,
-        "market_value_wan": 1748.86
-      },
-      {
-        "bond_code": "127056",
-        "bond_name": "中特转债",
-        "ratio": 0.08,
-        "market_value_wan": 1565.66
-      },
-      {
-        "bond_code": "113049",
-        "bond_name": "长汽转债",
-        "ratio": 0.06,
-        "market_value_wan": 1142.05
-      },
-      {
-        "bond_code": "123188",
-        "bond_name": "水羊转债",
-        "ratio": 0.06,
-        "market_value_wan": 1240.24
-      },
-      {
-        "bond_code": "128141",
-        "bond_name": "旺能转债",
-        "ratio": 0.06,
-        "market_value_wan": 1207.36
+        "ratio": 0.07,
+        "market_value_wan": 2396.42
       },
       {
         "bond_code": "113667",
         "bond_name": "春23转债",
         "ratio": 0.06,
-        "market_value_wan": 1116.3
+        "market_value_wan": 1931.59
+      },
+      {
+        "bond_code": "113056",
+        "bond_name": "重银转债",
+        "ratio": 0.05,
+        "market_value_wan": 1717.54
+      },
+      {
+        "bond_code": "127070",
+        "bond_name": "大中转债",
+        "ratio": 0.05,
+        "market_value_wan": 1871.58
+      },
+      {
+        "bond_code": "111000",
+        "bond_name": "起帆转债",
+        "ratio": 0.04,
+        "market_value_wan": 1417.16
+      },
+      {
+        "bond_code": "127056",
+        "bond_name": "中特转债",
+        "ratio": 0.04,
+        "market_value_wan": 1471.31
       },
       {
         "bond_code": "113058",
         "bond_name": "友发转债",
-        "ratio": 0.05,
-        "market_value_wan": 902.82
+        "ratio": 0.04,
+        "market_value_wan": 1260.22
+      },
+      {
+        "bond_code": "118058",
+        "bond_name": "微导转债",
+        "ratio": 0.04,
+        "market_value_wan": 1498.66
+      },
+      {
+        "bond_code": "113632",
+        "bond_name": "鹤21转债",
+        "ratio": 0.04,
+        "market_value_wan": 1492.6
+      },
+      {
+        "bond_code": "110076",
+        "bond_name": "华海转债",
+        "ratio": 0.03,
+        "market_value_wan": 907.43
+      },
+      {
+        "bond_code": "110087",
+        "bond_name": "天业转债",
+        "ratio": 0.03,
+        "market_value_wan": 1108.88
+      },
+      {
+        "bond_code": "113049",
+        "bond_name": "长汽转债",
+        "ratio": 0.03,
+        "market_value_wan": 1082.36
+      },
+      {
+        "bond_code": "123188",
+        "bond_name": "水羊转债",
+        "ratio": 0.03,
+        "market_value_wan": 1038.02
       },
       {
         "bond_code": "127095",
         "bond_name": "广泰转债",
-        "ratio": 0.05,
-        "market_value_wan": 886.65
+        "ratio": 0.03,
+        "market_value_wan": 915.78
       },
       {
         "bond_code": "110097",
         "bond_name": "天润转债",
-        "ratio": 0.04,
-        "market_value_wan": 694.85
+        "ratio": 0.02,
+        "market_value_wan": 647.97
       },
       {
         "bond_code": "127061",
         "bond_name": "美锦转债",
-        "ratio": 0.04,
-        "market_value_wan": 845.69
-      },
-      {
-        "bond_code": "123194",
-        "bond_name": "百洋转债",
-        "ratio": 0.03,
-        "market_value_wan": 602.6
+        "ratio": 0.02,
+        "market_value_wan": 847.35
       },
       {
         "bond_code": "123251",
         "bond_name": "华医转债",
-        "ratio": 0.03,
-        "market_value_wan": 522.98
+        "ratio": 0.02,
+        "market_value_wan": 806.42
       },
       {
-        "bond_code": "113033",
-        "bond_name": "利群转债",
+        "bond_code": "123253",
+        "bond_name": "永贵转债",
+        "ratio": 0.02,
+        "market_value_wan": 592.16
+      },
+      {
+        "bond_code": "127037",
+        "bond_name": "银轮转债",
+        "ratio": 0.02,
+        "market_value_wan": 679.52
+      },
+      {
+        "bond_code": "123194",
+        "bond_name": "百洋转债",
+        "ratio": 0.02,
+        "market_value_wan": 580.68
+      },
+      {
+        "bond_code": "123225",
+        "bond_name": "翔丰转债",
+        "ratio": 0.02,
+        "market_value_wan": 557.38
+      },
+      {
+        "bond_code": "127088",
+        "bond_name": "赫达转债",
+        "ratio": 0.02,
+        "market_value_wan": 547.81
+      },
+      {
+        "bond_code": "113048",
+        "bond_name": "晶科转债",
         "ratio": 0.01,
-        "market_value_wan": 195.03
+        "market_value_wan": 503.0
       }
     ]
   },
   "top_stocks": {
-    "period": "2026年1季度股票投资明细",
-    "end_date": "2026-03-31",
+    "period": "2026年2季度股票投资明细",
+    "end_date": "2026-06-30",
     "stocks": [
       {
-        "stock_code": "600498",
-        "stock_name": "烽火通信",
-        "ratio": 1.7,
-        "market_value_wan": 33160.31
+        "stock_code": "300308",
+        "stock_name": "中际旭创",
+        "ratio": 1.73,
+        "market_value_wan": 59118.5
       },
       {
         "stock_code": "300502",
         "stock_name": "新易盛",
-        "ratio": 1.55,
-        "market_value_wan": 30206.07
-      },
-      {
-        "stock_code": "600486",
-        "stock_name": "扬农化工",
-        "ratio": 1.54,
-        "market_value_wan": 30116.69
-      },
-      {
-        "stock_code": "300308",
-        "stock_name": "中际旭创",
-        "ratio": 1.36,
-        "market_value_wan": 26506.04
-      },
-      {
-        "stock_code": "688521",
-        "stock_name": "芯原股份",
-        "ratio": 1.33,
-        "market_value_wan": 25882.24
-      },
-      {
-        "stock_code": "002353",
-        "stock_name": "杰瑞股份",
-        "ratio": 1.04,
-        "market_value_wan": 20287.34
-      },
-      {
-        "stock_code": "688256",
-        "stock_name": "寒武纪",
-        "ratio": 0.91,
-        "market_value_wan": 17745.9
+        "ratio": 1.7,
+        "market_value_wan": 57964.8
       },
       {
         "stock_code": "300408",
         "stock_name": "三环集团",
-        "ratio": 0.89,
-        "market_value_wan": 17470.58
+        "ratio": 1.62,
+        "market_value_wan": 55172.0
       },
       {
-        "stock_code": "688188",
-        "stock_name": "柏楚电子",
-        "ratio": 0.81,
-        "market_value_wan": 15746.75
+        "stock_code": "688521",
+        "stock_name": "芯原股份",
+        "ratio": 1.39,
+        "market_value_wan": 47483.61
       },
       {
-        "stock_code": "600733",
-        "stock_name": "北汽蓝谷",
-        "ratio": 0.77,
-        "market_value_wan": 14948.07
+        "stock_code": "688256",
+        "stock_name": "寒武纪",
+        "ratio": 1.26,
+        "market_value_wan": 42918.22
       },
       {
-        "stock_code": "002491",
-        "stock_name": "通鼎互联",
-        "ratio": 0.47,
-        "market_value_wan": 9214.78
+        "stock_code": "603986",
+        "stock_name": "兆易创新",
+        "ratio": 1.09,
+        "market_value_wan": 37359.6
+      },
+      {
+        "stock_code": "300666",
+        "stock_name": "江丰电子",
+        "ratio": 0.98,
+        "market_value_wan": 33514.24
+      },
+      {
+        "stock_code": "002353",
+        "stock_name": "杰瑞股份",
+        "ratio": 0.94,
+        "market_value_wan": 31960.95
+      },
+      {
+        "stock_code": "002484",
+        "stock_name": "江海股份",
+        "ratio": 0.93,
+        "market_value_wan": 31725.18
+      },
+      {
+        "stock_code": "688548",
+        "stock_name": "广钢气体",
+        "ratio": 0.92,
+        "market_value_wan": 31583.1
       }
     ]
   },
   "asset_allocation": [
+    {
+      "date": "2026-06-30",
+      "stock_pct": 19.04,
+      "bond_pct": 92.5,
+      "cash_pct": 0.18,
+      "total_assets_yi": 341.58
+    },
     {
       "date": "2026-03-31",
       "stock_pct": 17.95,
@@ -23219,6 +23515,14 @@
     }
   ],
   "scale_changes": [
+    {
+      "date": "2026-06-30",
+      "purchase_yi": 55.63,
+      "redemption_yi": 19.0,
+      "end_shares_yi": 133.62,
+      "end_nav_yi": 292.66,
+      "change_pct": 56.49
+    },
     {
       "date": "2026-03-31",
       "purchase_yi": 26.83,
@@ -23885,25 +24189,25 @@
         "MGRID": "30075384",
         "MGRNAME": "张清华",
         "RESUME": "张清华先生:物理学硕士。曾任晨星资讯(深圳)有限公司数量分析师,中信证券股份有限公司研究员,易方达基金管理有限公司投资经理、固定收益基金投资部总经理、易方达裕如灵活配置混合型证券投资基金基金经理(自2015年4月2日至2018年2月1日)、易方达新收益灵活配置混合型证券投资基金基金经理(自2015年4月17日至2018年2月1日)、易方达瑞选灵活配置混合型证券投资基金基金经理(自2015年12月9日至2018年2月1日)、易方达新利灵活配置混合型证券投资基金基金经理(自2016年3月15日至2018年2月1日)、易方达新鑫灵活配置混合型证券投资基金基金经理(自2016年3月15日至2018年2月1日)、易方达新享灵活配置混合型证券投资基金基金经理(自2016年3月29日至2018年2月1日)、易方达瑞景灵活配置混合型证券投资基金基金经理(自2016年8月6日至2018年2月1日)、易方达瑞通灵活配置混合型证券投资基金基金经理(自2016年12月7日至2018年2月1日)、易方达瑞程灵活配置混合型证券投资基金基金经理(自2016年12月15日至2018年2月1日)、易方达瑞弘灵活配置混合型证券投资基金基金经理(自2017年1月11日至2018年2月1日)、易方达裕鑫债券型证券投资基金基金经理(自2016年9月5日至2019年9月27日)、易方达瑞信灵活配置混合型证券投资基金基金经理(自2018年1月30日至2020年3月6日)、易方达瑞和灵活配置混合型证券投资基金基金经理(自2018年2月7日至2020年3月6日)、易方达鑫转添利混合型证券投资基金基金经理(自2018年8月9日至2020年3月6日)、易方达鑫转增利混合型证券投资基金基金经理(自2018年11月7日至2020年3月6日)、易方达鑫转招利混合型证券投资基金基金经理(自2019年1月29日至2020年3月6日)。现任易方达基金管理有限公司混合资产投资部总经理、固定收益投资决策委员会委员、易方达安心回报债券型证券投资基金基金经理(自2013年12月23日起任职)、易方达裕丰回报债券型证券投资基金基金经理(自2014年1月9日起任职)、易方达安心回馈混合型证券投资基金基金经理(自2015年5月29日起任职)、易方达裕祥回报债券型证券投资基金基金经理(自2016年1月22日至2021年9月8日)、易方达丰和债券型证券投资基金基金经理(自2016年11月23日起任职)、易方达安盈回报混合型证券投资基金基金经理(自2017年2月16日起任职)、易方达新收益灵活配置混合型证券投资基金基金经理(自2018年12月25日起任职)、易方达丰华债券型证券投资基金基金经理(自2019年2月19日至2022年3月22日任职)。易方达磐固六个月持有期混合型证券投资基金基金经理(自2020年9月3日至2021年9月18日任职)。曾任易方达安心回馈混合型证券投资基金基金经理。曾任易方达基金管理有限公司副总经理级高级管理人员。",
-        "TOTALDAYS": "4540",
-        "NETNAV": "42603476529.7",
+        "TOTALDAYS": "4593",
+        "NETNAV": "96537024158.52",
         "FCOUNT": "16",
         "PRENAME": "易方达丰和债券A",
-        "YIELDSE": "12.149",
+        "YIELDSE": "11.735",
         "JJGS": "易方达基金",
-        "FMAXEARN1": "3.0528",
+        "FMAXEARN1": "3.1964",
         "FMAXRETRA1": "0.2589",
-        "MGOLD": "7.9865"
+        "MGOLD": "8.023"
       },
       "eval": {
-        "MAXRETRA_1": "0.078",
-        "MAXRETRA_3": "0.138",
-        "SHARP_1": "2.2427",
-        "SHARP_3": "1.1365",
-        "STDDEV_1": "7.5551",
-        "STDDEV_3": "6.4511",
-        "WIN_1": "36.67",
-        "WIN_3": "60"
+        "MAXRETRA_1": "0.1513",
+        "MAXRETRA_3": "0.1513",
+        "SHARP_1": "1.4819",
+        "SHARP_3": "0.941",
+        "STDDEV_1": "10.2282",
+        "STDDEV_3": "7.506",
+        "WIN_1": "51.67",
+        "WIN_3": "62.22"
       },
       "holding_char": null,
       "history": [
@@ -24252,69 +24556,69 @@
           "SHORTNAME": "易方达丰和债券A",
           "FEMPDATE": "2016-11-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "3474",
-          "PENAVGROWTH": "81.3874",
+          "TOTALDAYS": "3527",
+          "PENAVGROWTH": "78.8798",
           "TLRANK": "25",
           "TLSC": "732"
-        },
-        {
-          "FCODE": "001216",
-          "SHORTNAME": "易方达新收益混合A",
-          "FEMPDATE": "2018-12-24T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "2712",
-          "PENAVGROWTH": "301.4226",
-          "TLRANK": "264",
-          "TLSC": "2337"
         },
         {
           "FCODE": "110027",
           "SHORTNAME": "易方达安心回报债券A",
           "FEMPDATE": "2013-12-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4540",
-          "PENAVGROWTH": "298.1323",
-          "TLRANK": "2",
+          "TOTALDAYS": "4593",
+          "PENAVGROWTH": "289.2878",
+          "TLRANK": "1",
           "TLSC": "395"
-        },
-        {
-          "FCODE": "001217",
-          "SHORTNAME": "易方达新收益混合C",
-          "FEMPDATE": "2018-12-24T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "2712",
-          "PENAVGROWTH": "293.987",
-          "TLRANK": "277",
-          "TLSC": "2337"
         },
         {
           "FCODE": "110028",
           "SHORTNAME": "易方达安心回报债券B",
           "FEMPDATE": "2013-12-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4540",
-          "PENAVGROWTH": "280.2545",
-          "TLRANK": "6",
+          "TOTALDAYS": "4593",
+          "PENAVGROWTH": "271.5906",
+          "TLRANK": "3",
           "TLSC": "395"
+        },
+        {
+          "FCODE": "001216",
+          "SHORTNAME": "易方达新收益混合A",
+          "FEMPDATE": "2018-12-24T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2765",
+          "PENAVGROWTH": "252.6441",
+          "TLRANK": "280",
+          "TLSC": "2328"
+        },
+        {
+          "FCODE": "001217",
+          "SHORTNAME": "易方达新收益混合C",
+          "FEMPDATE": "2018-12-24T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "2765",
+          "PENAVGROWTH": "246.0082",
+          "TLRANK": "288",
+          "TLSC": "2328"
         },
         {
           "FCODE": "001603",
           "SHORTNAME": "易方达安盈回报混合A",
           "FEMPDATE": "2017-02-15T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "3389",
-          "PENAVGROWTH": "212.7758",
-          "TLRANK": "300",
-          "TLSC": "1700"
+          "TOTALDAYS": "3442",
+          "PENAVGROWTH": "192.234",
+          "TLRANK": "266",
+          "TLSC": "1694"
         },
         {
           "FCODE": "000171",
           "SHORTNAME": "易方达裕丰回报债券A",
           "FEMPDATE": "2014-01-08T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4523",
-          "PENAVGROWTH": "177.0467",
-          "TLRANK": "27",
+          "TOTALDAYS": "4576",
+          "PENAVGROWTH": "172.9686",
+          "TLRANK": "25",
           "TLSC": "399"
         },
         {
@@ -24322,9 +24626,9 @@
           "SHORTNAME": "易方达全球配置混合(QDII)A(美元现汇)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "997",
-          "PENAVGROWTH": "117.8751",
-          "TLRANK": "42",
+          "TOTALDAYS": "1050",
+          "PENAVGROWTH": "74.3719",
+          "TLRANK": "79",
           "TLSC": "506"
         },
         {
@@ -24332,9 +24636,9 @@
           "SHORTNAME": "易方达全球配置混合(QDII)C(美元现汇)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "997",
-          "PENAVGROWTH": "114.9318",
-          "TLRANK": "43",
+          "TOTALDAYS": "1050",
+          "PENAVGROWTH": "71.8593",
+          "TLRANK": "90",
           "TLSC": "506"
         },
         {
@@ -24342,9 +24646,9 @@
           "SHORTNAME": "易方达全球配置混合(QDII)A(人民币)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "997",
-          "PENAVGROWTH": "107.27",
-          "TLRANK": "51",
+          "TOTALDAYS": "1050",
+          "PENAVGROWTH": "65.01",
+          "TLRANK": "120",
           "TLSC": "506"
         },
         {
@@ -24352,9 +24656,9 @@
           "SHORTNAME": "易方达全球配置混合(QDII)C(人民币)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "997",
-          "PENAVGROWTH": "104.43",
-          "TLRANK": "53",
+          "TOTALDAYS": "1050",
+          "PENAVGROWTH": "62.63",
+          "TLRANK": "137",
           "TLSC": "506"
         },
         {
@@ -24362,60 +24666,60 @@
           "SHORTNAME": "易方达悦兴一年持有期混合A",
           "FEMPDATE": "2020-11-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2009",
-          "PENAVGROWTH": "31.72",
-          "TLRANK": "1345",
-          "TLSC": "3612"
-        },
-        {
-          "FCODE": "017414",
-          "SHORTNAME": "易方达安盈回报混合C",
-          "FEMPDATE": "2023-03-06T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "1179",
-          "PENAVGROWTH": "28.9581",
-          "TLRANK": "2451",
-          "TLSC": "6565"
+          "TOTALDAYS": "2062",
+          "PENAVGROWTH": "27.8",
+          "TLRANK": "1159",
+          "TLSC": "3596"
         },
         {
           "FCODE": "009813",
           "SHORTNAME": "易方达悦兴一年持有期混合C",
           "FEMPDATE": "2020-11-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2009",
-          "PENAVGROWTH": "28.85",
-          "TLRANK": "1462",
-          "TLSC": "3612"
+          "TOTALDAYS": "2062",
+          "PENAVGROWTH": "24.95",
+          "TLRANK": "1265",
+          "TLSC": "3596"
         },
         {
           "FCODE": "016699",
           "SHORTNAME": "易方达丰和债券C",
           "FEMPDATE": "2022-09-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1339",
-          "PENAVGROWTH": "26.2965",
-          "TLRANK": "129",
-          "TLSC": "3244"
+          "TOTALDAYS": "1392",
+          "PENAVGROWTH": "24.4787",
+          "TLRANK": "110",
+          "TLSC": "3237"
         },
         {
           "FCODE": "016479",
           "SHORTNAME": "易方达裕丰回报债券C",
           "FEMPDATE": "2022-08-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1375",
-          "PENAVGROWTH": "23.0267",
-          "TLRANK": "108",
-          "TLSC": "3181"
+          "TOTALDAYS": "1428",
+          "PENAVGROWTH": "21.1276",
+          "TLRANK": "106",
+          "TLSC": "3174"
+        },
+        {
+          "FCODE": "017414",
+          "SHORTNAME": "易方达安盈回报混合C",
+          "FEMPDATE": "2023-03-06T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1232",
+          "PENAVGROWTH": "20.4781",
+          "TLRANK": "2290",
+          "TLSC": "6542"
         }
       ]
     }
   ],
   "scores": {
-    "overall": 69,
+    "overall": 67,
     "items": [
       {
         "name": "收益",
-        "score": 90,
+        "score": 95,
         "weight": 15
       },
       {
@@ -24425,7 +24729,7 @@
       },
       {
         "name": "稳定",
-        "score": 79,
+        "score": 72,
         "weight": 20
       },
       {
@@ -24435,7 +24739,7 @@
       },
       {
         "name": "规模",
-        "score": 75,
+        "score": 55,
         "weight": 10
       },
       {
@@ -24451,16 +24755,16 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-05-29",
+    "generated_at": "2026-07-21",
     "as_of": {
-      "nav_history": "2026-05-28",
-      "nav_trend": "2026-05-28",
-      "accumulated_return": "2026-05-28",
-      "monthly_series": "2026-05",
-      "top_stocks": "2026-03-31",
-      "top_bonds": "2026-03-31",
-      "asset_allocation": "2026-03-31",
-      "scale_changes": "2026-03-31",
+      "nav_history": "2026-07-21",
+      "nav_trend": "2026-07-21",
+      "accumulated_return": "2026-07-21",
+      "monthly_series": "2026-07",
+      "top_stocks": "2026-06-30",
+      "top_bonds": "2026-06-30",
+      "asset_allocation": "2026-06-30",
+      "scale_changes": "2026-06-30",
       "holder_structure": "2025-12-31"
     }
   }

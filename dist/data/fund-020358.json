@@ -1,0 +1,1219 @@
+{
+  "detail": {
+    "FCODE": "020358",
+    "SHORTNAME": "东方红慧鑫甄选6个月持有混合A",
+    "FULLNAME": "东方红慧鑫甄选6个月持有期混合型证券投资基金",
+    "FTYPE": "混合型-偏债",
+    "ESTABDATE": "2024-04-30",
+    "JJGS": "东方红资产管理",
+    "JJJL": "余剑峰",
+    "TGYH": "招商银行",
+    "ENDNAV": "1475564900.03",
+    "RISKLEVEL": "3",
+    "MGREXP": "0.40%",
+    "TRUSTEXP": "0.10%",
+    "SALESEXP": "0.00%",
+    "BUY": "",
+    "SGZT": "",
+    "SHZT": "",
+    "BENCH": "中债新综合财富指数收益率*80%+中证800指数收益率*12%+恒生指数收益率(经汇率估值调整)*3%+银行活期存款利率(税后)*5%",
+    "INDEXCODE": "--"
+  },
+  "periods": [
+    {
+      "title": "Last Week",
+      "return_rate": -0.47,
+      "avg": -0.47,
+      "hs300_return": -1.19,
+      "rank": 861,
+      "total": 1316
+    },
+    {
+      "title": "Last Month",
+      "return_rate": -1.17,
+      "avg": -1.05,
+      "hs300_return": -4.1,
+      "rank": 856,
+      "total": 1320
+    },
+    {
+      "title": "Last 3 Months",
+      "return_rate": 0.36,
+      "avg": -0.37,
+      "hs300_return": -0.6,
+      "rank": 383,
+      "total": 1302
+    },
+    {
+      "title": "Last 6 Months",
+      "return_rate": 1.59,
+      "avg": -0.03,
+      "hs300_return": 0.34,
+      "rank": 283,
+      "total": 1284
+    },
+    {
+      "title": "Last Year",
+      "return_rate": 5.19,
+      "avg": 5.13,
+      "hs300_return": 16.0,
+      "rank": 442,
+      "total": 1241
+    },
+    {
+      "title": "Last 2 Years",
+      "return_rate": 12.75,
+      "avg": 12.64,
+      "hs300_return": 33.91,
+      "rank": 484,
+      "total": 1187
+    },
+    {
+      "title": "Year to Date",
+      "return_rate": 2.84,
+      "avg": 1.81,
+      "hs300_return": 2.36,
+      "rank": 344,
+      "total": 1282
+    }
+  ],
+  "yearly_returns": [
+    {
+      "title": "2025年度",
+      "return_rate": 5.5022,
+      "avg": 6.4294,
+      "hs300_return": 17.6631,
+      "rank": 600,
+      "total": 1354
+    }
+  ],
+  "monthly_returns": [
+    {
+      "title": "Z",
+      "return_rate": -0.47,
+      "avg": -0.47,
+      "hs300_return": -1.19,
+      "rank": 861,
+      "total": 1316
+    },
+    {
+      "title": "Y",
+      "return_rate": -1.17,
+      "avg": -1.05,
+      "hs300_return": -4.1,
+      "rank": 856,
+      "total": 1320
+    },
+    {
+      "title": "3Y",
+      "return_rate": 0.36,
+      "avg": -0.37,
+      "hs300_return": -0.6,
+      "rank": 383,
+      "total": 1302
+    },
+    {
+      "title": "6Y",
+      "return_rate": 1.59,
+      "avg": -0.03,
+      "hs300_return": 0.34,
+      "rank": 283,
+      "total": 1284
+    },
+    {
+      "title": "1N",
+      "return_rate": 5.19,
+      "avg": 5.13,
+      "hs300_return": 16.0,
+      "rank": 442,
+      "total": 1241
+    },
+    {
+      "title": "2N",
+      "return_rate": 12.75,
+      "avg": 12.64,
+      "hs300_return": 33.91,
+      "rank": 484,
+      "total": 1187
+    },
+    {
+      "title": "JN",
+      "return_rate": 2.84,
+      "avg": 1.81,
+      "hs300_return": 2.36,
+      "rank": 344,
+      "total": 1282
+    }
+  ],
+  "monthly_series": [
+    {
+      "month": "2024-07",
+      "return_rate": 0.30993801239753704
+    },
+    {
+      "month": "2024-08",
+      "return_rate": -0.5880594039669229
+    },
+    {
+      "month": "2024-09",
+      "return_rate": 2.5065169440545487
+    },
+    {
+      "month": "2024-10",
+      "return_rate": -0.18583724569639637
+    },
+    {
+      "month": "2024-11",
+      "return_rate": 0.48995590396865296
+    },
+    {
+      "month": "2024-12",
+      "return_rate": 1.5504631886884557
+    },
+    {
+      "month": "2025-01",
+      "return_rate": 0.009602458229296396
+    },
+    {
+      "month": "2025-02",
+      "return_rate": 0.27844455112817634
+    },
+    {
+      "month": "2025-03",
+      "return_rate": 0.13404825737266535
+    },
+    {
+      "month": "2025-04",
+      "return_rate": 0.3729202524383357
+    },
+    {
+      "month": "2025-05",
+      "return_rate": 0.4668000381061077
+    },
+    {
+      "month": "2025-06",
+      "return_rate": 0.976673620329982
+    },
+    {
+      "month": "2025-07",
+      "return_rate": 0.6573387172504663
+    },
+    {
+      "month": "2025-08",
+      "return_rate": 1.436701184812006
+    },
+    {
+      "month": "2025-09",
+      "return_rate": 0.3770808424537808
+    },
+    {
+      "month": "2025-10",
+      "return_rate": 0.42147700201577987
+    },
+    {
+      "month": "2025-11",
+      "return_rate": -0.6295620437956284
+    },
+    {
+      "month": "2025-12",
+      "return_rate": 0.8814617574143924
+    },
+    {
+      "month": "2026-01",
+      "return_rate": 1.3015381814872162
+    },
+    {
+      "month": "2026-02",
+      "return_rate": 0.5300988319856259
+    },
+    {
+      "month": "2026-03",
+      "return_rate": -1.152918044507989
+    },
+    {
+      "month": "2026-04",
+      "return_rate": 2.06148282097649
+    },
+    {
+      "month": "2026-05",
+      "return_rate": 0.9301913536498896
+    },
+    {
+      "month": "2026-06",
+      "return_rate": 0.6758535943123034
+    },
+    {
+      "month": "2026-07",
+      "return_rate": -1.490845684394082
+    }
+  ],
+  "nav_history": [
+    {
+      "date": "2026-07-21",
+      "net_value": 1.1299,
+      "acc_value": 1.1299,
+      "growth": 0.56
+    },
+    {
+      "date": "2026-07-20",
+      "net_value": 1.1236,
+      "acc_value": 1.1236,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-07-17",
+      "net_value": 1.1228,
+      "acc_value": 1.1228,
+      "growth": -0.72
+    },
+    {
+      "date": "2026-07-16",
+      "net_value": 1.1309,
+      "acc_value": 1.1309,
+      "growth": -0.3
+    },
+    {
+      "date": "2026-07-15",
+      "net_value": 1.1343,
+      "acc_value": 1.1343,
+      "growth": -0.08
+    },
+    {
+      "date": "2026-07-14",
+      "net_value": 1.1352,
+      "acc_value": 1.1352,
+      "growth": 0.43
+    },
+    {
+      "date": "2026-07-13",
+      "net_value": 1.1303,
+      "acc_value": 1.1303,
+      "growth": -0.51
+    },
+    {
+      "date": "2026-07-10",
+      "net_value": 1.1361,
+      "acc_value": 1.1361,
+      "growth": -0.36
+    },
+    {
+      "date": "2026-07-09",
+      "net_value": 1.1402,
+      "acc_value": 1.1402,
+      "growth": 0.48
+    },
+    {
+      "date": "2026-07-08",
+      "net_value": 1.1348,
+      "acc_value": 1.1348,
+      "growth": -0.19
+    },
+    {
+      "date": "2026-07-07",
+      "net_value": 1.137,
+      "acc_value": 1.137,
+      "growth": -0.25
+    },
+    {
+      "date": "2026-07-06",
+      "net_value": 1.1399,
+      "acc_value": 1.1399,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-07-03",
+      "net_value": 1.1404,
+      "acc_value": 1.1404,
+      "growth": 0.18
+    },
+    {
+      "date": "2026-07-02",
+      "net_value": 1.1384,
+      "acc_value": 1.1384,
+      "growth": -0.49
+    },
+    {
+      "date": "2026-07-01",
+      "net_value": 1.144,
+      "acc_value": 1.144,
+      "growth": -0.26
+    },
+    {
+      "date": "2026-06-30",
+      "net_value": 1.147,
+      "acc_value": 1.147,
+      "growth": 0.29
+    },
+    {
+      "date": "2026-06-29",
+      "net_value": 1.1437,
+      "acc_value": 1.1437,
+      "growth": 0.23
+    },
+    {
+      "date": "2026-06-26",
+      "net_value": 1.1411,
+      "acc_value": 1.1411,
+      "growth": -0.58
+    },
+    {
+      "date": "2026-06-25",
+      "net_value": 1.1477,
+      "acc_value": 1.1477,
+      "growth": 0.24
+    },
+    {
+      "date": "2026-06-24",
+      "net_value": 1.145,
+      "acc_value": 1.145,
+      "growth": 0.29
+    },
+    {
+      "date": "2026-06-23",
+      "net_value": 1.1417,
+      "acc_value": 1.1417,
+      "growth": -0.56
+    },
+    {
+      "date": "2026-06-22",
+      "net_value": 1.1481,
+      "acc_value": 1.1481,
+      "growth": 0.42
+    },
+    {
+      "date": "2026-06-18",
+      "net_value": 1.1433,
+      "acc_value": 1.1433,
+      "growth": 0.09
+    },
+    {
+      "date": "2026-06-17",
+      "net_value": 1.1423,
+      "acc_value": 1.1423,
+      "growth": 0.23
+    },
+    {
+      "date": "2026-06-16",
+      "net_value": 1.1397,
+      "acc_value": 1.1397,
+      "growth": 0.11
+    },
+    {
+      "date": "2026-06-15",
+      "net_value": 1.1384,
+      "acc_value": 1.1384,
+      "growth": 0.56
+    },
+    {
+      "date": "2026-06-12",
+      "net_value": 1.1321,
+      "acc_value": 1.1321,
+      "growth": 0.23
+    },
+    {
+      "date": "2026-06-11",
+      "net_value": 1.1295,
+      "acc_value": 1.1295,
+      "growth": -0.15
+    },
+    {
+      "date": "2026-06-10",
+      "net_value": 1.1312,
+      "acc_value": 1.1312,
+      "growth": -0.32
+    },
+    {
+      "date": "2026-06-09",
+      "net_value": 1.1348,
+      "acc_value": 1.1348,
+      "growth": 0.34
+    },
+    {
+      "date": "2026-06-08",
+      "net_value": 1.131,
+      "acc_value": 1.131,
+      "growth": -0.49
+    },
+    {
+      "date": "2026-06-05",
+      "net_value": 1.1366,
+      "acc_value": 1.1366,
+      "growth": -0.38
+    },
+    {
+      "date": "2026-06-04",
+      "net_value": 1.1409,
+      "acc_value": 1.1409,
+      "growth": -0.12
+    },
+    {
+      "date": "2026-06-03",
+      "net_value": 1.1423,
+      "acc_value": 1.1423,
+      "growth": 0.09
+    },
+    {
+      "date": "2026-06-02",
+      "net_value": 1.1413,
+      "acc_value": 1.1413,
+      "growth": 0.34
+    },
+    {
+      "date": "2026-06-01",
+      "net_value": 1.1374,
+      "acc_value": 1.1374,
+      "growth": -0.17
+    },
+    {
+      "date": "2026-05-29",
+      "net_value": 1.1393,
+      "acc_value": 1.1393,
+      "growth": -0.17
+    },
+    {
+      "date": "2026-05-28",
+      "net_value": 1.1412,
+      "acc_value": 1.1412,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-05-27",
+      "net_value": 1.1404,
+      "acc_value": 1.1404,
+      "growth": -0.12
+    },
+    {
+      "date": "2026-05-26",
+      "net_value": 1.1418,
+      "acc_value": 1.1418,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-05-25",
+      "net_value": 1.1407,
+      "acc_value": 1.1407,
+      "growth": 0.34
+    },
+    {
+      "date": "2026-05-22",
+      "net_value": 1.1368,
+      "acc_value": 1.1368,
+      "growth": 0.36
+    },
+    {
+      "date": "2026-05-21",
+      "net_value": 1.1327,
+      "acc_value": 1.1327,
+      "growth": -0.38
+    },
+    {
+      "date": "2026-05-20",
+      "net_value": 1.137,
+      "acc_value": 1.137,
+      "growth": 0.12
+    },
+    {
+      "date": "2026-05-19",
+      "net_value": 1.1356,
+      "acc_value": 1.1356,
+      "growth": 0.14
+    },
+    {
+      "date": "2026-05-18",
+      "net_value": 1.134,
+      "acc_value": 1.134,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-05-15",
+      "net_value": 1.1344,
+      "acc_value": 1.1344,
+      "growth": -0.18
+    },
+    {
+      "date": "2026-05-14",
+      "net_value": 1.1364,
+      "acc_value": 1.1364,
+      "growth": -0.39
+    },
+    {
+      "date": "2026-05-13",
+      "net_value": 1.1409,
+      "acc_value": 1.1409,
+      "growth": 0.3
+    },
+    {
+      "date": "2026-05-12",
+      "net_value": 1.1375,
+      "acc_value": 1.1375,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-05-11",
+      "net_value": 1.1372,
+      "acc_value": 1.1372,
+      "growth": 0.33
+    },
+    {
+      "date": "2026-05-08",
+      "net_value": 1.1335,
+      "acc_value": 1.1335,
+      "growth": -0.11
+    },
+    {
+      "date": "2026-05-07",
+      "net_value": 1.1347,
+      "acc_value": 1.1347,
+      "growth": 0.18
+    },
+    {
+      "date": "2026-05-06",
+      "net_value": 1.1327,
+      "acc_value": 1.1327,
+      "growth": 0.35
+    },
+    {
+      "date": "2026-04-30",
+      "net_value": 1.1288,
+      "acc_value": 1.1288,
+      "growth": 0.02
+    },
+    {
+      "date": "2026-04-29",
+      "net_value": 1.1286,
+      "acc_value": 1.1286,
+      "growth": 0.36
+    },
+    {
+      "date": "2026-04-28",
+      "net_value": 1.1246,
+      "acc_value": 1.1246,
+      "growth": -0.07
+    },
+    {
+      "date": "2026-04-27",
+      "net_value": 1.1254,
+      "acc_value": 1.1254,
+      "growth": -0.02
+    },
+    {
+      "date": "2026-04-24",
+      "net_value": 1.1256,
+      "acc_value": 1.1256,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-04-23",
+      "net_value": 1.1261,
+      "acc_value": 1.1261,
+      "growth": -0.17
+    }
+  ],
+  "accumulated_return": [],
+  "risk_metrics": {
+    "annualized_return": 6.296754418937933,
+    "max_drawdown": 2.203640797839899,
+    "volatility": 3.3465549129331995,
+    "sharpe_ratio": 1.2839336364488039,
+    "positive_days": 276,
+    "negative_days": 215,
+    "monthly_win_rate": 71.42857142857143,
+    "excess_return": 0.0,
+    "data_points": 500,
+    "calmar_ratio": 2.8574323116137057,
+    "sortino_ratio": 1.856574001247864,
+    "current_drawdown": 1.5852277676160609,
+    "max_drawdown_recovery_days": null,
+    "max_drawdown_start_date": "2026-06-22",
+    "max_drawdown_end_date": "2026-07-17",
+    "drawdown_count_ge_1pct": 7,
+    "avg_drawdown_ge_1pct": 1.4256632688515414,
+    "avg_drawdown_duration_days": 40.166666666666664
+  },
+  "benchmark_metrics": {
+    "beta": null,
+    "alpha": null,
+    "tracking_error": null,
+    "information_ratio": null,
+    "data_points": 0,
+    "upside_capture": null,
+    "downside_capture": null,
+    "category_alpha": null,
+    "category_tracking_error": null,
+    "category_information_ratio": null
+  },
+  "distribution": {
+    "var_95": 0.31225170455008944,
+    "cvar_95": 0.49752326979473116,
+    "skewness": -0.8223709576232299,
+    "excess_kurtosis": 5.140928904979642,
+    "data_points": 499
+  },
+  "rolling_returns": {
+    "y1": {
+      "window_days": 250,
+      "count": 250,
+      "max": 9.69551282051282,
+      "min": 5.156761815629385,
+      "mean": 7.2232967436050535,
+      "median": 7.169372939031526,
+      "p25": 6.435954587354609,
+      "p75": 7.804697080474332,
+      "win_rate": 100.0,
+      "loss_probability": 0.0
+    },
+    "y3": null,
+    "y5": null
+  },
+  "cost_analysis": {
+    "ongoing_fee_pct": 0.5,
+    "manager_fee_pct": 0.4,
+    "custody_fee_pct": 0.1,
+    "sales_fee_pct": 0.0,
+    "net_annualized_after_fee_pct": 5.796754418937933
+  },
+  "flow_risk": {
+    "recent_quarter_net_subscribe_yi": -1.15,
+    "recent_quarter_net_subscribe_pct_of_shares": -8.942457231726282,
+    "recent_quarter_nav_change_pct": -4.79,
+    "last_4q_large_swing_count": 2,
+    "institutional_pct_latest": 7.74,
+    "institutional_pct_change_latest": 7.74,
+    "score": 25,
+    "level": "低"
+  },
+  "data_gaps": [
+    {
+      "key": "bond_duration",
+      "label": "债券久期",
+      "reason": "当前 F10 持仓接口只提供前十大债券名称、占比和市值，未提供组合久期。"
+    },
+    {
+      "key": "bond_credit_rating",
+      "label": "信用评级分布",
+      "reason": "当前数据源未返回债券评级分布，不能从债券名称可靠推断评级。"
+    },
+    {
+      "key": "stock_industry_classification",
+      "label": "正式行业分类",
+      "reason": "当前重仓股接口未接入统一行业分类，页面只保留名称线索，不作为正式行业暴露。"
+    }
+  ],
+  "fee_rules": {
+    "purchase": [
+      {
+        "scope": "小于100万元",
+        "rate": "0.60%"
+      },
+      {
+        "scope": "大于等于100万元，小于500万元",
+        "rate": "0.40%"
+      },
+      {
+        "scope": "大于等于500万元",
+        "rate": "每笔1000元"
+      }
+    ],
+    "redemption": [
+      {
+        "scope": "小于7天",
+        "rate": "1.50%"
+      },
+      {
+        "scope": "大于等于7天，小于30天",
+        "rate": "0.75%"
+      },
+      {
+        "scope": "大于等于30天，小于180天",
+        "rate": "0.50%"
+      },
+      {
+        "scope": "大于等于180天",
+        "rate": "0.00%"
+      }
+    ]
+  },
+  "top_bonds": {
+    "period": "2026年2季度债券投资明细",
+    "end_date": "2026-06-30",
+    "bonds": [
+      {
+        "bond_code": "242580003",
+        "bond_name": "25平安银行永续债01BC",
+        "ratio": 4.22,
+        "market_value_wan": 10223.21
+      },
+      {
+        "bond_code": "242580007",
+        "bond_name": "25兴业银行永续债01BC",
+        "ratio": 4.19,
+        "market_value_wan": 10146.15
+      },
+      {
+        "bond_code": "242580004",
+        "bond_name": "25江苏银行永续债01BC",
+        "ratio": 4.18,
+        "market_value_wan": 10137.56
+      },
+      {
+        "bond_code": "242580017",
+        "bond_name": "25农行永续债01BC",
+        "ratio": 4.17,
+        "market_value_wan": 10102.47
+      },
+      {
+        "bond_code": "242400033",
+        "bond_name": "24广发银行永续债02",
+        "ratio": 3.85,
+        "market_value_wan": 9317.37
+      }
+    ]
+  },
+  "top_stocks": {
+    "period": "2026年2季度股票投资明细",
+    "end_date": "2026-06-30",
+    "stocks": [
+      {
+        "stock_code": "688498",
+        "stock_name": "源杰科技",
+        "ratio": 0.38,
+        "market_value_wan": 920.75
+      },
+      {
+        "stock_code": "300750",
+        "stock_name": "宁德时代",
+        "ratio": 0.37,
+        "market_value_wan": 896.06
+      },
+      {
+        "stock_code": "300308",
+        "stock_name": "中际旭创",
+        "ratio": 0.32,
+        "market_value_wan": 774.7
+      },
+      {
+        "stock_code": "600183",
+        "stock_name": "生益科技",
+        "ratio": 0.29,
+        "market_value_wan": 693.6
+      },
+      {
+        "stock_code": "603986",
+        "stock_name": "兆易创新",
+        "ratio": 0.28,
+        "market_value_wan": 676.45
+      },
+      {
+        "stock_code": "300502",
+        "stock_name": "新易盛",
+        "ratio": 0.26,
+        "market_value_wan": 637.11
+      },
+      {
+        "stock_code": "002475",
+        "stock_name": "立讯精密",
+        "ratio": 0.25,
+        "market_value_wan": 606.14
+      },
+      {
+        "stock_code": "688256",
+        "stock_name": "寒武纪",
+        "ratio": 0.25,
+        "market_value_wan": 603.44
+      },
+      {
+        "stock_code": "688981",
+        "stock_name": "中芯国际",
+        "ratio": 0.23,
+        "market_value_wan": 553.42
+      },
+      {
+        "stock_code": "601899",
+        "stock_name": "紫金矿业",
+        "ratio": 0.2,
+        "market_value_wan": 479.92
+      }
+    ]
+  },
+  "asset_allocation": [
+    {
+      "date": "2026-06-30",
+      "stock_pct": 14.62,
+      "bond_pct": 99.26,
+      "cash_pct": 2.53,
+      "total_assets_yi": 24.23
+    },
+    {
+      "date": "2026-03-31",
+      "stock_pct": 14.32,
+      "bond_pct": 105.72,
+      "cash_pct": 2.76,
+      "total_assets_yi": 23.39
+    },
+    {
+      "date": "2025-12-31",
+      "stock_pct": 18.39,
+      "bond_pct": 104.86,
+      "cash_pct": 2.24,
+      "total_assets_yi": 23.74
+    },
+    {
+      "date": "2025-09-30",
+      "stock_pct": 18.38,
+      "bond_pct": 98.14,
+      "cash_pct": 1.54,
+      "total_assets_yi": 15.04
+    },
+    {
+      "date": "2025-06-30",
+      "stock_pct": 14.95,
+      "bond_pct": 98.28,
+      "cash_pct": 2.28,
+      "total_assets_yi": 4.35
+    },
+    {
+      "date": "2025-03-31",
+      "stock_pct": 14.88,
+      "bond_pct": 83.82,
+      "cash_pct": 3.6,
+      "total_assets_yi": 2.2
+    },
+    {
+      "date": "2024-12-31",
+      "stock_pct": 16.69,
+      "bond_pct": 115.19,
+      "cash_pct": 2.64,
+      "total_assets_yi": 1.48
+    },
+    {
+      "date": "2024-09-30",
+      "stock_pct": 17.9,
+      "bond_pct": 112.88,
+      "cash_pct": 3.51,
+      "total_assets_yi": 3.06
+    },
+    {
+      "date": "2024-06-30",
+      "stock_pct": 13.87,
+      "bond_pct": 116.84,
+      "cash_pct": 2.07,
+      "total_assets_yi": 2.99
+    }
+  ],
+  "scale_changes": [
+    {
+      "date": "2026-06-30",
+      "purchase_yi": 2.85,
+      "redemption_yi": 4.0,
+      "end_shares_yi": 12.86,
+      "end_nav_yi": 14.76,
+      "change_pct": -4.79
+    },
+    {
+      "date": "2026-03-31",
+      "purchase_yi": 2.36,
+      "redemption_yi": 1.33,
+      "end_shares_yi": 14.01,
+      "end_nav_yi": 15.5,
+      "change_pct": 8.61
+    },
+    {
+      "date": "2025-12-31",
+      "purchase_yi": 6.78,
+      "redemption_yi": 0.43,
+      "end_shares_yi": 12.99,
+      "end_nav_yi": 14.27,
+      "change_pct": 97.09
+    },
+    {
+      "date": "2025-09-30",
+      "purchase_yi": 4.79,
+      "redemption_yi": 0.11,
+      "end_shares_yi": 6.63,
+      "end_nav_yi": 7.24,
+      "change_pct": 249.3
+    },
+    {
+      "date": "2025-06-30",
+      "purchase_yi": 1.22,
+      "redemption_yi": 0.07,
+      "end_shares_yi": 1.95,
+      "end_nav_yi": 2.07,
+      "change_pct": 149.27
+    },
+    {
+      "date": "2025-03-31",
+      "purchase_yi": 0.45,
+      "redemption_yi": 0.11,
+      "end_shares_yi": 0.8,
+      "end_nav_yi": 0.83,
+      "change_pct": 76.91
+    },
+    {
+      "date": "2024-12-31",
+      "purchase_yi": 0.09,
+      "redemption_yi": 0.51,
+      "end_shares_yi": 0.45,
+      "end_nav_yi": 0.47,
+      "change_pct": -46.87
+    },
+    {
+      "date": "2024-09-30",
+      "purchase_yi": 0.01,
+      "redemption_yi": 0.0,
+      "end_shares_yi": 0.87,
+      "end_nav_yi": 0.88,
+      "change_pct": 2.95
+    },
+    {
+      "date": "2024-06-30",
+      "purchase_yi": 0.0,
+      "redemption_yi": 0.0,
+      "end_shares_yi": 0.86,
+      "end_nav_yi": 0.86,
+      "change_pct": 0.02
+    },
+    {
+      "date": "2024-04-30",
+      "purchase_yi": 0.0,
+      "redemption_yi": 0.0,
+      "end_shares_yi": 0.86,
+      "end_nav_yi": 0.86,
+      "change_pct": 0.0
+    }
+  ],
+  "holder_structure": [
+    {
+      "announce_date": "2025-12-31",
+      "institutional_pct": 7.74,
+      "retail_pct": 92.26,
+      "internal_pct": 0.09,
+      "total_shares_yi": 12.99
+    },
+    {
+      "announce_date": "2025-06-30",
+      "institutional_pct": 0.0,
+      "retail_pct": 100.0,
+      "internal_pct": 0.11,
+      "total_shares_yi": 1.95
+    },
+    {
+      "announce_date": "2024-12-31",
+      "institutional_pct": 2.21,
+      "retail_pct": 97.79,
+      "internal_pct": 0.2,
+      "total_shares_yi": 0.45
+    },
+    {
+      "announce_date": "2024-06-30",
+      "institutional_pct": 2.32,
+      "retail_pct": 97.68,
+      "internal_pct": 0.05,
+      "total_shares_yi": 0.86
+    }
+  ],
+  "dividends": [],
+  "holding_constraints": {
+    "purchase_status": "",
+    "redemption_status": "",
+    "min_holding_days": null,
+    "features": "东方红慧鑫甄选6个月持有期混合型证券投资基金"
+  },
+  "managers": [
+    {
+      "manager_id": "30739593",
+      "manager_name": "余剑峰",
+      "info": {
+        "MGRID": "30739593",
+        "MGRNAME": "余剑峰",
+        "RESUME": "余剑峰先生:中国,浙江大学管理学博士。上海东方证券资产管理有限公司基金经理,2021年7月至今任东方红明鉴优选两年定期开放混合型证券投资基金基金经理、2023年2月至今任东方红安盈甄选一年持有期混合型证券投资基金基金经理、2024年4月至今任东方红慧鑫甄选6个月持有期混合型证券投资基金基金经理、2025年9月至今任东方红汇诚债券型证券投资基金基金经理。曾任申万宏源证券研究所分析师、国泰君安证券研究所分析师、上海东方证券资产管理有限公司固定收益研究员。",
+        "TOTALDAYS": "1838",
+        "NETNAV": "3369524893.16",
+        "FCOUNT": "11",
+        "PRENAME": "东方红明鉴优选两年定开混合",
+        "YIELDSE": "2.4656",
+        "JJGS": "东方红资产管理",
+        "FMAXEARN1": "0.3644",
+        "FMAXRETRA1": "0.1017",
+        "MGOLD": "7.6335"
+      },
+      "eval": {
+        "MAXRETRA_1": "0.0434",
+        "MAXRETRA_3": "0.0643",
+        "SHARP_1": "0.6194",
+        "SHARP_3": "0.8437",
+        "STDDEV_1": "4.7774",
+        "STDDEV_3": "5.8273",
+        "WIN_1": "34.55",
+        "WIN_3": "44.83"
+      },
+      "holding_char": null,
+      "history": [
+        {
+          "FCODE": "009842",
+          "SHORTNAME": "东方红明鉴优选两年定开混合",
+          "FEMPDATE": "2021-07-08T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1838",
+          "PENAVGROWTH": "21.5543",
+          "TLRANK": "1085",
+          "TLSC": "4616"
+        },
+        {
+          "FCODE": "012683",
+          "SHORTNAME": "东方红安盈甄选一年持有混合A",
+          "FEMPDATE": "2023-02-14T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1252",
+          "PENAVGROWTH": "16.92",
+          "TLRANK": "2388",
+          "TLSC": "6484"
+        },
+        {
+          "FCODE": "012684",
+          "SHORTNAME": "东方红安盈甄选一年持有混合C",
+          "FEMPDATE": "2023-02-14T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "1252",
+          "PENAVGROWTH": "15.7154",
+          "TLRANK": "2505",
+          "TLSC": "6484"
+        },
+        {
+          "FCODE": "020358",
+          "SHORTNAME": "东方红慧鑫甄选6个月持有混合A",
+          "FEMPDATE": "2024-04-29T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "812",
+          "PENAVGROWTH": "12.36",
+          "TLRANK": "5116",
+          "TLSC": "7636"
+        },
+        {
+          "FCODE": "020359",
+          "SHORTNAME": "东方红慧鑫甄选6个月持有混合C",
+          "FEMPDATE": "2024-04-29T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "812",
+          "PENAVGROWTH": "11.63",
+          "TLRANK": "5219",
+          "TLSC": "7636"
+        },
+        {
+          "FCODE": "025039",
+          "SHORTNAME": "东方红汇明债券A",
+          "FEMPDATE": "2025-10-30T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "263",
+          "PENAVGROWTH": "0.48",
+          "TLRANK": "5176",
+          "TLSC": "5898"
+        },
+        {
+          "FCODE": "025040",
+          "SHORTNAME": "东方红汇明债券C",
+          "FEMPDATE": "2025-10-30T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "263",
+          "PENAVGROWTH": "0.26",
+          "TLRANK": "5294",
+          "TLSC": "5898"
+        },
+        {
+          "FCODE": "025303",
+          "SHORTNAME": "东方红汇诚债券A",
+          "FEMPDATE": "2025-09-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "306",
+          "PENAVGROWTH": "0.25",
+          "TLRANK": "5335",
+          "TLSC": "5758"
+        },
+        {
+          "FCODE": "026055",
+          "SHORTNAME": "东方红汇裕债券A",
+          "FEMPDATE": "2025-12-23T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "209",
+          "PENAVGROWTH": "0.25",
+          "TLRANK": "5381",
+          "TLSC": "5955"
+        },
+        {
+          "FCODE": "026056",
+          "SHORTNAME": "东方红汇裕债券C",
+          "FEMPDATE": "2025-12-23T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "209",
+          "PENAVGROWTH": "0.02",
+          "TLRANK": "5446",
+          "TLSC": "5955"
+        },
+        {
+          "FCODE": "025304",
+          "SHORTNAME": "东方红汇诚债券C",
+          "FEMPDATE": "2025-09-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "306",
+          "PENAVGROWTH": "-0.08",
+          "TLRANK": "5419",
+          "TLSC": "5758"
+        }
+      ]
+    }
+  ],
+  "scores": {
+    "overall": 68,
+    "items": [
+      {
+        "name": "收益",
+        "score": 65,
+        "weight": 15
+      },
+      {
+        "name": "风险",
+        "score": 56,
+        "weight": 30
+      },
+      {
+        "name": "稳定",
+        "score": 77,
+        "weight": 20
+      },
+      {
+        "name": "费用",
+        "score": 70,
+        "weight": 15
+      },
+      {
+        "name": "规模",
+        "score": 90,
+        "weight": 10
+      },
+      {
+        "name": "经理",
+        "score": 80,
+        "weight": 5
+      },
+      {
+        "name": "风格",
+        "score": 70,
+        "weight": 5
+      }
+    ]
+  },
+  "meta": {
+    "generated_at": "2026-07-21",
+    "as_of": {
+      "nav_history": "2026-07-21",
+      "nav_trend": "2026-07-21",
+      "accumulated_return": null,
+      "monthly_series": "2026-07",
+      "top_stocks": "2026-06-30",
+      "top_bonds": "2026-06-30",
+      "asset_allocation": "2026-06-30",
+      "scale_changes": "2026-06-30",
+      "holder_structure": "2025-12-31"
+    }
+  }
+}
