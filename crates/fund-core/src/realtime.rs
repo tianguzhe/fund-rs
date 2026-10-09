@@ -8,12 +8,10 @@
 //! 返回体为 JS 赋值：
 //! `vm_fd_<code>='<上一净值日>;<交易时段>|<估值日>~<上一日净值>~<分时点>;<分时点>...'`，
 //! 分时点为 `HHMM,估算净值,上一日净值,<未用>`。取最后一个分时点作为当前估值。
-//! 该接口不含基金名称，名称另走统一 API 的 `get_fund_brief`。
+//! 该接口不含基金名称，`name` 留空，由调用方另走统一 API 的 `get_fund_brief` 补充。
 
 use anyhow::{anyhow, Context, Result};
 use serde::Serialize;
-
-use crate::api::Client;
 
 const GZ_URL: &str =
     "https://gz-fund.10jqka.com.cn/?module=api&controller=index&action=chart&start=0930";
@@ -22,7 +20,7 @@ const GZ_URL: &str =
 #[derive(Debug, Clone, Serialize)]
 pub struct RealtimeEstimate {
     pub code: String,
-    /// 基金简称；名称接口失败时为空字符串（不影响估值本身）。
+    /// 基金简称；本模块不填充（留空），由调用方补充。
     pub name: String,
     /// 上一交易日净值日期。
     pub prev_nav_date: String,
@@ -36,22 +34,25 @@ pub struct RealtimeEstimate {
     pub est_time: String,
 }
 
+impl RealtimeEstimate {
+    /// 估算市值 = 份额 × 估算净值。
+    pub fn est_market_value(&self, shares: f64) -> f64 {
+        shares * self.est_nav
+    }
+
+    /// 今日估算盈亏 = 份额 ×（估算净值 − 上一日净值）。
+    pub fn est_pnl(&self, shares: f64) -> f64 {
+        shares * (self.est_nav - self.prev_nav)
+    }
+}
+
 /// 拉取单只基金的盘中实时估值。失败（代码无效 / 无估值 / 网络）返回明确错误，不静默回退。
+/// 返回的 `name` 为空：该接口不含名称，由调用方按需用 `api::Client::get_fund_brief` 补充。
 pub fn get_realtime_estimate(code: &str) -> Result<RealtimeEstimate> {
     validate_code(code)?;
     let url = format!("{GZ_URL}&info=vm_fd_{code}");
     let body = http_get(&url)?;
-    let mut est =
-        parse_10jqka(code, &body).with_context(|| format!("基金 {code} 实时估值解析失败"))?;
-    // Name is cosmetic: a failed lookup must not discard a valid estimate, but is reported.
-    est.name = match Client::new().get_fund_brief(code) {
-        Ok(brief) => brief.name,
-        Err(e) => {
-            eprintln!("warning: 基金 {code} 名称获取失败: {e:#}");
-            String::new()
-        }
-    };
-    Ok(est)
+    parse_10jqka(code, &body).with_context(|| format!("基金 {code} 实时估值解析失败"))
 }
 
 /// 基金代码必须是 6 位 ASCII 数字：代码原样拼进查询串，放行 `&` / `=` 等字符会注入额外参数。
@@ -153,6 +154,14 @@ mod tests {
         assert!((e.est_nav - 2.03365).abs() < 1e-9);
         assert!((e.est_change_pct - (2.03365 / 2.0401 - 1.0) * 100.0).abs() < 1e-9);
         assert_eq!(e.est_time, "2026-10-09 15:00");
+    }
+
+    #[test]
+    fn holding_value_and_pnl_use_shares() {
+        let e = parse_10jqka("000171", VALID).unwrap();
+        let shares = 1000.0;
+        assert!((e.est_market_value(shares) - 2033.65).abs() < 1e-9);
+        assert!((e.est_pnl(shares) - (2.03365 - 2.0401) * 1000.0).abs() < 1e-9);
     }
 
     #[test]

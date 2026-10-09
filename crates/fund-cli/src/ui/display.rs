@@ -448,9 +448,8 @@ pub fn display_realtime_estimates(
         let mut total_pnl = 0.0;
         for (est, shares) in rows {
             let s = shares.unwrap_or(0.0);
-            // 估算市值 = 份额 × 估算净值；今日估算盈亏 = 份额 ×（估算净值 − 上一日净值）。
-            let value = s * est.est_nav;
-            let pnl = s * (est.est_nav - est.prev_nav);
+            let value = est.est_market_value(s);
+            let pnl = est.est_pnl(s);
             total_value += value;
             total_pnl += pnl;
 

@@ -505,22 +505,6 @@ impl Client {
         Self::check_api_response(self.request(&url)?)
     }
 
-    // ── Fund Estimation ─────────────────────────────────────────────────
-
-    pub fn get_fund_estimation(&self, code: &str) -> Result<FundEstimation> {
-        Self::validate_non_empty(code, "fund code")?;
-        let url = Self::build_url("fundVarietieValuationDetail", &[("FCODE", code)]);
-
-        #[derive(serde::Deserialize)]
-        struct EstResponse {
-            #[serde(rename = "Expansion")]
-            expansion: FundEstimation,
-        }
-
-        let resp: EstResponse = Self::check_api_response(self.request(&url)?)?;
-        Ok(resp.expansion)
-    }
-
     // ── Fund Company ────────────────────────────────────────────────────
 
     pub fn get_fund_companies(&self) -> Result<Vec<FundCompany>> {

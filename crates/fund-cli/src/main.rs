@@ -199,6 +199,8 @@ fn run() -> Result<()> {
                 commands::holdings::run(&client, top, json)
             }
         }
-        Commands::Estimate { code, json } => commands::estimate::run(code.as_deref(), json),
+        Commands::Estimate { code, json } => {
+            commands::estimate::run(&client, code.as_deref(), json)
+        }
     }
 }

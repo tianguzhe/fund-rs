@@ -461,26 +461,6 @@ pub struct ManagerProfile {
     pub history: Vec<ManagerHistoryFund>,
 }
 
-// ── Fund Estimation ──────────────────────────────────────────────────
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct FundEstimation {
-    #[serde(rename = "GZ", default)]
-    pub nav: String,
-    #[serde(rename = "GSZZL", default)]
-    pub change_pct: String,
-    #[serde(rename = "GZTIME", default)]
-    pub time: String,
-    #[serde(rename = "SOURCERATE", default)]
-    pub original_fee: String,
-    #[serde(rename = "rate", default)]
-    pub discount_fee: String,
-    #[serde(rename = "BUY", default)]
-    pub can_buy: String,
-    #[serde(rename = "SGZT", default)]
-    pub buy_status: String,
-}
-
 // ── Fund Company ─────────────────────────────────────────────────────
 
 /// fundCompanyBaseList 返回字段（注意：此接口用 COMPANYCODE/SNAME，

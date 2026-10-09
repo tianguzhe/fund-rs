@@ -10,6 +10,7 @@
 use anyhow::{anyhow, Context, Result};
 use serde::Serialize;
 
+use fund_core::api::Client;
 use fund_core::holdings;
 use fund_core::realtime::{self, RealtimeEstimate};
 
@@ -18,7 +19,7 @@ use crate::ui;
 /// 单只拉取结果：基金代码 + 可选持仓份额（仅持仓模式有）+ 估值结果。
 type FetchResult = (String, Option<f64>, Result<RealtimeEstimate>);
 
-pub fn run(codes: Option<&str>, json: bool) -> Result<()> {
+pub fn run(client: &Client, codes: Option<&str>, json: bool) -> Result<()> {
     let targets = resolve_targets(codes)?;
     let holding_mode = codes.is_none();
 
@@ -27,7 +28,7 @@ pub fn run(codes: Option<&str>, json: bool) -> Result<()> {
         let handles: Vec<_> = targets
             .iter()
             .map(|(code, shares)| {
-                scope.spawn(move || (code.clone(), *shares, realtime::get_realtime_estimate(code)))
+                scope.spawn(move || (code.clone(), *shares, fetch_estimate(client, code)))
             })
             .collect();
         handles.into_iter().map(|h| h.join().unwrap()).collect()
@@ -49,16 +50,26 @@ pub fn run(codes: Option<&str>, json: bool) -> Result<()> {
     Ok(())
 }
 
-/// 解析查询目标。`Some(codes)` 走查询模式（份额 None）；`None` 读持仓并按 code 合并份额。
+/// 拉取估值并补充基金简称。名称仅用于展示：查询失败只告警、留空，不丢弃有效估值。
+fn fetch_estimate(client: &Client, code: &str) -> Result<RealtimeEstimate> {
+    let mut est = realtime::get_realtime_estimate(code)?;
+    match client.get_fund_brief(code) {
+        Ok(brief) => est.name = brief.name,
+        Err(e) => eprintln!("warning: 基金 {code} 名称获取失败: {e:#}"),
+    }
+    Ok(est)
+}
+
+/// 解析查询目标。`Some(codes)` 走查询模式（份额 None，重复代码按首次出现去重）；`None` 读持仓并按 code 合并份额。
 fn resolve_targets(codes: Option<&str>) -> Result<Vec<(String, Option<f64>)>> {
     match codes {
         Some(s) => {
-            let list: Vec<(String, Option<f64>)> = s
-                .split(',')
-                .map(str::trim)
-                .filter(|c| !c.is_empty())
-                .map(|c| (c.to_string(), None))
-                .collect();
+            let mut list: Vec<(String, Option<f64>)> = Vec::new();
+            for c in s.split(',').map(str::trim).filter(|c| !c.is_empty()) {
+                if !list.iter().any(|(seen, _)| seen == c) {
+                    list.push((c.to_string(), None));
+                }
+            }
             if list.is_empty() {
                 return Err(anyhow!("未提供有效基金代码"));
             }
@@ -115,11 +126,9 @@ fn print_json(results: &[FetchResult]) -> Result<()> {
     for (code, shares, res) in results {
         match res {
             Ok(est) => {
-                // 持仓模式：估算市值 = 份额 × 估算净值；今日估算盈亏 = 份额 ×（估算净值 − 上一日净值）。
-                let (mv, pnl) = match shares {
-                    Some(s) => (Some(s * est.est_nav), Some(s * (est.est_nav - est.prev_nav))),
-                    None => (None, None),
-                };
+                // 仅持仓模式有份额，才输出估算市值 / 盈亏。
+                let mv = shares.map(|s| est.est_market_value(s));
+                let pnl = shares.map(|s| est.est_pnl(s));
                 estimates.push(EstOut { est, shares: *shares, est_market_value: mv, est_pnl: pnl });
             }
             Err(e) => failed.push(FailOut { code, error: format!("{e:#}") }),
@@ -130,4 +139,22 @@ fn print_json(results: &[FetchResult]) -> Result<()> {
     let out = serde_json::to_string_pretty(&root).context("estimate JSON 序列化失败")?;
     println!("{out}");
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn query_codes_are_deduped_in_order() {
+        let targets = resolve_targets(Some("000171, 161725,000171,,161725")).unwrap();
+        let codes: Vec<&str> = targets.iter().map(|(c, _)| c.as_str()).collect();
+        assert_eq!(codes, ["000171", "161725"]);
+        assert!(targets.iter().all(|(_, shares)| shares.is_none()));
+    }
+
+    #[test]
+    fn blank_query_codes_is_error() {
+        assert!(resolve_targets(Some(" , ,")).is_err());
+    }
 }
