@@ -38,9 +38,7 @@ pub struct RealtimeEstimate {
 
 /// 拉取单只基金的盘中实时估值。失败（代码无效 / 无估值 / 网络）返回明确错误，不静默回退。
 pub fn get_realtime_estimate(code: &str) -> Result<RealtimeEstimate> {
-    if code.trim().is_empty() {
-        return Err(anyhow!("fund code must not be empty"));
-    }
+    validate_code(code)?;
     let url = format!("{GZ_URL}&info=vm_fd_{code}");
     let body = http_get(&url)?;
     let mut est =
@@ -54,6 +52,14 @@ pub fn get_realtime_estimate(code: &str) -> Result<RealtimeEstimate> {
         }
     };
     Ok(est)
+}
+
+/// 基金代码必须是 6 位 ASCII 数字：代码原样拼进查询串，放行 `&` / `=` 等字符会注入额外参数。
+fn validate_code(code: &str) -> Result<()> {
+    if code.len() != 6 || !code.bytes().all(|b| b.is_ascii_digit()) {
+        return Err(anyhow!("基金代码须为 6 位数字: {code:?}"));
+    }
+    Ok(())
 }
 
 /// 解析同花顺估值返回体（name 留空，由调用方填充）。无效代码 / 货币基金 / 未开盘时
@@ -189,5 +195,13 @@ mod tests {
         assert!(parse_10jqka("1", body).is_err());
         let body = "vm_fd_1='2026-10-08;x|2026-10-09~1.0~0930,inf,1.0,0.000'";
         assert!(parse_10jqka("1", body).is_err());
+    }
+
+    #[test]
+    fn code_must_be_six_ascii_digits() {
+        assert!(validate_code("000171").is_ok());
+        for bad in ["", "17", "0001711", "00017a", "1&x=y", "０００１７１", "000 71"] {
+            assert!(validate_code(bad).is_err(), "should reject {bad:?}");
+        }
     }
 }
