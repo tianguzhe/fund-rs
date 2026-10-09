@@ -5,7 +5,7 @@
 //! - 多只：`-c 000171,161725`（逗号分隔）
 //! - 持仓批量：省略 `-c` 时读 holdings.json，按份额估算今日盈亏
 //!
-//! 数据源为 `fund_core::realtime`（fundgz 直连），与统一 action API 无关。
+//! 数据源为 `fund_core::realtime`（同花顺估值直连 + 统一 API 取基金简称）。
 
 use anyhow::{anyhow, Context, Result};
 use serde::Serialize;
@@ -42,7 +42,7 @@ pub fn run(codes: Option<&str>, json: bool) -> Result<()> {
     for (code, shares, res) in results {
         match res {
             Ok(est) => rows.push((est, shares)),
-            Err(e) => failed.push((code, e.to_string())),
+            Err(e) => failed.push((code, format!("{e:#}"))),
         }
     }
     ui::display_realtime_estimates(&rows, &failed, holding_mode);
@@ -122,7 +122,7 @@ fn print_json(results: &[FetchResult]) -> Result<()> {
                 };
                 estimates.push(EstOut { est, shares: *shares, est_market_value: mv, est_pnl: pnl });
             }
-            Err(e) => failed.push(FailOut { code, error: e.to_string() }),
+            Err(e) => failed.push(FailOut { code, error: format!("{e:#}") }),
         }
     }
 

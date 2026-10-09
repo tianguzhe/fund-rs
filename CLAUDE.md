@@ -121,9 +121,12 @@
 - `get_active_industries(code)` — 行业配置（已过滤中证 GICS 双套分类）
 - `latest_quarter_end(year, month)` — 推算最近已披露季度
 
-### 实时估值接口（fundgz）
+### 实时估值接口（同花顺）
 - 模块: `crates/fund-core/src/realtime.rs`
-- 直连 `https://fundgz.1234567.com.cn/js/<code>.js`，返回 `jsonpgz({...});` JSONP 包裹，已剥壳解析
+- 直连 `https://gz-fund.10jqka.com.cn/?module=api&controller=index&action=chart&start=0930&info=vm_fd_<code>`（直接用 6 位代码），
+  返回 `vm_fd_<code>='<上一净值日>;<时段>|<估值日>~<上一日净值>~HHMM,估值,上一日净值,x;...'`，取最后一个分时点；无估值时为 `<日期>~~`
+- 该接口不含基金名称，名称由 `api::Client::get_fund_brief` 补充（失败只告警、名称留空）
+- ⚠️ 原东方财富 `fundgz.1234567.com.cn` 自 2026-10 起整体 404，已弃用；`fundmobapi` 的 `GSZ` 字段也为 null
 - `get_realtime_estimate(code)` → `RealtimeEstimate`（含 `prev_nav` / `est_nav` / `est_change_pct` / `est_time`），债基/股基/指数全类型覆盖
 - ⚠️ **不要**用统一 API 的 `fundVarietieValuationDetail`(`get_fund_estimation`) 做单点估值：债基返回 `null`、股基返回盘中分时序列 `Datas`，与 `FundEstimation{Expansion.GZ}` 模型不匹配（`portfolio::fetch_rows` 内该调用实际一直被 `Err(_)` 吞掉，估值 footnote 行长期为空）
 
