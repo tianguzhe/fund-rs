@@ -1949,7 +1949,7 @@ function bDataGaps(d) {
     </tr>`).join('');
   return `
   <div class="card mb24 fade">
-    ${sl('未接入的重要数据源', `${gaps.length} 项`)}
+    ${sl('数据缺口（未接入 / 本次获取失败）', `${gaps.length} 项`)}
     <div class="tscroll">
       <table class="mtbl">
         <thead><tr><th>指标</th><th>当前缺口</th></tr></thead>

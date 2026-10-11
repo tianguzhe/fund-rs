@@ -140,20 +140,28 @@ pub fn run(
         dividends_r,
         asset_allocation_r,
     ) = std::thread::scope(|s| {
-        let t1 = s.spawn(|| client.get_fund_estimate(code));
-        let t2 = s.spawn(|| client.get_period_increase(code));
-        let t3 = s.spawn(|| client.get_yearly_returns(code));
-        let t4 = s.spawn(|| client.get_monthly_returns(code));
+        let t1 = s.spawn(|| fetch_with_retry("基金详情", || client.get_fund_estimate(code)));
+        let t2 = s.spawn(|| fetch_with_retry("阶段收益", || client.get_period_increase(code)));
+        let t3 = s.spawn(|| fetch_with_retry("年度收益", || client.get_yearly_returns(code)));
+        let t4 = s.spawn(|| fetch_with_retry("月度收益", || client.get_monthly_returns(code)));
         // ~36 months of daily NAV: feeds both monthly_series (aggregated locally)
         // and nav_history (the most recent slice exposed verbatim).
-        let t5 = s.spawn(|| client.get_net_value_history(code, 820));
+        let t5 = s
+            .spawn(|| fetch_with_retry("逐日净值", || client.get_net_value_history(code, 820)));
         // 3-year window covers at least one full market cycle for risk metrics.
-        let t6 = s.spawn(|| client.get_nav_trend(code, "3n", 500));
-        let t7 = s.spawn(|| client.get_fund_managers(code));
-        let t8 = s.spawn(|| fund_core::f10::get_scale_changes(code));
-        let t9 = s.spawn(|| fund_core::f10::get_holder_structure(code));
-        let t10 = s.spawn(|| fund_core::f10::get_dividends(code));
-        let t11 = s.spawn(|| fund_core::f10::get_asset_allocation(code));
+        let t6 =
+            s.spawn(|| fetch_with_retry("净值走势", || client.get_nav_trend(code, "3n", 500)));
+        let t7 = s.spawn(|| fetch_with_retry("基金经理", || client.get_fund_managers(code)));
+        let t8 = s
+            .spawn(|| fetch_with_retry("规模变动", || fund_core::f10::get_scale_changes(code)));
+        let t9 = s.spawn(|| {
+            fetch_with_retry("持有人结构", || fund_core::f10::get_holder_structure(code))
+        });
+        let t10 =
+            s.spawn(|| fetch_with_retry("分红记录", || fund_core::f10::get_dividends(code)));
+        let t11 = s.spawn(|| {
+            fetch_with_retry("资产配置", || fund_core::f10::get_asset_allocation(code))
+        });
         (
             t1.join().unwrap(),
             t2.join().unwrap(),
@@ -171,9 +179,10 @@ pub fn run(
 
     let detail = detail_r?;
     let periods = periods_r?;
-    let yearly_returns = yearly_r.unwrap_or_default();
-    let monthly_returns = monthly_r.unwrap_or_default();
-    let nav_full = nav_full_r.unwrap_or_default();
+    let mut fetch_gaps: Vec<DataGap> = Vec::new();
+    let yearly_returns = or_gap(yearly_r, "yearly_returns", "年度收益", &mut fetch_gaps);
+    let monthly_returns = or_gap(monthly_r, "monthly_returns", "月度收益", &mut fetch_gaps);
+    let nav_full = or_gap(nav_full_r, "nav_history", "逐日净值", &mut fetch_gaps);
     // Derive monthly series from the same NAV pull instead of re-fetching.
     let monthly_series = aggregate_monthly_returns(&nav_full, 36);
     // Expose only the most recent ~60 trading days to keep JSON payload bounded.
@@ -182,12 +191,14 @@ pub fn run(
         sorted.sort_by(|a, b| b.date.cmp(&a.date));
         sorted.into_iter().take(60).collect::<Vec<_>>()
     };
-    let nav_trend = nav_trend_r.unwrap_or_default();
-    let managers = managers_r.unwrap_or_default();
-    let scale_changes = scale_changes_r.unwrap_or_default();
-    let holder_structure = holder_structure_r.unwrap_or_default();
-    let dividends = dividends_r.unwrap_or_default();
-    let asset_allocation = asset_allocation_r.unwrap_or_default();
+    let nav_trend = or_gap(nav_trend_r, "nav_trend", "净值走势（风险指标）", &mut fetch_gaps);
+    let managers = or_gap(managers_r, "managers", "基金经理", &mut fetch_gaps);
+    let scale_changes = or_gap(scale_changes_r, "scale_changes", "规模变动", &mut fetch_gaps);
+    let holder_structure =
+        or_gap(holder_structure_r, "holder_structure", "持有人结构", &mut fetch_gaps);
+    let dividends = or_gap(dividends_r, "dividends", "分红记录", &mut fetch_gaps);
+    let asset_allocation =
+        or_gap(asset_allocation_r, "asset_allocation", "资产配置", &mut fetch_gaps);
     // Pure parser over fund name — cheap, deterministic, no network.
     let holding_constraints = Some(fund_core::f10::detect_holding_constraints_with_status(
         &detail.name,
@@ -195,13 +206,23 @@ pub fn run(
         &detail.purchase_status,
         &detail.redemption_status,
     ));
-    let fee_rules = fund_core::f10::get_fee_rules(code).ok();
+    let fee_rules = or_gap(
+        fetch_with_retry("费率规则", || fund_core::f10::get_fee_rules(code)).map(Some),
+        "fee_rules",
+        "费率规则",
+        &mut fetch_gaps,
+    );
 
     // Bond holdings only make sense for bond-type funds; skip the F10 round-trip otherwise.
     let (cy, cm) = current_year_month();
     let (qy, qm) = fund_core::f10::latest_quarter_end(cy, cm);
     let top_bonds = if detail.fund_type.contains("债") {
-        fund_core::f10::get_top_bonds(code, qy, qm).ok()
+        or_gap(
+            fetch_with_retry("重仓债券", || fund_core::f10::get_top_bonds(code, qy, qm)).map(Some),
+            "top_bonds",
+            "重仓债券",
+            &mut fetch_gaps,
+        )
     } else {
         None
     };
@@ -212,13 +233,25 @@ pub fn run(
     let has_equity = !(detail.fund_type.contains("货币")
         || detail.fund_type.contains("纯债")
         || detail.fund_type.contains("短债"));
-    let top_stocks =
-        if has_equity { fund_core::f10::get_top_stocks(code, qy, qm).ok() } else { None };
+    let top_stocks = if has_equity {
+        or_gap(
+            fetch_with_retry("重仓股票", || fund_core::f10::get_top_stocks(code, qy, qm)).map(Some),
+            "top_stocks",
+            "重仓股票",
+            &mut fetch_gaps,
+        )
+    } else {
+        None
+    };
 
     // Use INDEXCODE from fund detail for index/ETF funds; fallback to type-based selection.
     let benchmark = scoring::select_benchmark(&detail.fund_type, &detail.index_code);
-    let accumulated_return =
-        client.get_accumulated_return(code, "ln", &benchmark).unwrap_or_default();
+    let accumulated_return = or_gap(
+        fetch_with_retry("累计收益", || client.get_accumulated_return(code, "ln", &benchmark)),
+        "accumulated_return",
+        "累计收益与基准对照",
+        &mut fetch_gaps,
+    );
 
     let risk_metrics =
         scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
@@ -227,7 +260,8 @@ pub fn run(
     let rolling_returns = scoring::compute_rolling_returns(&nav_full);
     let cost_analysis = compute_cost_analysis(&detail, &risk_metrics);
     let flow_risk = compute_flow_risk(&scale_changes, &holder_structure);
-    let data_gaps = data_gaps(&detail);
+    let mut data_gaps = data_gaps(&detail);
+    data_gaps.extend(fetch_gaps);
 
     // Batch 2: per-manager details. Upstream `fundmsmanger` collapses multi-manager
     // funds into a single record with comma-joined MGRID/MGRNAME (e.g. "ID_A,ID_B").
@@ -592,6 +626,46 @@ fn compute_flow_risk(scales: &[ScaleChangePoint], holders: &[HolderStructurePoin
     }
 }
 
+/// Max attempts per upstream request. `run` fires ~12 requests concurrently and
+/// the Vercel proxy intermittently times out under that load (2026-10: each
+/// run lost a different section), so transient errors are retried.
+const MAX_FETCH_ATTEMPTS: u32 = 3;
+
+/// Run `f` up to `MAX_FETCH_ATTEMPTS` times with linear backoff, logging each
+/// failed attempt to stderr; returns the last error if every attempt fails.
+fn fetch_with_retry<T>(label: &str, f: impl Fn() -> Result<T>) -> Result<T> {
+    let mut attempt = 1;
+    loop {
+        match f() {
+            Ok(v) => return Ok(v),
+            Err(e) if attempt < MAX_FETCH_ATTEMPTS => {
+                eprintln!("  {label} 第 {attempt} 次请求失败，重试: {e:#}");
+                std::thread::sleep(std::time::Duration::from_millis(500 * u64::from(attempt)));
+                attempt += 1;
+            }
+            Err(e) => return Err(e),
+        }
+    }
+}
+
+/// Unwrap an optional section. A request error (after retries) becomes an
+/// explicit `fetch_failed_<key>` data gap plus a stderr warning instead of a
+/// silent empty default; an empty-but-successful response is not a gap.
+fn or_gap<T: Default>(r: Result<T>, key: &str, label: &str, gaps: &mut Vec<DataGap>) -> T {
+    match r {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("warning: {label}获取失败（已重试 {MAX_FETCH_ATTEMPTS} 次）: {e:#}");
+            gaps.push(DataGap {
+                key: format!("fetch_failed_{key}"),
+                label: label.to_string(),
+                reason: format!("本次获取失败（已重试 {MAX_FETCH_ATTEMPTS} 次）: {e:#}"),
+            });
+            T::default()
+        }
+    }
+}
+
 fn data_gaps(detail: &FundDetail) -> Vec<DataGap> {
     let mut gaps = Vec::new();
     if detail.fund_type.contains('债') {
@@ -679,4 +753,55 @@ fn current_ymd() -> (u32, u32, u32) {
         m += 1;
     }
     (y as u32, (m + 1) as u32, (dd + 1) as u32)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::Cell;
+
+    #[test]
+    fn retry_succeeds_after_transient_failures() {
+        let calls = Cell::new(0);
+        let r = fetch_with_retry("test", || {
+            calls.set(calls.get() + 1);
+            if calls.get() < MAX_FETCH_ATTEMPTS {
+                Err(anyhow::anyhow!("timeout"))
+            } else {
+                Ok(42)
+            }
+        });
+        assert_eq!(r.unwrap(), 42);
+        assert_eq!(calls.get(), MAX_FETCH_ATTEMPTS);
+    }
+
+    #[test]
+    fn retry_gives_up_after_max_attempts() {
+        let calls = Cell::new(0);
+        let r: Result<()> = fetch_with_retry("test", || {
+            calls.set(calls.get() + 1);
+            Err(anyhow::anyhow!("timeout"))
+        });
+        assert!(r.is_err());
+        assert_eq!(calls.get(), MAX_FETCH_ATTEMPTS);
+    }
+
+    #[test]
+    fn failed_section_is_recorded_as_gap_not_silent_default() {
+        let mut gaps = Vec::new();
+        let v: Vec<u8> =
+            or_gap(Err(anyhow::anyhow!("timeout")), "accumulated_return", "累计收益", &mut gaps);
+        assert!(v.is_empty());
+        assert_eq!(gaps.len(), 1);
+        assert_eq!(gaps[0].key, "fetch_failed_accumulated_return");
+        assert!(gaps[0].reason.contains("timeout"));
+    }
+
+    #[test]
+    fn empty_but_successful_section_is_not_a_gap() {
+        let mut gaps = Vec::new();
+        let v: Vec<u8> = or_gap(Ok(Vec::new()), "top_stocks", "重仓股", &mut gaps);
+        assert!(v.is_empty());
+        assert!(gaps.is_empty());
+    }
 }

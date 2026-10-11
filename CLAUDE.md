@@ -244,6 +244,7 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - 模板深化采用**审视 → 列差距 → 用户确认 → 补强**循环（避免一次过度设计）
 - 报告产出后再生成 HTML 数据：`fund analyze -c <code> --json -o dist/data/fund-<code>.json`
 - 若 CLI 数据缺失（如 `manager_info=null`），报告显式标注"⚠️ 数据缺失"，**不要伪造**
+- `analyze` 子请求失败会自动重试（`MAX_FETCH_ATTEMPTS`=3）；重试后仍失败的分区写入 `data_gaps`（key 为 `fetch_failed_<section>`）并打印 stderr warning。批量生成 `dist/data` 后要检查没有 `fetch_failed_*`，有就重跑该基金
 
 ### dist/fund-analysis.html 架构
 - 模板 + 数据分离：URL `?code=<6位>` 自动 fetch `./data/fund-<code>.json`；`?amount=` 控制金额化卡片基准
