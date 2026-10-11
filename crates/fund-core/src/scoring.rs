@@ -19,7 +19,7 @@ pub struct RiskMetrics {
     /// Caps at 99 to avoid Inf when max_drawdown is essentially zero.
     pub calmar_ratio: f64,
     /// Sortino ratio = (annualized_return - rf) / downside_volatility.
-    /// Downside volatility uses only negative daily returns (target = 0).
+    /// Downside volatility uses only negative per-point returns (target = 0).
     pub sortino_ratio: f64,
     /// Drawdown at the latest data point (% of peak). 0 if currently at a new high.
     pub current_drawdown: f64,
@@ -92,23 +92,31 @@ pub fn compute_risk_metrics(
         }
     }
 
+    // fundVPageDiagram thins the range to POINTCOUNT samples (3 years -> 500
+    // points, ~1.5 trading days apart), so a point is not a trading day.
+    // Annualize by the calendar span and scale volatility by the observed
+    // sampling frequency; fall back to one point per trading day only when the
+    // dates cannot be parsed.
     let daily_returns: Vec<f64> = navs.windows(2).map(|w| w[1] / w[0] - 1.0).collect();
     let n = daily_returns.len() as f64;
     let total_return = navs.last().unwrap() / navs[0];
-    let days = navs.len() as f64;
-    let annualized_return = (total_return.powf(250.0 / days) - 1.0) * 100.0;
+    let years = calendar_day_diff(&sorted[0].date, &sorted[sorted.len() - 1].date)
+        .filter(|d| *d > 0)
+        .map(|d| d as f64 / 365.25)
+        .unwrap_or(n / 250.0);
+    let periods_per_year = n / years;
+    let annualized_return = (total_return.powf(1.0 / years) - 1.0) * 100.0;
 
     let avg_ret = daily_returns.iter().sum::<f64>() / n;
     let variance = daily_returns.iter().map(|r| (r - avg_ret).powi(2)).sum::<f64>() / n;
-    // Annualized volatility (250 trading days)
-    let volatility = variance.sqrt() * 250.0_f64.sqrt() * 100.0;
+    let volatility = variance.sqrt() * periods_per_year.sqrt() * 100.0;
 
     // Sharpe ratio with risk-free rate = 2%
     let sharpe = if volatility > 0.0 { (annualized_return - 2.0) / volatility } else { 0.0 };
 
     // Downside volatility for Sortino: only negative daily returns, target = 0.
     let downside_sq_sum: f64 = daily_returns.iter().filter(|r| **r < 0.0).map(|r| r.powi(2)).sum();
-    let downside_vol = (downside_sq_sum / n).sqrt() * 250.0_f64.sqrt() * 100.0;
+    let downside_vol = (downside_sq_sum / n).sqrt() * periods_per_year.sqrt() * 100.0;
     let sortino = if downside_vol > 0.0 { (annualized_return - 2.0) / downside_vol } else { 0.0 };
 
     // Calmar = annualized return / max drawdown. Cap at 99 when MDD ≈ 0 to keep
@@ -929,6 +937,36 @@ mod tests {
         let want = (1.0 - 2.036 / 2.19) * 100.0;
         assert!((m.max_drawdown - want).abs() < 1e-9, "max_drawdown = {}", m.max_drawdown);
         assert!((m.current_drawdown - want).abs() < 1e-9);
+    }
+
+    /// Sampled points (fundVPageDiagram thins ~3 years to 500 points) must be
+    /// annualized by calendar span, not by treating every point as one day.
+    fn sampled_three_years() -> Vec<NavTrendPoint> {
+        vec![
+            pt("2023-10-09", 1.0, 1.0),
+            pt("2024-10-09", 1.10, 1.10),
+            pt("2025-10-09", 1.05, 1.05),
+            pt("2026-10-09", 1.2062, 1.2062),
+        ]
+    }
+
+    #[test]
+    fn annualized_return_uses_calendar_span() {
+        let m = compute_risk_metrics(&sampled_three_years(), &[], &[]);
+        let years = 1096.0 / 365.25;
+        let want = (1.2062f64.powf(1.0 / years) - 1.0) * 100.0;
+        assert!((m.annualized_return - want).abs() < 1e-9, "annualized = {}", m.annualized_return);
+    }
+
+    #[test]
+    fn volatility_scales_by_observed_sampling_frequency() {
+        let m = compute_risk_metrics(&sampled_three_years(), &[], &[]);
+        let rets = [0.10, 1.05 / 1.10 - 1.0, 1.2062 / 1.05 - 1.0];
+        let mean = rets.iter().sum::<f64>() / 3.0;
+        let sd = (rets.iter().map(|r| (r - mean).powi(2)).sum::<f64>() / 3.0).sqrt();
+        let periods_per_year: f64 = 3.0 / (1096.0 / 365.25);
+        let want = sd * periods_per_year.sqrt() * 100.0;
+        assert!((m.volatility - want).abs() < 1e-9, "volatility = {}", m.volatility);
     }
 
     #[test]

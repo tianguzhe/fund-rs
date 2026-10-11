@@ -224,9 +224,10 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 - 多经理基金的 `fundMSNMangerInfo / PerEval / PosChar / ProContr` 常返回 null（**不是 bug**，是 API 限制）
 
 ### 收益口径（重要，2026-06-01 翻车教训）
-- ⚠️ **禁止用 `risk_metrics.annualized_return` 当"年收益"报给用户或填收益对比表**：它是近 2 年（~500 交易日）日收益的**波动年化**，债基这种低波动品种上**虚高近 2 倍**（实证：016816 `annualized_return`=4.28% vs 真实近 1 年 1.93%；485119=5.86% vs 2.98%）
+- ⚠️ **不要用 `risk_metrics.annualized_return` 当"年收益"报给用户或填收益对比表**：它是 `nav_trend` 窗口（近 3 年，成立不足 3 年则从成立起）的复合年化，不是"近 1 年"
+  - 2026-10-10 前它有 bug：抽样点（3 年 500 点）被当成交易日、按 250/点数年化，等于把 3 年收益当 2 年年化，系统性虚高约 1.5 倍（000171 旧 9.83% vs 真实 3 年年化 6.45%）。2026-06-01 的"虚高"实证（016816 4.28% vs 近 1 年 1.93%）源于此 bug，已在 `scoring.rs::compute_risk_metrics` 修为按日历跨度年化；**修复前生成的 `dist/data/*.json` 和旧报告里的 annualized/volatility/Sharpe 仍是虚高值**
 - 收益对比/汇报**一律用** `periods[].return_rate`（Last Year / Last 2 Years / Last 3 Months）+ `yearly_returns[].return_rate`，并带 `avg` 同类均值对照——这是用户 App 实际看到、实际拿到的
-- `annualized_return` **只可**配 Sharpe/Calmar 做风险收益比参考，**绝不**单独当年收益展示
+- `annualized_return` 主要配 Sharpe/Calmar 看风险收益比；要报"年化"时注明"近 3 年年化"，并与 `periods` 近 3 年收益交叉核对
 - 填任何含"年化/年收益"列的表前自检：这个数和 `periods` 近 1 年对得上吗？对不上就用 periods
 - 教训：曾用虚高口径差点推荐用户把优质短债换成"看着收益更高"的 485119（真实收益其实不及现有持仓，却多扛久期风险），是赔本错误决策
 

@@ -375,7 +375,7 @@ Alpha (年化) / Beta / 信息比率 IR / 跟踪误差。每个值后跟一句�
 ### 核心风险（8 项指标卡片）
 年化收益 / 最大回撤 / 当前回撤 / 回撤恢复期 / 年化波动率 / Sharpe / Sortino / Calmar
 最大回撤恢复期：若 `null`，标注"仍在水下"。
-⚠️ **口径铁律**：这里的"年化收益"= `risk_metrics.annualized_return`，是近 2 年日收益的**波动年化**，债基上虚高近 2 倍，**只在本卡片配 Sharpe/Calmar 看风险收益比**。对外讲"这只赚多少 / 哪只收益更好"一律以第三节 `periods` 分期收益 + `yearly_returns` 为准，**绝不把本卡片的年化收益当真实年收益**。
+⚠️ **口径铁律**：这里的"年化收益"= `risk_metrics.annualized_return`，是近 3 年（成立不足 3 年则从成立起）的复合年化，**不是近 1 年收益**，本卡片配 Sharpe/Calmar 看风险收益比，展示时标注"近 3 年年化"。对外讲"这只赚多少 / 哪只收益更好"一律以第三节 `periods` 分期收益 + `yearly_returns` 为准，**绝不把本卡片的年化收益当真实年收益**。
 
 ### 最大回撤事件溯源
 **直接读取 `risk.max_drawdown_start_date` 与 `risk.max_drawdown_end_date`** 两个字段（fund-cli 已计算峰谷日期），给出**起止日期 + 跌幅 + 宏观背景**。
