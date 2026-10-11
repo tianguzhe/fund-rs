@@ -205,37 +205,21 @@ impl Client {
     }
 
     pub fn get_fund_rank(&self, params: &FundRankParams) -> Result<Vec<FundRank>> {
-        // Two upstream quirks force the workaround below:
-        //   1. `fundMNRank` silently ignores `FundType` and always returns the
-        //      full universe. We must filter on `BFUNDTYPE` client-side.
-        //   2. The upstream caps actual `pageSize` at ~30 rows regardless of
-        //      what we ask, so we have to paginate ourselves to gather enough
-        //      candidates for the client filter.
+        // `FundType` is filtered server-side (numeric codes only, see
+        // `normalize_fund_type`), but the upstream caps `pageSize` at ~30 rows,
+        // so larger requests are paginated here.
         const UPSTREAM_PAGE_CAP: usize = 30;
-        const MAX_PAGES_WITH_FILTER: usize = 20;
+        const MAX_PAGES: usize = 20;
 
-        let type_filter = normalize_fund_type(&params.fund_type);
-
-        if type_filter.is_none() {
-            // No filter requested → single page passthrough, honour caller's size up to cap.
-            let size = params.page_size.min(UPSTREAM_PAGE_CAP);
-            return self.fetch_rank_page(params, params.page_index, size);
-        }
-
-        let target_code = type_filter.unwrap();
+        let fund_type = normalize_fund_type(&params.fund_type)?.unwrap_or_else(|| "all".into());
         let mut result: Vec<FundRank> = Vec::with_capacity(params.page_size);
-        for page in params.page_index..params.page_index + MAX_PAGES_WITH_FILTER {
-            let batch = self.fetch_rank_page(params, page, UPSTREAM_PAGE_CAP)?;
-            if batch.is_empty() {
+        for page in params.page_index..params.page_index + MAX_PAGES {
+            let want = (params.page_size - result.len()).min(UPSTREAM_PAGE_CAP);
+            let batch = self.fetch_rank_page(params, &fund_type, page, UPSTREAM_PAGE_CAP)?;
+            let exhausted = batch.len() < UPSTREAM_PAGE_CAP;
+            result.extend(batch.into_iter().take(want));
+            if exhausted || result.len() >= params.page_size {
                 break;
-            }
-            for r in batch {
-                if r.fund_type_code == target_code {
-                    result.push(r);
-                    if result.len() >= params.page_size {
-                        return Ok(result);
-                    }
-                }
             }
         }
         Ok(result)
@@ -244,11 +228,12 @@ impl Client {
     fn fetch_rank_page(
         &self,
         params: &FundRankParams,
+        fund_type: &str,
         page_index: usize,
         page_size: usize,
     ) -> Result<Vec<FundRank>> {
         let mut query_params: Vec<(&str, String)> = vec![
-            ("FundType", "all".to_string()),
+            ("FundType", fund_type.to_string()),
             ("SortColumn", params.sort_column.clone()),
             ("Sort", params.sort.clone()),
             ("pageIndex", page_index.to_string()),
@@ -652,28 +637,31 @@ impl Client {
 /// Takes the last trading day's accumulated NAV per calendar month, then
 /// computes the month-over-month return in percent. The earliest month acts
 /// only as the baseline and is not emitted. The series is trimmed to the
-/// Map user-facing short codes to upstream `BFUNDTYPE` numeric codes.
+/// Map user-facing short codes to the upstream `fundMNRank` `FundType` filter code.
 ///
-/// Returns `None` for "all" / empty / unknown labels so the caller can skip
-/// client-side filtering and pass results through untouched.
+/// Returns `Ok(None)` for "all" / empty (no filter). A bare 1–2 digit string is
+/// passed through so callers can use an upstream code that has no short alias.
+/// Unknown labels are an error rather than silently falling back to "all".
 ///
-/// Number codes observed empirically from `fundMNRank` payloads:
-/// 001=股票, 002=混合, 003=债券, 004=指数, 006=QDII, 007=货币.
-/// Codes are passed through as-is, so callers can supply the upstream digit
-/// when a short code is missing.
-pub fn normalize_fund_type(fund_type: &str) -> Option<String> {
+/// Codes verified against live `fundMNRank` responses (2026-10): the upstream
+/// filters server-side only on these numeric codes and ignores letter codes
+/// such as `zq`. 25=股票, 27=混合, 31=债券(含定开债), 26=指数, 6=QDII, 35=货币.
+pub fn normalize_fund_type(fund_type: &str) -> Result<Option<String>> {
     let lower = fund_type.trim().to_lowercase();
-    match lower.as_str() {
-        "all" | "" => None,
-        "zq" | "债" | "债券" | "bond" => Some("003".into()),
-        "hh" | "混" | "混合" | "mixed" => Some("002".into()),
-        "gp" | "股" | "股票" | "stock" => Some("001".into()),
-        "zs" | "指数" | "index" => Some("004".into()),
-        "qdii" | "海外" => Some("006".into()),
-        "hb" | "货币" | "money" => Some("007".into()),
-        other if other.len() == 3 && other.chars().all(|c| c.is_ascii_digit()) => Some(lower),
-        _ => None,
-    }
+    let code = match lower.as_str() {
+        "all" | "" => return Ok(None),
+        "zq" | "债" | "债券" | "bond" => "31",
+        "hh" | "混" | "混合" | "mixed" => "27",
+        "gp" | "股" | "股票" | "stock" => "25",
+        "zs" | "指数" | "index" => "26",
+        "qdii" | "海外" => "6",
+        "hb" | "货币" | "money" => "35",
+        other if (1..=2).contains(&other.len()) && other.bytes().all(|b| b.is_ascii_digit()) => {
+            other
+        }
+        other => anyhow::bail!("未知基金类型: {other:?}（可选 all/zq/hh/gp/zs/qdii/hb）"),
+    };
+    Ok(Some(code.to_string()))
 }
 
 /// `months` most recent entries.
@@ -716,4 +704,44 @@ pub fn aggregate_monthly_returns(
 
     let start = series.len().saturating_sub(months);
     series[start..].to_vec()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn short_codes_map_to_upstream_fund_type() {
+        let cases = [
+            ("zq", "31"),
+            ("债券", "31"),
+            ("hh", "27"),
+            ("gp", "25"),
+            ("zs", "26"),
+            ("qdii", "6"),
+            ("hb", "35"),
+            (" ZQ ", "31"),
+        ];
+        for (input, want) in cases {
+            assert_eq!(normalize_fund_type(input).unwrap().as_deref(), Some(want), "{input:?}");
+        }
+    }
+
+    #[test]
+    fn all_or_empty_means_no_filter() {
+        assert_eq!(normalize_fund_type("all").unwrap(), None);
+        assert_eq!(normalize_fund_type("").unwrap(), None);
+    }
+
+    #[test]
+    fn numeric_upstream_code_passes_through() {
+        assert_eq!(normalize_fund_type("32").unwrap().as_deref(), Some("32"));
+    }
+
+    #[test]
+    fn unknown_label_is_error_not_silent_all() {
+        for bad in ["bonds", "003x", "1&x=y", "123"] {
+            assert!(normalize_fund_type(bad).is_err(), "should reject {bad:?}");
+        }
+    }
 }

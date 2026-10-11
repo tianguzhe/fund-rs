@@ -162,9 +162,9 @@ fund estimate --json               # 输出 JSON（estimates[] + failed[]）
 
 # 排行 / 主题 / 大数据
 fund rank [-t hh|zq|gp|zs|qdii|hb|all] [-n 20] [--sort-column SYL_1N|SYL_3N|DWJZ]
-#   -t 客户端按 BFUNDTYPE 过滤（zq=003 债券 / hh=002 混合 / gp=001 股票 /
-#   zs=004 指数 / qdii=006 / hb=007 货币）；上游 cap 30 行/页，CLI 自动翻 ≤20 页
-#   债基排同类前 N 推荐 --sort-column SYL_3N（按 1Y 排序股基会挤掉债基）
+#   -t 映射为上游数字 FundType 服务端过滤（zq=31 债券含定开 / hh=27 / gp=25 /
+#   zs=26 指数 / qdii=6 / hb=35 货币；也可直接传 1–2 位数字），未知类型报错
+#   上游 cap 30 行/页，-n 超过 30 时 CLI 自动翻页（≤20 页）
 fund rank-history -c 420002 -r 3y
 fund theme -l 20
 fund bigdata [--detail 1]
@@ -216,9 +216,11 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 ## Claude 协作经验
 
 ### 上游 API 已知限制（重要）
-- `fundMNRank` 接口的 `FundType` 参数**静默忽略**，过滤必须客户端做（`api.rs::get_fund_rank` 内已做循环分页 + BFUNDTYPE 客户端过滤）
+- `fundMNRank` 的 `FundType` **只认天天基金 App 的数字代码**（传 `zq`/`003` 等会被静默忽略、返回全市场）：
+  `25`=股票 / `27`=混合 / `31`=债券(含定开) / `32`=定开债 / `26`=指数 / `6`=QDII / `35`=货币 / `15`=FOF（2026-10 实测）。
+  映射在 `api.rs::normalize_fund_type`，服务端过滤，不再客户端过滤
 - `fundMNRank` `pageSize` 上游硬 cap **30 行/页**，需循环 pageIndex 翻页
-- BFUNDTYPE 数字代码：`001`=股票 / `002`=混合 / `003`=债券 / `004`=指数 / `006`=QDII / `007`=货币
+- 返回行的 `BFUNDTYPE`：`001`=股票 / `002`=混合 / `003`=债券 / `008`=定开债 / `005`=货币 / `007`=QDII（⚠️ 007 不是货币；指数基金按底层资产归 001/007）
 - 多经理基金的 `fundMSNMangerInfo / PerEval / PosChar / ProContr` 常返回 null（**不是 bug**，是 API 限制）
 
 ### 收益口径（重要，2026-06-01 翻车教训）
