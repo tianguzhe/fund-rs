@@ -802,7 +802,7 @@ done
 ### 易踩坑
 
 1. `monthly_returns` 是 `periods` 的别名（Z/Y/3Y enum），**真月度看 `monthly_series`**。
-2. `risk_metrics.data_points` 只覆盖近 ~2 年（3n RANGE）；成立来回撤需交叉看 `accumulated_return.length` ≈ 10 年。
+2. `risk_metrics` 覆盖近 3 年（3n RANGE 抽样 500 点，`data_points` 是采样点数不是交易日，窗口看 `window_start_date`/`window_end_date`）；`distribution` 用近 820 个交易日逐日净值；成立来回撤需交叉看 `accumulated_return.length` ≈ 10 年。
 3. `accumulated_return.index_return` 上游普遍为 0（祈祷不要在归因里使用），优先用 `bench_return` + `category_return`。
 4. `rank_history` 上游每次只返回 ~60 天，不要假设 250 天。
 5. `managers = []` 是合法情况（新基金 / 上游拒接），第六节走 6.0 fallback。

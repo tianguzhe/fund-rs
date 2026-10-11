@@ -91,6 +91,16 @@ function nval(v, fallback=null) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+// risk_metrics.data_points counts sampled NAV points (~3 years thinned to 500),
+// not trading days, so label the window by its calendar span instead.
+function riskWindow(r) {
+  const s = Date.parse(r?.window_start_date), e = Date.parse(r?.window_end_date);
+  if (Number.isFinite(s) && Number.isFinite(e) && e > s) {
+    return `近 ${((e - s) / 86400000 / 365.25).toFixed(1)} 年`;
+  }
+  return `${r?.data_points ?? '--'} 个采样点`;
+}
+
 function safePct(v, d=2, sign=false) {
   const n = nval(v);
   return n == null ? '--' : pct(n, d, sign);
@@ -179,7 +189,7 @@ function mainRiskBullets(d) {
   const leverage = aa ? stockPct + bondPct + cashPct - 100 : 0;
 
   if (nval(r.sharpe_ratio) != null && r.sharpe_ratio < 0) {
-    bullets.push(`近 ${esc(r.data_points || '--')} 交易日 Sharpe 为 <b class="neg">${fmt(r.sharpe_ratio)}</b>，风险调整收益偏弱。`);
+    bullets.push(`${esc(riskWindow(r))} Sharpe 为 <b class="neg">${fmt(r.sharpe_ratio)}</b>，风险调整收益偏弱。`);
   }
   if (nval(r.max_drawdown) != null && r.max_drawdown > 8) {
     bullets.push(`最大回撤 <b class="neg">-${fmt(r.max_drawdown)}%</b>，持有体验不应按低波现金替代品理解。`);
@@ -455,7 +465,7 @@ function bHeroStats(d) {
     <div class="hero-stat">
       <div class="k">Annualized Return · 年化</div>
       <div class="v ${arCls}" data-count="${ar.toFixed(2)}" data-suffix="%" data-decimals="2" data-signed="1">${ar >= 0 ? '+' : ''}${ar.toFixed(2)}<span class="u">%</span></div>
-      <div class="sub">${arSub} · 近 ${r.data_points} 交易日</div>
+      <div class="sub">${arSub} · ${esc(riskWindow(r))}</div>
       <span class="underline"></span>
     </div>
     <div class="hero-stat">
@@ -918,7 +928,7 @@ function bRisk(d) {
     </div>`).join('');
   return `
   <div class="card mb24 fade">
-    ${sl('风险指标', `近 ${r.data_points} 交易日`)}
+    ${sl('风险指标', riskWindow(r))}
     <div class="mgrid">${cells}</div>
     ${riskCommentary(d)}
   </div>`;
@@ -1616,7 +1626,7 @@ function bMaxDrawdownEvent(d) {
     </div>`).join('');
   return `
   <div class="card mb24 fade">
-    ${sl('最大回撤事件溯源', '近 '+r.data_points+' 交易日')}
+    ${sl('最大回撤事件溯源', riskWindow(r))}
     <div class="mgrid mgrid-4">${cells}</div>
   </div>`;
 }

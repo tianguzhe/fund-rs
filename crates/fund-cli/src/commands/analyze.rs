@@ -223,7 +223,7 @@ pub fn run(
     let risk_metrics =
         scoring::compute_risk_metrics(&nav_trend, &monthly_returns, &accumulated_return);
     let benchmark_metrics = scoring::compute_benchmark_metrics(&accumulated_return);
-    let distribution = scoring::compute_distribution_stats(&nav_trend);
+    let distribution = scoring::compute_distribution_stats(&nav_full);
     let rolling_returns = scoring::compute_rolling_returns(&nav_full);
     let cost_analysis = compute_cost_analysis(&detail, &risk_metrics);
     let flow_risk = compute_flow_risk(&scale_changes, &holder_structure);
