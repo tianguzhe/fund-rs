@@ -236,6 +236,7 @@ fund backfill --from <date> --to <date>  # 补录历史日期范围
 
 ### 深度分析数据提取
 - 标准 jq 字段提取脚本：见 `.claude/agents/fund-deep-analyzer.md` 的 Step 2
+- `risk_metrics` / `distribution` 基于复权净值（`scoring.rs::adjusted_navs`：每期收益 = Δ累计净值 / 上期单位净值），分红不再被算成回撤；不要改回单位净值（分红日假跌）或直接用累计净值（历史分红过的基金回撤百分比被低估）
 - 关键字段：`risk_metrics.max_drawdown_start_date / end_date`（已在 `scoring.rs` 暴露）+ `accumulated_return[0/250/750/1250/last]` 切片做真实基准对照
 
 ### 深度分析报告生成习惯

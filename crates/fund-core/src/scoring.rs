@@ -70,7 +70,7 @@ pub fn compute_risk_metrics(
     // Sort by date (YYYY-MM-DD) to guarantee chronological order regardless of API response ordering.
     let mut sorted: Vec<&NavTrendPoint> = points.iter().collect();
     sorted.sort_by(|a, b| a.date.cmp(&b.date));
-    let navs: Vec<f64> = sorted.iter().map(|p| p.nav).collect();
+    let navs = adjusted_navs(&sorted);
 
     // Track both the magnitude of max drawdown AND when it bottomed, so we can
     // measure recovery time afterwards.
@@ -128,14 +128,14 @@ pub fn compute_risk_metrics(
 
     // Recovery time: how long from the max-drawdown trough did it take for NAV
     // to climb back to the pre-drawdown peak. None if still under water.
-    let max_dd_recovery_days = recovery_days(&sorted, max_dd_peak_idx, max_dd_trough_idx);
+    let max_dd_recovery_days = recovery_days(&sorted, &navs, max_dd_peak_idx, max_dd_trough_idx);
 
     // Expose the calendar dates of the max-drawdown episode so downstream
     // narratives can correlate the trough with specific macro events (债灾、新冠、
     // 政策转向 etc.) without re-deriving from the NAV series.
     let max_dd_start_date = sorted.get(max_dd_peak_idx).map(|p| p.date.clone());
     let max_dd_end_date = sorted.get(max_dd_trough_idx).map(|p| p.date.clone());
-    let drawdown_stats = compute_drawdown_stats(&sorted, 0.01);
+    let drawdown_stats = compute_drawdown_stats(&sorted, &navs, 0.01);
 
     let positive = daily_returns.iter().filter(|r| **r > 0.0).count();
     let negative = daily_returns.iter().filter(|r| **r < 0.0).count();
@@ -175,38 +175,67 @@ pub fn compute_risk_metrics(
     }
 }
 
+/// Dividend-reinvested (复权) NAV series for date-sorted points, anchored at the
+/// first unit NAV.
+///
+/// Unit NAV gaps down by the payout on every dividend date, which would show up
+/// as a fake loss in drawdown / volatility / VaR. Accumulated NAV (LJJZ) is unit
+/// NAV plus cumulative payouts *without* reinvestment, so using it directly
+/// understates percentage moves for funds that paid dividends in the past.
+/// Period return = Δacc_nav / previous unit NAV covers both, and stays correct
+/// when sampled points skip over the payout date.
+fn adjusted_navs(sorted: &[&NavTrendPoint]) -> Vec<f64> {
+    let mut navs = Vec::with_capacity(sorted.len());
+    let Some(first) = sorted.first() else {
+        return navs;
+    };
+    let mut adj = first.nav;
+    navs.push(adj);
+    for w in sorted.windows(2) {
+        if w[0].nav > 0.0 {
+            adj *= 1.0 + (w[1].acc_nav - w[0].acc_nav) / w[0].nav;
+        }
+        navs.push(adj);
+    }
+    navs
+}
+
 struct DrawdownStats {
     count: usize,
     avg_depth_pct: Option<f64>,
     avg_duration_days: Option<f64>,
 }
 
-fn compute_drawdown_stats(sorted: &[&NavTrendPoint], threshold: f64) -> DrawdownStats {
+fn compute_drawdown_stats(
+    sorted: &[&NavTrendPoint],
+    navs: &[f64],
+    threshold: f64,
+) -> DrawdownStats {
     if sorted.len() < 2 {
         return DrawdownStats { count: 0, avg_depth_pct: None, avg_duration_days: None };
     }
-    let mut peak_nav = sorted[0].nav;
+    let mut peak_nav = navs[0];
     let mut peak_date = sorted[0].date.as_str();
     let mut in_drawdown = false;
     let mut trough = 0.0f64;
     let mut depths = Vec::new();
     let mut durations = Vec::new();
 
-    for p in sorted.iter().skip(1) {
-        if p.nav >= peak_nav {
+    for (p, &nav) in sorted.iter().zip(navs).skip(1) {
+        if nav >= peak_nav {
             if in_drawdown && trough >= threshold {
                 depths.push(trough * 100.0);
                 if let Some(days) = calendar_day_diff(peak_date, &p.date) {
                     durations.push(days as f64);
                 }
             }
-            peak_nav = p.nav;
+            peak_nav = nav;
             peak_date = &p.date;
             in_drawdown = false;
             trough = 0.0;
         } else if peak_nav > 0.0 {
             in_drawdown = true;
-            trough = trough.max((peak_nav - p.nav) / peak_nav);
+            trough = trough.max((peak_nav - nav) / peak_nav);
         }
     }
 
@@ -233,13 +262,18 @@ fn compute_drawdown_stats(sorted: &[&NavTrendPoint], threshold: f64) -> Drawdown
 /// where NAV recovers to that peak value. Returns None if recovery never
 /// happened within the sample. Uses simple lexicographic date diff so a
 /// proper date parser is unnecessary — input dates are already YYYY-MM-DD.
-fn recovery_days(sorted: &[&NavTrendPoint], peak_idx: usize, trough_idx: usize) -> Option<i64> {
-    if peak_idx >= sorted.len() || trough_idx >= sorted.len() {
+fn recovery_days(
+    sorted: &[&NavTrendPoint],
+    navs: &[f64],
+    peak_idx: usize,
+    trough_idx: usize,
+) -> Option<i64> {
+    if peak_idx >= navs.len() || trough_idx >= navs.len() {
         return None;
     }
-    let peak_nav = sorted[peak_idx].nav;
-    for p in sorted.iter().skip(trough_idx + 1) {
-        if p.nav >= peak_nav {
+    let peak_nav = navs[peak_idx];
+    for (p, &nav) in sorted.iter().zip(navs).skip(trough_idx + 1) {
+        if nav >= peak_nav {
             return calendar_day_diff(&sorted[trough_idx].date, &p.date);
         }
     }
@@ -815,7 +849,7 @@ pub fn compute_distribution_stats(points: &[NavTrendPoint]) -> DistributionStats
     }
     let mut sorted: Vec<&NavTrendPoint> = points.iter().collect();
     sorted.sort_by(|a, b| a.date.cmp(&b.date));
-    let navs: Vec<f64> = sorted.iter().map(|p| p.nav).collect();
+    let navs = adjusted_navs(&sorted);
     let daily_returns: Vec<f64> = navs.windows(2).map(|w| w[1] / w[0] - 1.0).collect();
     let n = daily_returns.len();
     if n < 30 {
@@ -849,4 +883,71 @@ pub fn compute_distribution_stats(points: &[NavTrendPoint]) -> DistributionStats
     };
 
     DistributionStats { var_95, cvar_95, skewness, excess_kurtosis, data_points: n }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn pt(date: &str, nav: f64, acc_nav: f64) -> NavTrendPoint {
+        NavTrendPoint { date: date.into(), nav, acc_nav, daily_return: 0.0 }
+    }
+
+    /// A 0.15/share dividend on 01-04 drops unit NAV ~11% while the fund itself
+    /// is flat; accumulated NAV (unit NAV + cumulative dividends) stays smooth.
+    fn dividend_series() -> Vec<NavTrendPoint> {
+        vec![
+            pt("2026-01-01", 1.30, 1.40),
+            pt("2026-01-02", 1.31, 1.41),
+            pt("2026-01-03", 1.30, 1.40),
+            pt("2026-01-04", 1.16, 1.41),
+            pt("2026-01-05", 1.17, 1.42),
+        ]
+    }
+
+    #[test]
+    fn dividend_payout_is_not_a_drawdown() {
+        let m = compute_risk_metrics(&dividend_series(), &[], &[]);
+        // Real drawdown: 1.41 -> 1.40 ≈ 0.71%; unit NAV would report ≈ 11.45%.
+        assert!(m.max_drawdown < 1.0, "max_drawdown = {}", m.max_drawdown);
+        assert!(m.current_drawdown < 0.01, "current_drawdown = {}", m.current_drawdown);
+        assert_eq!(m.max_drawdown_recovery_days, Some(1));
+    }
+
+    #[test]
+    fn past_dividends_do_not_shrink_drawdown_percentage() {
+        // Accumulated NAV carries a constant +0.467 offset from earlier payouts;
+        // with no payout in the window the drawdown must equal the unit-NAV
+        // drawdown 2.19 -> 2.036 (7.03%), not the smaller acc-NAV ratio (5.79%).
+        let points = vec![
+            pt("2026-06-29", 2.10, 2.567),
+            pt("2026-06-30", 2.19, 2.657),
+            pt("2026-08-17", 2.10, 2.567),
+            pt("2026-10-09", 2.036, 2.503),
+        ];
+        let m = compute_risk_metrics(&points, &[], &[]);
+        let want = (1.0 - 2.036 / 2.19) * 100.0;
+        assert!((m.max_drawdown - want).abs() < 1e-9, "max_drawdown = {}", m.max_drawdown);
+        assert!((m.current_drawdown - want).abs() < 1e-9);
+    }
+
+    #[test]
+    fn dividend_payout_does_not_distort_return_distribution() {
+        let mut points = Vec::new();
+        let mut unit = 1.30;
+        let mut acc = 1.40;
+        for i in 0..40 {
+            let r = if i % 2 == 0 { 0.001 } else { -0.0005 };
+            unit *= 1.0 + r;
+            acc *= 1.0 + r;
+            if i == 20 {
+                unit -= 0.15; // dividend: unit NAV gaps down, acc NAV does not
+            }
+            points.push(pt(&format!("2026-02-{:02}", i + 1), unit, acc));
+        }
+        let d = compute_distribution_stats(&points);
+        // The 11% dividend gap would dominate the 5% tail (2 of 39 returns).
+        let cvar = d.cvar_95.expect("enough points for CVaR");
+        assert!(cvar < 1.0, "cvar_95 = {cvar}");
+    }
 }
