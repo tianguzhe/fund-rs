@@ -22,59 +22,59 @@
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": -0.47,
-      "avg": -0.47,
-      "hs300_return": -1.19,
-      "rank": 861,
-      "total": 1316
+      "return_rate": -0.29,
+      "avg": -0.29,
+      "hs300_return": -0.93,
+      "rank": 945,
+      "total": 1426
     },
     {
       "title": "Last Month",
-      "return_rate": -1.21,
-      "avg": -1.05,
-      "hs300_return": -4.1,
-      "rank": 864,
-      "total": 1320
+      "return_rate": -0.8,
+      "avg": -1.18,
+      "hs300_return": -5.58,
+      "rank": 679,
+      "total": 1391
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 0.28,
-      "avg": -0.37,
-      "hs300_return": -0.6,
-      "rank": 413,
-      "total": 1302
+      "return_rate": -1.02,
+      "avg": -1.54,
+      "hs300_return": -11.46,
+      "rank": 780,
+      "total": 1345
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 1.45,
-      "avg": -0.03,
-      "hs300_return": 0.34,
-      "rank": 297,
-      "total": 1284
+      "return_rate": 1.13,
+      "avg": 0.01,
+      "hs300_return": -5.45,
+      "rank": 388,
+      "total": 1298
     },
     {
       "title": "Last Year",
-      "return_rate": 4.88,
-      "avg": 5.13,
-      "hs300_return": 16.0,
-      "rank": 468,
-      "total": 1241
+      "return_rate": 2.82,
+      "avg": 1.05,
+      "hs300_return": -8.33,
+      "rank": 326,
+      "total": 1249
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 12.08,
-      "avg": 12.64,
-      "hs300_return": 33.91,
-      "rank": 524,
-      "total": 1187
+      "return_rate": 10.56,
+      "avg": 9.69,
+      "hs300_return": 9.13,
+      "rank": 433,
+      "total": 1189
     },
     {
       "title": "Year to Date",
-      "return_rate": 2.67,
-      "avg": 1.81,
-      "hs300_return": 2.36,
-      "rank": 374,
-      "total": 1282
+      "return_rate": 2.56,
+      "avg": 1.15,
+      "hs300_return": -6.75,
+      "rank": 361,
+      "total": 1279
     }
   ],
   "yearly_returns": [
@@ -90,59 +90,59 @@
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": -0.47,
-      "avg": -0.47,
-      "hs300_return": -1.19,
-      "rank": 861,
-      "total": 1316
+      "return_rate": -0.29,
+      "avg": -0.29,
+      "hs300_return": -0.93,
+      "rank": 945,
+      "total": 1426
     },
     {
       "title": "Y",
-      "return_rate": -1.21,
-      "avg": -1.05,
-      "hs300_return": -4.1,
-      "rank": 864,
-      "total": 1320
+      "return_rate": -0.8,
+      "avg": -1.18,
+      "hs300_return": -5.58,
+      "rank": 679,
+      "total": 1391
     },
     {
       "title": "3Y",
-      "return_rate": 0.28,
-      "avg": -0.37,
-      "hs300_return": -0.6,
-      "rank": 413,
-      "total": 1302
+      "return_rate": -1.02,
+      "avg": -1.54,
+      "hs300_return": -11.46,
+      "rank": 780,
+      "total": 1345
     },
     {
       "title": "6Y",
-      "return_rate": 1.45,
-      "avg": -0.03,
-      "hs300_return": 0.34,
-      "rank": 297,
-      "total": 1284
+      "return_rate": 1.13,
+      "avg": 0.01,
+      "hs300_return": -5.45,
+      "rank": 388,
+      "total": 1298
     },
     {
       "title": "1N",
-      "return_rate": 4.88,
-      "avg": 5.13,
-      "hs300_return": 16.0,
-      "rank": 468,
-      "total": 1241
+      "return_rate": 2.82,
+      "avg": 1.05,
+      "hs300_return": -8.33,
+      "rank": 326,
+      "total": 1249
     },
     {
       "title": "2N",
-      "return_rate": 12.08,
-      "avg": 12.64,
-      "hs300_return": 33.91,
-      "rank": 524,
-      "total": 1187
+      "return_rate": 10.56,
+      "avg": 9.69,
+      "hs300_return": 9.13,
+      "rank": 433,
+      "total": 1189
     },
     {
       "title": "JN",
-      "return_rate": 2.67,
-      "avg": 1.81,
-      "hs300_return": 2.36,
-      "rank": 374,
-      "total": 1282
+      "return_rate": 2.56,
+      "avg": 1.15,
+      "hs300_return": -6.75,
+      "rank": 361,
+      "total": 1279
     }
   ],
   "monthly_series": [
@@ -244,10 +244,334 @@
     },
     {
       "month": "2026-07",
-      "return_rate": -1.5091690795823398
+      "return_rate": -1.3424585417214918
+    },
+    {
+      "month": "2026-08",
+      "return_rate": 0.6314478833155279
+    },
+    {
+      "month": "2026-09",
+      "return_rate": -0.6098099867432483
+    },
+    {
+      "month": "2026-10",
+      "return_rate": -0.2934376667259486
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-10-09",
+      "net_value": 1.1213,
+      "acc_value": 1.1213,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-10-08",
+      "net_value": 1.1205,
+      "acc_value": 1.1205,
+      "growth": -0.36
+    },
+    {
+      "date": "2026-09-30",
+      "net_value": 1.1246,
+      "acc_value": 1.1246,
+      "growth": -0.03
+    },
+    {
+      "date": "2026-09-29",
+      "net_value": 1.1249,
+      "acc_value": 1.1249,
+      "growth": 0.12
+    },
+    {
+      "date": "2026-09-28",
+      "net_value": 1.1236,
+      "acc_value": 1.1236,
+      "growth": -0.4
+    },
+    {
+      "date": "2026-09-24",
+      "net_value": 1.1281,
+      "acc_value": 1.1281,
+      "growth": -0.23
+    },
+    {
+      "date": "2026-09-23",
+      "net_value": 1.1307,
+      "acc_value": 1.1307,
+      "growth": -0.09
+    },
+    {
+      "date": "2026-09-22",
+      "net_value": 1.1317,
+      "acc_value": 1.1317,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-09-21",
+      "net_value": 1.1316,
+      "acc_value": 1.1316,
+      "growth": 0.19
+    },
+    {
+      "date": "2026-09-18",
+      "net_value": 1.1295,
+      "acc_value": 1.1295,
+      "growth": 0.26
+    },
+    {
+      "date": "2026-09-17",
+      "net_value": 1.1266,
+      "acc_value": 1.1266,
+      "growth": -0.06
+    },
+    {
+      "date": "2026-09-16",
+      "net_value": 1.1273,
+      "acc_value": 1.1273,
+      "growth": 0.15
+    },
+    {
+      "date": "2026-09-15",
+      "net_value": 1.1256,
+      "acc_value": 1.1256,
+      "growth": -0.06
+    },
+    {
+      "date": "2026-09-14",
+      "net_value": 1.1263,
+      "acc_value": 1.1263,
+      "growth": -0.04
+    },
+    {
+      "date": "2026-09-11",
+      "net_value": 1.1267,
+      "acc_value": 1.1267,
+      "growth": -0.17
+    },
+    {
+      "date": "2026-09-10",
+      "net_value": 1.1286,
+      "acc_value": 1.1286,
+      "growth": -0.15
+    },
+    {
+      "date": "2026-09-09",
+      "net_value": 1.1303,
+      "acc_value": 1.1303,
+      "growth": 0.01
+    },
+    {
+      "date": "2026-09-08",
+      "net_value": 1.1302,
+      "acc_value": 1.1302,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-09-07",
+      "net_value": 1.1303,
+      "acc_value": 1.1303,
+      "growth": 0.16
+    },
+    {
+      "date": "2026-09-04",
+      "net_value": 1.1285,
+      "acc_value": 1.1285,
+      "growth": -0.05
+    },
+    {
+      "date": "2026-09-03",
+      "net_value": 1.1291,
+      "acc_value": 1.1291,
+      "growth": 0.11
+    },
+    {
+      "date": "2026-09-02",
+      "net_value": 1.1279,
+      "acc_value": 1.1279,
+      "growth": -0.22
+    },
+    {
+      "date": "2026-09-01",
+      "net_value": 1.1304,
+      "acc_value": 1.1304,
+      "growth": -0.1
+    },
+    {
+      "date": "2026-08-31",
+      "net_value": 1.1315,
+      "acc_value": 1.1315,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-08-28",
+      "net_value": 1.1312,
+      "acc_value": 1.1312,
+      "growth": -0.09
+    },
+    {
+      "date": "2026-08-27",
+      "net_value": 1.1322,
+      "acc_value": 1.1322,
+      "growth": 0.18
+    },
+    {
+      "date": "2026-08-26",
+      "net_value": 1.1302,
+      "acc_value": 1.1302,
+      "growth": 0.12
+    },
+    {
+      "date": "2026-08-25",
+      "net_value": 1.1288,
+      "acc_value": 1.1288,
+      "growth": -0.01
+    },
+    {
+      "date": "2026-08-24",
+      "net_value": 1.1289,
+      "acc_value": 1.1289,
+      "growth": -0.26
+    },
+    {
+      "date": "2026-08-21",
+      "net_value": 1.1318,
+      "acc_value": 1.1318,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-08-20",
+      "net_value": 1.1307,
+      "acc_value": 1.1307,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-08-19",
+      "net_value": 1.1304,
+      "acc_value": 1.1304,
+      "growth": -0.58
+    },
+    {
+      "date": "2026-08-18",
+      "net_value": 1.137,
+      "acc_value": 1.137,
+      "growth": 0.03
+    },
+    {
+      "date": "2026-08-17",
+      "net_value": 1.1367,
+      "acc_value": 1.1367,
+      "growth": 0.45
+    },
+    {
+      "date": "2026-08-14",
+      "net_value": 1.1316,
+      "acc_value": 1.1316,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-08-13",
+      "net_value": 1.131,
+      "acc_value": 1.131,
+      "growth": -0.06
+    },
+    {
+      "date": "2026-08-12",
+      "net_value": 1.1317,
+      "acc_value": 1.1317,
+      "growth": 0.15
+    },
+    {
+      "date": "2026-08-11",
+      "net_value": 1.13,
+      "acc_value": 1.13,
+      "growth": -0.17
+    },
+    {
+      "date": "2026-08-10",
+      "net_value": 1.1319,
+      "acc_value": 1.1319,
+      "growth": 0.1
+    },
+    {
+      "date": "2026-08-07",
+      "net_value": 1.1308,
+      "acc_value": 1.1308,
+      "growth": 0.27
+    },
+    {
+      "date": "2026-08-06",
+      "net_value": 1.1278,
+      "acc_value": 1.1278,
+      "growth": -0.09
+    },
+    {
+      "date": "2026-08-05",
+      "net_value": 1.1288,
+      "acc_value": 1.1288,
+      "growth": 0.27
+    },
+    {
+      "date": "2026-08-04",
+      "net_value": 1.1258,
+      "acc_value": 1.1258,
+      "growth": 0.24
+    },
+    {
+      "date": "2026-08-03",
+      "net_value": 1.1231,
+      "acc_value": 1.1231,
+      "growth": -0.12
+    },
+    {
+      "date": "2026-07-31",
+      "net_value": 1.1244,
+      "acc_value": 1.1244,
+      "growth": 0.19
+    },
+    {
+      "date": "2026-07-30",
+      "net_value": 1.1223,
+      "acc_value": 1.1223,
+      "growth": -0.26
+    },
+    {
+      "date": "2026-07-29",
+      "net_value": 1.1252,
+      "acc_value": 1.1252,
+      "growth": 0.2
+    },
+    {
+      "date": "2026-07-28",
+      "net_value": 1.1229,
+      "acc_value": 1.1229,
+      "growth": -0.53
+    },
+    {
+      "date": "2026-07-27",
+      "net_value": 1.1289,
+      "acc_value": 1.1289,
+      "growth": 0.82
+    },
+    {
+      "date": "2026-07-24",
+      "net_value": 1.1197,
+      "acc_value": 1.1197,
+      "growth": -0.28
+    },
+    {
+      "date": "2026-07-23",
+      "net_value": 1.1228,
+      "acc_value": 1.1228,
+      "growth": 0.12
+    },
+    {
+      "date": "2026-07-22",
+      "net_value": 1.1214,
+      "acc_value": 1.1214,
+      "growth": -0.1
+    },
     {
       "date": "2026-07-21",
       "net_value": 1.1225,
@@ -295,318 +619,6 @@
       "net_value": 1.1287,
       "acc_value": 1.1287,
       "growth": -0.36
-    },
-    {
-      "date": "2026-07-09",
-      "net_value": 1.1328,
-      "acc_value": 1.1328,
-      "growth": 0.47
-    },
-    {
-      "date": "2026-07-08",
-      "net_value": 1.1275,
-      "acc_value": 1.1275,
-      "growth": -0.19
-    },
-    {
-      "date": "2026-07-07",
-      "net_value": 1.1296,
-      "acc_value": 1.1296,
-      "growth": -0.26
-    },
-    {
-      "date": "2026-07-06",
-      "net_value": 1.1325,
-      "acc_value": 1.1325,
-      "growth": -0.05
-    },
-    {
-      "date": "2026-07-03",
-      "net_value": 1.1331,
-      "acc_value": 1.1331,
-      "growth": 0.18
-    },
-    {
-      "date": "2026-07-02",
-      "net_value": 1.1311,
-      "acc_value": 1.1311,
-      "growth": -0.49
-    },
-    {
-      "date": "2026-07-01",
-      "net_value": 1.1367,
-      "acc_value": 1.1367,
-      "growth": -0.26
-    },
-    {
-      "date": "2026-06-30",
-      "net_value": 1.1397,
-      "acc_value": 1.1397,
-      "growth": 0.29
-    },
-    {
-      "date": "2026-06-29",
-      "net_value": 1.1364,
-      "acc_value": 1.1364,
-      "growth": 0.22
-    },
-    {
-      "date": "2026-06-26",
-      "net_value": 1.1339,
-      "acc_value": 1.1339,
-      "growth": -0.57
-    },
-    {
-      "date": "2026-06-25",
-      "net_value": 1.1404,
-      "acc_value": 1.1404,
-      "growth": 0.24
-    },
-    {
-      "date": "2026-06-24",
-      "net_value": 1.1377,
-      "acc_value": 1.1377,
-      "growth": 0.28
-    },
-    {
-      "date": "2026-06-23",
-      "net_value": 1.1345,
-      "acc_value": 1.1345,
-      "growth": -0.56
-    },
-    {
-      "date": "2026-06-22",
-      "net_value": 1.1409,
-      "acc_value": 1.1409,
-      "growth": 0.41
-    },
-    {
-      "date": "2026-06-18",
-      "net_value": 1.1362,
-      "acc_value": 1.1362,
-      "growth": 0.1
-    },
-    {
-      "date": "2026-06-17",
-      "net_value": 1.1351,
-      "acc_value": 1.1351,
-      "growth": 0.22
-    },
-    {
-      "date": "2026-06-16",
-      "net_value": 1.1326,
-      "acc_value": 1.1326,
-      "growth": 0.12
-    },
-    {
-      "date": "2026-06-15",
-      "net_value": 1.1312,
-      "acc_value": 1.1312,
-      "growth": 0.55
-    },
-    {
-      "date": "2026-06-12",
-      "net_value": 1.125,
-      "acc_value": 1.125,
-      "growth": 0.23
-    },
-    {
-      "date": "2026-06-11",
-      "net_value": 1.1224,
-      "acc_value": 1.1224,
-      "growth": -0.16
-    },
-    {
-      "date": "2026-06-10",
-      "net_value": 1.1242,
-      "acc_value": 1.1242,
-      "growth": -0.31
-    },
-    {
-      "date": "2026-06-09",
-      "net_value": 1.1277,
-      "acc_value": 1.1277,
-      "growth": 0.33
-    },
-    {
-      "date": "2026-06-08",
-      "net_value": 1.124,
-      "acc_value": 1.124,
-      "growth": -0.5
-    },
-    {
-      "date": "2026-06-05",
-      "net_value": 1.1296,
-      "acc_value": 1.1296,
-      "growth": -0.38
-    },
-    {
-      "date": "2026-06-04",
-      "net_value": 1.1339,
-      "acc_value": 1.1339,
-      "growth": -0.12
-    },
-    {
-      "date": "2026-06-03",
-      "net_value": 1.1353,
-      "acc_value": 1.1353,
-      "growth": 0.09
-    },
-    {
-      "date": "2026-06-02",
-      "net_value": 1.1343,
-      "acc_value": 1.1343,
-      "growth": 0.35
-    },
-    {
-      "date": "2026-06-01",
-      "net_value": 1.1304,
-      "acc_value": 1.1304,
-      "growth": -0.17
-    },
-    {
-      "date": "2026-05-29",
-      "net_value": 1.1323,
-      "acc_value": 1.1323,
-      "growth": -0.17
-    },
-    {
-      "date": "2026-05-28",
-      "net_value": 1.1342,
-      "acc_value": 1.1342,
-      "growth": 0.07
-    },
-    {
-      "date": "2026-05-27",
-      "net_value": 1.1334,
-      "acc_value": 1.1334,
-      "growth": -0.13
-    },
-    {
-      "date": "2026-05-26",
-      "net_value": 1.1349,
-      "acc_value": 1.1349,
-      "growth": 0.11
-    },
-    {
-      "date": "2026-05-25",
-      "net_value": 1.1337,
-      "acc_value": 1.1337,
-      "growth": 0.34
-    },
-    {
-      "date": "2026-05-22",
-      "net_value": 1.1299,
-      "acc_value": 1.1299,
-      "growth": 0.36
-    },
-    {
-      "date": "2026-05-21",
-      "net_value": 1.1258,
-      "acc_value": 1.1258,
-      "growth": -0.39
-    },
-    {
-      "date": "2026-05-20",
-      "net_value": 1.1302,
-      "acc_value": 1.1302,
-      "growth": 0.12
-    },
-    {
-      "date": "2026-05-19",
-      "net_value": 1.1288,
-      "acc_value": 1.1288,
-      "growth": 0.14
-    },
-    {
-      "date": "2026-05-18",
-      "net_value": 1.1272,
-      "acc_value": 1.1272,
-      "growth": -0.04
-    },
-    {
-      "date": "2026-05-15",
-      "net_value": 1.1276,
-      "acc_value": 1.1276,
-      "growth": -0.18
-    },
-    {
-      "date": "2026-05-14",
-      "net_value": 1.1296,
-      "acc_value": 1.1296,
-      "growth": -0.4
-    },
-    {
-      "date": "2026-05-13",
-      "net_value": 1.1341,
-      "acc_value": 1.1341,
-      "growth": 0.3
-    },
-    {
-      "date": "2026-05-12",
-      "net_value": 1.1307,
-      "acc_value": 1.1307,
-      "growth": 0.03
-    },
-    {
-      "date": "2026-05-11",
-      "net_value": 1.1304,
-      "acc_value": 1.1304,
-      "growth": 0.32
-    },
-    {
-      "date": "2026-05-08",
-      "net_value": 1.1268,
-      "acc_value": 1.1268,
-      "growth": -0.1
-    },
-    {
-      "date": "2026-05-07",
-      "net_value": 1.1279,
-      "acc_value": 1.1279,
-      "growth": 0.17
-    },
-    {
-      "date": "2026-05-06",
-      "net_value": 1.126,
-      "acc_value": 1.126,
-      "growth": 0.34
-    },
-    {
-      "date": "2026-04-30",
-      "net_value": 1.1222,
-      "acc_value": 1.1222,
-      "growth": 0.03
-    },
-    {
-      "date": "2026-04-29",
-      "net_value": 1.1219,
-      "acc_value": 1.1219,
-      "growth": 0.35
-    },
-    {
-      "date": "2026-04-28",
-      "net_value": 1.118,
-      "acc_value": 1.118,
-      "growth": -0.07
-    },
-    {
-      "date": "2026-04-27",
-      "net_value": 1.1188,
-      "acc_value": 1.1188,
-      "growth": -0.02
-    },
-    {
-      "date": "2026-04-24",
-      "net_value": 1.119,
-      "acc_value": 1.119,
-      "growth": -0.04
-    },
-    {
-      "date": "2026-04-23",
-      "net_value": 1.1195,
-      "acc_value": 1.1195,
-      "growth": -0.18
     }
   ],
   "accumulated_return": [
@@ -4171,58 +4183,424 @@
       "fund_return": 12.25,
       "index_return": 0.0,
       "category_return": 11.58,
-      "bench_return": 11.0
+      "bench_return": 11.5
+    },
+    {
+      "date": "2026-07-22",
+      "fund_return": 12.14,
+      "index_return": 0.0,
+      "category_return": 11.52,
+      "bench_return": 11.47
+    },
+    {
+      "date": "2026-07-23",
+      "fund_return": 12.28,
+      "index_return": 0.0,
+      "category_return": 11.61,
+      "bench_return": 11.56
+    },
+    {
+      "date": "2026-07-24",
+      "fund_return": 11.97,
+      "index_return": 0.0,
+      "category_return": 11.2,
+      "bench_return": 11.29
+    },
+    {
+      "date": "2026-07-27",
+      "fund_return": 12.89,
+      "index_return": 0.0,
+      "category_return": 11.74,
+      "bench_return": 11.55
+    },
+    {
+      "date": "2026-07-28",
+      "fund_return": 12.29,
+      "index_return": 0.0,
+      "category_return": 11.15,
+      "bench_return": 11.17
+    },
+    {
+      "date": "2026-07-29",
+      "fund_return": 12.52,
+      "index_return": 0.0,
+      "category_return": 11.41,
+      "bench_return": 11.34
+    },
+    {
+      "date": "2026-07-30",
+      "fund_return": 12.23,
+      "index_return": 0.0,
+      "category_return": 11.1,
+      "bench_return": 11.19
+    },
+    {
+      "date": "2026-07-31",
+      "fund_return": 12.44,
+      "index_return": 0.0,
+      "category_return": 11.38,
+      "bench_return": 11.4
+    },
+    {
+      "date": "2026-08-03",
+      "fund_return": 12.31,
+      "index_return": 0.0,
+      "category_return": 11.19,
+      "bench_return": 11.32
+    },
+    {
+      "date": "2026-08-04",
+      "fund_return": 12.58,
+      "index_return": 0.0,
+      "category_return": 11.55,
+      "bench_return": 11.54
+    },
+    {
+      "date": "2026-08-05",
+      "fund_return": 12.88,
+      "index_return": 0.0,
+      "category_return": 11.98,
+      "bench_return": 11.77
+    },
+    {
+      "date": "2026-08-06",
+      "fund_return": 12.78,
+      "index_return": 0.0,
+      "category_return": 12.01,
+      "bench_return": 11.72
+    },
+    {
+      "date": "2026-08-07",
+      "fund_return": 13.08,
+      "index_return": 0.0,
+      "category_return": 12.35,
+      "bench_return": 11.93
+    },
+    {
+      "date": "2026-08-10",
+      "fund_return": 13.19,
+      "index_return": 0.0,
+      "category_return": 12.53,
+      "bench_return": 12.07
+    },
+    {
+      "date": "2026-08-11",
+      "fund_return": 13.0,
+      "index_return": 0.0,
+      "category_return": 12.27,
+      "bench_return": 11.92
+    },
+    {
+      "date": "2026-08-12",
+      "fund_return": 13.17,
+      "index_return": 0.0,
+      "category_return": 12.41,
+      "bench_return": 11.98
+    },
+    {
+      "date": "2026-08-13",
+      "fund_return": 13.1,
+      "index_return": 0.0,
+      "category_return": 12.2,
+      "bench_return": 11.94
+    },
+    {
+      "date": "2026-08-14",
+      "fund_return": 13.16,
+      "index_return": 0.0,
+      "category_return": 12.28,
+      "bench_return": 11.95
+    },
+    {
+      "date": "2026-08-17",
+      "fund_return": 13.67,
+      "index_return": 0.0,
+      "category_return": 12.81,
+      "bench_return": 12.27
+    },
+    {
+      "date": "2026-08-18",
+      "fund_return": 13.7,
+      "index_return": 0.0,
+      "category_return": 12.83,
+      "bench_return": 12.29
+    },
+    {
+      "date": "2026-08-19",
+      "fund_return": 13.04,
+      "index_return": 0.0,
+      "category_return": 12.08,
+      "bench_return": 11.83
+    },
+    {
+      "date": "2026-08-20",
+      "fund_return": 13.07,
+      "index_return": 0.0,
+      "category_return": 12.19,
+      "bench_return": 11.88
+    },
+    {
+      "date": "2026-08-21",
+      "fund_return": 13.18,
+      "index_return": 0.0,
+      "category_return": 12.28,
+      "bench_return": 11.96
+    },
+    {
+      "date": "2026-08-24",
+      "fund_return": 12.89,
+      "index_return": 0.0,
+      "category_return": 12.01,
+      "bench_return": 11.75
+    },
+    {
+      "date": "2026-08-25",
+      "fund_return": 12.88,
+      "index_return": 0.0,
+      "category_return": 12.02,
+      "bench_return": 11.73
+    },
+    {
+      "date": "2026-08-26",
+      "fund_return": 13.02,
+      "index_return": 0.0,
+      "category_return": 12.15,
+      "bench_return": 11.84
+    },
+    {
+      "date": "2026-08-27",
+      "fund_return": 13.22,
+      "index_return": 0.0,
+      "category_return": 12.43,
+      "bench_return": 11.95
+    },
+    {
+      "date": "2026-08-28",
+      "fund_return": 13.12,
+      "index_return": 0.0,
+      "category_return": 12.35,
+      "bench_return": 11.87
+    },
+    {
+      "date": "2026-08-31",
+      "fund_return": 13.15,
+      "index_return": 0.0,
+      "category_return": 12.43,
+      "bench_return": 11.94
+    },
+    {
+      "date": "2026-09-01",
+      "fund_return": 13.04,
+      "index_return": 0.0,
+      "category_return": 12.29,
+      "bench_return": 11.88
+    },
+    {
+      "date": "2026-09-02",
+      "fund_return": 12.79,
+      "index_return": 0.0,
+      "category_return": 11.98,
+      "bench_return": 11.67
+    },
+    {
+      "date": "2026-09-03",
+      "fund_return": 12.91,
+      "index_return": 0.0,
+      "category_return": 12.07,
+      "bench_return": 11.72
+    },
+    {
+      "date": "2026-09-04",
+      "fund_return": 12.85,
+      "index_return": 0.0,
+      "category_return": 11.96,
+      "bench_return": 11.73
+    },
+    {
+      "date": "2026-09-07",
+      "fund_return": 13.03,
+      "index_return": 0.0,
+      "category_return": 12.14,
+      "bench_return": 11.84
+    },
+    {
+      "date": "2026-09-08",
+      "fund_return": 13.02,
+      "index_return": 0.0,
+      "category_return": 12.12,
+      "bench_return": 11.8
+    },
+    {
+      "date": "2026-09-09",
+      "fund_return": 13.03,
+      "index_return": 0.0,
+      "category_return": 12.15,
+      "bench_return": 11.82
+    },
+    {
+      "date": "2026-09-10",
+      "fund_return": 12.86,
+      "index_return": 0.0,
+      "category_return": 11.97,
+      "bench_return": 11.69
+    },
+    {
+      "date": "2026-09-11",
+      "fund_return": 12.67,
+      "index_return": 0.0,
+      "category_return": 11.66,
+      "bench_return": 11.51
+    },
+    {
+      "date": "2026-09-14",
+      "fund_return": 12.63,
+      "index_return": 0.0,
+      "category_return": 11.62,
+      "bench_return": 11.45
+    },
+    {
+      "date": "2026-09-15",
+      "fund_return": 12.56,
+      "index_return": 0.0,
+      "category_return": 11.53,
+      "bench_return": 11.36
+    },
+    {
+      "date": "2026-09-16",
+      "fund_return": 12.73,
+      "index_return": 0.0,
+      "category_return": 11.75,
+      "bench_return": 11.51
+    },
+    {
+      "date": "2026-09-17",
+      "fund_return": 12.66,
+      "index_return": 0.0,
+      "category_return": 11.65,
+      "bench_return": 11.45
+    },
+    {
+      "date": "2026-09-18",
+      "fund_return": 12.95,
+      "index_return": 0.0,
+      "category_return": 11.98,
+      "bench_return": 11.68
+    },
+    {
+      "date": "2026-09-21",
+      "fund_return": 13.16,
+      "index_return": 0.0,
+      "category_return": 12.18,
+      "bench_return": 11.83
+    },
+    {
+      "date": "2026-09-22",
+      "fund_return": 13.17,
+      "index_return": 0.0,
+      "category_return": 12.15,
+      "bench_return": 11.88
+    },
+    {
+      "date": "2026-09-23",
+      "fund_return": 13.07,
+      "index_return": 0.0,
+      "category_return": 12.08,
+      "bench_return": 11.78
+    },
+    {
+      "date": "2026-09-24",
+      "fund_return": 12.81,
+      "index_return": 0.0,
+      "category_return": 11.71,
+      "bench_return": 11.58
+    },
+    {
+      "date": "2026-09-28",
+      "fund_return": 12.36,
+      "index_return": 0.0,
+      "category_return": 11.16,
+      "bench_return": 11.26
+    },
+    {
+      "date": "2026-09-29",
+      "fund_return": 12.49,
+      "index_return": 0.0,
+      "category_return": 11.25,
+      "bench_return": 11.33
+    },
+    {
+      "date": "2026-09-30",
+      "fund_return": 12.46,
+      "index_return": 0.0,
+      "category_return": 11.23,
+      "bench_return": 11.3
+    },
+    {
+      "date": "2026-10-08",
+      "fund_return": 12.05,
+      "index_return": 0.0,
+      "category_return": 10.86,
+      "bench_return": 11.08
+    },
+    {
+      "date": "2026-10-09",
+      "fund_return": 12.13,
+      "index_return": 0.0,
+      "category_return": 10.93,
+      "bench_return": 11.2
     }
   ],
   "risk_metrics": {
-    "annualized_return": 5.948100502085452,
-    "max_drawdown": 2.2263125602594522,
-    "volatility": 3.3424000630832813,
-    "sharpe_ratio": 1.1812172174396822,
-    "positive_days": 274,
-    "negative_days": 212,
-    "monthly_win_rate": 71.42857142857143,
-    "excess_return": 1.25,
+    "annualized_return": 4.7996297613765115,
+    "max_drawdown": 2.1561924796213523,
+    "volatility": 3.1106789100172714,
+    "sharpe_ratio": 0.9000060251673379,
+    "positive_days": 271,
+    "negative_days": 215,
+    "monthly_win_rate": 57.14285714285714,
+    "excess_return": 0.9300000000000015,
     "data_points": 500,
-    "calmar_ratio": 2.671727505050893,
-    "sortino_ratio": 1.6990050473443812,
-    "current_drawdown": 1.6127618546761302,
+    "calmar_ratio": 2.225974632014008,
+    "sortino_ratio": 1.3261673678938066,
+    "current_drawdown": 1.7179419756333394,
     "max_drawdown_recovery_days": null,
     "max_drawdown_start_date": "2026-06-22",
-    "max_drawdown_end_date": "2026-07-17",
-    "drawdown_count_ge_1pct": 7,
-    "avg_drawdown_ge_1pct": 1.4423829924542955,
-    "avg_drawdown_duration_days": 42.333333333333336
+    "max_drawdown_end_date": "2026-07-20",
+    "window_start_date": "2024-04-30",
+    "window_end_date": "2026-10-09",
+    "drawdown_count_ge_1pct": 6,
+    "avg_drawdown_ge_1pct": 1.4842292224516787,
+    "avg_drawdown_duration_days": 45.4
   },
   "benchmark_metrics": {
-    "beta": 1.0660298144474407,
-    "alpha": 0.3555755574438975,
-    "tracking_error": 1.3163438748138814,
-    "information_ratio": 0.4295093560422728,
-    "data_points": 508,
-    "upside_capture": 111.52285684549497,
-    "downside_capture": 113.25290488279482,
-    "category_alpha": 0.2627157768671557,
-    "category_tracking_error": 1.695293929208368,
-    "category_information_ratio": 0.15496768574511033
+    "beta": 1.093838351892701,
+    "alpha": 0.12713127785068318,
+    "tracking_error": 1.3031664832061833,
+    "information_ratio": 0.29774427632484574,
+    "data_points": 560,
+    "upside_capture": 114.15301951501763,
+    "downside_capture": 115.789656825278,
+    "category_alpha": 0.4507997054921882,
+    "category_tracking_error": 1.650301091767466,
+    "category_information_ratio": 0.27316209614173104
   },
   "distribution": {
-    "var_95": 0.3104671004243753,
-    "cvar_95": 0.4989112590017615,
-    "skewness": -0.8362071649708975,
-    "excess_kurtosis": 5.164143418308475,
-    "data_points": 499
+    "var_95": 0.31679959147451475,
+    "cvar_95": 0.50342217086234,
+    "skewness": -0.7052956362281192,
+    "excess_kurtosis": 4.736488555662912,
+    "data_points": 551
   },
   "rolling_returns": {
     "y1": {
       "window_days": 250,
-      "count": 250,
+      "count": 302,
       "max": 9.356197352587259,
-      "min": 4.836589030803906,
-      "mean": 6.900484756532263,
-      "median": 6.8475679584089395,
-      "p25": 6.117201778753934,
-      "p75": 7.477893946723113,
+      "min": 3.3385594392695728,
+      "mean": 6.563126533683138,
+      "median": 6.518414312169229,
+      "p25": 5.689706383636073,
+      "p75": 7.327217503426715,
       "win_rate": 100.0,
       "loss_probability": 0.0
     },
@@ -4234,15 +4612,15 @@
     "manager_fee_pct": 0.4,
     "custody_fee_pct": 0.1,
     "sales_fee_pct": 0.3,
-    "net_annualized_after_fee_pct": 5.148100502085452
+    "net_annualized_after_fee_pct": 3.9996297613765117
   },
   "flow_risk": {
     "recent_quarter_net_subscribe_yi": 1.1400000000000001,
     "recent_quarter_net_subscribe_pct_of_shares": 13.718411552346572,
     "recent_quarter_nav_change_pct": 20.05,
     "last_4q_large_swing_count": 4,
-    "institutional_pct_latest": 0.48,
-    "institutional_pct_change_latest": 0.48,
+    "institutional_pct_latest": 0.39,
+    "institutional_pct_change_latest": -0.08999999999999997,
     "score": 50,
     "level": "中"
   },
@@ -4380,10 +4758,1330 @@
         "market_value_wan": 553.42
       },
       {
+        "stock_code": "002916",
+        "stock_name": "深南电路",
+        "ratio": 0.21,
+        "market_value_wan": 503.69
+      },
+      {
+        "stock_code": "002371",
+        "stock_name": "北方华创",
+        "ratio": 0.21,
+        "market_value_wan": 497.12
+      },
+      {
         "stock_code": "601899",
         "stock_name": "紫金矿业",
         "ratio": 0.2,
         "market_value_wan": 479.92
+      },
+      {
+        "stock_code": "300394",
+        "stock_name": "天孚通信",
+        "ratio": 0.19,
+        "market_value_wan": 457.65
+      },
+      {
+        "stock_code": "002463",
+        "stock_name": "沪电股份",
+        "ratio": 0.19,
+        "market_value_wan": 455.34
+      },
+      {
+        "stock_code": "603259",
+        "stock_name": "药明康德",
+        "ratio": 0.19,
+        "market_value_wan": 451.97
+      },
+      {
+        "stock_code": "00700",
+        "stock_name": "腾讯控股",
+        "ratio": 0.17,
+        "market_value_wan": 418.1
+      },
+      {
+        "stock_code": "688536",
+        "stock_name": "思瑞浦",
+        "ratio": 0.17,
+        "market_value_wan": 416.26
+      },
+      {
+        "stock_code": "300476",
+        "stock_name": "胜宏科技",
+        "ratio": 0.16,
+        "market_value_wan": 394.93
+      },
+      {
+        "stock_code": "300274",
+        "stock_name": "阳光电源",
+        "ratio": 0.16,
+        "market_value_wan": 377.2
+      },
+      {
+        "stock_code": "000100",
+        "stock_name": "TCL科技",
+        "ratio": 0.15,
+        "market_value_wan": 366.83
+      },
+      {
+        "stock_code": "688052",
+        "stock_name": "纳芯微",
+        "ratio": 0.15,
+        "market_value_wan": 365.17
+      },
+      {
+        "stock_code": "688808",
+        "stock_name": "联讯仪器",
+        "ratio": 0.15,
+        "market_value_wan": 365.12
+      },
+      {
+        "stock_code": "601318",
+        "stock_name": "中国平安",
+        "ratio": 0.15,
+        "market_value_wan": 355.19
+      },
+      {
+        "stock_code": "002415",
+        "stock_name": "海康威视",
+        "ratio": 0.15,
+        "market_value_wan": 355.0
+      },
+      {
+        "stock_code": "601138",
+        "stock_name": "工业富联",
+        "ratio": 0.15,
+        "market_value_wan": 354.26
+      },
+      {
+        "stock_code": "000988",
+        "stock_name": "华工科技",
+        "ratio": 0.14,
+        "market_value_wan": 350.76
+      },
+      {
+        "stock_code": "09988",
+        "stock_name": "阿里巴巴-W",
+        "ratio": 0.14,
+        "market_value_wan": 333.85
+      },
+      {
+        "stock_code": "688072",
+        "stock_name": "拓荆科技",
+        "ratio": 0.14,
+        "market_value_wan": 332.99
+      },
+      {
+        "stock_code": "00005",
+        "stock_name": "汇丰控股",
+        "ratio": 0.14,
+        "market_value_wan": 328.86
+      },
+      {
+        "stock_code": "603993",
+        "stock_name": "洛阳钼业",
+        "ratio": 0.13,
+        "market_value_wan": 312.57
+      },
+      {
+        "stock_code": "688802",
+        "stock_name": "沐曦股份",
+        "ratio": 0.13,
+        "market_value_wan": 307.09
+      },
+      {
+        "stock_code": "688521",
+        "stock_name": "芯原股份",
+        "ratio": 0.12,
+        "market_value_wan": 299.03
+      },
+      {
+        "stock_code": "00941",
+        "stock_name": "中国移动",
+        "ratio": 0.12,
+        "market_value_wan": 297.63
+      },
+      {
+        "stock_code": "03692",
+        "stock_name": "翰森制药",
+        "ratio": 0.12,
+        "market_value_wan": 293.32
+      },
+      {
+        "stock_code": "002142",
+        "stock_name": "宁波银行",
+        "ratio": 0.12,
+        "market_value_wan": 285.62
+      },
+      {
+        "stock_code": "688795",
+        "stock_name": "摩尔线程",
+        "ratio": 0.11,
+        "market_value_wan": 271.84
+      },
+      {
+        "stock_code": "601398",
+        "stock_name": "工商银行",
+        "ratio": 0.11,
+        "market_value_wan": 271.56
+      },
+      {
+        "stock_code": "03898",
+        "stock_name": "时代电气",
+        "ratio": 0.11,
+        "market_value_wan": 267.88
+      },
+      {
+        "stock_code": "600919",
+        "stock_name": "江苏银行",
+        "ratio": 0.11,
+        "market_value_wan": 263.79
+      },
+      {
+        "stock_code": "01347",
+        "stock_name": "华虹宏力",
+        "ratio": 0.11,
+        "market_value_wan": 261.67
+      },
+      {
+        "stock_code": "600111",
+        "stock_name": "北方稀土",
+        "ratio": 0.11,
+        "market_value_wan": 260.91
+      },
+      {
+        "stock_code": "300054",
+        "stock_name": "鼎龙股份",
+        "ratio": 0.11,
+        "market_value_wan": 259.63
+      },
+      {
+        "stock_code": "600522",
+        "stock_name": "中天科技",
+        "ratio": 0.1,
+        "market_value_wan": 253.04
+      },
+      {
+        "stock_code": "688235",
+        "stock_name": "百济神州",
+        "ratio": 0.1,
+        "market_value_wan": 252.85
+      },
+      {
+        "stock_code": "000776",
+        "stock_name": "广发证券",
+        "ratio": 0.1,
+        "market_value_wan": 251.78
+      },
+      {
+        "stock_code": "600030",
+        "stock_name": "中信证券",
+        "ratio": 0.1,
+        "market_value_wan": 251.39
+      },
+      {
+        "stock_code": "600309",
+        "stock_name": "万华化学",
+        "ratio": 0.1,
+        "market_value_wan": 251.06
+      },
+      {
+        "stock_code": "00762",
+        "stock_name": "中国联通",
+        "ratio": 0.1,
+        "market_value_wan": 245.32
+      },
+      {
+        "stock_code": "002353",
+        "stock_name": "杰瑞股份",
+        "ratio": 0.1,
+        "market_value_wan": 237.9
+      },
+      {
+        "stock_code": "603296",
+        "stock_name": "华勤技术",
+        "ratio": 0.1,
+        "market_value_wan": 236.03
+      },
+      {
+        "stock_code": "00175",
+        "stock_name": "吉利汽车",
+        "ratio": 0.1,
+        "market_value_wan": 231.31
+      },
+      {
+        "stock_code": "600066",
+        "stock_name": "宇通客车",
+        "ratio": 0.09,
+        "market_value_wan": 217.43
+      },
+      {
+        "stock_code": "09633",
+        "stock_name": "农夫山泉",
+        "ratio": 0.09,
+        "market_value_wan": 216.09
+      },
+      {
+        "stock_code": "601988",
+        "stock_name": "中国银行",
+        "ratio": 0.09,
+        "market_value_wan": 213.99
+      },
+      {
+        "stock_code": "600549",
+        "stock_name": "厦门钨业",
+        "ratio": 0.09,
+        "market_value_wan": 209.59
+      },
+      {
+        "stock_code": "601166",
+        "stock_name": "兴业银行",
+        "ratio": 0.09,
+        "market_value_wan": 208.32
+      },
+      {
+        "stock_code": "600160",
+        "stock_name": "巨化股份",
+        "ratio": 0.08,
+        "market_value_wan": 203.56
+      },
+      {
+        "stock_code": "688041",
+        "stock_name": "海光信息",
+        "ratio": 0.08,
+        "market_value_wan": 199.15
+      },
+      {
+        "stock_code": "600487",
+        "stock_name": "亨通光电",
+        "ratio": 0.08,
+        "market_value_wan": 197.91
+      },
+      {
+        "stock_code": "002008",
+        "stock_name": "大族激光",
+        "ratio": 0.08,
+        "market_value_wan": 195.14
+      },
+      {
+        "stock_code": "02269",
+        "stock_name": "药明生物",
+        "ratio": 0.08,
+        "market_value_wan": 193.82
+      },
+      {
+        "stock_code": "600690",
+        "stock_name": "海尔智家",
+        "ratio": 0.08,
+        "market_value_wan": 193.28
+      },
+      {
+        "stock_code": "603929",
+        "stock_name": "亚翔集成",
+        "ratio": 0.08,
+        "market_value_wan": 193.13
+      },
+      {
+        "stock_code": "300475",
+        "stock_name": "香农芯创",
+        "ratio": 0.08,
+        "market_value_wan": 192.0
+      },
+      {
+        "stock_code": "603156",
+        "stock_name": "养元饮品",
+        "ratio": 0.08,
+        "market_value_wan": 189.9
+      },
+      {
+        "stock_code": "000333",
+        "stock_name": "美的集团",
+        "ratio": 0.08,
+        "market_value_wan": 184.29
+      },
+      {
+        "stock_code": "02338",
+        "stock_name": "潍柴动力",
+        "ratio": 0.07,
+        "market_value_wan": 180.68
+      },
+      {
+        "stock_code": "01299",
+        "stock_name": "友邦保险",
+        "ratio": 0.07,
+        "market_value_wan": 179.97
+      },
+      {
+        "stock_code": "00669",
+        "stock_name": "创科实业",
+        "ratio": 0.07,
+        "market_value_wan": 179.97
+      },
+      {
+        "stock_code": "000792",
+        "stock_name": "盐湖股份",
+        "ratio": 0.07,
+        "market_value_wan": 178.42
+      },
+      {
+        "stock_code": "600519",
+        "stock_name": "贵州茅台",
+        "ratio": 0.07,
+        "market_value_wan": 177.82
+      },
+      {
+        "stock_code": "600176",
+        "stock_name": "中国巨石",
+        "ratio": 0.07,
+        "market_value_wan": 177.1
+      },
+      {
+        "stock_code": "300395",
+        "stock_name": "菲利华",
+        "ratio": 0.07,
+        "market_value_wan": 173.85
+      },
+      {
+        "stock_code": "600901",
+        "stock_name": "江苏金租",
+        "ratio": 0.07,
+        "market_value_wan": 173.54
+      },
+      {
+        "stock_code": "688012",
+        "stock_name": "中微公司",
+        "ratio": 0.07,
+        "market_value_wan": 169.78
+      },
+      {
+        "stock_code": "00883",
+        "stock_name": "中国海洋石油",
+        "ratio": 0.07,
+        "market_value_wan": 164.15
+      },
+      {
+        "stock_code": "600406",
+        "stock_name": "国电南瑞",
+        "ratio": 0.07,
+        "market_value_wan": 160.64
+      },
+      {
+        "stock_code": "02628",
+        "stock_name": "中国人寿",
+        "ratio": 0.06,
+        "market_value_wan": 155.17
+      },
+      {
+        "stock_code": "603799",
+        "stock_name": "华友钴业",
+        "ratio": 0.06,
+        "market_value_wan": 152.02
+      },
+      {
+        "stock_code": "000408",
+        "stock_name": "藏格矿业",
+        "ratio": 0.06,
+        "market_value_wan": 151.81
+      },
+      {
+        "stock_code": "600276",
+        "stock_name": "恒瑞医药",
+        "ratio": 0.06,
+        "market_value_wan": 150.92
+      },
+      {
+        "stock_code": "002709",
+        "stock_name": "天赐材料",
+        "ratio": 0.06,
+        "market_value_wan": 150.69
+      },
+      {
+        "stock_code": "000893",
+        "stock_name": "亚钾国际",
+        "ratio": 0.06,
+        "market_value_wan": 149.25
+      },
+      {
+        "stock_code": "03969",
+        "stock_name": "中国通号",
+        "ratio": 0.06,
+        "market_value_wan": 147.9
+      },
+      {
+        "stock_code": "000729",
+        "stock_name": "燕京啤酒",
+        "ratio": 0.06,
+        "market_value_wan": 146.58
+      },
+      {
+        "stock_code": "000708",
+        "stock_name": "中信特钢",
+        "ratio": 0.06,
+        "market_value_wan": 145.76
+      },
+      {
+        "stock_code": "000157",
+        "stock_name": "中联重科",
+        "ratio": 0.06,
+        "market_value_wan": 144.35
+      },
+      {
+        "stock_code": "688002",
+        "stock_name": "睿创微纳",
+        "ratio": 0.06,
+        "market_value_wan": 143.1
+      },
+      {
+        "stock_code": "600141",
+        "stock_name": "兴发集团",
+        "ratio": 0.06,
+        "market_value_wan": 141.85
+      },
+      {
+        "stock_code": "605117",
+        "stock_name": "德业股份",
+        "ratio": 0.06,
+        "market_value_wan": 140.16
+      },
+      {
+        "stock_code": "002001",
+        "stock_name": "新和成",
+        "ratio": 0.06,
+        "market_value_wan": 139.83
+      },
+      {
+        "stock_code": "01876",
+        "stock_name": "百威亚太",
+        "ratio": 0.06,
+        "market_value_wan": 139.28
+      },
+      {
+        "stock_code": "600150",
+        "stock_name": "中国船舶",
+        "ratio": 0.06,
+        "market_value_wan": 135.2
+      },
+      {
+        "stock_code": "002050",
+        "stock_name": "三花智控",
+        "ratio": 0.06,
+        "market_value_wan": 135.0
+      },
+      {
+        "stock_code": "01378",
+        "stock_name": "中国宏桥",
+        "ratio": 0.06,
+        "market_value_wan": 134.13
+      },
+      {
+        "stock_code": "00388",
+        "stock_name": "香港交易所",
+        "ratio": 0.05,
+        "market_value_wan": 132.42
+      },
+      {
+        "stock_code": "600060",
+        "stock_name": "海信视像",
+        "ratio": 0.05,
+        "market_value_wan": 130.71
+      },
+      {
+        "stock_code": "002487",
+        "stock_name": "大金重工",
+        "ratio": 0.05,
+        "market_value_wan": 129.85
+      },
+      {
+        "stock_code": "600885",
+        "stock_name": "宏发股份",
+        "ratio": 0.05,
+        "market_value_wan": 127.96
+      },
+      {
+        "stock_code": "601872",
+        "stock_name": "招商轮船",
+        "ratio": 0.05,
+        "market_value_wan": 124.75
+      },
+      {
+        "stock_code": "600039",
+        "stock_name": "四川路桥",
+        "ratio": 0.05,
+        "market_value_wan": 122.38
+      },
+      {
+        "stock_code": "000538",
+        "stock_name": "云南白药",
+        "ratio": 0.05,
+        "market_value_wan": 122.21
+      },
+      {
+        "stock_code": "002080",
+        "stock_name": "中材科技",
+        "ratio": 0.05,
+        "market_value_wan": 121.5
+      },
+      {
+        "stock_code": "601020",
+        "stock_name": "华钰矿业",
+        "ratio": 0.05,
+        "market_value_wan": 119.95
+      },
+      {
+        "stock_code": "600089",
+        "stock_name": "特变电工",
+        "ratio": 0.05,
+        "market_value_wan": 115.65
+      },
+      {
+        "stock_code": "300438",
+        "stock_name": "鹏辉能源",
+        "ratio": 0.05,
+        "market_value_wan": 115.16
+      },
+      {
+        "stock_code": "01070",
+        "stock_name": "TCL电子",
+        "ratio": 0.05,
+        "market_value_wan": 113.12
+      },
+      {
+        "stock_code": "600426",
+        "stock_name": "华鲁恒升",
+        "ratio": 0.05,
+        "market_value_wan": 112.9
+      },
+      {
+        "stock_code": "300432",
+        "stock_name": "富临精工",
+        "ratio": 0.05,
+        "market_value_wan": 111.26
+      },
+      {
+        "stock_code": "300014",
+        "stock_name": "亿纬锂能",
+        "ratio": 0.05,
+        "market_value_wan": 110.55
+      },
+      {
+        "stock_code": "02057",
+        "stock_name": "中通快递-W",
+        "ratio": 0.04,
+        "market_value_wan": 108.8
+      },
+      {
+        "stock_code": "01177",
+        "stock_name": "中国生物制药",
+        "ratio": 0.04,
+        "market_value_wan": 107.24
+      },
+      {
+        "stock_code": "603766",
+        "stock_name": "隆鑫通用",
+        "ratio": 0.04,
+        "market_value_wan": 105.94
+      },
+      {
+        "stock_code": "600875",
+        "stock_name": "东方电气",
+        "ratio": 0.04,
+        "market_value_wan": 104.15
+      },
+      {
+        "stock_code": "601998",
+        "stock_name": "中信银行",
+        "ratio": 0.04,
+        "market_value_wan": 103.46
+      },
+      {
+        "stock_code": "601600",
+        "stock_name": "中国铝业",
+        "ratio": 0.04,
+        "market_value_wan": 103.33
+      },
+      {
+        "stock_code": "002379",
+        "stock_name": "宏桥控股",
+        "ratio": 0.04,
+        "market_value_wan": 102.95
+      },
+      {
+        "stock_code": "01209",
+        "stock_name": "华润万象生活",
+        "ratio": 0.04,
+        "market_value_wan": 100.68
+      },
+      {
+        "stock_code": "601100",
+        "stock_name": "恒立液压",
+        "ratio": 0.04,
+        "market_value_wan": 98.96
+      },
+      {
+        "stock_code": "000807",
+        "stock_name": "云铝股份",
+        "ratio": 0.04,
+        "market_value_wan": 98.52
+      },
+      {
+        "stock_code": "600011",
+        "stock_name": "华能国际",
+        "ratio": 0.04,
+        "market_value_wan": 97.08
+      },
+      {
+        "stock_code": "01801",
+        "stock_name": "信达生物",
+        "ratio": 0.04,
+        "market_value_wan": 96.8
+      },
+      {
+        "stock_code": "600900",
+        "stock_name": "长江电力",
+        "ratio": 0.04,
+        "market_value_wan": 96.09
+      },
+      {
+        "stock_code": "603565",
+        "stock_name": "中谷物流",
+        "ratio": 0.04,
+        "market_value_wan": 93.78
+      },
+      {
+        "stock_code": "00257",
+        "stock_name": "光大环境",
+        "ratio": 0.04,
+        "market_value_wan": 91.87
+      },
+      {
+        "stock_code": "002240",
+        "stock_name": "盛新锂能",
+        "ratio": 0.04,
+        "market_value_wan": 91.45
+      },
+      {
+        "stock_code": "600350",
+        "stock_name": "山东高速",
+        "ratio": 0.04,
+        "market_value_wan": 88.37
+      },
+      {
+        "stock_code": "600027",
+        "stock_name": "华电国际",
+        "ratio": 0.04,
+        "market_value_wan": 88.11
+      },
+      {
+        "stock_code": "000725",
+        "stock_name": "京东方A",
+        "ratio": 0.04,
+        "market_value_wan": 86.71
+      },
+      {
+        "stock_code": "000951",
+        "stock_name": "中国重汽",
+        "ratio": 0.04,
+        "market_value_wan": 86.62
+      },
+      {
+        "stock_code": "00291",
+        "stock_name": "华润啤酒",
+        "ratio": 0.04,
+        "market_value_wan": 85.93
+      },
+      {
+        "stock_code": "600118",
+        "stock_name": "中国卫星",
+        "ratio": 0.04,
+        "market_value_wan": 85.33
+      },
+      {
+        "stock_code": "00836",
+        "stock_name": "华润电力",
+        "ratio": 0.04,
+        "market_value_wan": 85.26
+      },
+      {
+        "stock_code": "001248",
+        "stock_name": "华润新能源",
+        "ratio": 0.04,
+        "market_value_wan": 85.03
+      },
+      {
+        "stock_code": "002812",
+        "stock_name": "恩捷股份",
+        "ratio": 0.04,
+        "market_value_wan": 84.98
+      },
+      {
+        "stock_code": "600887",
+        "stock_name": "伊利股份",
+        "ratio": 0.03,
+        "market_value_wan": 79.79
+      },
+      {
+        "stock_code": "600233",
+        "stock_name": "圆通速递",
+        "ratio": 0.03,
+        "market_value_wan": 79.7
+      },
+      {
+        "stock_code": "002245",
+        "stock_name": "蔚蓝锂芯",
+        "ratio": 0.03,
+        "market_value_wan": 78.39
+      },
+      {
+        "stock_code": "002027",
+        "stock_name": "分众传媒",
+        "ratio": 0.03,
+        "market_value_wan": 77.44
+      },
+      {
+        "stock_code": "002595",
+        "stock_name": "豪迈科技",
+        "ratio": 0.03,
+        "market_value_wan": 75.21
+      },
+      {
+        "stock_code": "688239",
+        "stock_name": "航宇科技",
+        "ratio": 0.03,
+        "market_value_wan": 74.75
+      },
+      {
+        "stock_code": "00144",
+        "stock_name": "招商局港口",
+        "ratio": 0.03,
+        "market_value_wan": 72.9
+      },
+      {
+        "stock_code": "600760",
+        "stock_name": "中航沈飞",
+        "ratio": 0.03,
+        "market_value_wan": 72.34
+      },
+      {
+        "stock_code": "603129",
+        "stock_name": "春风动力",
+        "ratio": 0.03,
+        "market_value_wan": 71.62
+      },
+      {
+        "stock_code": "601088",
+        "stock_name": "中国神华",
+        "ratio": 0.03,
+        "market_value_wan": 71.44
+      },
+      {
+        "stock_code": "601991",
+        "stock_name": "大唐发电",
+        "ratio": 0.03,
+        "market_value_wan": 70.73
+      },
+      {
+        "stock_code": "603596",
+        "stock_name": "伯特利",
+        "ratio": 0.03,
+        "market_value_wan": 70.58
+      },
+      {
+        "stock_code": "002352",
+        "stock_name": "顺丰控股",
+        "ratio": 0.03,
+        "market_value_wan": 70.02
+      },
+      {
+        "stock_code": "000425",
+        "stock_name": "徐工机械",
+        "ratio": 0.03,
+        "market_value_wan": 65.45
+      },
+      {
+        "stock_code": "000600",
+        "stock_name": "建投能源",
+        "ratio": 0.03,
+        "market_value_wan": 64.66
+      },
+      {
+        "stock_code": "605499",
+        "stock_name": "东鹏饮料",
+        "ratio": 0.03,
+        "market_value_wan": 64.16
+      },
+      {
+        "stock_code": "600031",
+        "stock_name": "三一重工",
+        "ratio": 0.03,
+        "market_value_wan": 63.94
+      },
+      {
+        "stock_code": "002956",
+        "stock_name": "西麦食品",
+        "ratio": 0.03,
+        "market_value_wan": 62.78
+      },
+      {
+        "stock_code": "002541",
+        "stock_name": "鸿路钢构",
+        "ratio": 0.03,
+        "market_value_wan": 62.7
+      },
+      {
+        "stock_code": "002028",
+        "stock_name": "思源电气",
+        "ratio": 0.03,
+        "market_value_wan": 62.28
+      },
+      {
+        "stock_code": "00902",
+        "stock_name": "华能国际电力股份",
+        "ratio": 0.03,
+        "market_value_wan": 61.88
+      },
+      {
+        "stock_code": "600741",
+        "stock_name": "华域汽车",
+        "ratio": 0.03,
+        "market_value_wan": 60.99
+      },
+      {
+        "stock_code": "002460",
+        "stock_name": "赣锋锂业",
+        "ratio": 0.02,
+        "market_value_wan": 58.86
+      },
+      {
+        "stock_code": "600372",
+        "stock_name": "中航机载",
+        "ratio": 0.02,
+        "market_value_wan": 58.7
+      },
+      {
+        "stock_code": "600862",
+        "stock_name": "中航高科",
+        "ratio": 0.02,
+        "market_value_wan": 56.61
+      },
+      {
+        "stock_code": "301666",
+        "stock_name": "大普微",
+        "ratio": 0.02,
+        "market_value_wan": 56.53
+      },
+      {
+        "stock_code": "02388",
+        "stock_name": "中银香港",
+        "ratio": 0.02,
+        "market_value_wan": 55.22
+      },
+      {
+        "stock_code": "02688",
+        "stock_name": "新奥能源",
+        "ratio": 0.02,
+        "market_value_wan": 54.12
+      },
+      {
+        "stock_code": "600803",
+        "stock_name": "新奥股份",
+        "ratio": 0.02,
+        "market_value_wan": 53.09
+      },
+      {
+        "stock_code": "601888",
+        "stock_name": "中国中免",
+        "ratio": 0.02,
+        "market_value_wan": 52.64
+      },
+      {
+        "stock_code": "00386",
+        "stock_name": "中国石油化工股份",
+        "ratio": 0.02,
+        "market_value_wan": 52.05
+      },
+      {
+        "stock_code": "01308",
+        "stock_name": "海丰国际",
+        "ratio": 0.02,
+        "market_value_wan": 51.79
+      },
+      {
+        "stock_code": "600499",
+        "stock_name": "科达制造",
+        "ratio": 0.02,
+        "market_value_wan": 51.75
+      },
+      {
+        "stock_code": "688777",
+        "stock_name": "中控技术",
+        "ratio": 0.02,
+        "market_value_wan": 48.41
+      },
+      {
+        "stock_code": "002558",
+        "stock_name": "巨人网络",
+        "ratio": 0.02,
+        "market_value_wan": 47.95
+      },
+      {
+        "stock_code": "02899",
+        "stock_name": "紫金矿业",
+        "ratio": 0.02,
+        "market_value_wan": 47.6
+      },
+      {
+        "stock_code": "002624",
+        "stock_name": "完美世界",
+        "ratio": 0.02,
+        "market_value_wan": 46.33
+      },
+      {
+        "stock_code": "03808",
+        "stock_name": "中国重汽",
+        "ratio": 0.02,
+        "market_value_wan": 45.18
+      },
+      {
+        "stock_code": "002244",
+        "stock_name": "滨江集团",
+        "ratio": 0.02,
+        "market_value_wan": 45.07
+      },
+      {
+        "stock_code": "601668",
+        "stock_name": "中国建筑",
+        "ratio": 0.02,
+        "market_value_wan": 44.96
+      },
+      {
+        "stock_code": "600765",
+        "stock_name": "中航重机",
+        "ratio": 0.02,
+        "market_value_wan": 43.54
+      },
+      {
+        "stock_code": "300442",
+        "stock_name": "润泽科技",
+        "ratio": 0.02,
+        "market_value_wan": 43.2
+      },
+      {
+        "stock_code": "002594",
+        "stock_name": "比亚迪",
+        "ratio": 0.02,
+        "market_value_wan": 43.04
+      },
+      {
+        "stock_code": "603195",
+        "stock_name": "公牛集团",
+        "ratio": 0.02,
+        "market_value_wan": 42.28
+      },
+      {
+        "stock_code": "002299",
+        "stock_name": "圣农发展",
+        "ratio": 0.02,
+        "market_value_wan": 41.39
+      },
+      {
+        "stock_code": "01766",
+        "stock_name": "中国中车",
+        "ratio": 0.02,
+        "market_value_wan": 40.95
+      },
+      {
+        "stock_code": "601000",
+        "stock_name": "唐山港",
+        "ratio": 0.02,
+        "market_value_wan": 40.79
+      },
+      {
+        "stock_code": "688059",
+        "stock_name": "华锐精密",
+        "ratio": 0.02,
+        "market_value_wan": 40.36
+      },
+      {
+        "stock_code": "601111",
+        "stock_name": "中国国航",
+        "ratio": 0.02,
+        "market_value_wan": 39.87
+      },
+      {
+        "stock_code": "600674",
+        "stock_name": "川投能源",
+        "ratio": 0.01,
+        "market_value_wan": 35.99
+      },
+      {
+        "stock_code": "688820",
+        "stock_name": "盛合晶微",
+        "ratio": 0.01,
+        "market_value_wan": 33.83
+      },
+      {
+        "stock_code": "601633",
+        "stock_name": "长城汽车",
+        "ratio": 0.01,
+        "market_value_wan": 32.9
+      },
+      {
+        "stock_code": "002920",
+        "stock_name": "德赛西威",
+        "ratio": 0.01,
+        "market_value_wan": 32.6
+      },
+      {
+        "stock_code": "002714",
+        "stock_name": "牧原股份",
+        "ratio": 0.01,
+        "market_value_wan": 32.54
+      },
+      {
+        "stock_code": "000768",
+        "stock_name": "中航西飞",
+        "ratio": 0.01,
+        "market_value_wan": 30.52
+      },
+      {
+        "stock_code": "601928",
+        "stock_name": "凤凰传媒",
+        "ratio": 0.01,
+        "market_value_wan": 30.33
+      },
+      {
+        "stock_code": "688297",
+        "stock_name": "中无人机",
+        "ratio": 0.01,
+        "market_value_wan": 30.32
+      },
+      {
+        "stock_code": "00288",
+        "stock_name": "万洲国际",
+        "ratio": 0.01,
+        "market_value_wan": 30.24
+      },
+      {
+        "stock_code": "688790",
+        "stock_name": "昂瑞微",
+        "ratio": 0.01,
+        "market_value_wan": 29.32
+      },
+      {
+        "stock_code": "02020",
+        "stock_name": "安踏体育",
+        "ratio": 0.01,
+        "market_value_wan": 28.39
+      },
+      {
+        "stock_code": "000895",
+        "stock_name": "双汇发展",
+        "ratio": 0.01,
+        "market_value_wan": 28.22
+      },
+      {
+        "stock_code": "601900",
+        "stock_name": "南方传媒",
+        "ratio": 0.01,
+        "market_value_wan": 27.91
+      },
+      {
+        "stock_code": "001979",
+        "stock_name": "招商蛇口",
+        "ratio": 0.01,
+        "market_value_wan": 25.33
+      },
+      {
+        "stock_code": "000519",
+        "stock_name": "中兵红箭",
+        "ratio": 0.01,
+        "market_value_wan": 24.44
+      },
+      {
+        "stock_code": "600989",
+        "stock_name": "宝丰能源",
+        "ratio": 0.01,
+        "market_value_wan": 23.99
+      },
+      {
+        "stock_code": "002078",
+        "stock_name": "太阳纸业",
+        "ratio": 0.01,
+        "market_value_wan": 23.48
+      },
+      {
+        "stock_code": "00027",
+        "stock_name": "银河娱乐",
+        "ratio": 0.01,
+        "market_value_wan": 23.0
+      },
+      {
+        "stock_code": "603568",
+        "stock_name": "伟明环保",
+        "ratio": 0.01,
+        "market_value_wan": 22.52
+      },
+      {
+        "stock_code": "600298",
+        "stock_name": "安琪酵母",
+        "ratio": 0.01,
+        "market_value_wan": 21.72
+      },
+      {
+        "stock_code": "001399",
+        "stock_name": "惠科股份",
+        "ratio": 0.01,
+        "market_value_wan": 17.99
+      },
+      {
+        "stock_code": "603345",
+        "stock_name": "安井食品",
+        "ratio": 0.01,
+        "market_value_wan": 17.64
+      },
+      {
+        "stock_code": "603939",
+        "stock_name": "益丰药房",
+        "ratio": 0.01,
+        "market_value_wan": 14.2
+      },
+      {
+        "stock_code": "688818",
+        "stock_name": "电科蓝天",
+        "ratio": 0.0,
+        "market_value_wan": 12.04
+      },
+      {
+        "stock_code": "688797",
+        "stock_name": "臻宝科技",
+        "ratio": 0.0,
+        "market_value_wan": 9.7
+      },
+      {
+        "stock_code": "688712",
+        "stock_name": "北芯生命",
+        "ratio": 0.0,
+        "market_value_wan": 5.39
+      },
+      {
+        "stock_code": "688785",
+        "stock_name": "恒运昌",
+        "ratio": 0.0,
+        "market_value_wan": 5.37
+      },
+      {
+        "stock_code": "688635",
+        "stock_name": "长进光子",
+        "ratio": 0.0,
+        "market_value_wan": 3.94
+      },
+      {
+        "stock_code": "001257",
+        "stock_name": "盛龙股份",
+        "ratio": 0.0,
+        "market_value_wan": 3.61
+      },
+      {
+        "stock_code": "002831",
+        "stock_name": "裕同科技",
+        "ratio": 0.0,
+        "market_value_wan": 2.99
+      },
+      {
+        "stock_code": "603459",
+        "stock_name": "红板科技",
+        "ratio": 0.0,
+        "market_value_wan": 2.78
+      },
+      {
+        "stock_code": "001365",
+        "stock_name": "天海电子",
+        "ratio": 0.0,
+        "market_value_wan": 2.25
+      },
+      {
+        "stock_code": "301696",
+        "stock_name": "三瑞智能",
+        "ratio": 0.0,
+        "market_value_wan": 1.87
+      },
+      {
+        "stock_code": "001237",
+        "stock_name": "惠康科技",
+        "ratio": 0.0,
+        "market_value_wan": 1.67
+      },
+      {
+        "stock_code": "301669",
+        "stock_name": "高特电子",
+        "ratio": 0.0,
+        "market_value_wan": 1.55
+      },
+      {
+        "stock_code": "301687",
+        "stock_name": "新广益",
+        "ratio": 0.0,
+        "market_value_wan": 1.52
+      },
+      {
+        "stock_code": "001393",
+        "stock_name": "维通利",
+        "ratio": 0.0,
+        "market_value_wan": 1.51
+      },
+      {
+        "stock_code": "301531",
+        "stock_name": "春光集团",
+        "ratio": 0.0,
+        "market_value_wan": 1.5
+      },
+      {
+        "stock_code": "301599",
+        "stock_name": "理奇智能",
+        "ratio": 0.0,
+        "market_value_wan": 1.41
+      },
+      {
+        "stock_code": "601112",
+        "stock_name": "振石股份",
+        "ratio": 0.0,
+        "market_value_wan": 1.36
+      },
+      {
+        "stock_code": "688816",
+        "stock_name": "易思维",
+        "ratio": 0.0,
+        "market_value_wan": 1.01
+      },
+      {
+        "stock_code": "603435",
+        "stock_name": "嘉德利",
+        "ratio": 0.0,
+        "market_value_wan": 0.49
+      },
+      {
+        "stock_code": "603352",
+        "stock_name": "至信股份",
+        "ratio": 0.0,
+        "market_value_wan": 0.29
+      },
+      {
+        "stock_code": "603293",
+        "stock_name": "埃泰克",
+        "ratio": 0.0,
+        "market_value_wan": 0.24
+      },
+      {
+        "stock_code": "603284",
+        "stock_name": "林平发展",
+        "ratio": 0.0,
+        "market_value_wan": 0.16
+      },
+      {
+        "stock_code": "001220",
+        "stock_name": "世盟股份",
+        "ratio": 0.0,
+        "market_value_wan": 0.16
       }
     ]
   },
@@ -4536,6 +6234,13 @@
   ],
   "holder_structure": [
     {
+      "announce_date": "2026-06-30",
+      "institutional_pct": 0.39,
+      "retail_pct": 99.61,
+      "internal_pct": 0.02,
+      "total_shares_yi": 8.31
+    },
+    {
       "announce_date": "2025-12-31",
       "institutional_pct": 0.48,
       "retail_pct": 99.52,
@@ -4579,25 +6284,25 @@
         "MGRID": "30739593",
         "MGRNAME": "余剑峰",
         "RESUME": "余剑峰先生:中国,浙江大学管理学博士。上海东方证券资产管理有限公司基金经理,2021年7月至今任东方红明鉴优选两年定期开放混合型证券投资基金基金经理、2023年2月至今任东方红安盈甄选一年持有期混合型证券投资基金基金经理、2024年4月至今任东方红慧鑫甄选6个月持有期混合型证券投资基金基金经理、2025年9月至今任东方红汇诚债券型证券投资基金基金经理。曾任申万宏源证券研究所分析师、国泰君安证券研究所分析师、上海东方证券资产管理有限公司固定收益研究员。",
-        "TOTALDAYS": "1838",
-        "NETNAV": "3369524893.16",
+        "TOTALDAYS": "1920",
+        "NETNAV": "3048599322.06",
         "FCOUNT": "11",
         "PRENAME": "东方红明鉴优选两年定开混合",
-        "YIELDSE": "2.4656",
+        "YIELDSE": "2.2136",
         "JJGS": "东方红资产管理",
         "FMAXEARN1": "0.3644",
         "FMAXRETRA1": "0.1017",
-        "MGOLD": "7.6335"
+        "MGOLD": "6.3005"
       },
       "eval": {
-        "MAXRETRA_1": "0.0434",
-        "MAXRETRA_3": "0.0643",
-        "SHARP_1": "0.6194",
-        "SHARP_3": "0.8437",
-        "STDDEV_1": "4.7774",
-        "STDDEV_3": "5.8273",
-        "WIN_1": "34.55",
-        "WIN_3": "44.83"
+        "MAXRETRA_1": "0.0467",
+        "MAXRETRA_3": "0.0582",
+        "SHARP_1": "-0.2372",
+        "SHARP_3": "0.8574",
+        "STDDEV_1": "4.4341",
+        "STDDEV_3": "5.8742",
+        "WIN_1": "46.83",
+        "WIN_3": "47.37"
       },
       "holding_char": null,
       "history": [
@@ -4606,116 +6311,116 @@
           "SHORTNAME": "东方红明鉴优选两年定开混合",
           "FEMPDATE": "2021-07-08T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1838",
-          "PENAVGROWTH": "21.5543",
-          "TLRANK": "1085",
-          "TLSC": "4616"
+          "TOTALDAYS": "1920",
+          "PENAVGROWTH": "19.7382",
+          "TLRANK": "1058",
+          "TLSC": "4551"
         },
         {
           "FCODE": "012683",
           "SHORTNAME": "东方红安盈甄选一年持有混合A",
           "FEMPDATE": "2023-02-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1252",
-          "PENAVGROWTH": "16.92",
-          "TLRANK": "2388",
-          "TLSC": "6484"
+          "TOTALDAYS": "1334",
+          "PENAVGROWTH": "15.92",
+          "TLRANK": "2305",
+          "TLSC": "6443"
         },
         {
           "FCODE": "012684",
           "SHORTNAME": "东方红安盈甄选一年持有混合C",
           "FEMPDATE": "2023-02-14T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1252",
-          "PENAVGROWTH": "15.7154",
-          "TLRANK": "2505",
-          "TLSC": "6484"
+          "TOTALDAYS": "1334",
+          "PENAVGROWTH": "14.6503",
+          "TLRANK": "2437",
+          "TLSC": "6443"
         },
         {
           "FCODE": "020358",
           "SHORTNAME": "东方红慧鑫甄选6个月持有混合A",
           "FEMPDATE": "2024-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "812",
-          "PENAVGROWTH": "12.36",
-          "TLRANK": "5116",
-          "TLSC": "7636"
+          "TOTALDAYS": "894",
+          "PENAVGROWTH": "12.95",
+          "TLRANK": "4869",
+          "TLSC": "7614"
         },
         {
           "FCODE": "020359",
           "SHORTNAME": "东方红慧鑫甄选6个月持有混合C",
           "FEMPDATE": "2024-04-29T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "812",
-          "PENAVGROWTH": "11.63",
-          "TLRANK": "5219",
-          "TLSC": "7636"
+          "TOTALDAYS": "894",
+          "PENAVGROWTH": "12.13",
+          "TLRANK": "4977",
+          "TLSC": "7614"
         },
         {
           "FCODE": "025039",
           "SHORTNAME": "东方红汇明债券A",
           "FEMPDATE": "2025-10-30T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "263",
-          "PENAVGROWTH": "0.48",
-          "TLRANK": "5176",
-          "TLSC": "5898"
-        },
-        {
-          "FCODE": "025040",
-          "SHORTNAME": "东方红汇明债券C",
-          "FEMPDATE": "2025-10-30T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "263",
-          "PENAVGROWTH": "0.26",
-          "TLRANK": "5294",
-          "TLSC": "5898"
-        },
-        {
-          "FCODE": "025303",
-          "SHORTNAME": "东方红汇诚债券A",
-          "FEMPDATE": "2025-09-17T16:00:00Z",
-          "LEMPDATE": "--",
-          "TOTALDAYS": "306",
-          "PENAVGROWTH": "0.25",
-          "TLRANK": "5335",
-          "TLSC": "5758"
+          "TOTALDAYS": "345",
+          "PENAVGROWTH": "-0.26",
+          "TLRANK": "5343",
+          "TLSC": "5878"
         },
         {
           "FCODE": "026055",
           "SHORTNAME": "东方红汇裕债券A",
           "FEMPDATE": "2025-12-23T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "209",
-          "PENAVGROWTH": "0.25",
-          "TLRANK": "5381",
-          "TLSC": "5955"
+          "TOTALDAYS": "291",
+          "PENAVGROWTH": "-0.34",
+          "TLRANK": "5410",
+          "TLSC": "5936"
+        },
+        {
+          "FCODE": "025303",
+          "SHORTNAME": "东方红汇诚债券A",
+          "FEMPDATE": "2025-09-17T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "388",
+          "PENAVGROWTH": "-0.53",
+          "TLRANK": "5394",
+          "TLSC": "5738"
+        },
+        {
+          "FCODE": "025040",
+          "SHORTNAME": "东方红汇明债券C",
+          "FEMPDATE": "2025-10-30T16:00:00Z",
+          "LEMPDATE": "--",
+          "TOTALDAYS": "345",
+          "PENAVGROWTH": "-0.55",
+          "TLRANK": "5406",
+          "TLSC": "5878"
         },
         {
           "FCODE": "026056",
           "SHORTNAME": "东方红汇裕债券C",
           "FEMPDATE": "2025-12-23T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "209",
-          "PENAVGROWTH": "0.02",
-          "TLRANK": "5446",
-          "TLSC": "5955"
+          "TOTALDAYS": "291",
+          "PENAVGROWTH": "-0.66",
+          "TLRANK": "5493",
+          "TLSC": "5936"
         },
         {
           "FCODE": "025304",
           "SHORTNAME": "东方红汇诚债券C",
           "FEMPDATE": "2025-09-17T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "306",
-          "PENAVGROWTH": "-0.08",
-          "TLRANK": "5419",
-          "TLSC": "5758"
+          "TOTALDAYS": "388",
+          "PENAVGROWTH": "-0.94",
+          "TLRANK": "5449",
+          "TLSC": "5738"
         }
       ]
     }
   ],
   "scores": {
-    "overall": 69,
+    "overall": 68,
     "items": [
       {
         "name": "收益",
@@ -4729,7 +6434,7 @@
       },
       {
         "name": "稳定",
-        "score": 77,
+        "score": 73,
         "weight": 20
       },
       {
@@ -4755,17 +6460,17 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-07-21",
+    "generated_at": "2026-10-11",
     "as_of": {
-      "nav_history": "2026-07-21",
-      "nav_trend": "2026-07-21",
-      "accumulated_return": "2026-07-21",
-      "monthly_series": "2026-07",
+      "nav_history": "2026-10-09",
+      "nav_trend": "2026-10-09",
+      "accumulated_return": "2026-10-09",
+      "monthly_series": "2026-10",
       "top_stocks": "2026-06-30",
       "top_bonds": "2026-06-30",
       "asset_allocation": "2026-06-30",
       "scale_changes": "2026-06-30",
-      "holder_structure": "2025-12-31"
+      "holder_structure": "2026-06-30"
     }
   }
 }

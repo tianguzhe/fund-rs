@@ -22,75 +22,75 @@
   "periods": [
     {
       "title": "Last Week",
-      "return_rate": -1.36,
-      "avg": -0.47,
-      "hs300_return": -1.19,
-      "rank": 1439,
-      "total": 1692
+      "return_rate": -0.96,
+      "avg": -0.26,
+      "hs300_return": -0.93,
+      "rank": 1759,
+      "total": 1916
     },
     {
       "title": "Last Month",
-      "return_rate": -2.37,
-      "avg": -1.17,
-      "hs300_return": -4.1,
-      "rank": 1372,
-      "total": 1697
+      "return_rate": -1.83,
+      "avg": -1.03,
+      "hs300_return": -5.58,
+      "rank": 1592,
+      "total": 1868
     },
     {
       "title": "Last 3 Months",
-      "return_rate": 4.94,
-      "avg": -0.44,
-      "hs300_return": -0.6,
-      "rank": 38,
-      "total": 1637
+      "return_rate": -5.61,
+      "avg": -1.92,
+      "hs300_return": -11.46,
+      "rank": 1577,
+      "total": 1761
     },
     {
       "title": "Last 6 Months",
-      "return_rate": 8.34,
-      "avg": -0.17,
-      "hs300_return": 0.34,
-      "rank": 27,
-      "total": 1532
+      "return_rate": 2.94,
+      "avg": -0.6,
+      "hs300_return": -5.45,
+      "rank": 80,
+      "total": 1636
     },
     {
       "title": "Last Year",
-      "return_rate": 12.88,
-      "avg": 4.84,
-      "hs300_return": 16.0,
-      "rank": 124,
-      "total": 1333
+      "return_rate": 5.94,
+      "avg": 0.77,
+      "hs300_return": -8.33,
+      "rank": 67,
+      "total": 1427
     },
     {
       "title": "Last 2 Years",
-      "return_rate": 20.99,
-      "avg": 12.68,
-      "hs300_return": 33.91,
-      "rank": 183,
-      "total": 1123
+      "return_rate": 15.23,
+      "avg": 10.19,
+      "hs300_return": 9.13,
+      "rank": 214,
+      "total": 1174
     },
     {
       "title": "Last 3 Years",
-      "return_rate": 24.5,
-      "avg": 12.57,
-      "hs300_return": 24.0,
-      "rank": 104,
-      "total": 933
+      "return_rate": 20.62,
+      "avg": 12.35,
+      "hs300_return": 17.17,
+      "rank": 137,
+      "total": 980
     },
     {
       "title": "Last 5 Years",
-      "return_rate": 21.84,
-      "avg": 13.17,
-      "hs300_return": -7.87,
-      "rank": 124,
-      "total": 625
+      "return_rate": 19.21,
+      "avg": 10.98,
+      "hs300_return": -12.43,
+      "rank": 113,
+      "total": 664
     },
     {
       "title": "Year to Date",
-      "return_rate": 10.56,
-      "avg": 1.7,
-      "hs300_return": 2.36,
-      "rank": 35,
-      "total": 1521
+      "return_rate": 6.99,
+      "avg": 0.65,
+      "hs300_return": -6.75,
+      "rank": 33,
+      "total": 1529
     }
   ],
   "yearly_returns": [
@@ -162,90 +162,78 @@
   "monthly_returns": [
     {
       "title": "Z",
-      "return_rate": -1.36,
-      "avg": -0.47,
-      "hs300_return": -1.19,
-      "rank": 1439,
-      "total": 1692
+      "return_rate": -0.96,
+      "avg": -0.26,
+      "hs300_return": -0.93,
+      "rank": 1759,
+      "total": 1916
     },
     {
       "title": "Y",
-      "return_rate": -2.37,
-      "avg": -1.17,
-      "hs300_return": -4.1,
-      "rank": 1372,
-      "total": 1697
+      "return_rate": -1.83,
+      "avg": -1.03,
+      "hs300_return": -5.58,
+      "rank": 1592,
+      "total": 1868
     },
     {
       "title": "3Y",
-      "return_rate": 4.94,
-      "avg": -0.44,
-      "hs300_return": -0.6,
-      "rank": 38,
-      "total": 1637
+      "return_rate": -5.61,
+      "avg": -1.92,
+      "hs300_return": -11.46,
+      "rank": 1577,
+      "total": 1761
     },
     {
       "title": "6Y",
-      "return_rate": 8.34,
-      "avg": -0.17,
-      "hs300_return": 0.34,
-      "rank": 27,
-      "total": 1532
+      "return_rate": 2.94,
+      "avg": -0.6,
+      "hs300_return": -5.45,
+      "rank": 80,
+      "total": 1636
     },
     {
       "title": "1N",
-      "return_rate": 12.88,
-      "avg": 4.84,
-      "hs300_return": 16.0,
-      "rank": 124,
-      "total": 1333
+      "return_rate": 5.94,
+      "avg": 0.77,
+      "hs300_return": -8.33,
+      "rank": 67,
+      "total": 1427
     },
     {
       "title": "2N",
-      "return_rate": 20.99,
-      "avg": 12.68,
-      "hs300_return": 33.91,
-      "rank": 183,
-      "total": 1123
+      "return_rate": 15.23,
+      "avg": 10.19,
+      "hs300_return": 9.13,
+      "rank": 214,
+      "total": 1174
     },
     {
       "title": "3N",
-      "return_rate": 24.5,
-      "avg": 12.57,
-      "hs300_return": 24.0,
-      "rank": 104,
-      "total": 933
+      "return_rate": 20.62,
+      "avg": 12.35,
+      "hs300_return": 17.17,
+      "rank": 137,
+      "total": 980
     },
     {
       "title": "5N",
-      "return_rate": 21.84,
-      "avg": 13.17,
-      "hs300_return": -7.87,
-      "rank": 124,
-      "total": 625
+      "return_rate": 19.21,
+      "avg": 10.98,
+      "hs300_return": -12.43,
+      "rank": 113,
+      "total": 664
     },
     {
       "title": "JN",
-      "return_rate": 10.56,
-      "avg": 1.7,
-      "hs300_return": 2.36,
-      "rank": 35,
-      "total": 1521
+      "return_rate": 6.99,
+      "avg": 0.65,
+      "hs300_return": -6.75,
+      "rank": 33,
+      "total": 1529
     }
   ],
   "monthly_series": [
-    {
-      "month": "2023-08",
-      "return_rate": -0.41474654377879894
-    },
-    {
-      "month": "2023-09",
-      "return_rate": -0.2776492364646055
-    },
-    {
-      "month": "2023-10",
-      "return_rate": -0.5568445475638062
-    },
     {
       "month": "2023-11",
       "return_rate": -0.3266448903406327
@@ -376,10 +364,334 @@
     },
     {
       "month": "2026-07",
-      "return_rate": -3.2367331576966474
+      "return_rate": -4.817463304478742
+    },
+    {
+      "month": "2026-08",
+      "return_rate": 0.632661130881762
+    },
+    {
+      "month": "2026-09",
+      "return_rate": -0.8683693516699398
+    },
+    {
+      "month": "2026-10",
+      "return_rate": -0.784811130048757
     }
   ],
   "nav_history": [
+    {
+      "date": "2026-10-09",
+      "net_value": 2.0361,
+      "acc_value": 2.5031,
+      "growth": -0.2
+    },
+    {
+      "date": "2026-10-08",
+      "net_value": 2.0401,
+      "acc_value": 2.5071,
+      "growth": -0.77
+    },
+    {
+      "date": "2026-09-30",
+      "net_value": 2.0559,
+      "acc_value": 2.5229,
+      "growth": -0.32
+    },
+    {
+      "date": "2026-09-29",
+      "net_value": 2.0626,
+      "acc_value": 2.5296,
+      "growth": 0.14
+    },
+    {
+      "date": "2026-09-28",
+      "net_value": 2.0597,
+      "acc_value": 2.5267,
+      "growth": -0.96
+    },
+    {
+      "date": "2026-09-24",
+      "net_value": 2.0797,
+      "acc_value": 2.5467,
+      "growth": -0.42
+    },
+    {
+      "date": "2026-09-23",
+      "net_value": 2.0884,
+      "acc_value": 2.5554,
+      "growth": -0.02
+    },
+    {
+      "date": "2026-09-22",
+      "net_value": 2.0889,
+      "acc_value": 2.5559,
+      "growth": -0.13
+    },
+    {
+      "date": "2026-09-21",
+      "net_value": 2.0916,
+      "acc_value": 2.5586,
+      "growth": 0.11
+    },
+    {
+      "date": "2026-09-18",
+      "net_value": 2.0894,
+      "acc_value": 2.5564,
+      "growth": 0.47
+    },
+    {
+      "date": "2026-09-17",
+      "net_value": 2.0796,
+      "acc_value": 2.5466,
+      "growth": -0.06
+    },
+    {
+      "date": "2026-09-16",
+      "net_value": 2.0809,
+      "acc_value": 2.5479,
+      "growth": 0.63
+    },
+    {
+      "date": "2026-09-15",
+      "net_value": 2.0679,
+      "acc_value": 2.5349,
+      "growth": 0.07
+    },
+    {
+      "date": "2026-09-14",
+      "net_value": 2.0664,
+      "acc_value": 2.5334,
+      "growth": -0.37
+    },
+    {
+      "date": "2026-09-11",
+      "net_value": 2.074,
+      "acc_value": 2.541,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-09-10",
+      "net_value": 2.073,
+      "acc_value": 2.54,
+      "growth": -0.05
+    },
+    {
+      "date": "2026-09-09",
+      "net_value": 2.074,
+      "acc_value": 2.541,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-09-08",
+      "net_value": 2.074,
+      "acc_value": 2.541,
+      "growth": -0.1
+    },
+    {
+      "date": "2026-09-07",
+      "net_value": 2.076,
+      "acc_value": 2.543,
+      "growth": 0.97
+    },
+    {
+      "date": "2026-09-04",
+      "net_value": 2.056,
+      "acc_value": 2.523,
+      "growth": -0.29
+    },
+    {
+      "date": "2026-09-03",
+      "net_value": 2.062,
+      "acc_value": 2.529,
+      "growth": 0.05
+    },
+    {
+      "date": "2026-09-02",
+      "net_value": 2.061,
+      "acc_value": 2.528,
+      "growth": -0.34
+    },
+    {
+      "date": "2026-09-01",
+      "net_value": 2.068,
+      "acc_value": 2.535,
+      "growth": -0.48
+    },
+    {
+      "date": "2026-08-31",
+      "net_value": 2.078,
+      "acc_value": 2.545,
+      "growth": 0.29
+    },
+    {
+      "date": "2026-08-28",
+      "net_value": 2.072,
+      "acc_value": 2.539,
+      "growth": -0.34
+    },
+    {
+      "date": "2026-08-27",
+      "net_value": 2.079,
+      "acc_value": 2.546,
+      "growth": 0.53
+    },
+    {
+      "date": "2026-08-26",
+      "net_value": 2.068,
+      "acc_value": 2.535,
+      "growth": 0.19
+    },
+    {
+      "date": "2026-08-25",
+      "net_value": 2.064,
+      "acc_value": 2.531,
+      "growth": -0.15
+    },
+    {
+      "date": "2026-08-24",
+      "net_value": 2.067,
+      "acc_value": 2.534,
+      "growth": -0.86
+    },
+    {
+      "date": "2026-08-21",
+      "net_value": 2.085,
+      "acc_value": 2.552,
+      "growth": 0.34
+    },
+    {
+      "date": "2026-08-20",
+      "net_value": 2.078,
+      "acc_value": 2.545,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-08-19",
+      "net_value": 2.078,
+      "acc_value": 2.545,
+      "growth": -1.66
+    },
+    {
+      "date": "2026-08-18",
+      "net_value": 2.113,
+      "acc_value": 2.58,
+      "growth": -0.14
+    },
+    {
+      "date": "2026-08-17",
+      "net_value": 2.116,
+      "acc_value": 2.583,
+      "growth": 1.0
+    },
+    {
+      "date": "2026-08-14",
+      "net_value": 2.095,
+      "acc_value": 2.562,
+      "growth": 0.43
+    },
+    {
+      "date": "2026-08-13",
+      "net_value": 2.086,
+      "acc_value": 2.553,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-08-12",
+      "net_value": 2.086,
+      "acc_value": 2.553,
+      "growth": 0.43
+    },
+    {
+      "date": "2026-08-11",
+      "net_value": 2.077,
+      "acc_value": 2.544,
+      "growth": -0.05
+    },
+    {
+      "date": "2026-08-10",
+      "net_value": 2.078,
+      "acc_value": 2.545,
+      "growth": -0.34
+    },
+    {
+      "date": "2026-08-07",
+      "net_value": 2.085,
+      "acc_value": 2.552,
+      "growth": 0.19
+    },
+    {
+      "date": "2026-08-06",
+      "net_value": 2.081,
+      "acc_value": 2.548,
+      "growth": 0.19
+    },
+    {
+      "date": "2026-08-05",
+      "net_value": 2.077,
+      "acc_value": 2.544,
+      "growth": 0.29
+    },
+    {
+      "date": "2026-08-04",
+      "net_value": 2.071,
+      "acc_value": 2.538,
+      "growth": 0.88
+    },
+    {
+      "date": "2026-08-03",
+      "net_value": 2.053,
+      "acc_value": 2.52,
+      "growth": -0.44
+    },
+    {
+      "date": "2026-07-31",
+      "net_value": 2.062,
+      "acc_value": 2.529,
+      "growth": 0.54
+    },
+    {
+      "date": "2026-07-30",
+      "net_value": 2.051,
+      "acc_value": 2.518,
+      "growth": -0.97
+    },
+    {
+      "date": "2026-07-29",
+      "net_value": 2.071,
+      "acc_value": 2.538,
+      "growth": 0.0
+    },
+    {
+      "date": "2026-07-28",
+      "net_value": 2.071,
+      "acc_value": 2.538,
+      "growth": -1.19
+    },
+    {
+      "date": "2026-07-27",
+      "net_value": 2.096,
+      "acc_value": 2.563,
+      "growth": 0.48
+    },
+    {
+      "date": "2026-07-24",
+      "net_value": 2.086,
+      "acc_value": 2.553,
+      "growth": -0.14
+    },
+    {
+      "date": "2026-07-23",
+      "net_value": 2.089,
+      "acc_value": 2.556,
+      "growth": -0.29
+    },
+    {
+      "date": "2026-07-22",
+      "net_value": 2.095,
+      "acc_value": 2.562,
+      "growth": -0.43
+    },
     {
       "date": "2026-07-21",
       "net_value": 2.104,
@@ -427,318 +739,6 @@
       "net_value": 2.135,
       "acc_value": 2.602,
       "growth": -1.02
-    },
-    {
-      "date": "2026-07-09",
-      "net_value": 2.157,
-      "acc_value": 2.624,
-      "growth": 0.94
-    },
-    {
-      "date": "2026-07-08",
-      "net_value": 2.137,
-      "acc_value": 2.604,
-      "growth": -0.37
-    },
-    {
-      "date": "2026-07-07",
-      "net_value": 2.145,
-      "acc_value": 2.612,
-      "growth": -0.09
-    },
-    {
-      "date": "2026-07-06",
-      "net_value": 2.147,
-      "acc_value": 2.614,
-      "growth": 0.05
-    },
-    {
-      "date": "2026-07-03",
-      "net_value": 2.146,
-      "acc_value": 2.613,
-      "growth": -0.05
-    },
-    {
-      "date": "2026-07-02",
-      "net_value": 2.147,
-      "acc_value": 2.614,
-      "growth": -1.65
-    },
-    {
-      "date": "2026-07-01",
-      "net_value": 2.183,
-      "acc_value": 2.65,
-      "growth": -0.32
-    },
-    {
-      "date": "2026-06-30",
-      "net_value": 2.19,
-      "acc_value": 2.657,
-      "growth": 0.6
-    },
-    {
-      "date": "2026-06-29",
-      "net_value": 2.177,
-      "acc_value": 2.644,
-      "growth": 0.28
-    },
-    {
-      "date": "2026-06-26",
-      "net_value": 2.171,
-      "acc_value": 2.638,
-      "growth": -0.6
-    },
-    {
-      "date": "2026-06-25",
-      "net_value": 2.184,
-      "acc_value": 2.651,
-      "growth": 1.16
-    },
-    {
-      "date": "2026-06-24",
-      "net_value": 2.159,
-      "acc_value": 2.626,
-      "growth": 0.51
-    },
-    {
-      "date": "2026-06-23",
-      "net_value": 2.148,
-      "acc_value": 2.615,
-      "growth": -0.74
-    },
-    {
-      "date": "2026-06-22",
-      "net_value": 2.164,
-      "acc_value": 2.631,
-      "growth": 0.42
-    },
-    {
-      "date": "2026-06-18",
-      "net_value": 2.155,
-      "acc_value": 2.622,
-      "growth": 0.84
-    },
-    {
-      "date": "2026-06-17",
-      "net_value": 2.137,
-      "acc_value": 2.604,
-      "growth": 0.71
-    },
-    {
-      "date": "2026-06-16",
-      "net_value": 2.122,
-      "acc_value": 2.589,
-      "growth": 0.47
-    },
-    {
-      "date": "2026-06-15",
-      "net_value": 2.112,
-      "acc_value": 2.579,
-      "growth": 1.39
-    },
-    {
-      "date": "2026-06-12",
-      "net_value": 2.083,
-      "acc_value": 2.55,
-      "growth": -0.14
-    },
-    {
-      "date": "2026-06-11",
-      "net_value": 2.086,
-      "acc_value": 2.553,
-      "growth": 0.0
-    },
-    {
-      "date": "2026-06-10",
-      "net_value": 2.086,
-      "acc_value": 2.553,
-      "growth": -0.62
-    },
-    {
-      "date": "2026-06-09",
-      "net_value": 2.099,
-      "acc_value": 2.566,
-      "growth": 0.91
-    },
-    {
-      "date": "2026-06-08",
-      "net_value": 2.08,
-      "acc_value": 2.547,
-      "growth": -0.81
-    },
-    {
-      "date": "2026-06-05",
-      "net_value": 2.097,
-      "acc_value": 2.564,
-      "growth": -0.94
-    },
-    {
-      "date": "2026-06-04",
-      "net_value": 2.117,
-      "acc_value": 2.584,
-      "growth": 0.38
-    },
-    {
-      "date": "2026-06-03",
-      "net_value": 2.109,
-      "acc_value": 2.576,
-      "growth": 0.48
-    },
-    {
-      "date": "2026-06-02",
-      "net_value": 2.099,
-      "acc_value": 2.566,
-      "growth": 0.82
-    },
-    {
-      "date": "2026-06-01",
-      "net_value": 2.082,
-      "acc_value": 2.549,
-      "growth": -0.43
-    },
-    {
-      "date": "2026-05-29",
-      "net_value": 2.091,
-      "acc_value": 2.558,
-      "growth": -0.71
-    },
-    {
-      "date": "2026-05-28",
-      "net_value": 2.106,
-      "acc_value": 2.573,
-      "growth": 0.62
-    },
-    {
-      "date": "2026-05-27",
-      "net_value": 2.093,
-      "acc_value": 2.56,
-      "growth": -0.29
-    },
-    {
-      "date": "2026-05-26",
-      "net_value": 2.099,
-      "acc_value": 2.566,
-      "growth": -0.05
-    },
-    {
-      "date": "2026-05-25",
-      "net_value": 2.1,
-      "acc_value": 2.567,
-      "growth": 0.82
-    },
-    {
-      "date": "2026-05-22",
-      "net_value": 2.083,
-      "acc_value": 2.55,
-      "growth": 0.77
-    },
-    {
-      "date": "2026-05-21",
-      "net_value": 2.067,
-      "acc_value": 2.534,
-      "growth": -0.82
-    },
-    {
-      "date": "2026-05-20",
-      "net_value": 2.084,
-      "acc_value": 2.551,
-      "growth": 0.19
-    },
-    {
-      "date": "2026-05-19",
-      "net_value": 2.08,
-      "acc_value": 2.547,
-      "growth": 0.82
-    },
-    {
-      "date": "2026-05-18",
-      "net_value": 2.063,
-      "acc_value": 2.53,
-      "growth": 0.19
-    },
-    {
-      "date": "2026-05-15",
-      "net_value": 2.059,
-      "acc_value": 2.526,
-      "growth": -0.29
-    },
-    {
-      "date": "2026-05-14",
-      "net_value": 2.065,
-      "acc_value": 2.532,
-      "growth": -0.82
-    },
-    {
-      "date": "2026-05-13",
-      "net_value": 2.082,
-      "acc_value": 2.549,
-      "growth": 0.77
-    },
-    {
-      "date": "2026-05-12",
-      "net_value": 2.066,
-      "acc_value": 2.533,
-      "growth": 0.29
-    },
-    {
-      "date": "2026-05-11",
-      "net_value": 2.06,
-      "acc_value": 2.527,
-      "growth": 0.68
-    },
-    {
-      "date": "2026-05-08",
-      "net_value": 2.046,
-      "acc_value": 2.513,
-      "growth": -0.29
-    },
-    {
-      "date": "2026-05-07",
-      "net_value": 2.052,
-      "acc_value": 2.519,
-      "growth": 0.39
-    },
-    {
-      "date": "2026-05-06",
-      "net_value": 2.044,
-      "acc_value": 2.511,
-      "growth": 0.54
-    },
-    {
-      "date": "2026-04-30",
-      "net_value": 2.033,
-      "acc_value": 2.5,
-      "growth": 0.64
-    },
-    {
-      "date": "2026-04-29",
-      "net_value": 2.02,
-      "acc_value": 2.487,
-      "growth": 0.4
-    },
-    {
-      "date": "2026-04-28",
-      "net_value": 2.012,
-      "acc_value": 2.479,
-      "growth": -0.1
-    },
-    {
-      "date": "2026-04-27",
-      "net_value": 2.014,
-      "acc_value": 2.481,
-      "growth": 0.15
-    },
-    {
-      "date": "2026-04-24",
-      "net_value": 2.011,
-      "acc_value": 2.478,
-      "growth": -0.25
-    },
-    {
-      "date": "2026-04-23",
-      "net_value": 2.016,
-      "acc_value": 2.483,
-      "growth": -0.1
     }
   ],
   "accumulated_return": [
@@ -22663,48 +22663,414 @@
       "date": "2026-07-21",
       "fund_return": 167.93,
       "index_return": 0.0,
+      "category_return": 90.6,
+      "bench_return": 51.98
+    },
+    {
+      "date": "2026-07-22",
+      "fund_return": 166.78,
+      "index_return": 0.0,
+      "category_return": 90.52,
+      "bench_return": 52.01
+    },
+    {
+      "date": "2026-07-23",
+      "fund_return": 166.02,
+      "index_return": 0.0,
+      "category_return": 90.6,
+      "bench_return": 52.09
+    },
+    {
+      "date": "2026-07-24",
+      "fund_return": 165.63,
+      "index_return": 0.0,
+      "category_return": 90.19,
+      "bench_return": 51.88
+    },
+    {
+      "date": "2026-07-27",
+      "fund_return": 166.91,
+      "index_return": 0.0,
+      "category_return": 90.68,
+      "bench_return": 52.1
+    },
+    {
+      "date": "2026-07-28",
+      "fund_return": 163.72,
+      "index_return": 0.0,
+      "category_return": 89.95,
+      "bench_return": 51.68
+    },
+    {
+      "date": "2026-07-29",
+      "fund_return": 163.72,
+      "index_return": 0.0,
+      "category_return": 90.2,
+      "bench_return": 51.79
+    },
+    {
+      "date": "2026-07-30",
+      "fund_return": 161.18,
+      "index_return": 0.0,
+      "category_return": 89.86,
+      "bench_return": 51.69
+    },
+    {
+      "date": "2026-07-31",
+      "fund_return": 162.58,
+      "index_return": 0.0,
+      "category_return": 90.22,
+      "bench_return": 51.88
+    },
+    {
+      "date": "2026-08-03",
+      "fund_return": 161.43,
+      "index_return": 0.0,
+      "category_return": 89.98,
+      "bench_return": 51.78
+    },
+    {
+      "date": "2026-08-04",
+      "fund_return": 163.72,
+      "index_return": 0.0,
+      "category_return": 90.43,
+      "bench_return": 52.01
+    },
+    {
+      "date": "2026-08-05",
+      "fund_return": 164.49,
+      "index_return": 0.0,
+      "category_return": 90.92,
+      "bench_return": 52.22
+    },
+    {
+      "date": "2026-08-06",
+      "fund_return": 165.0,
+      "index_return": 0.0,
+      "category_return": 90.97,
+      "bench_return": 52.2
+    },
+    {
+      "date": "2026-08-07",
+      "fund_return": 165.51,
+      "index_return": 0.0,
+      "category_return": 91.31,
+      "bench_return": 52.39
+    },
+    {
+      "date": "2026-08-10",
+      "fund_return": 164.62,
+      "index_return": 0.0,
+      "category_return": 91.45,
+      "bench_return": 52.51
+    },
+    {
+      "date": "2026-08-11",
+      "fund_return": 164.49,
+      "index_return": 0.0,
+      "category_return": 91.14,
+      "bench_return": 52.38
+    },
+    {
+      "date": "2026-08-12",
+      "fund_return": 165.63,
+      "index_return": 0.0,
+      "category_return": 91.25,
+      "bench_return": 52.47
+    },
+    {
+      "date": "2026-08-13",
+      "fund_return": 165.63,
+      "index_return": 0.0,
+      "category_return": 91.02,
+      "bench_return": 52.47
+    },
+    {
+      "date": "2026-08-14",
+      "fund_return": 166.78,
+      "index_return": 0.0,
+      "category_return": 91.11,
+      "bench_return": 52.52
+    },
+    {
+      "date": "2026-08-17",
+      "fund_return": 169.45,
+      "index_return": 0.0,
+      "category_return": 91.72,
+      "bench_return": 52.81
+    },
+    {
+      "date": "2026-08-18",
+      "fund_return": 169.07,
+      "index_return": 0.0,
+      "category_return": 91.72,
+      "bench_return": 52.84
+    },
+    {
+      "date": "2026-08-19",
+      "fund_return": 164.62,
+      "index_return": 0.0,
+      "category_return": 90.81,
+      "bench_return": 52.39
+    },
+    {
+      "date": "2026-08-20",
+      "fund_return": 164.62,
+      "index_return": 0.0,
+      "category_return": 90.91,
+      "bench_return": 52.38
+    },
+    {
+      "date": "2026-08-21",
+      "fund_return": 165.51,
+      "index_return": 0.0,
+      "category_return": 90.99,
+      "bench_return": 52.44
+    },
+    {
+      "date": "2026-08-24",
+      "fund_return": 163.21,
+      "index_return": 0.0,
+      "category_return": 90.73,
+      "bench_return": 52.32
+    },
+    {
+      "date": "2026-08-25",
+      "fund_return": 162.83,
+      "index_return": 0.0,
+      "category_return": 90.76,
+      "bench_return": 52.28
+    },
+    {
+      "date": "2026-08-26",
+      "fund_return": 163.34,
+      "index_return": 0.0,
+      "category_return": 90.9,
+      "bench_return": 52.38
+    },
+    {
+      "date": "2026-08-27",
+      "fund_return": 164.74,
+      "index_return": 0.0,
+      "category_return": 91.21,
+      "bench_return": 52.44
+    },
+    {
+      "date": "2026-08-28",
+      "fund_return": 163.85,
+      "index_return": 0.0,
+      "category_return": 91.08,
+      "bench_return": 52.35
+    },
+    {
+      "date": "2026-08-31",
+      "fund_return": 164.62,
+      "index_return": 0.0,
+      "category_return": 91.19,
+      "bench_return": 52.43
+    },
+    {
+      "date": "2026-09-01",
+      "fund_return": 163.34,
+      "index_return": 0.0,
+      "category_return": 91.04,
+      "bench_return": 52.44
+    },
+    {
+      "date": "2026-09-02",
+      "fund_return": 162.45,
+      "index_return": 0.0,
+      "category_return": 90.65,
+      "bench_return": 52.22
+    },
+    {
+      "date": "2026-09-03",
+      "fund_return": 162.58,
+      "index_return": 0.0,
+      "category_return": 90.73,
+      "bench_return": 52.3
+    },
+    {
+      "date": "2026-09-04",
+      "fund_return": 161.81,
+      "index_return": 0.0,
+      "category_return": 90.56,
+      "bench_return": 52.3
+    },
+    {
+      "date": "2026-09-07",
+      "fund_return": 164.36,
+      "index_return": 0.0,
+      "category_return": 90.84,
+      "bench_return": 52.44
+    },
+    {
+      "date": "2026-09-08",
+      "fund_return": 164.11,
+      "index_return": 0.0,
+      "category_return": 90.81,
+      "bench_return": 52.38
+    },
+    {
+      "date": "2026-09-09",
+      "fund_return": 164.11,
+      "index_return": 0.0,
+      "category_return": 90.81,
+      "bench_return": 52.43
+    },
+    {
+      "date": "2026-09-10",
+      "fund_return": 163.98,
+      "index_return": 0.0,
       "category_return": 90.59,
-      "bench_return": 51.49
+      "bench_return": 52.33
+    },
+    {
+      "date": "2026-09-11",
+      "fund_return": 164.11,
+      "index_return": 0.0,
+      "category_return": 90.27,
+      "bench_return": 52.17
+    },
+    {
+      "date": "2026-09-14",
+      "fund_return": 163.14,
+      "index_return": 0.0,
+      "category_return": 90.28,
+      "bench_return": 52.07
+    },
+    {
+      "date": "2026-09-15",
+      "fund_return": 163.33,
+      "index_return": 0.0,
+      "category_return": 90.17,
+      "bench_return": 51.99
+    },
+    {
+      "date": "2026-09-16",
+      "fund_return": 164.98,
+      "index_return": 0.0,
+      "category_return": 90.48,
+      "bench_return": 52.11
+    },
+    {
+      "date": "2026-09-17",
+      "fund_return": 164.82,
+      "index_return": 0.0,
+      "category_return": 90.4,
+      "bench_return": 52.07
+    },
+    {
+      "date": "2026-09-18",
+      "fund_return": 166.07,
+      "index_return": 0.0,
+      "category_return": 90.79,
+      "bench_return": 52.28
+    },
+    {
+      "date": "2026-09-21",
+      "fund_return": 166.35,
+      "index_return": 0.0,
+      "category_return": 91.0,
+      "bench_return": 52.42
+    },
+    {
+      "date": "2026-09-22",
+      "fund_return": 166.0,
+      "index_return": 0.0,
+      "category_return": 90.97,
+      "bench_return": 52.5
+    },
+    {
+      "date": "2026-09-23",
+      "fund_return": 165.94,
+      "index_return": 0.0,
+      "category_return": 90.86,
+      "bench_return": 52.43
+    },
+    {
+      "date": "2026-09-24",
+      "fund_return": 164.83,
+      "index_return": 0.0,
+      "category_return": 90.44,
+      "bench_return": 52.25
+    },
+    {
+      "date": "2026-09-28",
+      "fund_return": 162.29,
+      "index_return": 0.0,
+      "category_return": 89.87,
+      "bench_return": 51.9
+    },
+    {
+      "date": "2026-09-29",
+      "fund_return": 162.65,
+      "index_return": 0.0,
+      "category_return": 90.01,
+      "bench_return": 52.0
+    },
+    {
+      "date": "2026-09-30",
+      "fund_return": 161.8,
+      "index_return": 0.0,
+      "category_return": 89.89,
+      "bench_return": 51.94
+    },
+    {
+      "date": "2026-10-08",
+      "fund_return": 159.79,
+      "index_return": 0.0,
+      "category_return": 89.48,
+      "bench_return": 51.8
+    },
+    {
+      "date": "2026-10-09",
+      "fund_return": 159.28,
+      "index_return": 0.0,
+      "category_return": 89.59,
+      "bench_return": 51.89
     }
   ],
   "risk_metrics": {
-    "annualized_return": 11.578242242884595,
-    "max_drawdown": 5.251141552511405,
-    "volatility": 5.683347324049656,
-    "sharpe_ratio": 1.685317066995589,
-    "positive_days": 243,
-    "negative_days": 199,
-    "monthly_win_rate": 77.77777777777779,
-    "excess_return": 116.44,
+    "annualized_return": 6.4476380381548015,
+    "max_drawdown": 7.027397260273922,
+    "volatility": 5.542282875711401,
+    "sharpe_ratio": 0.8024920665176094,
+    "positive_days": 252,
+    "negative_days": 196,
+    "monthly_win_rate": 66.66666666666666,
+    "excess_return": 107.39,
     "data_points": 500,
-    "calmar_ratio": 2.2049000445145492,
-    "sortino_ratio": 2.7466939221536446,
-    "current_drawdown": 3.9269406392693993,
+    "calmar_ratio": 0.917500149678955,
+    "sortino_ratio": 1.1913871791764807,
+    "current_drawdown": 7.027397260273922,
     "max_drawdown_recovery_days": null,
     "max_drawdown_start_date": "2026-06-30",
-    "max_drawdown_end_date": "2026-07-20",
+    "max_drawdown_end_date": "2026-10-09",
+    "window_start_date": "2023-10-09",
+    "window_end_date": "2026-10-09",
     "drawdown_count_ge_1pct": 9,
-    "avg_drawdown_ge_1pct": 2.4802958421444523,
-    "avg_drawdown_duration_days": 71.375
+    "avg_drawdown_ge_1pct": 2.601306958627412,
+    "avg_drawdown_duration_days": 62.75
   },
   "benchmark_metrics": {
-    "beta": 0.015312278159522828,
-    "alpha": 5.9238796461256085,
-    "tracking_error": 22.52878714236989,
-    "information_ratio": 0.10010807703314152,
-    "data_points": 3131,
-    "upside_capture": 92.85809599673468,
-    "downside_capture": 91.8688255014812,
-    "category_alpha": -8.690361637548781,
-    "category_tracking_error": 50.57399779707609,
-    "category_information_ratio": -0.17183457935079852
+    "beta": 0.015754089436617654,
+    "alpha": 5.540739543137652,
+    "tracking_error": 22.36037586683364,
+    "information_ratio": 0.08699522963837664,
+    "data_points": 3183,
+    "upside_capture": 94.56117584505849,
+    "downside_capture": 94.88593861608945,
+    "category_alpha": -8.759864414360043,
+    "category_tracking_error": 50.16525192371123,
+    "category_information_ratio": -0.17462016193363486
   },
   "distribution": {
-    "var_95": 0.46738636613443796,
-    "cvar_95": 0.7563264767264339,
-    "skewness": 0.288721704924298,
-    "excess_kurtosis": 4.768074000602437,
-    "data_points": 499
+    "var_95": 0.45949475496168896,
+    "cvar_95": 0.8073690085351781,
+    "skewness": -0.20929370099174302,
+    "excess_kurtosis": 4.481656787069078,
+    "data_points": 819
   },
   "rolling_returns": {
     "y1": {
@@ -22712,10 +23078,10 @@
       "count": 570,
       "max": 14.87246000864677,
       "min": 0.6460544531610601,
-      "mean": 5.46782502249453,
-      "median": 5.097589246960776,
-      "p25": 3.8136063495167685,
-      "p75": 6.87284905273734,
+      "mean": 6.012129976029589,
+      "median": 5.592545332353193,
+      "p25": 4.411997872422491,
+      "p75": 7.538970984472853,
       "win_rate": 100.0,
       "loss_probability": 0.0
     },
@@ -22723,11 +23089,11 @@
       "window_days": 750,
       "count": 70,
       "max": 24.042950513538752,
-      "min": 13.773848301535585,
-      "mean": 18.83141337438709,
-      "median": 18.755824790307564,
-      "p25": 16.856229928659182,
-      "p75": 21.12725816349996,
+      "min": 15.83063396575659,
+      "mean": 18.874321975595898,
+      "median": 18.396032465107268,
+      "p25": 17.264438934244083,
+      "p75": 19.762475405236287,
       "win_rate": 100.0,
       "loss_probability": 0.0
     },
@@ -22738,16 +23104,16 @@
     "manager_fee_pct": 0.4,
     "custody_fee_pct": 0.1,
     "sales_fee_pct": 0.0,
-    "net_annualized_after_fee_pct": 11.078242242884595
+    "net_annualized_after_fee_pct": 5.9476380381548015
   },
   "flow_risk": {
     "recent_quarter_net_subscribe_yi": 36.63,
     "recent_quarter_net_subscribe_pct_of_shares": 27.413560844185003,
     "recent_quarter_nav_change_pct": 56.49,
     "last_4q_large_swing_count": 4,
-    "institutional_pct_latest": 73.49,
-    "institutional_pct_change_latest": -0.730000000000004,
-    "score": 65,
+    "institutional_pct_latest": 81.33,
+    "institutional_pct_change_latest": 7.840000000000003,
+    "score": 75,
     "level": "高"
   },
   "data_gaps": [
@@ -22896,16 +23262,16 @@
         "market_value_wan": 5620.46
       },
       {
-        "bond_code": "113051",
-        "bond_name": "节能转债",
-        "ratio": 0.14,
-        "market_value_wan": 4766.11
-      },
-      {
         "bond_code": "113052",
         "bond_name": "兴业转债",
         "ratio": 0.14,
         "market_value_wan": 4940.83
+      },
+      {
+        "bond_code": "113051",
+        "bond_name": "节能转债",
+        "ratio": 0.14,
+        "market_value_wan": 4766.11
       },
       {
         "bond_code": "118031",
@@ -22980,16 +23346,16 @@
         "market_value_wan": 1417.16
       },
       {
-        "bond_code": "127056",
-        "bond_name": "中特转债",
-        "ratio": 0.04,
-        "market_value_wan": 1471.31
-      },
-      {
         "bond_code": "113058",
         "bond_name": "友发转债",
         "ratio": 0.04,
         "market_value_wan": 1260.22
+      },
+      {
+        "bond_code": "127056",
+        "bond_name": "中特转债",
+        "ratio": 0.04,
+        "market_value_wan": 1471.31
       },
       {
         "bond_code": "118058",
@@ -23046,6 +23412,12 @@
         "market_value_wan": 847.35
       },
       {
+        "bond_code": "127037",
+        "bond_name": "银轮转债",
+        "ratio": 0.02,
+        "market_value_wan": 679.52
+      },
+      {
         "bond_code": "123251",
         "bond_name": "华医转债",
         "ratio": 0.02,
@@ -23056,12 +23428,6 @@
         "bond_name": "永贵转债",
         "ratio": 0.02,
         "market_value_wan": 592.16
-      },
-      {
-        "bond_code": "127037",
-        "bond_name": "银轮转债",
-        "ratio": 0.02,
-        "market_value_wan": 679.52
       },
       {
         "bond_code": "123194",
@@ -23152,6 +23518,108 @@
         "stock_name": "广钢气体",
         "ratio": 0.92,
         "market_value_wan": 31583.1
+      },
+      {
+        "stock_code": "300433",
+        "stock_name": "蓝思科技",
+        "ratio": 0.89,
+        "market_value_wan": 30495.19
+      },
+      {
+        "stock_code": "600584",
+        "stock_name": "长电科技",
+        "ratio": 0.72,
+        "market_value_wan": 24579.66
+      },
+      {
+        "stock_code": "002491",
+        "stock_name": "通鼎互联",
+        "ratio": 0.72,
+        "market_value_wan": 24472.04
+      },
+      {
+        "stock_code": "603067",
+        "stock_name": "振华股份",
+        "ratio": 0.7,
+        "market_value_wan": 24012.65
+      },
+      {
+        "stock_code": "002851",
+        "stock_name": "麦格米特",
+        "ratio": 0.65,
+        "market_value_wan": 22188.05
+      },
+      {
+        "stock_code": "688072",
+        "stock_name": "拓荆科技",
+        "ratio": 0.44,
+        "market_value_wan": 14886.43
+      },
+      {
+        "stock_code": "002384",
+        "stock_name": "东山精密",
+        "ratio": 0.43,
+        "market_value_wan": 14824.35
+      },
+      {
+        "stock_code": "300604",
+        "stock_name": "长川科技",
+        "ratio": 0.42,
+        "market_value_wan": 14493.28
+      },
+      {
+        "stock_code": "688396",
+        "stock_name": "华润微",
+        "ratio": 0.36,
+        "market_value_wan": 12207.15
+      },
+      {
+        "stock_code": "600733",
+        "stock_name": "北汽蓝谷",
+        "ratio": 0.31,
+        "market_value_wan": 10454.88
+      },
+      {
+        "stock_code": "000534",
+        "stock_name": "万泽股份",
+        "ratio": 0.26,
+        "market_value_wan": 9018.13
+      },
+      {
+        "stock_code": "300394",
+        "stock_name": "天孚通信",
+        "ratio": 0.2,
+        "market_value_wan": 6792.74
+      },
+      {
+        "stock_code": "300274",
+        "stock_name": "阳光电源",
+        "ratio": 0.17,
+        "market_value_wan": 5958.48
+      },
+      {
+        "stock_code": "688008",
+        "stock_name": "澜起科技",
+        "ratio": 0.12,
+        "market_value_wan": 4114.95
+      },
+      {
+        "stock_code": "301308",
+        "stock_name": "江波龙",
+        "ratio": 0.09,
+        "market_value_wan": 3056.53
+      },
+      {
+        "stock_code": "001248",
+        "stock_name": "华润新能源",
+        "ratio": 0.0,
+        "market_value_wan": 1.52
+      },
+      {
+        "stock_code": "920136",
+        "stock_name": "永励精密",
+        "ratio": 0.0,
+        "market_value_wan": 0.58
       }
     ]
   },
@@ -23982,6 +24450,13 @@
   ],
   "holder_structure": [
     {
+      "announce_date": "2026-06-30",
+      "institutional_pct": 81.33,
+      "retail_pct": 18.67,
+      "internal_pct": 0.02,
+      "total_shares_yi": 133.62
+    },
+    {
       "announce_date": "2025-12-31",
       "institutional_pct": 73.49,
       "retail_pct": 26.51,
@@ -24162,16 +24637,16 @@
       "year": "2021年",
       "record_date": "2021-12-06",
       "ex_date": "2021-12-06",
-      "amount_per_share": 0.182,
-      "amount_text": "每份派现金0.1820元",
+      "amount_per_share": 10.0,
+      "amount_text": "每10份派现金1.8200元",
       "pay_date": "2021-12-07"
     },
     {
       "year": "2021年",
       "record_date": "2021-10-14",
       "ex_date": "2021-10-14",
-      "amount_per_share": 0.285,
-      "amount_text": "每份派现金0.2850元",
+      "amount_per_share": 10.0,
+      "amount_text": "每10份派现金2.8500元",
       "pay_date": "2021-10-15"
     }
   ],
@@ -24189,25 +24664,25 @@
         "MGRID": "30075384",
         "MGRNAME": "张清华",
         "RESUME": "张清华先生:物理学硕士。曾任晨星资讯(深圳)有限公司数量分析师,中信证券股份有限公司研究员,易方达基金管理有限公司投资经理、固定收益基金投资部总经理、易方达裕如灵活配置混合型证券投资基金基金经理(自2015年4月2日至2018年2月1日)、易方达新收益灵活配置混合型证券投资基金基金经理(自2015年4月17日至2018年2月1日)、易方达瑞选灵活配置混合型证券投资基金基金经理(自2015年12月9日至2018年2月1日)、易方达新利灵活配置混合型证券投资基金基金经理(自2016年3月15日至2018年2月1日)、易方达新鑫灵活配置混合型证券投资基金基金经理(自2016年3月15日至2018年2月1日)、易方达新享灵活配置混合型证券投资基金基金经理(自2016年3月29日至2018年2月1日)、易方达瑞景灵活配置混合型证券投资基金基金经理(自2016年8月6日至2018年2月1日)、易方达瑞通灵活配置混合型证券投资基金基金经理(自2016年12月7日至2018年2月1日)、易方达瑞程灵活配置混合型证券投资基金基金经理(自2016年12月15日至2018年2月1日)、易方达瑞弘灵活配置混合型证券投资基金基金经理(自2017年1月11日至2018年2月1日)、易方达裕鑫债券型证券投资基金基金经理(自2016年9月5日至2019年9月27日)、易方达瑞信灵活配置混合型证券投资基金基金经理(自2018年1月30日至2020年3月6日)、易方达瑞和灵活配置混合型证券投资基金基金经理(自2018年2月7日至2020年3月6日)、易方达鑫转添利混合型证券投资基金基金经理(自2018年8月9日至2020年3月6日)、易方达鑫转增利混合型证券投资基金基金经理(自2018年11月7日至2020年3月6日)、易方达鑫转招利混合型证券投资基金基金经理(自2019年1月29日至2020年3月6日)。现任易方达基金管理有限公司混合资产投资部总经理、固定收益投资决策委员会委员、易方达安心回报债券型证券投资基金基金经理(自2013年12月23日起任职)、易方达裕丰回报债券型证券投资基金基金经理(自2014年1月9日起任职)、易方达安心回馈混合型证券投资基金基金经理(自2015年5月29日起任职)、易方达裕祥回报债券型证券投资基金基金经理(自2016年1月22日至2021年9月8日)、易方达丰和债券型证券投资基金基金经理(自2016年11月23日起任职)、易方达安盈回报混合型证券投资基金基金经理(自2017年2月16日起任职)、易方达新收益灵活配置混合型证券投资基金基金经理(自2018年12月25日起任职)、易方达丰华债券型证券投资基金基金经理(自2019年2月19日至2022年3月22日任职)。易方达磐固六个月持有期混合型证券投资基金基金经理(自2020年9月3日至2021年9月18日任职)。曾任易方达安心回馈混合型证券投资基金基金经理。曾任易方达基金管理有限公司副总经理级高级管理人员。",
-        "TOTALDAYS": "4593",
+        "TOTALDAYS": "4675",
         "NETNAV": "96537024158.52",
         "FCOUNT": "16",
         "PRENAME": "易方达丰和债券A",
-        "YIELDSE": "11.735",
+        "YIELDSE": "11.2877",
         "JJGS": "易方达基金",
         "FMAXEARN1": "3.1964",
         "FMAXRETRA1": "0.2589",
-        "MGOLD": "8.023"
+        "MGOLD": "7.9935"
       },
       "eval": {
-        "MAXRETRA_1": "0.1513",
-        "MAXRETRA_3": "0.1513",
-        "SHARP_1": "1.4819",
-        "SHARP_3": "0.941",
-        "STDDEV_1": "10.2282",
-        "STDDEV_3": "7.506",
-        "WIN_1": "51.67",
-        "WIN_3": "62.22"
+        "MAXRETRA_1": "0.207",
+        "MAXRETRA_3": "0.207",
+        "SHARP_1": "0.631",
+        "SHARP_3": "0.75",
+        "STDDEV_1": "11.0243",
+        "STDDEV_3": "7.8089",
+        "WIN_1": "68.33",
+        "WIN_3": "61.67"
       },
       "holding_char": null,
       "history": [
@@ -24556,9 +25031,9 @@
           "SHORTNAME": "易方达丰和债券A",
           "FEMPDATE": "2016-11-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "3527",
-          "PENAVGROWTH": "78.8798",
-          "TLRANK": "25",
+          "TOTALDAYS": "3609",
+          "PENAVGROWTH": "76.5776",
+          "TLRANK": "23",
           "TLSC": "732"
         },
         {
@@ -24566,8 +25041,8 @@
           "SHORTNAME": "易方达安心回报债券A",
           "FEMPDATE": "2013-12-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4593",
-          "PENAVGROWTH": "289.2878",
+          "TOTALDAYS": "4675",
+          "PENAVGROWTH": "276.2594",
           "TLRANK": "1",
           "TLSC": "395"
         },
@@ -24576,8 +25051,8 @@
           "SHORTNAME": "易方达安心回报债券B",
           "FEMPDATE": "2013-12-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4593",
-          "PENAVGROWTH": "271.5906",
+          "TOTALDAYS": "4675",
+          "PENAVGROWTH": "258.829",
           "TLRANK": "3",
           "TLSC": "395"
         },
@@ -24586,39 +25061,39 @@
           "SHORTNAME": "易方达新收益混合A",
           "FEMPDATE": "2018-12-24T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2765",
-          "PENAVGROWTH": "252.6441",
-          "TLRANK": "280",
-          "TLSC": "2328"
+          "TOTALDAYS": "2847",
+          "PENAVGROWTH": "213.9076",
+          "TLRANK": "342",
+          "TLSC": "2313"
         },
         {
           "FCODE": "001217",
           "SHORTNAME": "易方达新收益混合C",
           "FEMPDATE": "2018-12-24T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2765",
-          "PENAVGROWTH": "246.0082",
-          "TLRANK": "288",
-          "TLSC": "2328"
+          "TOTALDAYS": "2847",
+          "PENAVGROWTH": "207.8614",
+          "TLRANK": "366",
+          "TLSC": "2313"
         },
         {
           "FCODE": "001603",
           "SHORTNAME": "易方达安盈回报混合A",
           "FEMPDATE": "2017-02-15T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "3442",
-          "PENAVGROWTH": "192.234",
-          "TLRANK": "266",
-          "TLSC": "1694"
+          "TOTALDAYS": "3524",
+          "PENAVGROWTH": "173.0653",
+          "TLRANK": "293",
+          "TLSC": "1680"
         },
         {
           "FCODE": "000171",
           "SHORTNAME": "易方达裕丰回报债券A",
           "FEMPDATE": "2014-01-08T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "4576",
-          "PENAVGROWTH": "172.9686",
-          "TLRANK": "25",
+          "TOTALDAYS": "4658",
+          "PENAVGROWTH": "167.8513",
+          "TLRANK": "27",
           "TLSC": "399"
         },
         {
@@ -24626,90 +25101,90 @@
           "SHORTNAME": "易方达全球配置混合(QDII)A(美元现汇)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1050",
-          "PENAVGROWTH": "74.3719",
-          "TLRANK": "79",
-          "TLSC": "506"
+          "TOTALDAYS": "1132",
+          "PENAVGROWTH": "69.6339",
+          "TLRANK": "135",
+          "TLSC": "504"
         },
         {
           "FCODE": "019158",
           "SHORTNAME": "易方达全球配置混合(QDII)C(美元现汇)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1050",
-          "PENAVGROWTH": "71.8593",
-          "TLRANK": "90",
-          "TLSC": "506"
+          "TOTALDAYS": "1132",
+          "PENAVGROWTH": "66.9777",
+          "TLRANK": "140",
+          "TLSC": "504"
         },
         {
           "FCODE": "019155",
           "SHORTNAME": "易方达全球配置混合(QDII)A(人民币)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1050",
-          "PENAVGROWTH": "65.01",
-          "TLRANK": "120",
-          "TLSC": "506"
+          "TOTALDAYS": "1132",
+          "PENAVGROWTH": "59.2",
+          "TLRANK": "168",
+          "TLSC": "504"
         },
         {
           "FCODE": "019156",
           "SHORTNAME": "易方达全球配置混合(QDII)C(人民币)",
           "FEMPDATE": "2023-09-04T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1050",
-          "PENAVGROWTH": "62.63",
-          "TLRANK": "137",
-          "TLSC": "506"
+          "TOTALDAYS": "1132",
+          "PENAVGROWTH": "56.72",
+          "TLRANK": "174",
+          "TLSC": "504"
         },
         {
           "FCODE": "009812",
           "SHORTNAME": "易方达悦兴一年持有期混合A",
           "FEMPDATE": "2020-11-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2062",
-          "PENAVGROWTH": "27.8",
-          "TLRANK": "1159",
-          "TLSC": "3596"
+          "TOTALDAYS": "2144",
+          "PENAVGROWTH": "27.83",
+          "TLRANK": "1082",
+          "TLSC": "3614"
         },
         {
           "FCODE": "009813",
           "SHORTNAME": "易方达悦兴一年持有期混合C",
           "FEMPDATE": "2020-11-26T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "2062",
-          "PENAVGROWTH": "24.95",
-          "TLRANK": "1265",
-          "TLSC": "3596"
+          "TOTALDAYS": "2144",
+          "PENAVGROWTH": "24.86",
+          "TLRANK": "1198",
+          "TLSC": "3614"
         },
         {
           "FCODE": "016699",
           "SHORTNAME": "易方达丰和债券C",
           "FEMPDATE": "2022-09-27T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1392",
-          "PENAVGROWTH": "24.4787",
-          "TLRANK": "110",
-          "TLSC": "3237"
+          "TOTALDAYS": "1474",
+          "PENAVGROWTH": "22.7679",
+          "TLRANK": "111",
+          "TLSC": "3232"
         },
         {
           "FCODE": "016479",
           "SHORTNAME": "易方达裕丰回报债券C",
           "FEMPDATE": "2022-08-22T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1428",
-          "PENAVGROWTH": "21.1276",
-          "TLRANK": "106",
-          "TLSC": "3174"
+          "TOTALDAYS": "1510",
+          "PENAVGROWTH": "18.7478",
+          "TLRANK": "155",
+          "TLSC": "3170"
         },
         {
           "FCODE": "017414",
           "SHORTNAME": "易方达安盈回报混合C",
           "FEMPDATE": "2023-03-06T16:00:00Z",
           "LEMPDATE": "--",
-          "TOTALDAYS": "1232",
-          "PENAVGROWTH": "20.4781",
-          "TLRANK": "2290",
-          "TLSC": "6542"
+          "TOTALDAYS": "1314",
+          "PENAVGROWTH": "12.4493",
+          "TLRANK": "2940",
+          "TLSC": "6503"
         }
       ]
     }
@@ -24729,7 +25204,7 @@
       },
       {
         "name": "稳定",
-        "score": 72,
+        "score": 75,
         "weight": 20
       },
       {
@@ -24744,7 +25219,7 @@
       },
       {
         "name": "经理",
-        "score": 80,
+        "score": 70,
         "weight": 5
       },
       {
@@ -24755,17 +25230,17 @@
     ]
   },
   "meta": {
-    "generated_at": "2026-07-21",
+    "generated_at": "2026-10-11",
     "as_of": {
-      "nav_history": "2026-07-21",
-      "nav_trend": "2026-07-21",
-      "accumulated_return": "2026-07-21",
-      "monthly_series": "2026-07",
+      "nav_history": "2026-10-09",
+      "nav_trend": "2026-10-09",
+      "accumulated_return": "2026-10-09",
+      "monthly_series": "2026-10",
       "top_stocks": "2026-06-30",
       "top_bonds": "2026-06-30",
       "asset_allocation": "2026-06-30",
       "scale_changes": "2026-06-30",
-      "holder_structure": "2025-12-31"
+      "holder_structure": "2026-06-30"
     }
   }
 }
