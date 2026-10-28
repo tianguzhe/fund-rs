@@ -39,3 +39,4 @@ funds_data/
 
 # Debug summaries
 ttfund-curl-summary.md
+dist/data/portfolio-insight.json
