@@ -67,28 +67,47 @@ struct Row {
     fund_type: String,
 }
 
-/// 并发拉取每只持仓的：历史净值（用于近 1d/1w/1m）+ 详情（用于类型）
-fn fetch_rows(client: &Client, hold: &[Holding]) -> Vec<Row> {
+/// 并发拉取每只基金的：历史净值（用于近 1d/1w/1m）+ 详情（用于类型）
+///
+/// Fetched once per unique code, not per lot: DCA lots of the same fund share NAV and type,
+/// so per-lot requests only multiply upstream flakiness (000171 has 7 lots), and a lot whose
+/// type request failed would land in a different display group than its siblings.
+fn fetch_rows(client: &Client, hold: &[Holding]) -> BTreeMap<String, Row> {
+    let mut codes: Vec<&str> = hold.iter().map(|h| h.code.as_str()).collect();
+    codes.sort_unstable();
+    codes.dedup();
+
     std::thread::scope(|s| {
-        let handles: Vec<_> = hold
+        let handles: Vec<_> = codes
             .iter()
-            .map(|h| {
-                s.spawn(|| {
+            .map(|&code| {
+                s.spawn(move || {
                     // 重试最多 3 次，指数退避
                     let returns = retry_with_backoff(
                         || {
                             client
-                                .get_net_value_history(&h.code, HISTORY_DAYS)
+                                .get_net_value_history(code, HISTORY_DAYS)
                                 .ok()
                                 .and_then(|pts| calc(&pts))
                         },
                         3,
                     );
 
-                    let fund_type =
-                        client.get_fund_estimate(&h.code).map(|d| d.fund_type).unwrap_or_default();
+                    // Empty type counts as failure, otherwise the retry would accept it and the
+                    // fund falls into the "未知" bucket.
+                    let fund_type = retry_with_backoff(
+                        || {
+                            client
+                                .get_fund_estimate(code)
+                                .ok()
+                                .map(|d| d.fund_type)
+                                .filter(|t| !t.is_empty())
+                        },
+                        3,
+                    )
+                    .unwrap_or_default();
 
-                    Row { returns, fund_type }
+                    (code.to_string(), Row { returns, fund_type })
                 })
             })
             .collect();
@@ -96,12 +115,24 @@ fn fetch_rows(client: &Client, hold: &[Holding]) -> Vec<Row> {
     })
 }
 
+/// 分组表的显示顺序：常见类型按固定顺序，白名单外的桶（FOF / 未知 / 其他）追加在末尾。
+/// A bucket missing here silently drops its rows and money from the grouped tables while
+/// the totals still include them, so every bucket in `allocation` must be listed.
+fn display_type_order(allocation: &BTreeMap<&'static str, f64>) -> Vec<&'static str> {
+    const PREFERRED: [&str; 6] = ["债券", "混合", "股票", "指数", "QDII", "货币"];
+    let mut order: Vec<&'static str> =
+        PREFERRED.iter().copied().filter(|t| allocation.contains_key(t)).collect();
+    order.extend(allocation.keys().copied().filter(|t| !PREFERRED.contains(t)));
+    order
+}
+
 // ── 主函数 ────────────────────────────────────────────────────────────
 
 pub fn run(client: &Client, save: bool) -> Result<()> {
     let (hold, cash_flows) = holdings::portfolio_config()?;
 
-    let data = fetch_rows(client, &hold);
+    let rows = fetch_rows(client, &hold);
+    let data: Vec<&Row> = hold.iter().map(|h| &rows[&h.code]).collect();
 
     // Market value per lot needs NAV, so totals are computed after fetch.
     // Cash balance = sum of all configured flows (already-happened movements).
@@ -122,11 +153,6 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
 
     // 资产配置聚合：类型 → 市值
     let mut allocation: BTreeMap<&'static str, f64> = BTreeMap::new();
-    // 按基金代码分组，用于合并显示与计算持有期收益
-    let mut code_groups: BTreeMap<String, Vec<usize>> = BTreeMap::new();
-    for (i, h) in hold.iter().enumerate() {
-        code_groups.entry(h.code.clone()).or_default().push(i);
-    }
 
     // 预计算每个基金代码的合并数据（市值、收益、持有期）
     struct CodeAgg {
@@ -220,10 +246,7 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     println!();
 
     // ── 按类型分组输出表格 ──
-    let mut type_order = vec!["债券", "混合", "股票", "指数", "QDII", "货币"];
-    type_order.retain(|t| allocation.contains_key(t));
-
-    for asset_type in type_order {
+    for asset_type in display_type_order(&allocation) {
         let type_mv = allocation.get(asset_type).copied().unwrap_or(0.0);
         let type_pct = if total_assets > 0.0 { type_mv / total_assets * 100.0 } else { 0.0 };
         println!("  ---");
@@ -312,4 +335,23 @@ pub fn run(client: &Client, save: bool) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn display_type_order_keeps_buckets_outside_whitelist() {
+        let allocation: BTreeMap<&'static str, f64> =
+            [("债券", 450_000.0), ("混合", 165_000.0), ("未知", 39_000.0)].into_iter().collect();
+        assert_eq!(display_type_order(&allocation), vec!["债券", "混合", "未知"]);
+    }
+
+    #[test]
+    fn display_type_order_follows_preferred_order_and_skips_empty() {
+        let allocation: BTreeMap<&'static str, f64> =
+            [("混合", 1.0), ("货币", 1.0), ("债券", 1.0)].into_iter().collect();
+        assert_eq!(display_type_order(&allocation), vec!["债券", "混合", "货币"]);
+    }
 }
